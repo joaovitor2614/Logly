@@ -7,7 +7,9 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"preview": "vite preview --port 4173",
-		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+		"dev-on": "concurrently \"npm run dev\" \"npm run server\"",
+		"server": "python ../run.py"
 	},
 	"dependencies": {
 		"@mdi/font": "^7.4.47",
