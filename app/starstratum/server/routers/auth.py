@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
-from ..models.user import UserRegister
+from ..models.user import User
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
