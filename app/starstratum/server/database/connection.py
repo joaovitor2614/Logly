@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from dotenv import dotenv_values
 from pymongo import MongoClient, server_api
 
-config = dotenv_values(".env")
+config = dotenv_values("../.env")
 
 def register_db_connection(app: FastAPI):
     @app.on_event("startup")

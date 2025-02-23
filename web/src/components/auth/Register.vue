@@ -51,12 +51,8 @@ const handleRegister = () => {
                                 placeholder="cocnfirm password"
                                 required
                             ></v-text-field>
-                            <div class="red--text"> Error Message</div>
-                            <v-btn type="submit" class="mt-4" color="primary" value="log in">Register</v-btn>
-                            <div class="grey--text mt-4">
-                                w 
-                            </div>
 
+                            <v-btn type="submit" class="mt-4" color="primary" value="log in">Register</v-btn>
                         </form>
 
                         </v-card-text>
