@@ -1,0 +1,18 @@
+from fastapi import FastAPI
+from dotenv import dotenv_values
+from pymongo import MongoClient, server_api
+
+config = dotenv_values(".env")
+
+def register_db_connection(app: FastAPI):
+    @app.on_event("startup")
+    def startup_db_client():
+        app.mongodb_client = MongoClient(config["MONGO_DB_ATLAS_URI"], server_api=server_api.ServerApi(version="1", strict=True, deprecation_errors=True))
+        app.database = app.mongodb_client[config["DB_NAME"]]
+        app.mongodb_client.admin.command("ping")
+
+        print("Connected to the MongoDB database!")
+
+    @app.on_event("shutdown")
+    def shutdown_db_client():
+        app.mongodb_client.close()
