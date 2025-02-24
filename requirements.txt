@@ -4,3 +4,4 @@ python-dotenv
 dotenv
 uvicorn
 bcrypt
+black
