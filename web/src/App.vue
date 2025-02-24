@@ -5,8 +5,8 @@
 
 <template>
     <div>
-      <v-app height="100%">
-        <v-main height="100%">
+      <v-app>
+        <v-main>
           <router-view :key="$route.fullPath" />
         </v-main>
       </v-app>
