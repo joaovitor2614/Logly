@@ -1,10 +1,11 @@
 from typing import Annotated, Optional
 from pydantic import BaseModel, Field
-
+import uuid
 
 class User(BaseModel):
-    name: Annotated[str, Field(title="name")]
-    password: Annotated[str, Field(title="password")]
+    name: str = Field(...)
+    password: str = Field(...)
+
 
 
     class Config:

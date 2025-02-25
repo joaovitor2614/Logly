@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from ..models.user import User
+from fastapi.encoders import jsonable_encoder
 from dotenv import dotenv_values
 import bcrypt
 
@@ -20,9 +21,20 @@ def register_user(request: Request, userInfo: User):
 
     salt = bcrypt.gensalt()
     bytes_password = userInfo.password.encode('utf-8')
-    hash_password = bcrypt.hashpw(
+    binary_hash_password = bcrypt.hashpw(
         password=bytes_password,
         salt=salt
     )
-    user_passwrd = bytes_password.decode('utf-8')
-    return {'actual_password': user_passwrd, 'hashed_password': hash_password}
+    str_hashed_password = binary_hash_password.decode('utf-8')
+    userInfo.password = str_hashed_password
+    userInfo = jsonable_encoder(userInfo)
+    new_user = database.insert_one(userInfo)
+    created_new_user = database.find_one(
+        {"_id": new_user.inserted_id}
+    )
+    if created_new_user:
+        # Convert `_id` from ObjectId to string
+        created_new_user["_id"] = str(created_new_user["_id"])
+
+    return created_new_user
+
