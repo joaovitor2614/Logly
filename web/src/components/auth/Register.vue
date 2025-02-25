@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useAuthStore } from '../../stores/auth';
 
 interface Form {
     username: string,
@@ -12,10 +13,12 @@ const form = reactive({
     password: '',
     confirmPassword: ''
 })
-    form
+
+const authStore = useAuthStore()
 
 const handleRegister = () => {
-    console.log('handleRegister', handleRegister)
+    authStore.registerUser({ name: form.username, password: form.password })
+    console.log('handleRegister')
 }
 </script>
 
