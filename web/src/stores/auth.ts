@@ -28,13 +28,6 @@ export const useAuthStore = defineStore('authStore', () => {
 
     
   
-/*************  ✨ Codeium Command ⭐  *************/
-        /**
-         * Registers a user with the API
-         * @param {UserData} userData User data to register
-         * @returns {Promise<void>}
-         */
-/******  dfa8f602-c6ab-4e16-ad9a-6872f5188f84  *******/
     const registerUser = async (userData: UserData) => {
             const response = await api.post('auth/register', userData)
             console.log('response.data', response.data)

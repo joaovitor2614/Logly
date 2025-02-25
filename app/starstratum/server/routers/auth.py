@@ -38,3 +38,28 @@ def register_user(request: Request, userInfo: User):
 
     return created_new_user
 
+
+@router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
+def login_user(request: Request, userInfo: User):
+    database =  request.app.database[config["DB_NAME"]]
+    user = database.find_one(
+        {"name": userInfo.name}    
+    )
+    if not user:
+        print('User with given name does not exist!')
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with given name does not exist!"
+        )
+
+    is_password_valid = bcrypt.checkpw(password=userInfo.password.encode('utf-8'), hashed_password=user['password'].encode('utf-8'))
+
+    if not is_password_valid:
+        print('Password is not valid!')
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Password is not valid!"
+        )
+
+    return user
+  
