@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
-from ..models.user import User
+from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from dotenv import load_dotenv
-from ..utils.security import get_hashed_password 
+from ..utils.security import get_hashed_password, verify_password
 
 import os
 
@@ -15,7 +15,7 @@ router = APIRouter()
 
 
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
-def register_user(request: Request, userInfo: User):
+def register_user(request: Request, userInfo: UserCreate):
     database =  request.app.database[DB_NAME]
 
     user = database.find_one(
@@ -43,22 +43,20 @@ def register_user(request: Request, userInfo: User):
 
 
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
-def login_user(request: Request, userInfo: User):
+def login_user(request: Request, userInfo: UserCrendentials):
     database =  request.app.database[config["DB_NAME"]]
     user = database.find_one(
-        {"name": userInfo.name}    
+        {"email": userInfo.email}    
     )
     if not user:
-        print('User with given name does not exist!')
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with given name does not exist!"
         )
 
-    is_password_valid = bcrypt.checkpw(password=userInfo.password.encode('utf-8'), hashed_password=user['password'].encode('utf-8'))
+    is_password_valid = verify_password()
 
     if not is_password_valid:
-        print('Password is not valid!')
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Password is not valid!"
