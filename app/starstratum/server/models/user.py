@@ -4,6 +4,7 @@ import uuid
 
 class User(BaseModel):
     name: str = Field(...)
+    email: str = Field(...)
     password: str = Field(...)
 
 
@@ -11,3 +12,4 @@ class User(BaseModel):
     class Config:
         populate_by_name = True
 
+    

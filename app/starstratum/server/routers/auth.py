@@ -2,7 +2,8 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from ..models.user import User
 from fastapi.encoders import jsonable_encoder
 from dotenv import load_dotenv
-import bcrypt
+from ..utils.security import get_hashed_password 
+
 import os
 
 config = load_dotenv()
@@ -18,19 +19,17 @@ def register_user(request: Request, userInfo: User):
     database =  request.app.database[DB_NAME]
 
     user = database.find_one(
-        {"name": userInfo.name}
+        {"email": userInfo.email}
     )
     if user:
-        print('User with given name already exists!')
+        print('User with given email already exists!')
+        return 
 
-    salt = bcrypt.gensalt()
-    bytes_password = userInfo.password.encode('utf-8')
-    binary_hash_password = bcrypt.hashpw(
-        password=bytes_password,
-        salt=salt
-    )
-    str_hashed_password = binary_hash_password.decode('utf-8')
-    userInfo.password = str_hashed_password
+ 
+   
+    hashed_password = get_hashed_password(userInfo.password)
+    userInfo.password = hashed_password
+
     userInfo = jsonable_encoder(userInfo)
     new_user = database.insert_one(userInfo)
     created_new_user = database.find_one(
