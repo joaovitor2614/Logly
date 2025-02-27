@@ -1,17 +1,21 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from ..models.user import User
 from fastapi.encoders import jsonable_encoder
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 import bcrypt
+import os
 
-config = dotenv_values("../.env")
+config = load_dotenv()
+
+DB_NAME = os.getenv("DB_NAME")
+
 
 router = APIRouter()
 
 
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def register_user(request: Request, userInfo: User):
-    database =  request.app.database[config["DB_NAME"]]
+    database =  request.app.database[DB_NAME]
 
     user = database.find_one(
         {"name": userInfo.name}

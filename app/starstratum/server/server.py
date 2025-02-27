@@ -1,6 +1,5 @@
 
 from fastapi import FastAPI
-from dotenv import dotenv_values
 from .routers import auth
 from .database.connection import register_db_connection
 from .middlewares.middlewares import register_middlewares
