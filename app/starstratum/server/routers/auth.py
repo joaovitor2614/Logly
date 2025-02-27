@@ -1,3 +1,4 @@
+import jwt
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
@@ -9,6 +10,8 @@ import os
 config = load_dotenv()
 
 DB_NAME = os.getenv("DB_NAME")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 router = APIRouter()
@@ -61,6 +64,13 @@ def login_user(request: Request, userInfo: UserCrendentials):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Password is not valid!"
         )
+    
+    jwt_payload = {
+        "name": user.name,
+        "email": user.email,
+        "id": str(created_new_user["_id"]),
+        jwt.encode(payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
+    }
 
     return user
   
