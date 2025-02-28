@@ -6,3 +6,4 @@ dotenv
 uvicorn
 bcrypt
 black
+pydantic_settings

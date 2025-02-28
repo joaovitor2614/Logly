@@ -1,12 +1,10 @@
 import bcrypt
 import jwt
-from dotenv import load_dotenv
-import os
+from app.settings import APP_SETTINGS
 from typing import Dict
-config = load_dotenv()
 
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
-SECRET_KEY = os.getenv("SECRET_KEY")
+
+
 
 
 
@@ -16,7 +14,7 @@ def encode_jwt_token(user: Dict[str, str]) -> str:
         "email": user["email"],
         "id": str(user["_id"]),
     }
-    jwt_token = jwt.encode(jwt_payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
+    jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
     return jwt_token
    
 
