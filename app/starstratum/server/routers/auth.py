@@ -72,6 +72,6 @@ def login_user(request: Request, userInfo: UserCrendentials):
         
     }
     jwt_token = jwt.encode(jwt_payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
-    print('jwt_token', jwt_token, type(jwt_token))
+   
     return {"token": jwt_token}
   

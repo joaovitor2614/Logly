@@ -5,9 +5,16 @@ import api from '../api/api'
 
 
 
-interface UserData {
-    name: string
-    password: string
+interface NewUserData {
+    name: string;
+    password: string;
+    email: string
+}
+
+interface UserCrendentials {
+    name: string;
+    password: string;
+
 }
 /*
 state: (): authState => ({
@@ -28,11 +35,21 @@ export const useAuthStore = defineStore('authStore', () => {
 
     
   
-    const registerUser = async (userData: UserData) => {
+    const registerUser = async (userData: NewUserData) => {
             const response = await api.post('auth/register', userData)
-            console.log('response.data', response.data)
-            userStore.setUserInfo(response.data)
+            if (response.status === 201) {
+                console.log('response.data.token', response.data.token)
+                localStorage.setItem('token', response.data.token)
+            }
     }
+
+    const loginUser = async (userData: UserCrendentials) => {
+            const response = await api.post('auth/login', userData)
+            if (response.status === 201) {
+                localStorage.setItem('token', response.data.token)
+            }
+        }
+            
 
 
     return { 

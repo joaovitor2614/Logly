@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { useAuthStore } from '../../stores/auth';
+import { type Reactive } from 'vue';
 
 interface Form {
-    username: string,
-    password: string,
-    confirmPassword: string,
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
 }
 
-const form = reactive({
+const form: Reactive<Form> = reactive({
     username: '',
+    email: '',
     password: '',
     confirmPassword: ''
 })
@@ -17,7 +20,7 @@ const form = reactive({
 const authStore = useAuthStore()
 
 const handleRegister = () => {
-    authStore.registerUser({ name: form.username, password: form.password })
+    authStore.registerUser({ name: form.username, password: form.password, email: form.email })
     console.log('handleRegister')
 }
 </script>
@@ -34,6 +37,7 @@ const handleRegister = () => {
                         <v-card-text>
                         <form @submit.prevent="handleRegister">
                             <v-text-field
+                                v-model="form.username"
                                 name="username"
                                 label="Username"
                                 type="text"
@@ -41,6 +45,15 @@ const handleRegister = () => {
                                 required
                             ></v-text-field>
                             <v-text-field
+                                v-model="form.email"
+                                name="email"
+                                label="Email"
+                                type="email"
+                                placeholder="email"
+                                required
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="form.password"
                                 name="password"
                                 label="Password"
                                 type="password"
@@ -48,6 +61,7 @@ const handleRegister = () => {
                                 required
                             ></v-text-field>
                             <v-text-field 
+                                v-model="form.confirmPassword"
                                 name="confirmPassword"
                                 label="Confirm Password"
                                 type="password"
