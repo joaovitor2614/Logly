@@ -3,7 +3,7 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from dotenv import load_dotenv
-from ..utils.security import get_hashed_password, verify_password
+from ..utils.security import get_hashed_password, verify_password, encode_jwt_token
 
 import os
 
@@ -38,11 +38,10 @@ def register_user(request: Request, userInfo: UserCreate):
     created_new_user = database.find_one(
         {"_id": new_user.inserted_id}
     )
-    if created_new_user:
-        # Convert `_id` from ObjectId to string
-        created_new_user["_id"] = str(created_new_user["_id"])
 
-    return created_new_user
+    jwt_token = encode_jwt_token(created_new_user)
+
+    return {"token": jwt_token}
 
 
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
@@ -64,14 +63,7 @@ def login_user(request: Request, userInfo: UserCrendentials):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Password is not valid!"
         )
-    
-    jwt_payload = {
-        "name": user["name"],
-        "email": user["email"],
-        "id": str(user["_id"]),
-        
-    }
-    jwt_token = jwt.encode(jwt_payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
-   
+    jwt_token = encode_jwt_token(user)
+
     return {"token": jwt_token}
   
