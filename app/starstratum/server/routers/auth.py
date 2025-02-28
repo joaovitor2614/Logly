@@ -47,7 +47,7 @@ def register_user(request: Request, userInfo: UserCreate):
 
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
 def login_user(request: Request, userInfo: UserCrendentials):
-    database =  request.app.database[config["DB_NAME"]]
+    database =  request.app.database[DB_NAME]
     user = database.find_one(
         {"email": userInfo.email}    
     )
@@ -56,8 +56,8 @@ def login_user(request: Request, userInfo: UserCrendentials):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with given name does not exist!"
         )
-
-    is_password_valid = verify_password()
+    
+    is_password_valid = verify_password(userInfo.password, user["password"])
 
     if not is_password_valid:
         raise HTTPException(
@@ -66,11 +66,12 @@ def login_user(request: Request, userInfo: UserCrendentials):
         )
     
     jwt_payload = {
-        "name": user.name,
-        "email": user.email,
-        "id": str(created_new_user["_id"]),
-        jwt.encode(payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
+        "name": user["name"],
+        "email": user["email"],
+        "id": str(user["_id"]),
+        
     }
-
-    return user
+    jwt_token = jwt.encode(jwt_payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
+    print('jwt_token', jwt_token, type(jwt_token))
+    return {"token": jwt_token}
   
