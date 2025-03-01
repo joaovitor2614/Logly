@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pymongo import MongoClient, server_api
 from app.settings import APP_SETTINGS
 import os
-print('APP_SETTINGS.MONGO_DB_ATLAS_URI', APP_SETTINGS.MONGO_DB_ATLAS_URI)
+
 def register_db_connection(app: FastAPI):
     @app.on_event("startup")
     def startup_db_client():

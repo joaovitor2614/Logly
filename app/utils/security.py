@@ -1,11 +1,37 @@
 import bcrypt
 import jwt
 from app.settings import APP_SETTINGS
+from fastapi import Depends, HTTPException, status
+from ..models.user import UserCreate, UserCrendentials
+from fastapi.security import OAuth2PasswordBearer
 from typing import Dict
 
 
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserCreate:
+    try:
+        payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
+        print('payload', payload)
+        user_id = payload.get("id", None)
+
+        
+ 
+    except (jwt.JWTError, ValidationError):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if user_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not find user ID in token",
+        )
+    return user_id
 
 
 def encode_jwt_token(user: Dict[str, str]) -> str:
