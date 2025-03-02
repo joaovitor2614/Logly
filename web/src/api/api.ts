@@ -8,9 +8,5 @@ const api = axios.create({
 });
 
 
-/**
- * Sets the 'x-auth-token' header of the API client to the given token
- * @param {string} token - The token to be set
- */
 
 export default api

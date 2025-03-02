@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('authStore', () => {
             if (response.status === 201) {
                 console.log('response.data.token', response.data.token)
                 localStorage.setItem('token', response.data.token)
+                userStore.getUserInfo()
             }
     }
 

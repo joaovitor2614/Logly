@@ -32,7 +32,7 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 
 const isDisabled = computed (() =>  v$.value.username.$invalid || v$.value.email.$invalid || 
-v$.value.password.$invalid || v$.value.confirmPassword.$invalid);
+v$.value.password.$invalid);
 
 const userNameErrors = computed(() => {
     const errors = []

@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
-import { deleteAPIHeadersAuthToken, setAPIHeadersAuthToken } from './api/utils'
+import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
 
 onBeforeMount(() => {
 
   // Inseri token de autenticação prévia no headers do API
+
   if (localStorage.token) {
-    setAPIHeadersAuthToken(localStorage.token)
+    setAPIHeadersBearerToken(localStorage.token)
   }
   window.addEventListener('storage', () => {
+    console.log('called when token set', localStorage.token)
     if (!localStorage.token) {
       deleteAPIHeadersAuthToken()
     } else {
-      setAPIHeadersAuthToken(localStorage.token)
+      setAPIHeadersBearerToken(localStorage.token)
     }
     
   })

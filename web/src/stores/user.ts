@@ -1,9 +1,12 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
 
+import api from '../api/api'
+
 interface User {
     name: string,
-    _id: string,
+    email: string,
+    id: string,
 }
 
 interface UserAPIResponse extends User {
@@ -16,15 +19,25 @@ export const useUserStore = defineStore('userStore', () => {
         _id: ''
     })
 
+    async function getUserInfo() {
+        const response = await api.get('users')
+        if (response.status === 201) {
+            const userData = response.data
+            setUserInfo(userData)
+        }
+    }
+
     function setUserInfo(userData: UserAPIResponse) {
         delete userData.password
         userInfo.name = userData.name
-        userInfo._id = userData._id
+        userInfo.id = userData.id
+        userInfo.email = userData.email
     }
 
 
     return {
         userInfo,
-        setUserInfo
+        setUserInfo,
+        getUserInfo
     }
 })

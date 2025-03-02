@@ -1,10 +1,10 @@
 import api from './api'
 
-export const setAPIHeadersAuthToken = (token: string): void => {
-    api.defaults.headers.common['x-auth-token'] = token
+export const setAPIHeadersBearerToken = (token: string): void => {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
 
 export const deleteAPIHeadersAuthToken = (): void =>  {
-    delete api.defaults.headers.common['x-auth-token'] 
+    delete api.defaults.headers.common['Authorization']
 }
