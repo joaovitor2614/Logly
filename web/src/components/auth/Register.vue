@@ -2,9 +2,7 @@
 import { reactive, computed } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { type Reactive } from 'vue';
-import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs } from '@vuelidate/validators'
-
+import useValidation from '../../hooks/useValidation'
 
 interface Form {
     username: string;
@@ -20,46 +18,8 @@ const form: Reactive<Form> = reactive({
     confirmPassword: ''
 })
 
-
-
-const rules = {
-  username: { required,  $autoDirty: true },
-  email: { required, email, $autoDirty: true },
-  password: { required,  $autoDirty: true },
-  confirmPassword: sameAs(form.password)
-};
-
-const v$ = useVuelidate(rules, form);
-
-const isDisabled = computed (() =>  v$.value.username.$invalid || v$.value.email.$invalid || 
-v$.value.password.$invalid);
-
-const userNameErrors = computed(() => {
-    const errors = []
-
-    if (v$.value.username.required && v$.value.username.$error) {
-    errors.push('User name is required')
-    }
-    return errors
-});
-const emailErrors = computed(() => {
-    const errors = []
-
-    if (v$.value.email.$error) {
-    errors.push('Valid email is required')
-    }
-    return errors
-})
-
-const passwordErrors = computed(() => {
-    const errors = []
-
-    if (v$.value.password.$error) {
-    errors.push('Password is required')
-    }
-    return errors
-})
-
+const { errors, isDisabled } = useValidation(form, 'register')
+console.log('errors', errors)
 const authStore = useAuthStore();
 
 
@@ -86,7 +46,7 @@ const handleRegister = () => {
                                 label="Username"
                                 type="text"
                                 placeholder="username"
-                                :error-messages="userNameErrors"
+                                :error-messages="errors.username"
                                 required
                             ></v-text-field>
                             <v-text-field
@@ -95,16 +55,16 @@ const handleRegister = () => {
                                 label="Email"
                                 type="email"
                                 placeholder="email"
-                                :error-messages="emailErrors"
+                                :error-messages="errors.email"
                                 required
                             ></v-text-field>
                             <v-text-field
-                                v-model="form.password"
+                                v-model="errors.password"
                                 name="password"
                                 label="Password"
                                 type="password"
                                 placeholder="password"
-                                :error-messages="passwordErrors"
+                                :error-messages="errors.password"
                                 required
                             ></v-text-field>
                             <v-text-field 
