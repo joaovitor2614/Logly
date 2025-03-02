@@ -2,6 +2,7 @@
 import { reactive } from 'vue';import useVuelidate from '@vuelidate/core';
 import { useAuthStore } from '../../stores/auth';
 import useValidation from '../../hooks/useValidation'
+import { useToast } from "vue-toastification";
 
 interface Form {
     username: string,
@@ -17,8 +18,13 @@ const { errors, isDisabled } = useValidation(form)
 
 const authStore = useAuthStore();
 
-const handleLogin = () => {
-    authStore.registerUser({ password: form.password, email: form.email })
+const handleLogin = async () => {
+    const response = await authStore.loginUser({ password: form.password, email: form.email });
+    if (response.status == 201) {
+        toast.success('User registered successfully!');
+    } else {
+        toast.error(!response ? 'User registration failed!' : `${response.status} - ${response.statusText}`);
+    }
    
 }
 </script>

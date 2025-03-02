@@ -3,6 +3,7 @@ import { reactive, computed } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { type Reactive } from 'vue';
 import useValidation from '../../hooks/useValidation'
+import { useToast } from "vue-toastification";
 
 interface Form {
     username: string;
@@ -22,11 +23,19 @@ const { errors, isDisabled } = useValidation(form, 'register')
 console.log('errors', errors)
 const authStore = useAuthStore();
 
+const toast = useToast();
 
-const handleRegister = () => {
-    authStore.registerUser({ name: form.username, password: form.password, email: form.email })
-    console.log('handleRegister')
+const handleRegister = async () => {
+    const response = await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
+    if (response.status == 201) {
+        toast.success('User registered successfully!');
+    } else {
+        toast.error(!response ? 'User registration failed!' : `${response.status} - ${response.statusText}`);
+    }
+ 
 }
+
+
 </script>
 
 <template>
