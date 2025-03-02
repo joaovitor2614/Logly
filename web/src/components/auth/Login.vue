@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive } from 'vue';import useVuelidate from '@vuelidate/core';
+import { useAuthStore } from '../../stores/auth';
+import { required, email, sameAs } from '@vuelidate/validators'
 
 interface Form {
     username: string,
@@ -11,9 +13,38 @@ const form = reactive({
     password: '',
 })
 
+const rules = {
+  email: { required, email, $autoDirty: true },
+  password: { required,  $autoDirty: true },
+};
+
+const v$ = useVuelidate(rules, form);
+
+const isDisabled = computed (() =>   v$.value.email.$invalid || v$.value.password.$invalid);
+
+const userNameErrors = computed(() => {
+    const errors = []
+
+    if (v$.value.username.required && v$.value.username.$error) {
+    errors.push('User name is required')
+    }
+    return errors
+});
+const emailErrors = computed(() => {
+    const errors = []
+
+    if (v$.value.email.$error) {
+    errors.push('Valid email is required')
+    }
+    return errors
+})
+
+
+const authStore = useAuthStore();
 
 const handleLogin = () => {
-    console.log('handleLogin', handleLogin)
+    authStore.registerUser({ password: form.password, email: form.email })
+   
 }
 </script>
 
@@ -29,16 +60,20 @@ const handleLogin = () => {
                         <v-card-text>
                         <form @submit.prevent="handleLogin">
                             <v-text-field
+                                v-model="form.username"
                                 name="username"
                                 label="Username"
                                 type="text"
                                 placeholder="username"
+                                :error-messages="userNameErrors"
                                 required
                             ></v-text-field>
                             <v-text-field
+                                v-model="form.email"
                                 name="password"
                                 label="Password"
                                 type="password"
+                                :error-messages="emailErrors"
                                 placeholder="password"
                                 required
                             ></v-text-field>
