@@ -2,6 +2,7 @@ import jwt
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends
 from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
+from bson.objectid import ObjectId
 from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, get_current_user
 from app.settings import APP_SETTINGS
 
@@ -10,11 +11,14 @@ router = APIRouter()
 
 
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
-async def get_user(request: Request,user_id: str = Depends(get_current_user)):
+async def get_user(request: Request, user_id: str = Depends(get_current_user)):
     database =  request.app.database[APP_SETTINGS.DB_NAME]
+    print('user_id', user_id, type(user_id))
+
     user = database.find_one(
-        {"_id": user_id}    
+        {"_id":  ObjectId(user_id)}    
     )
+    print('user', user)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
