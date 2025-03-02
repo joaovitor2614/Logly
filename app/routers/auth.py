@@ -17,11 +17,11 @@ def register_user(request: Request, userInfo: UserCreate):
         {"email": userInfo.email}
     )
     if user:
-        print('User with given email already exists!')
-        return 
-
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"User with given email already exists!"
+        )
  
-   
     hashed_password = get_hashed_password(userInfo.password)
     userInfo.password = hashed_password
 
@@ -31,7 +31,7 @@ def register_user(request: Request, userInfo: UserCreate):
         {"_id": new_user.inserted_id}
     )
 
-    jwt_token = encode_jwt_token(created_new_user)
+    jwt_token = encode_jwt_token(created_new_user["email"], created_new_user["_id"])
 
     return {"token": jwt_token}
 
@@ -55,7 +55,8 @@ def login_user(request: Request, userInfo: UserCrendentials):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Password is not valid!"
         )
-    jwt_token = encode_jwt_token(user)
+
+    jwt_token = encode_jwt_token(user["email"], user["_id"])
 
     return {"token": jwt_token}
   

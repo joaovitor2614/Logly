@@ -3,7 +3,6 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status, D
 from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from bson.objectid import ObjectId
-from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, get_current_user
 from app.settings import APP_SETTINGS
 
 
@@ -18,7 +17,7 @@ async def get_user(request: Request, user_id: str = Depends(get_current_user)):
     user = database.find_one(
         {"_id":  ObjectId(user_id)}    
     )
-    print('user', user)
+  
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

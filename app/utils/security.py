@@ -11,10 +11,21 @@ from typing import Dict
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserCreate:
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
+    """
+    Get the user ID from the given token.
+
+    Args:
+        token (str): The given token.
+
+    Returns:
+        str: The user ID.
+
+    Raises:
+        HTTPException: If the token is invalid or the user ID is not found.
+    """
     try:
         payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
-        print('payload', payload)
         user_id = payload.get("id", None)
 
         
@@ -34,17 +45,35 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserCreate:
     return user_id
 
 
-def encode_jwt_token(user: Dict[str, str]) -> str:
+def encode_jwt_token(email: str, id: str) -> str:
+    """
+    Encode a JWT token with the given user email and ID.
+
+    Args:
+        email (str): The user email.
+        id (str): The user ID.
+
+    Returns:
+        str: The encoded JWT token.
+    """
     jwt_payload = {
-        "name": user["name"],
-        "email": user["email"],
-        "id": str(user["_id"]),
+        "email": email,
+        "id": str(id),
     }
     jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
     return jwt_token
    
 
 def get_hashed_password(password: str) -> str:
+    """
+    Get the hashed password given the plain password.
+
+    Args:
+        password (str): The plain password.
+
+    Returns:
+        str: The hashed password.
+    """
 
     salt = bcrypt.gensalt()
     bytes_password = password.encode('utf-8')
@@ -56,4 +85,14 @@ def get_hashed_password(password: str) -> str:
     return str_hashed_password
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify that the given plain password matches the given hashed password.
+
+    Args:
+        plain_password (str): The plain password to verify.
+        hashed_password (str): The hashed password to compare against.
+
+    Returns:
+        bool: True if the plain password matches the hashed password, False otherwise.
+    """
     return bcrypt.checkpw(password=plain_password.encode('utf-8'), hashed_password=hashed_password.encode('utf-8'))
