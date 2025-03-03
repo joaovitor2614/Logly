@@ -29,7 +29,7 @@ state: (): authState => ({
 
 export const useAuthStore = defineStore('authStore', () => {
     const token: Ref<string | null> = ref(localStorage.getItem('token'))
-    const isAuthenticated = ref(false);
+    const isAuthenticated = ref(true);
     const isLoading = ref(false);
     const userStore = useUserStore()
 

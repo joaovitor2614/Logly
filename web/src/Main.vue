@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import ProfessorGalery from './components/main/ProfessorGalery.vue'
 defineOptions({
     name: 'Main'
 })
@@ -45,6 +45,7 @@ console.log('hashihsaas')
         <v-main style="height: 300px"></v-main>
       </v-layout>
     </v-card>
+    <ProfessorGalery />
  </template>
 
 <style scoped>
