@@ -27,6 +27,7 @@ const toast = useToast();
 
 const handleRegister = async () => {
     const response = await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
+    console.log('response.status', response.status)
     if (response.status == 201) {
         toast.success('User registered successfully!');
     } else {
@@ -87,7 +88,7 @@ const handleRegister = async () => {
                                 required
                             ></v-text-field>
 
-                            <v-btn :disabled="isDisabled" type="submit" class="mt-4" color="primary" value="log in">Register</v-btn>
+                            <v-btn type="submit" class="mt-4" color="primary" value="log in">Register</v-btn>
                         </form>
 
                         </v-card-text>
