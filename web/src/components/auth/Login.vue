@@ -1,29 +1,39 @@
 <script setup lang="ts">
-import { reactive } from 'vue';import useVuelidate from '@vuelidate/core';
+import { reactive, computed } from 'vue';
 import { useAuthStore } from '../../stores/auth';
-import { useToast } from "vue-toastification";
+import { required, email, sameAs } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core';
+import { createFormAttributeErrors} from '../../utils/validations'
 
 interface Form {
-    username: string,
+    email: string,
     password: string,
 }
 
 const form = reactive({
-    username: '',
+    email: '',
     password: '',
 })
 
+const rules = {
+  email: { required, email, $autoDirty: true },
+  password: { required,  $autoDirty: true },
+};
+
+const v$ = useVuelidate(rules, form);
+
+const isDisabled = computed (() =>   v$.value.email.$invalid || v$.value.password.$invalid);
+
+
+
+const emailErrors = computed(() => createFormAttributeErrors(v$, 'email'))
+const passwordErrors = computed(() => createFormAttributeErrors(v$, 'password'))
 
 const authStore = useAuthStore();
 
 const handleLogin = async () => {
     const response = await authStore.loginUser({ password: form.password, email: form.email });
-    if (response.status == 201) {
-        toast.success('User registered successfully!');
-    } else {
-        toast.error(!response ? 'User registration failed!' : `${response.status} - ${response.statusText}`);
-    }
-   
+
 }
 </script>
 
@@ -39,26 +49,25 @@ const handleLogin = async () => {
                         <v-card-text>
                         <form @submit.prevent="handleLogin">
                             <v-text-field
-                                v-model="form.username"
-                                name="username"
-                                label="Username"
-                                type="text"
-                                placeholder="username"
-
+                                v-model="form.email"
+                                name="email"
+                                label="Email"
+                                type="email"
+                                placeholder="email"
+                                :error-messages="emailErrors"
                                 required
                             ></v-text-field>
                             <v-text-field
-                                v-model="form.email"
+                                v-model="form.password"
                                 name="password"
                                 label="Password"
                                 type="password"
                                 placeholder="password"
+                                :error-messages="passwordErrors"
                                 required
                             ></v-text-field>
-                            <v-btn type="submit" class="mt-4" color="primary" value="log in">Login</v-btn>
-                            <div class="grey--text mt-4">
-                                w 
-                            </div>
+                            <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Login</v-btn>
+                        
 
                         </form>
 
