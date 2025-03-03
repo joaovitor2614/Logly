@@ -2,6 +2,7 @@ import jwt
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends
 from ..models.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
+from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 

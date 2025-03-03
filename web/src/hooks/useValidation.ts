@@ -39,6 +39,7 @@ const useValidation = (form: Reactive<Form>, authType: 'login' | 'register' = 'r
                 errors.push(error.$message)
             }
         }
+        console.log(errors)
         return errors
     }
 
@@ -54,7 +55,7 @@ const useValidation = (form: Reactive<Form>, authType: 'login' | 'register' = 'r
     const passwordErrors = computed(() => {
         return createFormAttributeErrors('password')
     });
-    const errors = { 'username': userNameErrors, 'email': emailErrors, 'password': passwordErrors};
+    const errors = { 'username': userNameErrors.value, 'email': emailErrors.value, 'password': passwordErrors.value};
     const isDisabled = computed(() =>  authType == 'register' ? 
     v$.value.username.$invalid || v$.value.email.$invalid || v$.value.password.$invalid
     : v$.value.email.$invalid || v$.value.password.$invalid);

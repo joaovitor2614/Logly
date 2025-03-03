@@ -7,3 +7,4 @@ uvicorn
 bcrypt
 black
 pydantic_settings
+mypy
