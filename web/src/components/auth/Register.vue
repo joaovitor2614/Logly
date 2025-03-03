@@ -2,8 +2,7 @@
 import { reactive, computed } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { type Reactive } from 'vue';
-import useValidation from '../../hooks/useValidation'
-import { useToast } from "vue-toastification";
+
 
 interface Form {
     username: string;
@@ -19,20 +18,15 @@ const form: Reactive<Form> = reactive({
     confirmPassword: ''
 })
 
-const { errors, isDisabled } = useValidation(form, 'register')
-console.log('errors', errors)
+
+
 const authStore = useAuthStore();
 
-const toast = useToast();
+
 
 const handleRegister = async () => {
-    const response = await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
-    console.log('response.status', response.status)
-    if (response.status == 201) {
-        toast.success('User registered successfully!');
-    } else {
-        toast.error(!response ? 'User registration failed!' : `${response.status} - ${response.statusText}`);
-    }
+    await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
+    
  
 }
 
@@ -58,7 +52,6 @@ const handleRegister = async () => {
                                 label="Username"
                                 type="text"
                                 placeholder="username"
-                                :error-messages="errors.username"
                                 required
                             ></v-text-field>
                             <v-text-field
@@ -67,16 +60,14 @@ const handleRegister = async () => {
                                 label="Email"
                                 type="email"
                                 placeholder="email"
-                                :error-messages="errors.email"
                                 required
                             ></v-text-field>
                             <v-text-field
-                                v-model="errors.password"
+                                v-model="form.password"
                                 name="password"
                                 label="Password"
                                 type="password"
                                 placeholder="password"
-                                :error-messages="errors.password"
                                 required
                             ></v-text-field>
                             <v-text-field 

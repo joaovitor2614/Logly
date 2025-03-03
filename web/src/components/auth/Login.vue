@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';import useVuelidate from '@vuelidate/core';
 import { useAuthStore } from '../../stores/auth';
-import useValidation from '../../hooks/useValidation'
 import { useToast } from "vue-toastification";
 
 interface Form {
@@ -14,7 +13,6 @@ const form = reactive({
     password: '',
 })
 
-const { errors, isDisabled } = useValidation(form)
 
 const authStore = useAuthStore();
 
@@ -46,7 +44,7 @@ const handleLogin = async () => {
                                 label="Username"
                                 type="text"
                                 placeholder="username"
-                                :error-messages="errors.username"
+
                                 required
                             ></v-text-field>
                             <v-text-field
@@ -54,11 +52,9 @@ const handleLogin = async () => {
                                 name="password"
                                 label="Password"
                                 type="password"
-                                :error-messages="errors.email"
                                 placeholder="password"
                                 required
                             ></v-text-field>
-                            <div class="red--text"> Error Message</div>
                             <v-btn type="submit" class="mt-4" color="primary" value="log in">Login</v-btn>
                             <div class="grey--text mt-4">
                                 w 
