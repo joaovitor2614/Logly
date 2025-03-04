@@ -8,3 +8,4 @@ bcrypt
 black
 pydantic_settings
 mypy
+faker

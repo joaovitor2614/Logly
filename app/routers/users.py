@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
 async def get_user(request: Request, user_id: str = Depends(get_current_user)):
-    database =  request.app.database[APP_SETTINGS.DB_NAME]
+    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     print('user_id', user_id, type(user_id))
 
     user = database.find_one(

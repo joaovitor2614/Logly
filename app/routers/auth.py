@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def register_user(request: Request, userInfo: UserCreate):
-    database =  request.app.database[APP_SETTINGS.DB_NAME]
+    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
 
     user = database.find_one(
         {"email": userInfo.email}
@@ -38,7 +38,7 @@ def register_user(request: Request, userInfo: UserCreate):
 
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
 def login_user(request: Request, userInfo: UserCrendentials):
-    database =  request.app.database[APP_SETTINGS.DB_NAME]
+    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user = database.find_one(
         {"email": userInfo.email}    
     )
