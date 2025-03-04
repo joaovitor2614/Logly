@@ -15,8 +15,8 @@ export const registerRouteGuard = (router: Router) => {
         if (!isLoggedIn && to.name !== 'Login' && to.name !== 'Register') {
             return { name: 'Login' }
         }
-        if (isLoggedIn && to.name !== 'Main') {
-            return { name: 'Main' }
+        if (isLoggedIn && to.name !== 'Dashboard') {
+            return { name: 'Dashboard' }
         }
     })
 }

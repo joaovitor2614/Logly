@@ -2,7 +2,7 @@
 import ProfessorGalery from './components/main/ProfessorGalery.vue'
 import NavigationDrawer from './components/layout/NavigationDrawer.vue'
 defineOptions({
-    name: 'Main'
+    name: 'Dashboard'
 })
 console.log('hashihsaas')
 
