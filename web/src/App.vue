@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
-import { useAuthStore } from './stores/auth';
-
-
+import { useAuthStore, useUserStore } from './stores/index';
+import { router } from './router/router'
+onBeforeMount(() => {
+  const authStore = useAuthStore();
+  const token = localStorage.getItem('token')
+  if (token) {
+    const userStore = useUserStore()
+    setAPIHeadersBearerToken(token)
+    authStore.token = token
+    userStore.getUserInfo()
+    authStore.isAuthenticated = true
+    router.push('/')
+  }
+})
 
 
 

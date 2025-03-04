@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ProfessorGalery from './components/main/ProfessorGalery.vue'
+import NavigationDrawer from './components/layout/NavigationDrawer.vue'
 defineOptions({
     name: 'Main'
 })
@@ -8,39 +9,8 @@ console.log('hashihsaas')
 </script>
 
 <template>
+    <NavigationDrawer />
 
-        <v-navigation-drawer
-          theme="dark"
-          permanent
-          rail
-        >
-          <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/75.jpg"
-            nav
-          ></v-list-item>
-  
-          <v-divider></v-divider>
-  
-          <v-list
-            density="compact"
-            nav
-          >
-            <v-list-item prepend-icon="mdi-view-dashboard" value="dashboard"></v-list-item>
-  
-            <v-list-item prepend-icon="mdi-forum" value="messages"></v-list-item>
-          </v-list>
-        </v-navigation-drawer>
-  
-        <v-navigation-drawer permanent>
-          <v-list>
-            <v-list-item title="Home" value="home"></v-list-item>
-  
-            <v-list-item title="Contacts" value="contacts"></v-list-item>
-  
-            <v-list-item title="Settings" value="settings"></v-list-item>
-          </v-list>
-        </v-navigation-drawer>
-  
     <ProfessorGalery />
  </template>
 

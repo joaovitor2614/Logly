@@ -13,7 +13,7 @@ export const registerRouteGuard = (router: Router) => {
 
         const isLoggedIn = authStore.isAuthenticated;
         if (!isLoggedIn && to.name !== 'Login' && to.name !== 'Register') {
-            return { name: 'Register' }
+            return { name: 'Login' }
         }
         if (isLoggedIn && to.name !== 'Main') {
             return { name: 'Main' }
