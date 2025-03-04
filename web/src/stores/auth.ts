@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { ref, type Ref } from 'vue'
 import { router } from '../router/router'
-import { setAPIHeadersBearerToken} from '../api/utils'
+import { setAPIHeadersBearerToken, deleteAPIHeadersAuthToken} from '../api/utils'
 import { useToast } from "vue-toastification";
 import api from '../api/api'
 
@@ -62,6 +62,14 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
 
+    const logout = () => {
+        localStorage.removeItem('token')
+        deleteAPIHeadersAuthToken();
+        isAuthenticated.value = false
+        router.push('/login')
+    }
+
+
     
   
     const registerUser = async (userData: NewUserData) => {
@@ -75,6 +83,7 @@ export const useAuthStore = defineStore('authStore', () => {
             
     return { 
         token,
+        logout,
         isAuthenticated,
         isLoading,
         loginUser,
