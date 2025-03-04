@@ -26,11 +26,13 @@ const routes = [
     component: Main
   },
 ]
+export const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
 export const setupRouter = (app: App) => {
-  const router = createRouter({
-    history: createWebHistory(),
-    routes
-  })
+
   app.use(router)
 
   registerRouteGuard(router)

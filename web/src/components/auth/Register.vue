@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
 import { reactive, computed } from 'vue';
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from '../../stores/index';
 import { type Reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators'

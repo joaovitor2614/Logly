@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { ref, type Ref } from 'vue'
+import { router } from '../router/router'
 import { setAPIHeadersBearerToken} from '../api/utils'
 import { useToast } from "vue-toastification";
 import api from '../api/api'
@@ -50,6 +51,7 @@ export const useAuthStore = defineStore('authStore', () => {
             setAPIHeadersBearerToken(token.value);
             userStore.getUserInfo();
             isAuthenticated.value = true;
+            router.push('/')
         }
         if (response.status == 201) {
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);

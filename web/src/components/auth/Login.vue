@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from '../../stores/index';
 import { required, email, sameAs } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { createFormAttributeErrors} from '../../utils/validations'
