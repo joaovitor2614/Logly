@@ -8,8 +8,7 @@ console.log('hashihsaas')
 </script>
 
 <template>
-    <v-card height="100%">
-      <v-layout height="100%">
+
         <v-navigation-drawer
           theme="dark"
           permanent
@@ -42,9 +41,6 @@ console.log('hashihsaas')
           </v-list>
         </v-navigation-drawer>
   
-        <v-main style="height: 300px"></v-main>
-      </v-layout>
-    </v-card>
     <ProfessorGalery />
  </template>
 
