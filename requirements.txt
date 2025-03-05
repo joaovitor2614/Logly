@@ -9,3 +9,4 @@ black
 pydantic_settings
 mypy
 faker
+pytest
