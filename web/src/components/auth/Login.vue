@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, type Reactive } from 'vue';
 import { useAuthStore } from '../../stores/index';
 import { required, email, sameAs } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { createFormAttributeErrors} from '../../utils/validations'
+import { LoginForm } from './types'
 
-interface Form {
-    email: string,
-    password: string,
-}
-
-const form = reactive({
+const form: Reactive<LoginForm> = reactive({
     email: '',
     password: '',
 })

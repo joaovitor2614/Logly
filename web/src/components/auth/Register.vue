@@ -6,15 +6,10 @@ import { type Reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators'
 import { createFormAttributeErrors } from '../../utils/validations'
+import { RegisterForm } from './types'
 
-interface Form {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
 
-const form: Reactive<Form> = reactive({
+const form: Reactive<RegisterForm> = reactive({
     username: '',
     email: '',
     password: '',
