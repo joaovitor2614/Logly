@@ -50,9 +50,11 @@ const handleRegister = async () => {
 <template>
     
     
-           
-        <div class="d-flex justify-center">
-            <v-card class="elevation-12" width="50vh">
+ 
+        <v-container>
+            <v-row align="center" justify="center" >
+                <v-col cols="12" sm="10">
+                    <v-card class="elevation-12 mt-10">
                         <v-toolbar dark color="primary">
                             <v-toolbar-title>Register form</v-toolbar-title>
                         </v-toolbar>
@@ -99,7 +101,10 @@ const handleRegister = async () => {
 
                         </v-card-text>
                     </v-card>
-        </div>
+                </v-col>
+            </v-row>
+           
+        </v-container>
                    
                
             
