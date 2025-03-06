@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useProfessorStore } from '../../stores/index';
 
+const professorStore = useProfessorStore();
 </script>
 
 <template>
