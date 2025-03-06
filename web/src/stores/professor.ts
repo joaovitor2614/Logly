@@ -29,7 +29,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     return {
         getProfessorCollection,
-        fetchProfessorsInfo
+        fetchProfessorsInfo,
+        professorCollection
     }
     
 })

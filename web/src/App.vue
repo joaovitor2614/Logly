@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
-import { useAuthStore, useUserStore, useProfessorStore } from './stores/index';
+import { useAuthStore, useUserStore } from './stores/index';
 import { router } from './router/router'
 import { watch } from 'vue';
 
-const professorStore = useProfessorStore();
 const authStore = useAuthStore();
 const userStore = useUserStore()
-watch(authStore.isAuthenticated, async ()  => {
-  if (authStore.isAuthenticated) {
-    await professorStore.fetchProfessorsInfo()
-  }
-})
+
 onBeforeMount(() => {
   
   const token = localStorage.getItem('token')

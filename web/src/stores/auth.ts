@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('authStore', () => {
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
             router.push('/')
         } catch (error) {
+            console.log('error', error)
             toast.error(error.response.data.detail);
         }
     

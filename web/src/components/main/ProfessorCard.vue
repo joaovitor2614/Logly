@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { useProfessorStore } from '../../stores/index';
+interface Props {
+  //axis: Plot.Axis;
+  professor: App.Professor
+}
 
-const professorStore = useProfessorStore();
+defineProps<Props>();
 </script>
 
 <template>
@@ -9,9 +12,10 @@ const professorStore = useProfessorStore();
         class="align-end"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         height="200px"
+        :src="professor.image"
         cover
     >
-        <v-card-title class="text-white" v-text="'Joao Vitor O brabo'"></v-card-title>
+        <v-card-title class="text-white" v-text="professor.name"></v-card-title>
     </v-img>
     <v-card-actions>
         <v-spacer></v-spacer>

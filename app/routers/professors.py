@@ -14,7 +14,7 @@ router = APIRouter()
 @router.get("/", response_description="Get professors data in Database", status_code=status.HTTP_200_OK)
 async def get_professors(request: Request, user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professors = list(professors_database.find(limit=100))
+    professors = list(professors_database.find())
     for professor in professors:
         professor["_id"] = str(professor["_id"])
     return professors

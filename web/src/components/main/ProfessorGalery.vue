@@ -1,17 +1,26 @@
 <script setup>
+import { computed } from 'vue'
 import ProfessorCard from './ProfessorCard.vue'
+import { useProfessorStore } from '../../stores/index';
+
+const professorStore = useProfessorStore();
+
+await professorStore.fetchProfessorsInfo()
+
+const professorCollection = professorStore.getProfessorCollection()
+console.log('professorCollection', professorCollection)
 </script>
 
 <template>
     <v-container fluid>
         <v-row>
-            <v-col
-                v-for="i in 6"
+
+             <v-col v-for="(professor, i) in professorCollection.slice(0, 6)"
                 :key="i"
                 cols="12"
                 md="4"
               >
-                <ProfessorCard />
+                <ProfessorCard :professor="professor" />
             </v-col>
         </v-row>
     </v-container>
