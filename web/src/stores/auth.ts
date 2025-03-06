@@ -7,28 +7,6 @@ import { useToast } from "vue-toastification";
 import api from '../api/api'
 
 
-
-interface NewUserData {
-    name: string;
-    password: string;
-    email: string
-}
-
-interface UserCrendentials {
-    name: string;
-    password: string;
-
-}
-/*
-state: (): authState => ({
-        token: localStorage.getItem('token'),
-        isAuthenticated: true,
-        loading: true,
-        user: null
-    }),
-
-*/
-
 export const useAuthStore = defineStore('authStore', () => {
     const token: Ref<string | null> = ref(localStorage.getItem('token'))
     const isAuthenticated = ref(false);
@@ -44,19 +22,17 @@ export const useAuthStore = defineStore('authStore', () => {
      * @param authType - 'register' or 'login'
      * @param userData - user data to be sent to the API
      */
-    const executeAuthAction = async (authType: 'register' | 'login', userData: NewUserData | UserCrendentials) => {
-        const response = await api.post(`auth/${authType}`, userData)
-        if (response.status === 201) {
+    const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
+        try {
+            const response = await api.post(`auth/${authType}`, userData)
             localStorage.setItem('token', response.data.token)
             setAPIHeadersBearerToken(token.value);
             userStore.getUserInfo();
             isAuthenticated.value = true;
-            router.push('/')
-        }
-        if (response.status == 201) {
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
-        } else {
-            toast.error(!response ? 'User registration failed!' : `${response.status} - ${response.statusText}`);
+            router.push('/')
+        } catch (error) {
+            toast.error(error.response.data.detail);
         }
     
     }
@@ -72,11 +48,11 @@ export const useAuthStore = defineStore('authStore', () => {
 
     
   
-    const registerUser = async (userData: NewUserData) => {
+    const registerUser = async (userData: App.User.Register) => {
         executeAuthAction('register', userData)
     }
 
-    const loginUser = async (userData: UserCrendentials) => {
+    const loginUser = async (userData: App.User.Login) => {
         executeAuthAction('login', userData)
             
     }

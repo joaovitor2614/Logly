@@ -4,9 +4,9 @@ import { useAuthStore } from '../../stores/index';
 import { required, email, sameAs } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { createFormAttributeErrors} from '../../utils/validations'
-import { LoginForm } from './types'
 
-const form: Reactive<LoginForm> = reactive({
+
+const form: Reactive<App.User.Login> = reactive({
     email: '',
     password: '',
 })
@@ -28,7 +28,7 @@ const passwordErrors = computed(() => createFormAttributeErrors(v$, 'password'))
 const authStore = useAuthStore();
 
 const handleLogin = async () => {
-    const response = await authStore.loginUser({ password: form.password, email: form.email });
+    await authStore.loginUser({ password: form.password, email: form.email });
 
 }
 </script>
