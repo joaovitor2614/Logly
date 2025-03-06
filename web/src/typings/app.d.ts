@@ -10,4 +10,14 @@ declare namespace App {
             username: string
         }
     }
+    type GenderType = 'male' | 'female'
+    interface Professor {
+        name: string,
+        image: string,
+        disciplines: string[],
+        gender: GenderType,
+        phone: string,
+        upvotes: string,
+        downvotes: string
+    }
 }
