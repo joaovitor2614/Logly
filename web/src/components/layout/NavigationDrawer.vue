@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useAuthStore } from '../../stores/index';
 
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -32,6 +34,10 @@
             <v-list-item title="Contacts" value="contacts"></v-list-item>
   
             <v-list-item title="Settings" value="settings"></v-list-item>
+    
+            <v-btn @click="authStore.logout">Logout</v-btn>
+   
+           
           </v-list>
         </v-navigation-drawer>
 </template>
