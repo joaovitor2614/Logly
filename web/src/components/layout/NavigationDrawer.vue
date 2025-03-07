@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '../../stores/index';
-
+import { router } from '../../router/router'
 const authStore = useAuthStore();
 </script>
 
@@ -29,11 +29,9 @@ const authStore = useAuthStore();
   
         <v-navigation-drawer permanent>
           <v-list>
-            <v-list-item title="Home" value="home"></v-list-item>
-  
-            <v-list-item title="Contacts" value="contacts"></v-list-item>
-  
-            <v-list-item title="Settings" value="settings"></v-list-item>
+            <v-btn @click="router.push('/')">Home</v-btn>
+            <v-btn @click="router.push('/profile')">Edit Profile</v-btn>
+
     
             <v-btn @click="authStore.logout">Logout</v-btn>
    
