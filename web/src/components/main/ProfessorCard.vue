@@ -18,16 +18,22 @@ defineProps<Props>();
         <v-card-title class="text-white" v-text="professor.name"></v-card-title>
     </v-img>
     <v-card-actions>
-        <v-spacer></v-spacer>
         <v-btn
             color="medium-emphasis"
-            icon="mdi-heart"
+            icon="mdi-comment"
             size="small"
         ></v-btn>
-
+        <v-spacer></v-spacer>
+        {{professor.upvotes }}
         <v-btn
             color="medium-emphasis"
-            icon="mdi-bookmark"
+            icon="mdi-thumb-up-outline"
+            size="small"
+        ></v-btn>
+        {{professor.downvotes }}
+        <v-btn
+            color="medium-emphasis"
+            icon="mdi-thumb-down-outline"
             size="small"
         ></v-btn>
 
