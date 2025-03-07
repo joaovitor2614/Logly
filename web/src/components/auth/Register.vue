@@ -6,7 +6,7 @@ import { type Reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators'
 import { createFormAttributeErrors } from '../../utils/validations'
-
+import { router } from '../../router/router'
 
 
 
@@ -98,6 +98,18 @@ const handleRegister = async () => {
                             ></v-text-field>
 
                             <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Register</v-btn>
+                            <div style="  text-align: center; padding: 10px 0;">
+                                    <v-card-text class="white--text" >
+                                        <h3 class="text-center ">Alredy Signed up?</h3>
+                                        <h6
+                                        class="text-center"
+                                        >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
+                                    </v-card-text>
+                                    <div class="text-center">
+                                        <v-btn tile color="primary" outlined dark @click="router.push('/login')">Log in</v-btn>
+                                    </div>
+                            </div>
+
                         </form>
 
                         </v-card-text>

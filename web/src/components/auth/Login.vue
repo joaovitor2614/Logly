@@ -4,7 +4,7 @@ import { useAuthStore } from '../../stores/index';
 import { required, email, sameAs } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { createFormAttributeErrors} from '../../utils/validations'
-
+import { router } from '../../router/router'
 
 const form: Reactive<App.User.Login> = reactive({
     email: '',
@@ -63,6 +63,17 @@ const handleLogin = async () => {
                                 required
                             ></v-text-field>
                             <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Login</v-btn>
+                            <div style="  text-align: center; padding: 60px 0;">
+                                    <v-card-text class="white--text" >
+                                        <h3 class="text-center ">Don't Have an Account Yet?</h3>
+                                        <h6
+                                        class="text-center"
+                                        >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
+                                    </v-card-text>
+                                    <div class="text-center">
+                                        <v-btn tile color="primary" outlined dark @click="router.push('/register')">SIGN UP</v-btn>
+                                    </div>
+                            </div>
                         
 
                         </form>
