@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AddProfessorDialog from './AddProfessorDialog.vue';
-
+import ProfessorSearchFilters from './ProfessorSearchFilters.vue'
 
 const shouldOpenProfessorDialog = ref(false)
 
@@ -13,6 +13,7 @@ const openProfessorDialog = () => {
 <template>
     <v-container class="mt-9">
             <AddProfessorDialog v-model:shouldOpenProfessorDialog="shouldOpenProfessorDialog" />
+            <ProfessorSearchFilters />
             <v-row align="center" justify="center" >
                 <v-col cols="4" sm="10">
                     <v-row align="center" justify="start">

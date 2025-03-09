@@ -3,14 +3,25 @@ import { reactive, Ref, ref } from "vue"
 import { useToast } from "vue-toastification";
 import api from '../api/api'
 
+interface ProfessorFilters {
+    name: string
+}
+
 
 
 export const useProfessorStore = defineStore('professorStore', () => {
     const professorCollection: Ref<App.Professor[]> = ref([])
     const toast = useToast();
+    const filters: ProfessorFilters = {
+        name: ''
+    }
 
     function getProfessorCollection() {
-        return professorCollection.value
+        return professorCollection.value.filter((professor) => {
+            const nameMatch = professor.name.toLowerCase().includes(filters.name.toLocaleLowerCase())
+
+            return nameMatch
+        })
     }
 
     async function fetchProfessorsInfo() {
@@ -30,7 +41,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
     return {
         getProfessorCollection,
         fetchProfessorsInfo,
-        professorCollection
+        professorCollection,
+        filters
     }
     
 })
