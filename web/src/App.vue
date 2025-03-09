@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
+import NavigationDrawer from './components/layout/NavigationDrawer.vue';
 import { useAuthStore, useUserStore } from './stores/index';
 import { router } from './router/router'
 import { watch } from 'vue';
@@ -29,6 +30,7 @@ onBeforeMount(() => {
     <div>
       <v-app>
         <v-main>
+          <NavigationDrawer v-if="authStore.isAuthenticated"/>
           <router-view :key="$route.fullPath" />
         </v-main>
       </v-app>

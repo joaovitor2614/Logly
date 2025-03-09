@@ -29,10 +29,10 @@ const authStore = useAuthStore();
   
         <v-navigation-drawer permanent>
           <v-list>
-            <v-btn @click="router.push('/')">Home</v-btn>
-            <v-btn @click="router.push('/profile')">Edit Profile</v-btn>
+            <v-list-item @click="router.push('/')">Home</v-list-item>
+            <v-list-item @click="router.push('/profile')">Edit Profile</v-list-item>
 
-    
+            
             <v-btn @click="authStore.logout">Logout</v-btn>
    
            

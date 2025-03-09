@@ -13,10 +13,10 @@ router = APIRouter()
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
 async def get_user(request: Request, user_id: str = Depends(get_current_user)):
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-    print('user_id', user_id, type(user_id))
+   
 
     user = database.find_one(
-        {"_id":  ObjectId(user_id)}    
+        {"_id": user_id}    
     )
   
     if not user:
@@ -24,4 +24,4 @@ async def get_user(request: Request, user_id: str = Depends(get_current_user)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User not found!"
         )
-    return {"id": user_id, "name": user["name"], "email": user["email"]}
+    return user

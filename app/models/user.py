@@ -13,6 +13,7 @@ class UserCrendentials(BaseModel):
 
     
 class UserCreate(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     name: str = Field(...)
     email: str = Field(...)
     password: str = Field(...)

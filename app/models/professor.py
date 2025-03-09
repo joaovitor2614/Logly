@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 import uuid
 
 class Professor(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     name: str = Field(...)
     image: str = Field(...)
     disciplines: List[str] = Field(...)

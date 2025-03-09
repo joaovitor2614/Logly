@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import ProfessorGalery from './components/main/ProfessorGalery.vue'
-import NavigationDrawer from './components/layout/NavigationDrawer.vue'
-import ProfessorActions from './components/main/ProfessorActions.vue'
+import ProfessorGalery from './components/professor/ProfessorGalery.vue'
+import ProfessorActions from './components/professor/ProfessorActions.vue'
 defineOptions({
     name: 'Dashboard'
 })
@@ -10,7 +9,6 @@ console.log('hashihsaas')
 </script>
 
 <template>
-    <NavigationDrawer />
     <ProfessorActions />
     <ProfessorGalery />
  </template>
