@@ -4,6 +4,7 @@ import { ref, type Ref } from 'vue'
 import { router } from '../router/router'
 import { setAPIHeadersBearerToken, deleteAPIHeadersAuthToken} from '../api/utils'
 import { useToast } from "vue-toastification";
+import { useProfessorStore } from './index'
 import api from '../api/api'
 
 
@@ -13,6 +14,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const isLoading = ref(false);
     const userStore = useUserStore()
     const toast = useToast();
+    const professorStore = useProfessorStore();
 
 
     /**
@@ -27,7 +29,8 @@ export const useAuthStore = defineStore('authStore', () => {
             const response = await api.post(`auth/${authType}`, userData)
             localStorage.setItem('token', response.data.token)
             setAPIHeadersBearerToken(token.value);
-            userStore.getUserInfo();
+            await userStore.getUserInfo();
+            await professorStore.fetchProfessorsInfo();
             isAuthenticated.value = true;
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
             router.push('/')

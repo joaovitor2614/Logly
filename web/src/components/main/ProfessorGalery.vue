@@ -5,7 +5,6 @@ import { useProfessorStore } from '../../stores/index';
 
 const professorStore = useProfessorStore();
 
-await professorStore.fetchProfessorsInfo()
 
 const professorCollection = professorStore.getProfessorCollection()
 console.log('professorCollection', professorCollection)
