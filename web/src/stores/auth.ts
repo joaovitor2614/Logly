@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('authStore', () => {
         try {
             const response = await api.post(`auth/${authType}`, userData)
             localStorage.setItem('token', response.data.token)
-            setAPIHeadersBearerToken(token.value);
+            setAPIHeadersBearerToken( response.data.token);
             await userStore.getUserInfo();
             await professorStore.fetchProfessorsInfo();
             isAuthenticated.value = true;

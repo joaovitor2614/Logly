@@ -38,6 +38,7 @@ def register_user(request: Request, userInfo: UserCreate):
 
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
 def login_user(request: Request, userInfo: UserCrendentials):
+    print('userInfo', userInfo)
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user = database.find_one(
         {"email": userInfo.email}    
