@@ -6,7 +6,7 @@ import api from '../api/api'
 interface User {
     name: string,
     email: string,
-    id: string,
+    _id: string,
 }
 
 interface UserAPIResponse extends User {
@@ -16,21 +16,23 @@ interface UserAPIResponse extends User {
 export const useUserStore = defineStore('userStore', () => {
     const userInfo: User = reactive({
         name: '',
-        _id: ''
+        _id: '',
+        email: ''
     })
 
     async function getUserInfo() {
         const response = await api.get('users')
-        if (response.status === 201) {
-            const userData = response.data
-            setUserInfo(userData)
+        if (response.status === 200) {
+
+                
+            setUserInfo(response.data)
         }
     }
 
     function setUserInfo(userData: UserAPIResponse) {
         delete userData.password
         userInfo.name = userData.name
-        userInfo.id = userData.id
+        userInfo._id = userData._id
         userInfo.email = userData.email
     }
 

@@ -5,6 +5,7 @@ import uuid
 class Professor(BaseModel):
     name: str = Field(...)
     image: str = Field(...)
+    phone: str = Field(...)
     disciplines: List[str] = Field(...)
     upvotes: int =  Field(...)
     downvotes: int =  Field(...)
