@@ -1,26 +1,32 @@
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
 import NavigationDrawer from './components/layout/NavigationDrawer.vue';
-import { useAuthStore, useUserStore } from './stores/index';
+import { useAuthStore, useProfessorStore, useUserStore } from './stores/index';
 import { router } from './router/router'
 import { watch } from 'vue';
 
 const authStore = useAuthStore();
 const userStore = useUserStore()
+const professorStore = useProfessorStore()
 
-onBeforeMount(() => {
-  
-  const token = localStorage.getItem('token')
+watch(
+  () => authStore.token, // Use a getter function to maintain reactivity
+  async (token) => {
+  console.log('toekn watch')
   if (token) {
-    
+
+    localStorage.setItem("token", token)
     setAPIHeadersBearerToken(token)
-    authStore.token = token
-    userStore.getUserInfo()
-    authStore.isAuthenticated = true
+    await userStore.getUserInfo()
+    await professorStore.fetchProfessorsInfo()
+    authStore.isAuthenticated = true;
     router.push('/')
   }
-})
+},  { immediate: true })
+
+
+
 
 
 
