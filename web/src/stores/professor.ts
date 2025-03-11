@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { reactive, Ref, ref } from "vue"
+import { reactive, Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
 import api from '../api/api'
 
@@ -12,17 +12,18 @@ interface ProfessorFilters {
 export const useProfessorStore = defineStore('professorStore', () => {
     const professorCollection: Ref<App.Professor[]> = ref([])
     const toast = useToast();
-    const filters: ProfessorFilters = {
+    const filters: Ref<ProfessorFilters> = ref({
         name: ''
-    }
+    })
 
-    function getProfessorCollection() {
+    const professorFilteredCollection = computed(() => {
         return professorCollection.value.filter((professor) => {
-            const nameMatch = professor.name.toLowerCase().includes(filters.name.toLocaleLowerCase())
+            const nameMatch = professor.name.toLowerCase().includes(filters.value.name.toLocaleLowerCase())
 
             return nameMatch
         })
-    }
+
+    })
 
     async function fetchProfessorsInfo() {
         try {
@@ -39,7 +40,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
 
     return {
-        getProfessorCollection,
+        professorFilteredCollection,
         fetchProfessorsInfo,
         professorCollection,
         filters
