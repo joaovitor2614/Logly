@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Linting */
     "strict": true,
-    "lib": [ "es2015" ],
+    "lib": [ "es2016", "dom"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,

@@ -3,7 +3,6 @@
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
 import NavigationDrawer from './components/layout/NavigationDrawer.vue';
 import { useAuthStore, useProfessorStore, useUserStore } from './stores/index';
-import { router } from './router/router'
 import { watch } from 'vue';
 
 const authStore = useAuthStore();
@@ -21,7 +20,7 @@ watch(
     await userStore.getUserInfo()
     await professorStore.fetchProfessorsInfo()
     authStore.isAuthenticated = true;
-    router.push('/')
+
   }
 },  { immediate: true })
 
