@@ -1,6 +1,7 @@
 #from .. import create_app
 
 from faker import Faker
+from app import create_app
 import pytest
 
 
