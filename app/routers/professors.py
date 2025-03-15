@@ -43,8 +43,8 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
         professor["_id"] = str(professor["_id"])
     return professors
 
-@router.put("/{id}", response_description="Update a professor", response_model=Professor)
-def update_book(id: str, request: Request, professor: Professor = Body(...)):
+@router.put("/{id}", response_description="Update a professor", response_model=Professor, )
+def update_book(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = {k: v for k, v in professor.dict().items() if v is not None}
     if len(professor) >= 1:
@@ -63,7 +63,7 @@ def update_book(id: str, request: Request, professor: Professor = Body(...)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
 
 @router.delete("/{id}", response_description="Delete a professors")
-def delete_book(id: str, request: Request, response: Response):
+def delete_book(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     delete_result = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME].delete_one({"_id": (ObjectId(id))})
 
     if delete_result.deleted_count == 1:

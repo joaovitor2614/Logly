@@ -1,10 +1,33 @@
 <script setup lang="ts">
+import { useProfessorStore } from '../../stores/index';
+
+
 interface Props {
   //axis: Plot.Axis;
   professor: App.Professor
 }
 
 defineProps<Props>();
+
+const professorStore = useProfessorStore();
+const handleUpVoteProfessor = async (professor: App.Professor) => {
+    console.log('handleUpVoteProfessor')
+    const newProfessorData = {
+        ...professor
+    }
+    newProfessorData.upvotes = newProfessorData.upvotes + 1
+    await professorStore.editProfessor(professor._id, professor)
+}
+
+
+const handleDownVoteProfessor = async (professor: App.Professor) => {
+    console.log('handleDownVoteProfessor')
+    const newProfessorData = {
+        ...professor
+    }
+    newProfessorData.downvotes = newProfessorData.downvotes - 1
+    await professorStore.editProfessor(professor._id, professor)
+}
 </script>
 
 <template>
@@ -21,6 +44,7 @@ defineProps<Props>();
         <v-btn
             color="medium-emphasis"
             icon="mdi-comment"
+            @click="handleUpVoteProfessor(professor)"
             size="small"
         ></v-btn>
         <v-spacer></v-spacer>
@@ -28,6 +52,7 @@ defineProps<Props>();
         <v-btn
             color="medium-emphasis"
             icon="mdi-thumb-up-outline"
+            @click="handleDownVoteProfessor(professor)"
             size="small"
         ></v-btn>
         {{professor.downvotes }}

@@ -37,12 +37,33 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
+    async function editProfessor(professorID: str, newProfessorData: App.Professor) {
+        try {
+            const {updatedProfessorData} = await api.put<App.Professor>(`professors/${professorID}`, newProfessorData)
+            
+       
+            professorCollection.value.filter((professor) => {
+                if (professor._id === professorID) {
+                    professor = {
+                        ...updatedProfessorData
+                    }
+                }
+                 
+            })
+
+        } catch (error) {
+            toast.error(error.response.data.detail);
+        }
+    
+    }
+
     
 
     return {
         professorFilteredCollection,
         fetchProfessorsInfo,
         professorCollection,
+        editProfessor,
         filters
     }
     

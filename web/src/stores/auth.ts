@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
         try {
+            console.log('userData', userData)
             const response = await api.post(`auth/${authType}`, userData)
             token.value = response.data.token
 
