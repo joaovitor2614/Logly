@@ -17,6 +17,7 @@ class UserCreate(BaseModel):
     name: str = Field(...)
     email: str = Field(...)
     password: str = Field(...)
+    image: Annotated[str | None, Field(title="User Profile Picture")] = ''
 
 
 
