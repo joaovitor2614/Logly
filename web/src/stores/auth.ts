@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
-import { deleteAPIHeadersAuthToken} from '../api/utils'
 import { useToast } from "vue-toastification";
 import api from '../api/api'
 
@@ -37,10 +36,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
 
     const logout = () => {
-        localStorage.removeItem('token')
-        deleteAPIHeadersAuthToken();
-        isAuthenticated.value = false
-    
+        token.value = null
     }
 
 

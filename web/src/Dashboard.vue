@@ -9,8 +9,12 @@ console.log('hashihsaas')
 </script>
 
 <template>
-    <ProfessorActions />
-    <ProfessorGalery />
+    <v-container fluid style="max-width: 125vh;">
+
+    
+        <ProfessorActions />
+        <ProfessorGalery />
+    </v-container>
  </template>
 
 <style scoped>

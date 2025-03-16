@@ -21,6 +21,11 @@ watch(
     await professorStore.fetchProfessorsInfo()
     authStore.isAuthenticated = true;
 
+  } else {
+    localStorage.removeItem('token')
+    deleteAPIHeadersAuthToken();
+    authStore.isAuthenticated = false
+
   }
 },  { immediate: true })
 
