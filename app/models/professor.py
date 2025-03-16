@@ -7,6 +7,7 @@ class Professor(BaseModel):
     image: str = Field(...)
     phone: str = Field(...)
     disciplines: List[str] = Field(...)
+    comments: Annotated[List[str], Field(title="Professor comments")] = ['']
     upvotes: int =  Field(...)
     downvotes: int =  Field(...)
 

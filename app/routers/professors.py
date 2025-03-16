@@ -86,7 +86,8 @@ async def create_fake_professors(request: Request, amount: int, user_id: str = D
             "email":  user.get_email(),
             "phone": user.get_phone(),
             "upvotes": random.randint(0, 10),
-            "downvotes": random.randint(0, 10)
+            "downvotes": random.randint(0, 10),
+            "comments": ["Esse é bão mesmo", "Mo pai"]
         }
         new_professor = jsonable_encoder(new_professor)
         new_professor = professors_database.insert_one(new_professor)
