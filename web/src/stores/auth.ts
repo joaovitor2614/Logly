@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
-import { useUserStore } from './user'
 import { ref, type Ref } from 'vue'
-import { setAPIHeadersBearerToken, deleteAPIHeadersAuthToken} from '../api/utils'
+import { deleteAPIHeadersAuthToken} from '../api/utils'
 import { useToast } from "vue-toastification";
-import { useProfessorStore } from './index'
 import api from '../api/api'
 
 
@@ -11,9 +9,8 @@ export const useAuthStore = defineStore('authStore', () => {
     const token: Ref<string | null> = ref(localStorage.getItem('token'))
     const isAuthenticated = ref(false);
     const isLoading = ref(false);
-    const userStore = useUserStore()
     const toast = useToast();
-    const professorStore = useProfessorStore();
+
 
 
     /**
@@ -25,8 +22,8 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
         try {
-            console.log('userData', userData)
-            const response = await api.post(`auth/${authType}`, userData)
+           
+            const response = await api.post<Api.Auth.Token>(`auth/${authType}`, userData)
             token.value = response.data.token
 
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);

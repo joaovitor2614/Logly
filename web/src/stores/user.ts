@@ -3,19 +3,9 @@ import { reactive } from "vue"
 
 import api from '../api/api'
 
-interface User {
-    name: string,
-    image: string,
-    email: string,
-    _id: string,
-}
-
-interface UserAPIResponse extends User {
-    password?: string
-}
 
 export const useUserStore = defineStore('userStore', () => {
-    const userInfo: User = reactive({
+    const userInfo: Api.User.Info = reactive({
         name: '',
         image: '',
         _id: '',
@@ -23,7 +13,8 @@ export const useUserStore = defineStore('userStore', () => {
     })
 
     async function getUserInfo() {
-        const response = await api.get('users')
+        const response = await api.get<Api.User.Info>('users')
+       
         if (response.status === 200) {
 
                 
@@ -31,12 +22,8 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
 
-    function setUserInfo(userData: UserAPIResponse) {
-        delete userData.password
-        userInfo.name = userData.name
-        userInfo._id = userData._id
-        userInfo.email = userData.email
-        userInfo.image = userData.image    
+    function setUserInfo(userData: Api.User.Info) {
+        Object.assign(userInfo, userData)
     }
 
 

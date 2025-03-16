@@ -10,6 +10,7 @@ declare namespace App {
             username: string
         }
     }
+    
     type GenderType = 'male' | 'female'
     interface Professor {
         _id: string,
