@@ -16,7 +16,7 @@ const handleUpVoteProfessor = async (professor: App.Professor) => {
         ...professor
     }
     newProfessorData.upvotes = newProfessorData.upvotes + 1
-    await professorStore.editProfessor(professor._id, professor)
+    await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
 
@@ -25,8 +25,8 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
     const newProfessorData = {
         ...professor
     }
-    newProfessorData.downvotes = newProfessorData.downvotes - 1
-    await professorStore.editProfessor(professor._id, professor)
+    newProfessorData.downvotes = newProfessorData.downvotes + 1
+    await professorStore.editProfessor(professor._id, newProfessorData)
 }
 </script>
 
@@ -44,23 +44,25 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
         <v-btn
             color="medium-emphasis"
             icon="mdi-comment"
-            @click="handleUpVoteProfessor(professor)"
+
             size="small"
         ></v-btn>
         <v-spacer></v-spacer>
-        {{professor.upvotes }}
+
         <v-btn
             color="medium-emphasis"
             icon="mdi-thumb-up-outline"
+            @click="handleUpVoteProfessor(professor)"
+            size="small"
+        ></v-btn>
+        {{professor.upvotes }}
+        <v-btn
+            color="medium-emphasis"
+            icon="mdi-thumb-down-outline"
             @click="handleDownVoteProfessor(professor)"
             size="small"
         ></v-btn>
         {{professor.downvotes }}
-        <v-btn
-            color="medium-emphasis"
-            icon="mdi-thumb-down-outline"
-            size="small"
-        ></v-btn>
 
         <v-btn
             color="medium-emphasis"

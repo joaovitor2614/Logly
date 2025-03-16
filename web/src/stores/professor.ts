@@ -17,6 +17,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     })
 
     const professorFilteredCollection = computed(() => {
+        console.log('professorFilteredCollection re computed')
         return professorCollection.value.filter((professor) => {
             const nameMatch = professor.name.toLowerCase().includes(filters.value.name.toLocaleLowerCase())
 
@@ -37,19 +38,19 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
-    async function editProfessor(professorID: str, newProfessorData: App.Professor) {
+    async function editProfessor(professorID: string, newProfessorData: App.Professor) {
         try {
-            const {updatedProfessorData} = await api.put<App.Professor>(`professors/${professorID}`, newProfessorData)
-            
+            delete newProfessorData._id
+            const {data: updatedProfessorData} = await api.put<App.Professor>(`professors/${professorID}`, newProfessorData)
+            console.log('updatedProfessorData', updatedProfessorData)
        
-            professorCollection.value.filter((professor) => {
-                if (professor._id === professorID) {
-                    professor = {
-                        ...updatedProfessorData
-                    }
-                }
-                 
-            })
+            const index = professorCollection.value.findIndex((professor) => professor._id == professorID)
+            if (index !== -1) {
+                console.log('here')
+                professorCollection.value[index] = {...updatedProfessorData}
+                console.log('professorCollection.value[index]', professorCollection.value[index])
+            }
+            console.log('professorCollection.value', professorCollection.value)
 
         } catch (error) {
             toast.error(error.response.data.detail);
