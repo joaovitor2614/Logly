@@ -5,6 +5,7 @@ import api from '../api/api'
 
 interface User {
     name: string,
+    image: string,
     email: string,
     _id: string,
 }
@@ -16,6 +17,7 @@ interface UserAPIResponse extends User {
 export const useUserStore = defineStore('userStore', () => {
     const userInfo: User = reactive({
         name: '',
+        image: '',
         _id: '',
         email: ''
     })
@@ -34,6 +36,7 @@ export const useUserStore = defineStore('userStore', () => {
         userInfo.name = userData.name
         userInfo._id = userData._id
         userInfo.email = userData.email
+        userInfo.image = userData.image    
     }
 
 

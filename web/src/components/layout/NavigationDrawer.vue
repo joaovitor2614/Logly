@@ -13,7 +13,7 @@ const userStore = useUserStore()
   
         >
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/75.jpg"
+            :prepend-avatar="userStore.userInfo.image"
             nav
           ></v-list-item>
           <v-list-item>Welcome {{ userStore.userInfo.name }}</v-list-item>
