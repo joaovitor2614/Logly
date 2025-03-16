@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { reactive, Ref, ref, computed } from "vue"
+import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
 import api from '../api/api'
 
@@ -28,7 +28,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
         try {
-            const response = await api.get(`professors`)
+            const response = await api.get<App.Professor[]>(`professors`)
             console.log('response', response.data)
             professorCollection.value = response.data
 
@@ -47,7 +47,10 @@ export const useProfessorStore = defineStore('professorStore', () => {
             const index = professorCollection.value.findIndex((professor) => professor._id == professorID)
             if (index !== -1) {
                 console.log('here')
-                professorCollection.value[index] = {...updatedProfessorData}
+                professorCollection.value[index] = {
+                    _id: professorCollection.value[index]._id,
+                    ...updatedProfessorData
+                }
                 console.log('professorCollection.value[index]', professorCollection.value[index])
             }
             console.log('professorCollection.value', professorCollection.value)
