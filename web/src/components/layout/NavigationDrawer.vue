@@ -23,13 +23,16 @@ const userStore = useUserStore()
             density="compact"
             nav
           >
-          
-            <v-list-item @click="router.push('/')">Home</v-list-item>
-            <v-list-item @click="router.push('/profile')">Edit Profile</v-list-item>
+    
+            <v-list-item append-icon="mdi-home" class="mt-10 mb-10" @click="router.push('/')">Home</v-list-item>
+ 
+            <v-list-item append-icon="mdi-account" class="mt-10 mb-10" @click="router.push('/profile')">Edit Profile</v-list-item>
+      
 
+        
             
-            <v-btn @click="authStore.logout">Logout</v-btn>
           </v-list>
+          <v-btn class="mt-16" @click="authStore.logout">Logout</v-btn>
         </v-navigation-drawer>
   
 
