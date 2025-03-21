@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-
+import UploadService from '../common/UploadService.vue'
 
 
 const form = reactive({
@@ -25,16 +25,7 @@ const cancel = () => {
                     <v-card>
                     <v-card-title class="grey lighten-2">Add Professor</v-card-title>
                         <v-card-text>
-                            <v-row align="center" justify="center">
-                                <v-col cols="12" align="center" justify="center">
-                                    <v-avatar size="150">
-                                    <v-img
-                                        alt="John"
-                                        src="https://cdn.vuetifyjs.com/images/john.jpg"
-                                    ></v-img>
-                                    </v-avatar>
-                                </v-col>
-                            </v-row>
+                            <UploadService />
                             <v-row align="center" justify="center" >
                                 <v-col cols="6">
                                     <v-text-field
