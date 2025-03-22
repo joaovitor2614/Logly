@@ -1,8 +1,9 @@
 
 
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
+from ..utils.picture import save_picture
 from ..models.professor import Professor
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -12,6 +13,14 @@ import random
 
 
 router = APIRouter()
+base = '/users/'
+UploadImage = f'{base}image-upload'
+
+@router.post("/upload", response_description="Upload professor image", status_code=status.HTTP_201_CREATED)
+def upload_professor_image(id: str, file: UploadFile = File(...)):
+    imageUrl = save_picture(file=file, folderName='professors', fileName=result['myfile'])
+    
+    return {"imageUrl": imageUrl}
 
 @router.post("/", response_description="Add a professor in Database", status_code=status.HTTP_201_CREATED)
 def create_professor(request: Request, new_professor: Professor, user_id: str = Depends(get_current_user)):
