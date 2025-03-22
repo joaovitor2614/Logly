@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProfessorStore } from '../../stores/index';
-
+import CommentSection from './CommentSection.vue';
 
 interface Props {
   //axis: Plot.Axis;
@@ -70,6 +70,7 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
             size="small"
         ></v-btn>
     </v-card-actions>
+    <CommentSection />
 </template>
 
 <style scoped>
