@@ -101,7 +101,7 @@ async def create_fake_professors(request: Request, amount: int, user_id: str = D
             "comments": []
         }
         for i in range(0, random.randint(0, 10)):
-            new_comment = Comment(text=fake.text())
+            new_comment = Comment(text=fake.text(), author=fake.user_name())
             new_professor["comments"].append(new_comment)
         new_professor = jsonable_encoder(new_professor)
         new_professor = professors_database.insert_one(new_professor)

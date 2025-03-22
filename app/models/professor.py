@@ -4,7 +4,7 @@ from datetime import datetime
 import uuid
 class Comment(BaseModel):
     text: str = Field(...)
-
+    author: str = Field(...)
     create_time: Annotated[datetime | None, Field(description="Comment added time", default_factory=datetime.utcnow)] = None
 
 

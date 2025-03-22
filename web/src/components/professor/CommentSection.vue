@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import Comment from './Comment.vue';
 
+
 interface Comment {
   id: number;
   author: string;

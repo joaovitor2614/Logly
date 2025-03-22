@@ -12,14 +12,23 @@ declare namespace App {
     }
     
     type GenderType = 'male' | 'female'
+
+    interface Comment {
+        text: string,
+        author: string,
+        create_time: string
+    }
     interface Professor {
         _id?: string,
         name: string,
         image: string,
         disciplines: string[],
         gender: GenderType,
+        comments: Comment[],
         phone: string,
         upvotes: number,
         downvotes: number
     }
+
+    
 }

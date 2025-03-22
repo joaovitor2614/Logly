@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useProfessorStore } from '../../stores/index';
 import CommentSection from './CommentSection.vue';
+import { ref } from 'vue'
 
 interface Props {
   //axis: Plot.Axis;
@@ -28,6 +29,11 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
     newProfessorData.downvotes = newProfessorData.downvotes + 1
     await professorStore.editProfessor(professor._id, newProfessorData)
 }
+
+const isShowCommentSection = ref(false)
+const toggleIsShowCommentSection = () => {
+    isShowCommentSection.value = !isShowCommentSection.value
+}
 </script>
 
 <template>
@@ -44,7 +50,7 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
         <v-btn
             color="medium-emphasis"
             icon="mdi-comment"
-
+            @click="toggleIsShowCommentSection()"
             size="small"
         ></v-btn>
         <v-spacer></v-spacer>
@@ -70,7 +76,7 @@ const handleDownVoteProfessor = async (professor: App.Professor) => {
             size="small"
         ></v-btn>
     </v-card-actions>
-    <CommentSection />
+    <CommentSection v-if="isShowCommentSection" />
 </template>
 
 <style scoped>
