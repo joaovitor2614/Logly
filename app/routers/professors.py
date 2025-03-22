@@ -4,11 +4,12 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status, D
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.picture import save_picture
-from ..models.professor import Professor
+from ..models.professor import Professor, Comment
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from faker import Faker
 from randomuser import RandomUser
+from datetime import datetime
 import random
 
 
@@ -86,6 +87,7 @@ async def create_fake_professors(request: Request, amount: int, user_id: str = D
     professors_database =  request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     fake = Faker()
     user_list = RandomUser.generate_users(amount)
+
     for user in user_list:
 
         new_professor = {
@@ -96,8 +98,11 @@ async def create_fake_professors(request: Request, amount: int, user_id: str = D
             "phone": user.get_phone(),
             "upvotes": random.randint(0, 10),
             "downvotes": random.randint(0, 10),
-            "comments": ["Esse é bão mesmo", "Mo pai"]
+            "comments": []
         }
+        for i in range(0, random.randint(0, 10)):
+            new_comment = Comment(text=fake.text())
+            new_professor["comments"].append(new_comment)
         new_professor = jsonable_encoder(new_professor)
         new_professor = professors_database.insert_one(new_professor)
 
