@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {UploadFilesService} from '../../api/uploadFileService'
+import UploadFilesService from '../../api/uploadFileService'
 import { ref } from 'vue'
 const currentImage = ref('')
 const previewImage = ref('')
@@ -12,11 +12,23 @@ const selectImage = (event: Event) =>{
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
         currentImage.value = input.files[0];
-        previewImage.value = URL.createObjectURL(currentImage.value); // Create preview URL
+        previewImage.value = URL.createObjectURL(currentImage.value); 
+        upload()
         progress.value = 0;
         message.value = "";
     }
 }
+const upload = () => {
+    if (!currentImage.value) {
+        return
+    }
+    console.log('here current image', currentImage.value)
+    UploadFilesService.upload(currentImage.value, (event) => {
+        progress.value = Math.round((100 * event.loaded) / event.total);
+    })
+       
+}
+
 </script>
 
 <template>

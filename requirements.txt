@@ -11,3 +11,5 @@ mypy
 faker
 pytest
 libgravatar
+pillow
+randomuser

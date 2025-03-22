@@ -8,11 +8,11 @@ class UploadFilesService {
 
     formData.append("file", file);
 
-    return api.post("/upload", formData, {
+    return api.post("professors/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       },
-      onUploadProgress
+     
     });
   }
 
