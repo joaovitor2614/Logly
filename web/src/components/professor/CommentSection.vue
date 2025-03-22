@@ -2,32 +2,18 @@
 import { ref } from 'vue';
 import Comment from './Comment.vue';
 
-
-interface Comment {
-  id: number;
-  author: string;
-  content: string;
-  timestamp: string;
+interface Props {
+  //axis: Plot.Axis;
+  comments: App.Comment[]
 }
 
-const comments = ref<Comment[]>([
-  { id: 1, author: 'John Doe', content: 'Great professor!', timestamp: '2 hours ago' },
-  { id: 2, author: 'Jane Smith', content: 'Very knowledgeable.', timestamp: '1 hour ago' },
-]);
+defineProps<Props>();
+
 
 const newComment = ref('');
 
 const addComment = () => {
-  if (!newComment.value.trim()) return;
-
-  comments.value.unshift({
-    id: comments.value.length + 1,
-    author: 'You',
-    content: newComment.value,
-    timestamp: 'Just now',
-  });
-
-  newComment.value = '';
+  console.log('addComment')
 };
 </script>
 
@@ -38,7 +24,7 @@ const addComment = () => {
 
     <v-list class="comments-list">
       <transition-group name="fade">
-        <Comment v-for="comment in comments" :key="comment.id" :comment="comment" />
+        <Comment v-for="comment in comments" :comment="comment" />
       </transition-group>
     </v-list>
 

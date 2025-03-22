@@ -1,10 +1,7 @@
 <script setup lang="ts">
 interface Props {
-  comment: {
-    author: string;
-    content: string;
-    timestamp: string;
-  };
+  //axis: Plot.Axis;
+  comment: App.Comment
 }
 
 defineProps<Props>();
@@ -28,9 +25,9 @@ const getInitials = (name: string) => {
         {{ comment.author }}
       </v-list-item-title>
       <v-list-item-subtitle class="timestamp">
-        {{ comment.timestamp }}
+        {{ comment.create_time }}
       </v-list-item-subtitle>
-      <v-list-item-text class="content">{{ comment.content }}</v-list-item-text>
+      <v-list-item-text class="content">{{ comment.text }}</v-list-item-text>
     </v-list-item-content>
   </v-list-item>
 

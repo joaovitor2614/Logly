@@ -76,7 +76,7 @@ const toggleIsShowCommentSection = () => {
             size="small"
         ></v-btn>
     </v-card-actions>
-    <CommentSection v-if="isShowCommentSection" />
+    <CommentSection v-if="isShowCommentSection" :comments="professor.comments" />
 </template>
 
 <style scoped>
