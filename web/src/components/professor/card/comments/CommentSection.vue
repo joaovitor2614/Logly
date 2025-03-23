@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Comment from '../../Comment.vue';
+import Comment from './Comment.vue';
 
 interface Props {
   //axis: Plot.Axis;

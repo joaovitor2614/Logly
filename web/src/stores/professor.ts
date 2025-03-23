@@ -11,10 +11,12 @@ interface ProfessorFilters {
 
 export const useProfessorStore = defineStore('professorStore', () => {
     const professorCollection: Ref<App.Professor[]> = ref([])
+    const shouldOpenAddProfessorDialog = ref(false)
     const toast = useToast();
     const filters: Ref<ProfessorFilters> = ref({
         name: ''
     })
+
 
     const professorFilteredCollection = computed(() => {
         console.log('professorFilteredCollection re computed')
@@ -66,6 +68,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     return {
         professorFilteredCollection,
         fetchProfessorsInfo,
+        shouldOpenAddProfessorDialog,
         professorCollection,
         editProfessor,
         filters

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import UploadService from '../../../common/UploadService.vue'
+import UploadService from '../../common/UploadService.vue'
+import { useProfessorStore } from '../../../stores/index'
+
+const professorStore = useProfessorStore()
 
 
 const form = reactive({
@@ -10,15 +13,15 @@ const form = reactive({
 })
 
 
-const shouldOpenProfessorDialog = defineModel('shouldOpenProfessorDialog', { required: true, type: Boolean })
+
 
 const cancel = () => {
-    shouldOpenProfessorDialog.value = false
+    professorStore.shouldOpenAddProfessorDialog = false
 }
 </script>
 
 <template>
-    <v-dialog :model-value="shouldOpenProfessorDialog" max-width="600px" persistent>
+    <v-dialog :model-value="professorStore.shouldOpenAddProfessorDialog" max-width="600px" persistent>
         <v-container>
             <v-row align="center" justify="center">
                 <v-col cols="12" sm="10">
