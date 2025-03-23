@@ -63,7 +63,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
-    async function addProfessor(professorID: string, newProfessorData: App.Professor.AddProfessor) {
+    async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         try {
       
             await api.post(`professors`, newProfessorData)

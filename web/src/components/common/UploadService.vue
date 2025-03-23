@@ -4,9 +4,10 @@ import { ref } from 'vue'
 const currentImage = ref('')
 const previewImage = ref('')
 
-const progress = ref(0)
-const message = ref('')
-const imageInfos = ref([])
+
+const image = defineModel('image', { required: true, type: String })
+
+
 
 const selectImage = (event: Event) =>{
     const input = event.target as HTMLInputElement;
@@ -14,19 +15,17 @@ const selectImage = (event: Event) =>{
         currentImage.value = input.files[0];
         previewImage.value = URL.createObjectURL(currentImage.value); 
         upload()
-        progress.value = 0;
-        message.value = "";
+
     }
 }
-const upload = () => {
+const upload = async () => {
     if (!currentImage.value) {
         return
     }
     console.log('here current image', currentImage.value)
-    UploadFilesService.upload(currentImage.value, (event) => {
-        progress.value = Math.round((100 * event.loaded) / event.total);
-    })
-       
+    const imageUrl = await UploadFilesService.upload(currentImage.value)
+    console.log('imageUrl', imageUrl)
+    image.value = imageUrl
 }
 
 </script>

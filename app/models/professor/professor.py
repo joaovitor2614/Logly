@@ -27,13 +27,13 @@ class DownVote(BaseModel):
 class Professor(BaseModel):
     name: str = Field(...)
     image: str = Field(...)
-    phone: str = Field(...)
-    disciplines: List[str] = Field(...)
-    comments: List[Comment] = Field(...)
+    phone: Annotated[str | None, Field(...)] = str
+    comments: Annotated[List[str] | None, Field(...)] = []
+    comments: Annotated[List[Comment] | None, Field(...)] = []
     create_time: Annotated[datetime | None, Field(description="Professor added time", default_factory=datetime.utcnow)] = None
     comments: Annotated[List[str], Field(title="Professor comments")] = ['']
-    upvotes: int =  Field(...)
-    downvotes: int =  Field(...)
+    upvotes: Annotated[int | None, Field(...)] = int
+    downvotes: Annotated[int | None, Field(...)] = int
 
 
 

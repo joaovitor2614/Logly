@@ -8,9 +8,12 @@ const professorStore = useProfessorStore()
 
 const form = reactive({
     name: '',
-    email: '',
-    phone: '',
+    image: ''
 })
+
+const handleAddProfessor = () => {
+    professorStore.addProfessor(form)
+}
 
 
 
@@ -28,7 +31,7 @@ const cancel = () => {
                     <v-card>
                     <v-card-title class="grey lighten-2">Add Professor</v-card-title>
                         <v-card-text>
-                            <UploadService />
+                          
                             <v-row align="center" justify="center" >
                                 <v-col cols="6">
                                     <v-text-field
@@ -41,31 +44,11 @@ const cancel = () => {
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="6">
-                                    <v-text-field
-                                        v-model="form.email"
-                                        name="email"
-                                        label="Email"
-                                        type="email"
-                                        placeholder="Email"
-                                        required
-                                    ></v-text-field>
+                                    <UploadService v-model:image="form.image"/>
                                 </v-col>
-                            </v-row>
-                            <v-row align="center" justify="center" >
-                                <v-col cols="6">
-                                    <v-text-field
-                                        v-model="form.phone"
-                                        name="Phone"
-                                        label="Phone"
-                                        type="text"
-                                        placeholder="Phone"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-  
                             </v-row>
                             <v-card-actions>
-                                <v-btn>Add</v-btn>
+                                <v-btn @click="handleAddProfessor()">Add</v-btn>
                                 <v-btn @click="cancel">Cancel</v-btn>
                             </v-card-actions>
                         </v-card-text>
