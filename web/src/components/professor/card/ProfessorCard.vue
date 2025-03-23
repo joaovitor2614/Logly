@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useProfessorStore } from '../../stores/index';
-import CommentSection from './CommentSection.vue';
+import { useProfessorStore } from '../../../stores/index';
+import CommentSection from './comments/CommentSection.vue';
 import { ref } from 'vue'
 
 interface Props {

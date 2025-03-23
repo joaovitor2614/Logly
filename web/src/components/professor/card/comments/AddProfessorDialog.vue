@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import UploadService from '../common/UploadService.vue'
+import UploadService from '../../../common/UploadService.vue'
 
 
 const form = reactive({

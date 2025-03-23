@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import ProfessorCard from './ProfessorCard.vue'
+import ProfessorCard from './card/ProfessorCard.vue'
 import { useProfessorStore } from '../../stores/index';
 
 const professorStore = useProfessorStore();

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import AddProfessorDialog from './AddProfessorDialog.vue';
+import AddProfessorDialog from './card/comments/AddProfessorDialog.vue';
 import ProfessorSearchFilters from './ProfessorSearchFilters.vue'
 
 const shouldOpenProfessorDialog = ref(false)
