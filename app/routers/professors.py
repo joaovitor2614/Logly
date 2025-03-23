@@ -74,7 +74,7 @@ def update_book(id: str, request: Request, professor: Professor = Body(...), use
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
 
 @router.delete("/{id}", response_description="Delete a professors")
-def delete_book(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
+def delete_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     delete_result = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME].delete_one({"_id": (ObjectId(id))})
 
     if delete_result.deleted_count == 1:
