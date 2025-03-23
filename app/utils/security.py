@@ -2,7 +2,6 @@ import bcrypt
 import jwt
 from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
-from ..models.user import UserCreate, UserCrendentials
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict
 

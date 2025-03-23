@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
+from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
 from ..models.professor.professor import Professor, Comment
 from bson.objectid import ObjectId
@@ -85,28 +86,12 @@ def delete_book(id: str, request: Request, response: Response,  user_id: str = D
 @router.post("/test/{amount}", response_description="Post fake professors data in Database", status_code=status.HTTP_200_OK)
 async def create_fake_professors(request: Request, amount: int, user_id: str = Depends(get_current_user)):
     professors_database =  request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    fake = Faker()
-    user_list = RandomUser.generate_users(amount)
-
-    for user in user_list:
-
-        new_professor = {
-            "name": fake.name(),''
-            "image": user.get_picture(),
-            "disciplines": [fake.job(), fake.job()],
-            "email":  user.get_email(),
-            "phone": user.get_phone(),
-            "upvotes": random.randint(0, 10),
-            "downvotes": random.randint(0, 10),
-            "comments": []
-        }
-        for i in range(0, random.randint(0, 10)):
-            new_comment = Comment(text=fake.text(), author=fake.user_name())
-            new_professor["comments"].append(new_comment)
-        new_professor = jsonable_encoder(new_professor)
-        new_professor = professors_database.insert_one(new_professor)
 
 
+    new_fake_professors = create_new_fake_professors(amount)
+    for new_fake_professor in new_fake_professors:
+        new_fake_professor = jsonable_encoder(new_fake_professor)
+        new_fake_professor = professors_database.insert_one(new_fake_professor)
 
     
     

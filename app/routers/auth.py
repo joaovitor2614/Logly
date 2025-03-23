@@ -1,6 +1,6 @@
 import jwt
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
-from ..models.user import UserCreate, UserCrendentials
+from ..models.user.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password, encode_jwt_token
 from libgravatar import Gravatar
