@@ -4,7 +4,7 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status, D
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.picture import save_picture
-from ..models.professor import Professor, Comment
+from ..models.professor.professor import Professor, Comment
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from faker import Faker

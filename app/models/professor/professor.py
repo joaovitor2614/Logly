@@ -2,6 +2,8 @@ from typing import Annotated, Optional, List
 from pydantic import BaseModel, Field
 from datetime import datetime
 import uuid
+
+
 class Comment(BaseModel):
     text: str = Field(...)
     author: str = Field(...)
@@ -11,6 +13,15 @@ class Comment(BaseModel):
 
     class Config:
         populate_by_name = True
+
+
+class UpVote(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    user_id: str = Field(lias="_id")
+
+class DownVote(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    user_id: str = Field(lias="_id")
 
     
 class Professor(BaseModel):
