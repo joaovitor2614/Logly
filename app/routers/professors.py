@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
-from ..models.professor.professor import Professor, Comment
+from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from faker import Faker
@@ -55,7 +55,7 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
     return professors
 
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
-def update_book(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
+def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = {k: v for k, v in professor.dict().items() if v is not None}
     if len(professor) >= 1:
@@ -72,6 +72,34 @@ def update_book(id: str, request: Request, professor: Professor = Body(...), use
         return existing_professor
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
+@router.post("/upvote/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
+def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
+    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
+    professor = professors_database.find_one(
+        {"_id": ObjectId(id)}    
+    )
+  
+    if not professor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Professor not found!"
+    )
+    has_user_upvoted_professors = any(upvote["user_id"] == user_id for upvote in professor["upvotes"])
+    if not professor:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail=f"User already upvotes professor!"
+    ) 
+    professor["upvotes"].append(UpVote(user_id=user_id)) #professor["upvotes"].
+    update_result = professors_database.update_one(
+            {"_id": ObjectId(id)}, {"$set": professor}
+    )
+    professor = professors_database.find_one(
+        {"_id": ObjectId(id)}    
+    )
+    professor["_id"] = str(professor["_id"])
+    return professor
+
 
 @router.delete("/{id}", response_description="Delete a professors")
 def delete_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
