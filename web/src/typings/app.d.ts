@@ -10,25 +10,37 @@ declare namespace App {
             username: string
         }
     }
-    
-    type GenderType = 'male' | 'female'
 
-    interface Comment {
-        text: string,
-        author: string,
-        create_time: string
+    namespace Professor {
+        interface Comment {
+            text: string,
+            author: string,
+            create_time: string,
+            user_id: string
+        }
+        interface Vote {
+            _id: string,
+            user_id: string
+        }
+        interface Professor {
+            _id?: string,
+            name: string,
+            image: string,
+            disciplines: string[],
+            comments: Comment[],
+            phone: string,
+            upvotes: number,
+            downvotes: number
+        }
+
+        interface AddProfessor {
+            name: string,
+            image: string,
+        }
     }
-    interface Professor {
-        _id?: string,
-        name: string,
-        image: string,
-        disciplines: string[],
-        gender: GenderType,
-        comments: Comment[],
-        phone: string,
-        upvotes: number,
-        downvotes: number
-    }
+    
+
+
 
     
 }

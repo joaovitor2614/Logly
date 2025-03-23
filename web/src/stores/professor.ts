@@ -10,7 +10,7 @@ interface ProfessorFilters {
 
 
 export const useProfessorStore = defineStore('professorStore', () => {
-    const professorCollection: Ref<App.Professor[]> = ref([])
+    const professorCollection: Ref<App.Professor.Professor[]> = ref([])
     const shouldOpenAddProfessorDialog = ref(false)
     const toast = useToast();
     const filters: Ref<ProfessorFilters> = ref({
@@ -30,7 +30,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
         try {
-            const response = await api.get<App.Professor[]>(`professors`)
+            const response = await api.get<App.Professor.Professor[]>(`professors`)
             console.log('response', response.data)
             professorCollection.value = response.data
 
@@ -40,10 +40,10 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
-    async function editProfessor(professorID: string, newProfessorData: App.Professor) {
+    async function editProfessor(professorID: string, newProfessorData: App.Professor.Professor) {
         try {
             delete newProfessorData._id
-            const {data: updatedProfessorData} = await api.put<App.Professor>(`professors/${professorID}`, newProfessorData)
+            const {data: updatedProfessorData} = await api.put<App.Professor.Professor>(`professors/${professorID}`, newProfessorData)
             console.log('updatedProfessorData', updatedProfessorData)
        
             const index = professorCollection.value.findIndex((professor) => professor._id == professorID)
@@ -63,6 +63,23 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
+    async function addProfessor(professorID: string, newProfessorData: App.Professor.AddProfessor) {
+        try {
+      
+            await api.post(`professors`, newProfessorData)
+            toast.success(`${newProfessorData.name} added successfully!`);
+            await fetchProfessorsInfo()
+
+          
+       
+
+
+        } catch (error) {
+            toast.error(error.response.data.detail);
+        }
+    
+    }
+
     
 
     return {
@@ -70,6 +87,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         fetchProfessorsInfo,
         shouldOpenAddProfessorDialog,
         professorCollection,
+        addProfessor,
         editProfessor,
         filters
     }

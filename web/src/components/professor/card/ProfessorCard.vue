@@ -5,13 +5,13 @@ import { ref } from 'vue'
 
 interface Props {
   //axis: Plot.Axis;
-  professor: App.Professor
+  professor: App.Professor.Professor
 }
 
 defineProps<Props>();
 
 const professorStore = useProfessorStore();
-const handleUpVoteProfessor = async (professor: App.Professor) => {
+const handleUpVoteProfessor = async (professor: App.Professor.Professor) => {
     console.log('handleUpVoteProfessor')
     const newProfessorData = {
         ...professor
@@ -21,7 +21,7 @@ const handleUpVoteProfessor = async (professor: App.Professor) => {
 }
 
 
-const handleDownVoteProfessor = async (professor: App.Professor) => {
+const handleDownVoteProfessor = async (professor: App.Professor.Professor) => {
     console.log('handleDownVoteProfessor')
     const newProfessorData = {
         ...professor
