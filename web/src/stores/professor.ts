@@ -40,28 +40,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
 
-    async function editProfessor(professorID: string, newProfessorData: App.Professor.Professor) {
-        try {
-            delete newProfessorData._id
-            const {data: updatedProfessorData} = await api.put<App.Professor.Professor>(`professors/${professorID}`, newProfessorData)
-            console.log('updatedProfessorData', updatedProfessorData)
-       
-            const index = professorCollection.value.findIndex((professor) => professor._id == professorID)
-            if (index !== -1) {
-                console.log('here')
-                professorCollection.value[index] = {
-                    _id: professorCollection.value[index]._id,
-                    ...updatedProfessorData
-                }
-                console.log('professorCollection.value[index]', professorCollection.value[index])
-            }
-            console.log('professorCollection.value', professorCollection.value)
 
-        } catch (error) {
-            toast.error(error.response.data.detail);
-        }
-    
-    }
 
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         try {
@@ -88,7 +67,6 @@ export const useProfessorStore = defineStore('professorStore', () => {
         shouldOpenAddProfessorDialog,
         professorCollection,
         addProfessor,
-        editProfessor,
         filters
     }
     

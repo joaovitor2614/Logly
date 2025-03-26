@@ -17,7 +17,7 @@ const handleUpVoteProfessor = async (professor: App.Professor.Professor) => {
         ...professor
     }
     newProfessorData.upvotes = newProfessorData.upvotes + 1
-    await professorStore.editProfessor(professor._id, newProfessorData)
+    //await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
 
@@ -27,7 +27,7 @@ const handleDownVoteProfessor = async (professor: App.Professor.Professor) => {
         ...professor
     }
     newProfessorData.downvotes = newProfessorData.downvotes + 1
-    await professorStore.editProfessor(professor._id, newProfessorData)
+    //await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
 const isShowCommentSection = ref(false)
