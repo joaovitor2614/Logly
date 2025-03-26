@@ -73,14 +73,19 @@ def update_professor(id: str, request: Request, professor: Professor = Body(...)
         return existing_professor
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
-@router.post("/upvote/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
+@router.put("/upvote/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
-
+    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = get_professor_by_id(request, id)
 
 
 
-    add_feedback_to_professor(professor, user_id, "upvote")
+    professor = add_feedback_to_professor(professor, user_id, "upvotes")
+    professor = {k: v for k, v in professor.dict().items() if v is not None}
+    update_result = professors_database.update_one(
+            {"_id": ObjectId(id)}, {"$set": professor}
+    )
+    
 
     professor = professors_database.find_one(
         {"_id": ObjectId(id)}    

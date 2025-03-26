@@ -29,14 +29,16 @@ def get_professor_by_id(request: Request, professor_id: str):
 
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = professors_database.find_one(
-        {"_id": ObjectId(id)}    
+        {"_id": ObjectId(professor_id)}    
     )
   
     if not professor:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Professor not found!"
-    )
+        )
+        return None
+    return professor
 
 def add_feedback_to_professor(professor: Professor, user_id: ObjectId, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"):
     
@@ -51,3 +53,5 @@ def add_feedback_to_professor(professor: Professor, user_id: ObjectId, feedback_
         ) 
     feedback_object = UpVote(user_id=user_id) if feedback_type == "upvotes" else DownVote(user_id=user_id)
     professor["upvotes"].append(feedback_object) #professor["upvotes"].
+    return professor
+
