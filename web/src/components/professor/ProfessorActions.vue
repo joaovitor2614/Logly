@@ -7,9 +7,9 @@ import ProfessorSearchFilters from './ProfessorSearchFilters.vue'
 
 <template>
     <v-container class="mt-9">
+    <ProfessorSearchFilters />
 
-
-</v-container>
+    </v-container>
 </template>
 
 <style lang="scss" scoped>
