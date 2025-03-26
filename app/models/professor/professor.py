@@ -5,6 +5,7 @@ import uuid
 
 
 class Comment(BaseModel):
+    user_id: str = Field(...)
     text: str = Field(...)
     author: str = Field(...)
     create_time: Annotated[datetime | None, Field(description="Comment added time", default_factory=datetime.utcnow)] = None
@@ -17,23 +18,25 @@ class Comment(BaseModel):
 
 class UpVote(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    user_id: str = Field(lias="_id")
+    user_id: str = Field(...)
 
 class DownVote(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    user_id: str = Field(lias="_id")
+    user_id: str = Field(...)
 
     
 class Professor(BaseModel):
     name: str = Field(...)
     image: str = Field(...)
-    phone: Annotated[str | None, Field(...)] = str
-    comments: Annotated[List[str] | None, Field(...)] = []
-    comments: Annotated[List[Comment] | None, Field(...)] = []
-    create_time: Annotated[datetime | None, Field(description="Professor added time", default_factory=datetime.utcnow)] = None
-    comments: Annotated[List[str], Field(title="Professor comments")] = ['']
-    upvotes: Annotated[int | None, Field(...)] = int
-    downvotes: Annotated[int | None, Field(...)] = int
+    phone: Annotated[Optional[str], Field(...)] = None  
+
+    comments: Annotated[List[Comment], Field(title="Professor comments")] = [] 
+    create_time: Annotated[
+        Optional[datetime], Field(description="Professor added time", default_factory=datetime.utcnow)
+    ] = None
+
+    upvotes: Annotated[List[UpVote], Field(default_factory=list)] = []  # Ensuring a list
+    downvotes: Annotated[List[DownVote], Field(default_factory=list)] = []  # Ensuring a list
 
 
 

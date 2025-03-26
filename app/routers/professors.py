@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
+from ..utils.database.professor import get_professor_by_id, add_feedback_to_professor
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -74,26 +75,13 @@ def update_professor(id: str, request: Request, professor: Professor = Body(...)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
 @router.post("/upvote/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
-    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professor = professors_database.find_one(
-        {"_id": ObjectId(id)}    
-    )
-  
-    if not professor:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Professor not found!"
-    )
-    has_user_upvoted_professors = any(upvote["user_id"] == user_id for upvote in professor["upvotes"])
-    if not professor:
-        raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE,
-            detail=f"User already upvotes professor!"
-    ) 
-    professor["upvotes"].append(UpVote(user_id=user_id)) #professor["upvotes"].
-    update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": professor}
-    )
+
+    professor = get_professor_by_id(request, id)
+
+
+
+    add_feedback_to_professor(professor, user_id, "upvote")
+
     professor = professors_database.find_one(
         {"_id": ObjectId(id)}    
     )

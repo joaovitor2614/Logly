@@ -1,5 +1,5 @@
 from randomuser import RandomUser
-from ..models.professor.professor import Comment
+from ..models.professor.professor import Comment, Professor
 from faker import Faker
 import random
 
@@ -13,16 +13,16 @@ def create_new_fake_professors(amount: int):
     fake = Faker()
     user_list = RandomUser.generate_users(amount)
     return [
-        {
-            "name": fake.name(),''
-            "image": user.get_picture(),
-            "disciplines": [fake.job(), fake.job()],
-            "email":  user.get_email(),
-            "phone": user.get_phone(),
-            "upvotes": random.randint(0, 10),
-            "downvotes": random.randint(0, 10),
-            "comments": create_fake_professor_comments()
-        }
+        
+            Professor(
+                name=fake.name(),
+                image=user.get_picture(),
+                disciplines=[fake.job(), fake.job()],
+                email=user.get_email(),
+                comments=create_fake_professor_comments()
+            )
+           
+        
         for user in user_list
     ]
 
@@ -34,5 +34,5 @@ def create_fake_professor_comments():
     :return: list of Comment objects
     """
     fake = Faker()
-    return [Comment(text=fake.text(), author=fake.user_name()) for i in range(0, random.randint(0, 3))]
+    return [Comment(text=fake.text(), author=fake.user_name(), user_id="123123") for i in range(0, random.randint(0, 3))]
 
