@@ -11,22 +11,15 @@ interface Props {
 defineProps<Props>();
 
 const professorStore = useProfessorStore();
-const handleUpVoteProfessor = async (professor: App.Professor.Professor) => {
+const handleUpVoteProfessor = async () => {
     console.log('handleUpVoteProfessor')
-    const newProfessorData = {
-        ...professor
-    }
-    newProfessorData.upvotes = newProfessorData.upvotes + 1
-    //await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
 
-const handleDownVoteProfessor = async (professor: App.Professor.Professor) => {
+const handleDownVoteProfessor = async () => {
+  
     console.log('handleDownVoteProfessor')
-    const newProfessorData = {
-        ...professor
-    }
-    newProfessorData.downvotes = newProfessorData.downvotes + 1
+  
     //await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
@@ -58,17 +51,17 @@ const toggleIsShowCommentSection = () => {
         <v-btn
             color="medium-emphasis"
             icon="mdi-thumb-up-outline"
-            @click="handleUpVoteProfessor(professor)"
+            @click="handleUpVoteProfessor()"
             size="small"
         ></v-btn>
-        {{professor.upvotes }}
+        {{professor.upvotes.length }}
         <v-btn
             color="medium-emphasis"
             icon="mdi-thumb-down-outline"
-            @click="handleDownVoteProfessor(professor)"
+            @click="handleDownVoteProfessor()"
             size="small"
         ></v-btn>
-        {{professor.downvotes }}
+        {{ professor.downvotes.length }}
 
         <v-btn
             color="medium-emphasis"

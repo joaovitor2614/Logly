@@ -29,8 +29,8 @@ declare namespace App {
             disciplines: string[],
             comments: Comment[],
             phone: string,
-            upvotes: number,
-            downvotes: number
+            upvotes: Vote[],
+            downvotes: Vote[],
         }
 
         interface AddProfessor {
