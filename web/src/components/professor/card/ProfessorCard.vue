@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useProfessorStore } from '../../../stores/index';
+import { computed } from 'vue';
+import { useProfessorStore, useUserStore } from '../../../stores/index';
 import CommentSection from './comments/CommentSection.vue';
 import { ref } from 'vue'
 
@@ -8,7 +9,7 @@ interface Props {
   professor: App.Professor.Professor
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const professorStore = useProfessorStore();
 const handleUpVoteProfessor = async () => {
@@ -22,6 +23,20 @@ const handleDownVoteProfessor = async () => {
   
     //await professorStore.editProfessor(professor._id, newProfessorData)
 }
+
+const userStore = useUserStore();
+
+const checkHasVotedProfessor = (feedbackType: 'upvotes' | 'downvotes') => {
+    return props.professor[feedbackType].some(vote => vote.user_id === userStore.userInfo._id)
+}
+
+
+const hasUserUpVotedProfessor = computed(() => checkHasVotedProfessor('upvotes'))
+const hasUserDownVotedProfessor = computed(() => checkHasVotedProfessor('downvotes'));
+const upVotesIcon = hasUserUpVotedProfessor ? 'mdi-thumb-up' : 'mdi-thumb-up-outline' 
+const downVotesIcon = hasUserDownVotedProfessor ? 'mdi-thumb-down' : 'mdi-thumb-down-outline';
+
+
 
 const isShowCommentSection = ref(false)
 const toggleIsShowCommentSection = () => {
@@ -50,14 +65,14 @@ const toggleIsShowCommentSection = () => {
 
         <v-btn
             color="medium-emphasis"
-            icon="mdi-thumb-up-outline"
+            :icon="upVotesIcon"
             @click="handleUpVoteProfessor()"
             size="small"
         ></v-btn>
         {{professor.upvotes.length }}
         <v-btn
             color="medium-emphasis"
-            icon="mdi-thumb-down-outline"
+            :icon="downVotesIcon"
             @click="handleDownVoteProfessor()"
             size="small"
         ></v-btn>
