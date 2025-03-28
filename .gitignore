@@ -7,3 +7,7 @@
 
 service-account.json
 .pyc
+
+# Development automation scripts
+.bat
+/.vscode

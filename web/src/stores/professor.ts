@@ -71,13 +71,13 @@ export const useProfessorStore = defineStore('professorStore', () => {
        try {
             const response = await api.put(`professors/${voteType}/${professorID}`)
             const newProfessorData = response.data
-            console.log('newProfessorData', newProfessorData)
+          
             professorCollection.value.forEach((professor) => {
                 if (professor._id == professorID) {
                     professor[`${voteType}`] = newProfessorData[`${voteType}`]
                 }
             })
-            console.log('professorCollection.value', professorCollection.value)
+  
  
         } catch (error) {
             toast.error(error.response.data.detail);

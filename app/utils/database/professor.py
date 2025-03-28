@@ -52,6 +52,6 @@ def add_feedback_to_professor(professor: Professor, user_id: ObjectId, feedback_
             detail=f"User already {'upvoted' if feedback_type == 'upvotes' else 'downvoted'} professor!"
         ) 
     feedback_object = UpVote(user_id=user_id) if feedback_type == "upvotes" else DownVote(user_id=user_id)
-    professor["upvotes"].append(feedback_object) #professor["upvotes"].
+    professor[feedback_type].append(feedback_object) #professor["upvotes"].
     return professor
 
