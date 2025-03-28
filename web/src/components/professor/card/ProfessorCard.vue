@@ -27,14 +27,15 @@ const handleDownVoteProfessor = async () => {
 const userStore = useUserStore();
 
 const checkHasVotedProfessor = (feedbackType: 'upvotes' | 'downvotes') => {
+    console.log('props.professor[feedbackType].some(vote => vote.user_id === userStore.userInfo._id)')
     return props.professor[feedbackType].some(vote => vote.user_id === userStore.userInfo._id)
 }
 
 
 const hasUserUpVotedProfessor = computed(() => checkHasVotedProfessor('upvotes'))
 const hasUserDownVotedProfessor = computed(() => checkHasVotedProfessor('downvotes'));
-const upVotesIcon = hasUserUpVotedProfessor ? 'mdi-thumb-up' : 'mdi-thumb-up-outline' 
-const downVotesIcon = hasUserDownVotedProfessor ? 'mdi-thumb-down' : 'mdi-thumb-down-outline';
+const upVotesIcon = hasUserUpVotedProfessor.value ? 'mdi-thumb-up' : 'mdi-thumb-up-outline' 
+const downVotesIcon = hasUserDownVotedProfessor.value ? 'mdi-thumb-down' : 'mdi-thumb-down-outline';
 
 
 
