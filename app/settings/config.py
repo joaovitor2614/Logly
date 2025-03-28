@@ -10,5 +10,6 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "015a42020f023ac2c3eda3d45fe5ca3fef8921ce63589f6d4fcdef9814cd7fa7"
     JWT_ALGORITHM: str = "HS256"
     USERS_DB_NAME: str = "Users"
+
     PROFESSORS_DB_NAME: str = "Professors"
     
