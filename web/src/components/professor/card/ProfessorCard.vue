@@ -12,15 +12,20 @@ interface Props {
 const props = defineProps<Props>();
 
 const professorStore = useProfessorStore();
-const handleUpVoteProfessor = async () => {
-    console.log('handleUpVoteProfessor')
+const handleUpVoteProfessor = async (professorID: App.Professor.Professor._id) => {
+    if (hasUserUpVotedProfessor.value) {
+        return
+    }
+    professorStore.rankProssessor(professorID, 'upvotes')
 }
 
 
-const handleDownVoteProfessor = async () => {
-  
-    console.log('handleDownVoteProfessor')
-  
+const handleDownVoteProfessor = async (professorID: App.Professor.Professor._id) => {
+    if (hasUserDownVotedProfessor.value) {
+        return
+    }
+    professorStore.rankProssessor(professorID, 'downvotes')
+
     //await professorStore.editProfessor(professor._id, newProfessorData)
 }
 
@@ -34,8 +39,8 @@ const checkHasVotedProfessor = (feedbackType: 'upvotes' | 'downvotes') => {
 
 const hasUserUpVotedProfessor = computed(() => checkHasVotedProfessor('upvotes'))
 const hasUserDownVotedProfessor = computed(() => checkHasVotedProfessor('downvotes'));
-const upVotesIcon = hasUserUpVotedProfessor.value ? 'mdi-thumb-up' : 'mdi-thumb-up-outline' 
-const downVotesIcon = hasUserDownVotedProfessor.value ? 'mdi-thumb-down' : 'mdi-thumb-down-outline';
+const upVotesIcon = computed(() => hasUserUpVotedProfessor.value ? 'mdi-thumb-up' : 'mdi-thumb-up-outline')
+const downVotesIcon = computed(() => hasUserDownVotedProfessor.value ? 'mdi-thumb-down' : 'mdi-thumb-down-outline')
 
 
 
@@ -67,14 +72,14 @@ const toggleIsShowCommentSection = () => {
         <v-btn
             color="medium-emphasis"
             :icon="upVotesIcon"
-            @click="handleUpVoteProfessor()"
+            @click="handleUpVoteProfessor(professor._id)"
             size="small"
         ></v-btn>
         {{professor.upvotes.length }}
         <v-btn
             color="medium-emphasis"
             :icon="downVotesIcon"
-            @click="handleDownVoteProfessor()"
+            @click="handleDownVoteProfessor(professor._id)"
             size="small"
         ></v-btn>
         {{ professor.downvotes.length }}

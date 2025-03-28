@@ -73,7 +73,7 @@ def update_professor(id: str, request: Request, professor: Professor = Body(...)
         return existing_professor
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
-@router.put("/upvote/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
+@router.put("/upvotes/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = get_professor_by_id(request, id)
@@ -83,7 +83,7 @@ def up_vote_professor(id: str, request: Request, response: Response,  user_id: s
     professor = add_feedback_to_professor(professor, user_id, feedback_type)
     new_professor_votes = jsonable_encoder(professor[feedback_type])
     update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": {"feedback_type": new_professor_votes}}
+            {"_id": ObjectId(id)}, {"$set": {feedback_type: new_professor_votes}}
     )
     
 
@@ -93,7 +93,7 @@ def up_vote_professor(id: str, request: Request, response: Response,  user_id: s
     professor["_id"] = str(professor["_id"])
     return professor
 
-@router.put("/downvote/{id}", response_description="Downvote a professor", status_code=status.HTTP_201_CREATED)
+@router.put("/downvotes/{id}", response_description="Downvote a professor", status_code=status.HTTP_201_CREATED)
 def down_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = get_professor_by_id(request, id)
@@ -103,7 +103,7 @@ def down_vote_professor(id: str, request: Request, response: Response,  user_id:
     professor = add_feedback_to_professor(professor, user_id, feedback_type)
     new_professor_votes = jsonable_encoder(professor[feedback_type])
     update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": {"feedback_type": new_professor_votes}}
+            {"_id": ObjectId(id)}, {"$set": {feedback_type: new_professor_votes}}
     )
     
 
