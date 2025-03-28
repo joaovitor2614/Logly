@@ -18,6 +18,7 @@ def create_new_fake_professors(amount: int):
                 name=fake.name(),
                 image=user.get_picture(),
                 disciplines=[fake.job(), fake.job()],
+                gender=user.get_gender(),
                 email=user.get_email(),
                 comments=create_fake_professor_comments()
             )

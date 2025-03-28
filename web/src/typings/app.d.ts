@@ -22,11 +22,13 @@ declare namespace App {
             _id: string,
             user_id: string
         }
+        type Gender = "female" | "male" | "other"
         interface Professor {
             _id?: string,
             name: string,
             image: string,
             disciplines: string[],
+            gender: Gender,
             comments: Comment[],
             phone: string,
             upvotes: Vote[],

@@ -1,4 +1,4 @@
-from typing import Annotated, Optional, List
+from typing import Annotated, Optional, List, Literal
 from pydantic import BaseModel, Field
 from datetime import datetime
 import uuid
@@ -29,7 +29,7 @@ class Professor(BaseModel):
     name: str = Field(...)
     image: str = Field(...)
     phone: Annotated[Optional[str], Field(...)] = None  
-
+    gender : Annotated[Literal["male", "female", "other"], Field(...)] = "other"
     comments: Annotated[List[Comment], Field(title="Professor comments")] = [] 
     create_time: Annotated[
         Optional[datetime], Field(description="Professor added time", default_factory=datetime.utcnow)
