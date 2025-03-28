@@ -4,7 +4,8 @@ import { useToast } from "vue-toastification";
 import api from '../api/api'
 
 interface ProfessorFilters {
-    name: string
+    name: string,
+    gender: 'all' | 'male' | 'female'
 }
 
 
@@ -14,16 +15,22 @@ export const useProfessorStore = defineStore('professorStore', () => {
     const shouldOpenAddProfessorDialog = ref(false)
     const toast = useToast();
     const filters: Ref<ProfessorFilters> = ref({
-        name: ''
+        name: '',
+        gender: 'all'
     })
 
 
     const professorFilteredCollection = computed(() => {
         console.log('professorFilteredCollection re computed')
         return professorCollection.value.filter((professor) => {
-            const nameMatch = professor.name.toLowerCase().includes(filters.value.name.toLocaleLowerCase())
+            const professorNameMatch = professor.name.toLowerCase().includes(filters.value.name.toLocaleLowerCase())
+            let professorGenderMatch = true;
+            if (filters.value.gender !== 'all') {
+                professorGenderMatch = professor.gender == filters.value.gender
+            } 
+            return professorNameMatch && professorGenderMatch
 
-            return nameMatch
+          
         })
 
     })
