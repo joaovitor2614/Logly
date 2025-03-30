@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
-from ..utils.database.professor import get_professor_by_id, add_feedback_to_professor
+from ..utils.database.professor import get_professor_by_id, add_feedback_to_professor, retrive_rank_updated_professor
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -75,23 +75,16 @@ def update_professor(id: str, request: Request, professor: Professor = Body(...)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
 @router.put("/upvotes/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
-    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
+    #professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professor = get_professor_by_id(request, id)
 
     feedback_type = "upvotes"
 
-    professor = add_feedback_to_professor(professor, user_id, feedback_type)
-    new_professor_votes = jsonable_encoder(professor[feedback_type])
-    update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": {feedback_type: new_professor_votes}}
-    )
-    
+    update_ranks_professor = retrive_rank_updated_professor(request, professor, user_id, feedback_type)
 
-    professor = professors_database.find_one(
-        {"_id": ObjectId(id)}    
-    )
-    professor["_id"] = str(professor["_id"])
-    return professor
+    #update_ranks_professor = add_feedback_to_professor(professor, user_id, feedback_type)
+
+    return update_ranks_professor
 
 @router.put("/downvotes/{id}", response_description="Downvote a professor", status_code=status.HTTP_201_CREATED)
 def down_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
@@ -99,19 +92,10 @@ def down_vote_professor(id: str, request: Request, response: Response,  user_id:
     professor = get_professor_by_id(request, id)
 
     feedback_type = "downvotes"
+    update_ranks_professor = retrive_rank_updated_professor(request, professor, user_id, feedback_type)
+    #update_ranks_professor = add_feedback_to_professor(professor, user_id, feedback_type)
 
-    professor = add_feedback_to_professor(professor, user_id, feedback_type)
-    new_professor_votes = jsonable_encoder(professor[feedback_type])
-    update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": {feedback_type: new_professor_votes}}
-    )
-    
-
-    professor = professors_database.find_one(
-        {"_id": ObjectId(id)}    
-    )
-    professor["_id"] = str(professor["_id"])
-    return professor
+    return update_ranks_professor
 
 
 @router.delete("/{id}", response_description="Delete a professors")

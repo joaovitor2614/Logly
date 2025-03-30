@@ -3,7 +3,7 @@
 from typing import Literal
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends, File, UploadFile
 from ...models.professor.professor import Professor, UpVote, DownVote
-
+from fastapi.encoders import jsonable_encoder
 
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -38,6 +38,25 @@ def get_professor_by_id(request: Request, professor_id: str):
             detail=f"Professor not found!"
         )
         return None
+    return professor
+def retrive_rank_updated_professor(
+        request: Request, 
+        professor: Professor, 
+        user_id: ObjectId, 
+        feedback_type: Literal["upvotes", "downvotes"] = "upvotes"
+    ):
+    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
+    professor = add_feedback_to_professor(professor, user_id, feedback_type)
+    new_professor_votes = jsonable_encoder(professor[feedback_type])
+    update_result = professors_database.update_one(
+            {"_id": professor["_id"]}, {"$set": {feedback_type: new_professor_votes}}
+    )
+    
+
+    professor = professors_database.find_one(
+        {"_id":  professor["_id"]}    
+    )
+    professor["_id"] = str(professor["_id"])
     return professor
 
 def add_feedback_to_professor(professor: Professor, user_id: ObjectId, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"):
