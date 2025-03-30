@@ -1,8 +1,8 @@
 import jwt
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+from fastapi import APIRouter, Request, Response, HTTPException, status
 from ..models.user.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
-from ..utils.security import get_hashed_password, verify_password, encode_jwt_token
+from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, generate_jwt_token_payload_from_user_info
 from libgravatar import Gravatar
 from app.settings import APP_SETTINGS
 
@@ -22,7 +22,7 @@ def register_user(request: Request, userInfo: UserCreate):
             status_code=status.HTTP_409_CONFLICT,
             detail=f"User with given email already exists!"
         )
-
+    
     g = Gravatar(userInfo.email)
     setattr(userInfo, "image", g.get_image())
 
@@ -34,8 +34,9 @@ def register_user(request: Request, userInfo: UserCreate):
     created_new_user = database.find_one(
         {"_id": new_user.inserted_id}
     )
+    jwt_payload = generate_jwt_token_payload_from_user_info(created_new_user)
 
-    jwt_token = encode_jwt_token(created_new_user["email"], created_new_user["_id"])
+    jwt_token = encode_jwt_token(jwt_payload)
 
     return {"token": jwt_token}
 
@@ -60,8 +61,8 @@ def login_user(request: Request, userInfo: UserCrendentials):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Password is not valid!"
         )
-
-    jwt_token = encode_jwt_token(user["email"], user["_id"])
+    jwt_payload = generate_jwt_token_payload_from_user_info(user)
+    jwt_token = encode_jwt_token(jwt_payload)
 
     return {"token": jwt_token}
   

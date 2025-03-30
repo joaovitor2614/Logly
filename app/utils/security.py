@@ -3,6 +3,8 @@ import jwt
 from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from ..models.auth.auth import JWTPayload
+from datetime import datetime, UTC
 from typing import Dict
 
 
@@ -43,9 +45,23 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
             detail="Could not find user ID in token",
         )
     return user_id
+def generate_jwt_token_payload_from_user_info(user_info: Dict[str, str]) -> JWTPayload:
+    """
+    Generate a JWT payload from the given user info.
 
+    Args:
+        user_info (Dict[str, str]): The user info containing the email and ID.
 
-def encode_jwt_token(email: str, id: str) -> str:
+    Returns:
+        JWTPayload: The JWT payload.
+    """
+    return JWTPayload(
+        data={"email": user_info["email"], "id": user_info["_id"]}, 
+        iat=datetime.now(UTC), 
+        exp=datetime.now(UTC)
+    )
+
+def encode_jwt_token(jwt_payload: JWTPayload) -> str:
     """
     Encode a JWT token with the given user email and ID.
 
@@ -56,10 +72,7 @@ def encode_jwt_token(email: str, id: str) -> str:
     Returns:
         str: The encoded JWT token.
     """
-    jwt_payload = {
-        "email": email,
-        "id": str(id),
-    }
+    jwt_payload = jwt_payload.model_dump().copy()
     jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
     return jwt_token
    

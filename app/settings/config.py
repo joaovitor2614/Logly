@@ -12,4 +12,5 @@ class Settings(BaseSettings):
     USERS_DB_NAME: str = "Users"
 
     PROFESSORS_DB_NAME: str = "Professors"
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   # 12 hours
     
