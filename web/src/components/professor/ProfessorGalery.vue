@@ -6,29 +6,36 @@ import { ref } from 'vue';
 
 const professorStore = useProfessorStore();
 const page = ref(1)
+const perPage = 6;
 
+const paginatedProfessors = computed(() => {
+    const start = (page.value -1) * perPage;
+    return professorStore.professorFilteredCollection.slice(start, start + perPage);
+})
 
 </script>
 
 <template>
-    <v-container fluid>
+    <v-container fluid class="d-flex align-center justify-center fill-height">
         <v-row>
-            <v-pagination
-                v-model="page"
-                :length="20"
-                :total-visible="6"
+    
+            <v-col v-for="(professor, i) in paginatedProfessors"
+                :key="i"
+                cols="12"
+                md="4"
             >
-                    <v-col v-for="(professor, i) in professorStore.professorFilteredCollection"
-                    :key="i"
-                    cols="12"
-                    md="4"
-                    >
-                    <ProfessorCard :professor="professor" />
-                    </v-col>
-
-            </v-pagination>
-
+                <ProfessorCard :professor="professor" />
+            </v-col>
+                
         </v-row>
+        <v-row class="d-flex align-center justify-center mt-5">
+            <v-pagination
+                    v-model="page"
+                    :length="Math.ceil(professorStore.professorFilteredCollection.length / perPage)"
+                    :total-visible="6"
+            />
+        </v-row>
+       
     </v-container>
 </template>
 
