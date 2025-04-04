@@ -61,6 +61,7 @@ def retrive_rank_updated_professor(
 
 def add_feedback_to_professor(professor: Professor, user_id: ObjectId, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"):
     
+    
     if not professor or not user_id:
         print('Professor object and user id must be provided.')
         return

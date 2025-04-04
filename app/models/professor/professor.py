@@ -5,9 +5,9 @@ import uuid
 
 
 class Comment(BaseModel):
-    user_id: str = Field(...)
+    user_id: str = Annotated[datetime | None, Field(description="Comment user ID", default_factory='')]
     text: str = Field(...)
-    author: str = Field(...)
+    author: str = Annotated[datetime | None, Field(description="Comment author name", default_factory='')]
     create_time: Annotated[datetime | None, Field(description="Comment added time", default_factory=datetime.utcnow)] = None
 
 

@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Comment from './Comment.vue';
-
+import { useProfessorStore } from '../../../../stores/index';
 interface Props {
   //axis: Plot.Axis;
+  professorID: string,
   comments: App.Comment[]
 }
 
 defineProps<Props>();
 
-
+const professorStore = useProfessorStore()
 const newComment = ref('');
 
 const addComment = () => {
-  console.log('addComment')
+  professorStore.commentProfessor(professorID, newComment.value)
+ 
 };
 </script>
 

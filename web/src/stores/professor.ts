@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
+import { fetchProfessorsInfo, addProfessorRequest } from '@/api/services/professor'
 import api from '../api/api'
 
 interface ProfessorFilters {
@@ -37,8 +38,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
         try {
-            const response = await api.get<App.Professor.Professor[]>(`professors`)
-            console.log('response', response.data)
+            const response = await api.get<App.Professor.Professor[]>(`professors`);
             professorCollection.value = response.data
 
         } catch (error) {
@@ -52,12 +52,9 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         try {
       
-            await api.post(`professors`, newProfessorData)
+            await addProfessorRequest(newProfessorData)
             toast.success(`${newProfessorData.name} added successfully!`);
             await fetchProfessorsInfo()
-
-          
-       
 
 
         } catch (error) {
@@ -65,7 +62,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         }
     
     }
-
+    
     async function rankProssessor(professorID: App.Professor._id, voteType: 'upvotes' | 'downvotes') {
        
        try {
@@ -84,6 +81,26 @@ export const useProfessorStore = defineStore('professorStore', () => {
         }
     }
 
+    async function commentProfessor(professorID: App.Professor._id, text: string) {
+       
+        try {
+             const response = await api.put(`professors/comments/${professorID}`, {"text": text})
+             const newProfessorData = response.data
+         
+           
+             professorCollection.value.forEach((professor) => {
+                 if (professor._id == professorID) {
+                     professor["comments"] = newProfessorData["comments"]
+                 }
+             })
+   
+  
+         } catch (error) {
+             toast.error(error.response.data.detail);
+         }
+     }
+
+
     
 
     return {
@@ -92,6 +109,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         shouldOpenAddProfessorDialog,
         rankProssessor,
         professorCollection,
+        commentProfessor,
         addProfessor,
         filters
     }
