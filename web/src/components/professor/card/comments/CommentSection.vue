@@ -5,16 +5,16 @@ import { useProfessorStore } from '../../../../stores/index';
 interface Props {
   //axis: Plot.Axis;
   professorID: string,
-  comments: App.Comment[]
+  comments: App.Professor.Comment[]
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const professorStore = useProfessorStore()
 const newComment = ref('');
 
 const addComment = () => {
-  professorStore.commentProfessor(professorID, newComment.value)
+  professorStore.commentProfessor(props.professorID, newComment.value)
  
 };
 </script>
@@ -26,7 +26,7 @@ const addComment = () => {
 
     <v-list class="comments-list">
       <transition-group name="fade">
-        <Comment v-for="comment in comments" :comment="comment" />
+        <Comment v-for="comment in props.comments" :comment="comment" />
       </transition-group>
     </v-list>
 
@@ -41,7 +41,7 @@ const addComment = () => {
       class="custom-textarea"
     ></v-textarea>
 
-    <v-btn color="primary" block class="post-btn" @click="addComment">Post Comment</v-btn>
+    <v-btn color="primary" block class="post-btn" @click="addComment()">Post Comment</v-btn>
   </v-card>
 </template>
 

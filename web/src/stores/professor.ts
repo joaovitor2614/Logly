@@ -37,13 +37,11 @@ export const useProfessorStore = defineStore('professorStore', () => {
     })
 
     async function fetchProfessorsInfo() {
-        try {
+      
             const response = await api.get<App.Professor.Professor[]>(`professors`);
             professorCollection.value = response.data
 
-        } catch (error) {
-            toast.error(error.response.data.detail);
-        }
+       
     
     }
 
