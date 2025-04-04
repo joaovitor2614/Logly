@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, generate_jwt_token_payload_from_user_info
 from libgravatar import Gravatar
 from app.settings import APP_SETTINGS
+from datetime import timedelta
 
 
 router = APIRouter()
@@ -35,6 +36,7 @@ def register_user(request: Request, userInfo: UserCreate):
         {"_id": new_user.inserted_id}
     )
     jwt_payload = generate_jwt_token_payload_from_user_info(created_new_user)
+    jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
 
     jwt_token = encode_jwt_token(jwt_payload)
 
@@ -62,6 +64,7 @@ def login_user(request: Request, userInfo: UserCrendentials):
             detail=f"Password is not valid!"
         )
     jwt_payload = generate_jwt_token_payload_from_user_info(user)
+    jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
     jwt_token = encode_jwt_token(jwt_payload)
 
     return {"token": jwt_token}

@@ -28,7 +28,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
     try:
         payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
         print('payload', payload, 'token', token)
-        user_id = payload.get("id", None)
+        user_id = payload["data"].get("id", None)
 
         
  
