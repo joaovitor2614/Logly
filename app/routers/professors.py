@@ -55,6 +55,13 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
         professor["_id"] = str(professor["_id"])
     return professors
 
+
+@router.get("/{id}", response_description="Get professor data by ID", status_code=status.HTTP_200_OK)
+async def get_professor_by_id(request: Request, user_id: str = Depends(get_current_user)):
+    professor = get_professor_by_id(request, id)
+
+    return professor
+
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
 def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]

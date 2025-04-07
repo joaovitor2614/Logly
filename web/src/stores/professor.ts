@@ -41,9 +41,9 @@ export const useProfessorStore = defineStore('professorStore', () => {
             const response = await api.get<App.Professor.Professor[]>(`professors`);
             professorCollection.value = response.data
 
-       
-    
     }
+
+
 
 
 

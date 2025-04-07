@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useProfessorStore, useUserStore } from '../../../stores/index';
 import CommentSection from './comments/CommentSection.vue';
 import { ref } from 'vue'
+import { router } from '../../../router/router'
 
 interface Props {
   //axis: Plot.Axis;
@@ -88,6 +89,7 @@ const toggleIsShowCommentSection = () => {
             color="medium-emphasis"
             icon="mdi-share-variant"
             size="small"
+            @click="router.push(`/professor/${professor._id}`)"
         ></v-btn>
     </v-card-actions>
     <CommentSection v-if="isShowCommentSection" :comments="professor.comments" :professorID="professor._id" />
