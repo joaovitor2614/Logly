@@ -10,11 +10,11 @@ const props = defineProps({
 
 <template>
 
-        <v-container fluid class="d-flex align-center justify-center fill-height">
+        <v-container fluid class="d-flex align-center justify-center fill-height bg-grey-lighten-3" >
            
            <v-card elevation="4" class="auth-card">
         
-               <v-container>
+               <v-container class="d-flex flex-column align-center justify-center">
                    <v-container class="d-flex flex-column align-center justify-center mt-6 mb-6">
                        <h2 class="font-weight-bold mb-4">Welcome to Mamata ou Cilada!</h2>
                        <p class="text-medium-emphasis">{{ props.helperTitle }}</p>

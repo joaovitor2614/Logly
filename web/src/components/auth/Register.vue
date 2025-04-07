@@ -88,7 +88,7 @@ const handleRegister = async () => {
                     placeholder="cocnfirm password"
                     required
                 ></v-text-field>
-
+                
                 <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Register</v-btn>
                 <div style="  text-align: center; padding: 10px 0;">
                         <v-card-text class="white--text" >
