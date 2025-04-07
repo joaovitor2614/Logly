@@ -6,6 +6,7 @@ from ..utils.security import get_current_user
 from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
 from ..utils.database.professor import get_professor_by_id, add_feedback_to_professor, retrive_rank_updated_professor
+from ..utils.database.update import update_document_object_instance
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -16,14 +17,6 @@ import random
 
 
 router = APIRouter()
-base = '/users/'
-UploadImage = f'{base}image-upload'
-
-@router.post("/upload", response_description="Upload professor image", status_code=status.HTTP_201_CREATED)
-def upload_professor_image(file: UploadFile = File(...)):
-    imageUrl = save_picture(file=file, folderName='professors', fileName='myfile')
-    print('imageUrl', imageUrl)
-    return {"imageUrl": imageUrl}
 
 @router.post("/", response_description="Add a professor in Database", status_code=status.HTTP_201_CREATED)
 def create_professor(request: Request, new_professor: Professor, user_id: str = Depends(get_current_user)):
@@ -65,21 +58,9 @@ async def get_professor_by_id(request: Request, user_id: str = Depends(get_curre
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
 def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professor = {k: v for k, v in professor.dict().items() if v is not None}
-    if len(professor) >= 1:
-        update_result = professors_database.update_one(
-            {"_id": ObjectId(id)}, {"$set": professor}
-        )
+    updated_professor = update_document_object_instance(professors_database, id, professor)
 
-        if update_result.modified_count == 0:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
-
-    if (
-        existing_professor := professors_database.find_one({"_id": ObjectId(id)})
-    ) is not None:
-        return existing_professor
-
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Professor with ID {id} not found")
+    return updated_professor
 @router.put("/upvotes/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     #professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
