@@ -4,7 +4,36 @@ import { useProfessorStore } from '../../stores/index';
 
 const professorStore = useProfessorStore()
 
-const genderFilterTypes = ['all', 'male', 'female']
+const genderFilterTypesItems = [
+    {
+        title: 'Female',
+        value: 'female'
+    },
+    {
+        title: 'Male',
+        value: 'male'
+    },
+    {
+        title: 'All',
+        value: ''
+    },
+]
+
+const sortByOptionsItems = [
+    {
+        title: 'Creation date',
+        value: ''
+    },
+    {
+        title: 'Upvotes',
+        value: 'upvotes'
+    },
+    {
+        title: 'Downvotes',
+        value: 'downvotes'
+    },
+]
+
 
 </script>
 
@@ -24,10 +53,19 @@ const genderFilterTypes = ['all', 'male', 'female']
                 </v-col>
                 <v-col cols="2">
                     <v-select
-                        :items="genderFilterTypes"
+                        :items="genderFilterTypesItems"
          
                         v-model="professorStore.filters.gender"
                         label="Gender"
+                    ></v-select>
+
+                </v-col>
+                <v-col cols="2">
+                    <v-select
+                        :items="sortByOptionsItems"
+         
+                        v-model="professorStore.filters.sortBy"
+                        label="Sort by"
                     ></v-select>
 
                 </v-col>

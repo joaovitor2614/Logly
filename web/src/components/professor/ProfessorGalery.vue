@@ -10,7 +10,7 @@ const perPage = 6;
 
 const paginatedProfessors = computed(() => {
     const start = (page.value -1) * perPage;
-    return professorStore.professorFilteredCollection.slice(start, start + perPage);
+    return professorStore.finalProfessorCollection.slice(start, start + perPage);
 })
 
 </script>
@@ -31,7 +31,7 @@ const paginatedProfessors = computed(() => {
         <v-row class="d-flex align-center justify-center mt-5">
             <v-pagination
                     v-model="page"
-                    :length="Math.ceil(professorStore.professorFilteredCollection.length / perPage)"
+                    :length="Math.ceil(professorStore.finalProfessorCollection.length / perPage)"
                     :total-visible="6"
             />
         </v-row>

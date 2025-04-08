@@ -1,3 +1,3 @@
 export * from './auth'
 export * from './user'
-export * from './professor'
+export * from './professor/professor'

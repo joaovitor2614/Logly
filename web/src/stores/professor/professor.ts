@@ -2,12 +2,10 @@ import { defineStore } from "pinia"
 import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
 import { fetchProfessorsInfo, addProfessorRequest } from '@/api/services/professor'
-import api from '../api/api'
+import { ProfessorFilters } from './types'
+import api from '../../api/api'
+import getFilteredProfessorCollection from './filter'
 
-interface ProfessorFilters {
-    name: string,
-    gender: 'all' | 'male' | 'female'
-}
 
 
 
@@ -17,24 +15,19 @@ export const useProfessorStore = defineStore('professorStore', () => {
     const toast = useToast();
     const filters: Ref<ProfessorFilters> = ref({
         name: '',
-        gender: 'all'
+        gender: '',
+        sortBy: '',
     })
 
-
-    const professorFilteredCollection = computed(() => {
-        console.log('professorFilteredCollection re computed')
-        return professorCollection.value.filter((professor) => {
-            const professorNameMatch = professor.name.toLowerCase().includes(filters.value.name.toLocaleLowerCase())
-            let professorGenderMatch = true;
-            if (filters.value.gender !== 'all') {
-                professorGenderMatch = professor.gender == filters.value.gender
-            } 
-            return professorNameMatch && professorGenderMatch
-
-          
-        })
-
+    const finalProfessorCollection = computed(() => {
+        
+        const professorFilteredCollection = getFilteredProfessorCollection(professorCollection.value, filters.value)
+        const professorSortedCollection = filters.value.sortBy 
+        ? professorFilteredCollection.sort((a, b) => b[filters.value.sortBy].length - a[filters.value.sortBy].length) 
+        : professorFilteredCollection
+        return professorSortedCollection
     })
+
 
     async function fetchProfessorsInfo() {
       
@@ -102,7 +95,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
 
     return {
-        professorFilteredCollection,
+        finalProfessorCollection,
         fetchProfessorsInfo,
         shouldOpenAddProfessorDialog,
         rankProssessor,
