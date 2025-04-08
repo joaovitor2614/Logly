@@ -49,11 +49,6 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
     return professors
 
 
-@router.get("/{id}", response_description="Get professor data by ID", status_code=status.HTTP_200_OK)
-async def get_professor_by_id(request: Request, user_id: str = Depends(get_current_user)):
-    professor = get_professor_by_id(request, id)
-
-    return professor
 
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
 def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
@@ -90,13 +85,13 @@ def add_professor_comment(id: str, request: Request, comment: Comment,  user_id:
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     users_database = request.app.database[APP_SETTINGS.USERS_DB_NAME]
     professor = get_professor_by_id(request, id)
-
+    
     user = users_database.find_one(
         {"_id": user_id}    
     )
     comment.user_id = str(user_id)
     comment.author = user["name"]
-
+    print('professor', professor, type(professor))
     professor["comments"].append(comment)
     new_professor_comments = jsonable_encoder(professor["comments"])
     update_result = professors_database.update_one(
