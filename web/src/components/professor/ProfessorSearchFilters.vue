@@ -25,6 +25,10 @@ const sortByOptionsItems = [
         value: ''
     },
     {
+        title: 'Comments',
+        value: 'comments'
+    },
+    {
         title: 'Upvotes',
         value: 'upvotes'
     },
