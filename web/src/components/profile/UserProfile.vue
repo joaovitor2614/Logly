@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { useUserStore } from '../../stores/index';
-
+import UploadService from '../common/UploadService.vue'
 
 
 
@@ -12,23 +12,18 @@ const userInfo = reactive(userStore.userInfo)
 </script>
 
 <template>
-    <v-container>
-            <v-row align="center" justify="center">
-                <v-col cols="12" sm="10">
+    <v-container fluid class="d-flex align-center justify-center fill-height">
+            <v-row justify="center">
+                <v-col cols="12" sm="8">
                     <v-card>
-                    <v-card-title class="grey lighten-2">Add Professor</v-card-title>
+                    
                         <v-card-text>
-                            <v-row align="center" justify="center">
+                            <v-row >
                                 <v-col cols="12" align="center" justify="center">
-                                    <v-avatar size="150">
-                                    <v-img
-                                        alt="John"
-                                        src="https://cdn.vuetifyjs.com/images/john.jpg"
-                                    ></v-img>
-                                    </v-avatar>
+                                    <UploadService v-model:image="userInfo.image"/>
                                 </v-col>
                             </v-row>
-                            <v-row align="center" justify="center" >
+                            <v-row >
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="userInfo.name"
@@ -50,7 +45,7 @@ const userInfo = reactive(userStore.userInfo)
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row align="center" justify="center" >
+                            <v-row>
                                 <v-col cols="6">
                                     <v-text-field
                                         name="Phone"

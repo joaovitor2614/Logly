@@ -17,6 +17,10 @@ export async function postProfessorInfo(newProfessor: App.Professor.AddProfessor
 }
 
 
+export async function editProfessorInfo(newProfessor: App.Professor.AddProfessor) {
+    await api.put('professors', newProfessor);
+}
+
 
 export async function addProfessorVote(professorID: App.Professor.Professor._id, voteType: 'upvotes' | 'downvotes'): Promise<App.Professor.Professor> {
   
