@@ -17,7 +17,7 @@ watch(
 
     localStorage.setItem("token", token)
     setAPIHeadersBearerToken(token)
-    await userStore.getUserInfo()
+    await userStore.fetchUser()
     await professorStore.fetchProfessorsInfo()
     authStore.isAuthenticated = true;
 

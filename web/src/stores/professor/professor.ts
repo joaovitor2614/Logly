@@ -1,9 +1,8 @@
 import { defineStore } from "pinia"
 import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
-import { fetchProfessorsInfo, addProfessorRequest } from '@/api/services/professor'
+import { getProfessorsInfo, postProfessorInfo, addProfessorVote, addProfessorComment } from '@/api/services/professor'
 import { ProfessorFilters } from './types'
-import api from '../../api/api'
 import getFilteredProfessorCollection from './filter'
 
 
@@ -31,19 +30,16 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
       
-            const response = await api.get<App.Professor.Professor[]>(`professors`);
-            professorCollection.value = response.data
+            const professorInfo = await getProfessorsInfo()
+            professorCollection.value = professorInfo
 
     }
-
-
-
 
 
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         try {
       
-            await addProfessorRequest(newProfessorData)
+            await postProfessorInfo(newProfessorData)
             toast.success(`${newProfessorData.name} added successfully!`);
             await fetchProfessorsInfo()
 
@@ -57,8 +53,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function rankProssessor(professorID: App.Professor._id, voteType: 'upvotes' | 'downvotes') {
        
        try {
-            const response = await api.put(`professors/${voteType}/${professorID}`)
-            const newProfessorData = response.data
+            const newProfessorData = await addProfessorVote(professorID, voteType)
+          
           
             professorCollection.value.forEach((professor) => {
                 if (professor._id == professorID) {
@@ -75,10 +71,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function commentProfessor(professorID: App.Professor._id, text: string) {
        
         try {
-             const response = await api.put(`professors/comments/${professorID}`, {"text": text})
-             const newProfessorData = response.data
-         
-           
+             const newProfessorData = await addProfessorComment(professorID, text)
+
              professorCollection.value.forEach((professor) => {
                  if (professor._id == professorID) {
                      professor["comments"] = newProfessorData["comments"]
@@ -90,6 +84,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
              toast.error(error.response.data.detail);
          }
      }
+
+   
 
 
     
