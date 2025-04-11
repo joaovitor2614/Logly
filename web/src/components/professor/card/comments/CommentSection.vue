@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Comment from './Comment.vue';
 import { useProfessorStore } from '../../../../stores/index';
+
 interface Props {
   //axis: Plot.Axis;
   professorID: string,
@@ -14,9 +15,16 @@ const professorStore = useProfessorStore()
 const newComment = ref('');
 
 const addComment = () => {
-  professorStore.commentProfessor(props.professorID, newComment.value)
+  professorStore.commentProfessor(props.professorID, newComment.value);
+  cleanCommentForm()
  
 };
+
+const cleanCommentForm = () => {
+  newComment.value = '';
+}
+
+const isDisabled = computed(() => newComment.value ? false : true)
 </script>
 
 <template>
@@ -41,7 +49,8 @@ const addComment = () => {
       class="custom-textarea"
     ></v-textarea>
 
-    <v-btn color="primary" block class="post-btn" @click="addComment()">Post Comment</v-btn>
+
+    <v-btn color="primary" block class="post-btn" @click="addComment()" :disabled="isDisabled">Post Comment</v-btn>
   </v-card>
 </template>
 

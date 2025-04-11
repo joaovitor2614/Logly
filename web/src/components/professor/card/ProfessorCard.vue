@@ -87,7 +87,7 @@ const toggleIsShowCommentSection = () => {
 
         <v-btn
             color="medium-emphasis"
-            icon="mdi-share-variant"
+            icon="mdi-chevron-right"
             size="small"
             @click="router.push(`/professor/${professor._id}`)"
         ></v-btn>
