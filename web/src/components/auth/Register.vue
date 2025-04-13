@@ -1,37 +1,18 @@
 <script setup lang="ts">
-import { Form, Field } from 'vee-validate';
-import { reactive, computed } from 'vue';
+
+import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
-import { type Reactive } from 'vue';
-import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs } from '@vuelidate/validators'
-import { createFormAttributeErrors } from '../../utils/validations'
+
+import { useForm} from '../../hooks/useForm'
 import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
+;
+
+const isDisabled = computed (() =>  errorsMessages.value.username || errorsMessages.value.password || errorsMessages.value.email);
 
 
-const form: Reactive<App.User.Register> = reactive({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-})
+const { form, errorsMessages } = useForm()
 
-const rules = {
-  username: { required,  $autoDirty: true },
-  email: { required, email, $autoDirty: true },
-  password: { required,  $autoDirty: true },
-  confirmPassword: sameAs(form.password)
-};
-
-const v$ = useVuelidate(rules, form);
-
-const isDisabled = computed (() =>  v$.value.username.$invalid || v$.value.email.$invalid || 
-v$.value.password.$invalid);
-
-const userNameErrors = computed(() => createFormAttributeErrors(v$, 'username'))
-const emailErrors = computed(() => createFormAttributeErrors(v$, 'email'))
-const passwordErrors = computed(() => createFormAttributeErrors(v$, 'password'))
 
 const authStore = useAuthStore();
 
@@ -59,7 +40,7 @@ const handleRegister = async () => {
                     label="Username"
                     type="text"
                     placeholder="username"
-                    :error-messages="userNameErrors"
+                    :error-messages="errorsMessages.username"
                     required
                 ></v-text-field>
                 <v-text-field
@@ -68,7 +49,7 @@ const handleRegister = async () => {
                     label="Email"
                     type="email"
                     placeholder="email"
-                    :error-messages="emailErrors"
+                    :error-messages="errorsMessages.email"
                     required
                 ></v-text-field>
                 <v-text-field
@@ -76,12 +57,12 @@ const handleRegister = async () => {
                     name="password"
                     label="Password"
                     type="password"
-                    :error-messages="passwordErrors"
+                    :error-messages="errorsMessages.password"
                     placeholder="password"
                     required
                 ></v-text-field>
                 <v-text-field 
-                    v-model="form.confirmPassword"
+                    v-model="errorsMessages.confirmPassword""
                     name="confirmPassword"
                     label="Confirm Password"
                     type="password"
