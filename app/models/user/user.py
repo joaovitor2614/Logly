@@ -24,4 +24,9 @@ class UserCreate(BaseModel):
     class Config:
         populate_by_name = True
 
+class UserUpdate(BaseModel):
+    name: Optional[str] = Field(None)
+    email: Optional[str] = Field(None)
+    password: Optional[str] = Field(None)
+    image: Annotated[Optional[str], Field(title="User Profile Picture")] = None
     

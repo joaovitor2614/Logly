@@ -2,11 +2,11 @@
 from fastapi import APIRouter, status
 from bson.objectid import ObjectId
 
-def update_document_object_instance(database, object_id: str, updated_object):
+def update_document_object_instance(database, object_id: str, updated_object: dict):
     
-    updated_object = {k: v for k, v in updated_object.dict().items() if v is not None}
+    updated_object = {k: v for k, v in updated_object.items() if v is not None}
     if len(updated_object) >= 1:
-        print('object_id', object_id, 'typ', type(object_id))
+        
         update_result = database.update_one(
             {"_id": ObjectId(object_id)}, {"$set": updated_object}
         )

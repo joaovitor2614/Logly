@@ -53,7 +53,8 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
 def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
     professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    updated_professor = update_document_object_instance(professors_database, id, professor)
+    professor_data = _data.dict(exclude_unset=True)
+    updated_professor = update_document_object_instance(professors_database, id, professor_data)
 
     return updated_professor
 @router.put("/upvotes/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
