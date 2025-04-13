@@ -13,7 +13,7 @@ def create_new_fake_professors(amount: int):
     fake = Faker()
     user_list = RandomUser.generate_users(amount)
     return [
-        
+            
             Professor(
                 name=fake.name(),
                 image=user.get_picture(),
@@ -22,6 +22,7 @@ def create_new_fake_professors(amount: int):
                 email=user.get_email(),
                 comments=create_fake_professor_comments()
             )
+            
            
         
         for user in user_list

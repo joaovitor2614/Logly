@@ -31,7 +31,7 @@ class Professor(BaseModel):
     phone: Annotated[Optional[str], Field(...)] = None  
     gender : Annotated[Literal["male", "female", "other"], Field(...)] = "other"
     comments: Annotated[List[Comment], Field(title="Professor comments")] = [] 
-    disciplines: Annotated[Optional[str], Field(...)] = []  
+    disciplines: Annotated[List[str], Field(...)] = []  
     create_time: Annotated[
         Optional[datetime], Field(description="Professor added time", default_factory=datetime.utcnow)
     ] = None
