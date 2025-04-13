@@ -8,7 +8,7 @@ const professorStore = useProfessorStore()
 
 
 
-const { form, errorsMessages } = useForm
+const { form, errorsMessages } = useForm()
 
 const handleAddProfessor = () => {
     professorStore.addProfessor(form)
@@ -53,11 +53,10 @@ const cancel = () => {
 </script>
 
 <template>
-    <v-dialog :model-value="professorStore.shouldOpenAddProfessorDialog" max-width="600px" persistent>
-        <v-container>
-            <v-row align="center" justify="center">
-                <v-col cols="12" sm="10">
-                    <v-card>
+    <v-dialog :model-value="professorStore.shouldOpenAddProfessorDialog" max-width="800px" persistent>
+        <v-container fluid class="d-flex align-center justify-center fill-height">
+           
+                    <v-card width="100%" max-width="80vh" class="pa-6">
                     <v-card-title class="grey lighten-2">Add Professor</v-card-title>
                         <v-card-text>
                             <v-row class="d-flex justify-center algin-center">
@@ -65,7 +64,7 @@ const cancel = () => {
                                     <UploadService v-model:image="form.image"/>
                                 </v-col>
                             </v-row>
-                            <v-row class="d-flex justify-center algin-center" >
+                            <v-row class="d-flex justify-start algin-center" >
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="form.name"
@@ -88,7 +87,7 @@ const cancel = () => {
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row class="d-flex justify-center algin-center">
+                            <v-row class="d-flex justify-start algin-center">
                                 <v-col cols="6">
                                     <v-select
                                         :items="undergraduateCourses"
@@ -104,8 +103,7 @@ const cancel = () => {
                             </v-card-actions>
                         </v-card-text>
                     </v-card>
-                </v-col>
-            </v-row>
+             
         </v-container>
 
        

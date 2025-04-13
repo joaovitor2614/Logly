@@ -3,7 +3,7 @@
 import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
 
-import { useForm} from '../../hooks/useForm'
+import useForm from '../../hooks/useForm'
 import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
 ;

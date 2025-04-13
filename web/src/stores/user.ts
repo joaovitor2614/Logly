@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
-import { getUserInfo } from '@/api/services/user'
+import { getUserInfo, editUserInfo } from '@/api/services/user'
 import api from '../api/api'
 
 
@@ -25,6 +25,8 @@ export const useUserStore = defineStore('userStore', () => {
     function setUserInfo(userData: Api.User.Info) {
         Object.assign(userInfo, userData)
     }
+
+    const editUserInfo = ()
 
 
     return {
