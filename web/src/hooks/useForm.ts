@@ -8,7 +8,10 @@ const useForm = () => {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        disciplines: '',
+        phone: '',
+        image: ''
     }
     const form: Reactive<App.User.Register> = reactive(formInitialValues)
   
@@ -16,7 +19,8 @@ const useForm = () => {
         username: { required,  $autoDirty: true },
         email: { required, email, $autoDirty: true },
         password: { required,  $autoDirty: true },
-        confirmPassword: sameAs(form.password)
+        confirmPassword: sameAs(form.password),
+        disciplines: { required,  $autoDirty: true },
       };
       
       const v$ = useVuelidate(formRules, form);
