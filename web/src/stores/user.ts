@@ -26,7 +26,6 @@ export const useUserStore = defineStore('userStore', () => {
         Object.assign(userInfo, userData)
     }
 
-    const editUserInfo = ()
 
 
     return {
