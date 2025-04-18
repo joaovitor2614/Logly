@@ -9,9 +9,12 @@ import { type Ref } from 'vue'
  */
 export function createFormAttributeErrors(v$: Ref <any>, attributeName: string) {
     const errors = []
-
-    v$.value[attributeName].$errors.forEach((error) => {
+    console.log('v$.value', v$.value, 'attributeNAME VA', attributeName)
+    if (v$.value[attributeName].$errors) {
+        v$.value[attributeName].$errors.forEach((error) => {
             errors.push(error.$message)
-    })
+        })
+    }
+    
     return errors
 }

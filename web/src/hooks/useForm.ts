@@ -25,7 +25,8 @@ const useForm = () => {
       };
       
       const v$ = useVuelidate(formRules, form);
-      const errorsMessages = computed(() => Object.keys(formRules).forEach((formAttribute) => {
+      const errorsMessages = computed(() => Object.keys(formRules).map((formAttribute) => {
+        console.log('formAttribute', formAttribute)
         return {
             formAttribute: createFormAttributeErrors(v$, formAttribute)
         }
