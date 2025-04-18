@@ -11,3 +11,4 @@ faker
 pytest
 libgravatar
 randomuser
+pillow
