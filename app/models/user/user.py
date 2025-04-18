@@ -3,8 +3,8 @@ from pydantic import BaseModel, Field
 import uuid
 
 class UserCrendentials(BaseModel):
-    email: str = Field(...)
-    password: str = Field(...)
+    password: Annotated[str, Field(title="User Password")] 
+    email: Annotated[str, Field(title="User Email Address")] 
 
 
 
@@ -12,14 +12,10 @@ class UserCrendentials(BaseModel):
         populate_by_name = True
 
     
-class UserCreate(BaseModel):
+class UserCreate(UserCrendentials):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    name: str = Field(...)
-    email: str = Field(...)
-    password: str = Field(...)
+    email: Annotated[str, Field(title="User Name")] 
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
-
-
 
     class Config:
         populate_by_name = True
