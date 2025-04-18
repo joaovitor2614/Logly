@@ -1,10 +1,10 @@
 from faker import Faker
+from app.settings import APP_SETTINGS
+from bson.objectid import ObjectId
+from ..utils.security import get_current_user
 
 
-
-
-
-def test_register_user(client, register_user):
+async def test_register_user(client, register_user):
 
     """
     Test the user registration endpoint.
@@ -18,6 +18,15 @@ def test_register_user(client, register_user):
     response, _ = register_user
     assert response.status_code == 201
     assert "token" in response.json(), "Token not present auth endpoint response."
+
+    #token = response.json()["token"]
+    #user_id = await get_current_user(token)
+
+    #users_db_mock = client.app.database[APP_SETTINGS.USERS_DB_NAME]
+    #register_user_collection_obect = users_db_mock.find_one(
+    #    {"_id": ObjectId(user_id)}    
+    #)
+    #print('register_user_collection_obect', register_user_collection_obect)
 
 
 def test_login_user(client, register_user):
