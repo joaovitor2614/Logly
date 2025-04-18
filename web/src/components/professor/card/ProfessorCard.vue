@@ -33,7 +33,7 @@ const handleDownVoteProfessor = async (professorID: App.Professor.Professor._id)
 const userStore = useUserStore();
 
 const checkHasVotedProfessor = (feedbackType: 'upvotes' | 'downvotes') => {
-    console.log('props.professor[feedbackType].some(vote => vote.user_id === userStore.userInfo._id)')
+   
     return props.professor[feedbackType].some(vote => vote.user_id === userStore.userInfo._id)
 }
 

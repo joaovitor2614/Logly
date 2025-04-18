@@ -9,11 +9,12 @@ const useForm = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        disciplines: '',
+        disciplines: [],
+        gender: 'other',
         phone: '',
         image: ''
     }
-    const form: Reactive<App.User.Register> = reactive(formInitialValues)
+    const form = reactive(formInitialValues)
   
     const formRules = {
         username: { required,  $autoDirty: true },

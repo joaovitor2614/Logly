@@ -6,7 +6,7 @@ import { useAuthStore } from '../../stores/index';
 import useForm from '../../hooks/useForm'
 import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
-;
+
 
 const isDisabled = computed (() =>  errorsMessages.value.username || errorsMessages.value.password || errorsMessages.value.email);
 

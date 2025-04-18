@@ -107,7 +107,7 @@ const professorGenderByIconName = {
 
 const setCurrentProfessorInfo = () => {
   professorInfo.value = professorStore.professorCollection.find(professor => professor._id === props.id)
-  console.log('professorInfo.value', professorInfo.value)
+
   
 }
 

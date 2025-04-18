@@ -2,12 +2,30 @@
 import { reactive } from 'vue';
 import { useUserStore } from '../../stores/index';
 import UploadService from '../common/UploadService.vue'
+import useForm from '../../hooks/useForm';
 
 
 
 const userStore = useUserStore()
 
-const userInfo = reactive(userStore.userInfo)
+const {form, errors} = useForm()
+
+console.log('uasusa', userStore.userInfo)
+
+
+const setDefaultFormValues = () => {
+    
+    form.email = userStore.userInfo.email
+    form.username = userStore.userInfo.name
+    form.image = userStore.userInfo.image
+}
+
+setDefaultFormValues()
+
+const editUserInfo = () => {
+
+    userStore.editUserInfo({name: form.username, image: form.image})
+}
 
 </script>
 
@@ -20,13 +38,15 @@ const userInfo = reactive(userStore.userInfo)
                         <v-card-text>
                             <v-row >
                                 <v-col cols="12" align="center" justify="center">
-                                    <UploadService v-model:image="userInfo.image"/>
+
+                                    <UploadService v-model:image="form.image" :value="userStore.userInfo.image"/>
                                 </v-col>
                             </v-row>
                             <v-row >
                                 <v-col cols="6">
                                     <v-text-field
-                                        v-model="userInfo.name"
+                                        v-model="form.username"
+                                        :value="userStore.userInfo.name"
                                         name="Name"
                                         label="Name"
                                         type="text"
@@ -36,7 +56,9 @@ const userInfo = reactive(userStore.userInfo)
                                 </v-col>
                                 <v-col cols="6">
                                     <v-text-field
-                                        v-model="userInfo.email"
+                                        v-model="form.email"
+                                        :value="userStore.userInfo.email"
+                                        :disabled="true"
                                         name="email"
                                         label="Email"
                                         type="email"
@@ -45,20 +67,9 @@ const userInfo = reactive(userStore.userInfo)
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row>
-                                <v-col cols="6">
-                                    <v-text-field
-                                        name="Phone"
-                                        label="Phone"
-                                        type="text"
-                                        placeholder="Phone"
-                                        required
-                                    ></v-text-field>
-                                </v-col>
-  
-                            </v-row>
+
                             <v-card-actions>
-                                <v-btn>Edit</v-btn>
+                                <v-btn @click="editUserInfo">Edit</v-btn>
                             </v-card-actions>
                         </v-card-text>
                     </v-card>

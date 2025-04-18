@@ -12,11 +12,12 @@ const professorStore = useProfessorStore()
 watch(
   () => authStore.token, // Use a getter function to maintain reactivity
   async (token) => {
-  console.log('toekn watch')
+  console.log('token watch')
   if (token) {
 
     localStorage.setItem("token", token)
     setAPIHeadersBearerToken(token)
+    console.log('here fetch user')
     await userStore.fetchUser()
     await professorStore.fetchProfessorsInfo()
     authStore.isAuthenticated = true;

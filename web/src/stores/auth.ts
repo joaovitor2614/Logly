@@ -21,9 +21,9 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
         try {
-           
-            const response = await api.post<Api.Auth.Token>(`auth/${authType}`, userData)
-            token.value = response.data.token
+            
+            const response = await api.post<Api.Auth.Token>(`auth/${authType}`, userData);
+            token.value = response.data.token;
 
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
 

@@ -2,6 +2,7 @@
 import { reactive } from 'vue'
 import UploadService from '../../common/UploadService.vue'
 import { useProfessorStore } from '../../../stores/index'
+import { availableDisciplines } from '../../../constants/professor'
 import  useForm from '../../../hooks/useForm'
 
 const professorStore = useProfessorStore()
@@ -14,42 +15,13 @@ const handleAddProfessor = () => {
     professorStore.addProfessor(form)
 }
 
-const undergraduateCourses = [
-  "Physics",
-  "Geophysics",
-  "Geography",
-  "Geography",
-  "Geography",
-  "Technological Degree in Management Processes",
-  "History",
-  "History)",
-  "Journalism",
-  "Literature",
-  "Computer Science",
-  "Information Systems",
-  "Mathematics",
-  "Biology",
-  "Chemistry",
-  "Engineering",
-  "Environmental Science",
-  "Social Sciences",
-  "Philosophy",
-  "Economics",
-  "Law",
-  "Pedagogy",
-  "Architecture",
-  "Medicine",
-  "Nursing",
-  "Psychology",
-  "Business Administration",
-  "International Relations",
-  "Public Administration"
-];
 
 
 const cancel = () => {
     professorStore.shouldOpenAddProfessorDialog = false
 }
+
+
 </script>
 
 <template>
@@ -90,8 +62,8 @@ const cancel = () => {
                             <v-row class="d-flex justify-start algin-center">
                                 <v-col cols="6">
                                     <v-select
-                                        :items="undergraduateCourses"
-                        
+                                        :items="availableDisciplines"
+                                        multiple
                                         v-model="form.disciplines"
                                         label="Disciplines"
                                     ></v-select>
