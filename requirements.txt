@@ -7,9 +7,7 @@ uvicorn
 bcrypt
 black
 pydantic_settings
-mypy
 faker
 pytest
 libgravatar
-pillow
 randomuser
