@@ -2,15 +2,18 @@ from pymongo import MongoClient
 from app.settings import APP_SETTINGS
 from fastapi.testclient import TestClient
 from app import create_app
+import mongomock
 import pytest
 
 @pytest.fixture(scope="session")
 def test_db():
     """Setup test database and clean up afterwards"""
-    client = MongoClient(APP_SETTINGS.MONGO_DB_ATLAS_URI)
-    db = client[APP_SETTINGS.USERS_DB_NAME + "_test"]
+    client = mongomock.MongoClient()
+    #client = MongoClient(APP_SETTINGS.MONGO_DB_ATLAS_URI)
+    database = client[APP_SETTINGS.USERS_DB_NAME + "_test"]
+    #database = client.db.collection
     
-    return db
+    return database
 
 
 @pytest.fixture(scope="session")

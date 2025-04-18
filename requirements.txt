@@ -10,5 +10,6 @@ pydantic_settings
 faker
 pytest
 libgravatar
+mongomock
 randomuser
 pillow
