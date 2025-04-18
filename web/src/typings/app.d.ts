@@ -1,4 +1,20 @@
 declare namespace App {
+    namespace Auth {
+        interface Token {
+            token: string
+        }
+        
+        
+    }
+    namespace User {
+        interface Info {
+            _id: string
+            name: string
+            email: string
+            image: string
+            password?: string
+        }
+    }
     namespace User {
         interface Login {
             password: string,
@@ -12,15 +28,17 @@ declare namespace App {
     }
 
     namespace Professor {
-        interface Comment {
+        interface UserBoundObject {
+            _id: string,
+            user_id: string
+        }
+        interface Comment extends UserBoundObject {
             text: string,
             author: string,
             create_time: string,
-            user_id: string
         }
-        interface Vote {
-            _id: string,
-            user_id: string
+        interface Vote extends UserBoundObject{
+            
         }
         type Gender = "female" | "male" | "other"
         interface Professor {
@@ -35,10 +53,8 @@ declare namespace App {
             downvotes: Vote[],
         }
 
-        interface AddProfessor {
-            name: string,
-            image: string,
-        }
+        type AddProfessor = Pick<Professor, 'name' | 'image'>
+            
     }
     
 
