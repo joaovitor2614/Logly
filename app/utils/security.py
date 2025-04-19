@@ -26,8 +26,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
         HTTPException: If the token is invalid or the user ID is not found.
     """
     try:
-        payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
-        print('payload', payload, 'token', token)
+        payload = decode_jwt_token(token)
+
         user_id = payload["data"].get("id", None)
 
         
@@ -60,7 +60,19 @@ def generate_jwt_token_payload_from_user_info(user_info: Dict[str, str]) -> JWTP
         iat=datetime.now(UTC), 
         exp=datetime.now(UTC)
     )
+def decode_jwt_token(token: str) -> JWTPayload:
+    """
+    Decode a JWT token.
 
+    Args:
+        token (str): The JWT token.
+
+    Returns:
+        JWTPayload: The decoded JWT payload.
+    """
+    payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
+    return payload
+    
 def encode_jwt_token(jwt_payload: JWTPayload) -> str:
     """
     Encode a JWT token with the given user email and ID.
