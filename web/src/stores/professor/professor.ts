@@ -50,7 +50,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     }
     
-    async function rankProssessor(professorID: App.Professor.Professor._id, voteType: 'upvotes' | 'downvotes') {
+    async function rankProssessor(professorID:string, voteType: 'upvotes' | 'downvotes') {
        
        try {
             const newProfessorData = await addProfessorVote(professorID, voteType)
@@ -68,7 +68,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         }
     }
 
-    async function commentProfessor(professorID: App.Professor.Professor._id, text: string) {
+    async function commentProfessor(professorID:string, text: string) {
        
         try {
              const newProfessorData = await addProfessorComment(professorID, text)

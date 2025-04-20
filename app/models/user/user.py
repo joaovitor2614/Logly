@@ -14,7 +14,8 @@ class UserCrendentials(BaseModel):
     
 class UserCreate(UserCrendentials):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    email: Annotated[str, Field(title="User Name")] 
+    email: Annotated[str, Field(title="User Email Address")] 
+    name: Annotated[str, Field(title="User Name")] 
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
 
     class Config:

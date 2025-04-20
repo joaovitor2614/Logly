@@ -13,7 +13,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const professorStore = useProfessorStore();
-const handleUpVoteProfessor = async (professorID: App.Professor.Professor._id) => {
+const handleUpVoteProfessor = async (professorID:string) => {
     if (hasUserUpVotedProfessor.value) {
         return
     }
@@ -21,7 +21,7 @@ const handleUpVoteProfessor = async (professorID: App.Professor.Professor._id) =
 }
 
 
-const handleDownVoteProfessor = async (professorID: App.Professor.Professor._id) => {
+const handleDownVoteProfessor = async (professorID:string) => {
     if (hasUserDownVotedProfessor.value) {
         return
     }

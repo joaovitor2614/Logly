@@ -20,8 +20,8 @@ const isDisabled = computed(() =>
 );
 
 
-const handleRegister = async () => {
-    await authStore.registerUser({ name: form.name, password: form.password, email: form.email });
+const handleRegister = () => {
+    authStore.registerUser({ name: form.name, password: form.password, email: form.email });
 }
 
 

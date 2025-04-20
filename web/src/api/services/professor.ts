@@ -22,13 +22,13 @@ export async function editProfessorInfo(newProfessor: App.Professor.AddProfessor
 }
 
 
-export async function addProfessorVote(professorID: App.Professor.Professor._id, voteType: 'upvotes' | 'downvotes'): Promise<App.Professor.Professor> {
+export async function addProfessorVote(professorID:string, voteType: 'upvotes' | 'downvotes'): Promise<App.Professor.Professor> {
   
     const response = await api.put(`professors/${voteType}/${professorID}`)
     return response.data
 }
 
-export async function addProfessorComment(professorID: App.Professor.Professor._id, text: string): Promise<App.Professor.Professor> {
+export async function addProfessorComment(professorID:string, text: string): Promise<App.Professor.Professor> {
   
     const response = await api.put(`professors/comments/${professorID}`, { text })
     return response.data
