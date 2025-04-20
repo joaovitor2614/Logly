@@ -13,24 +13,22 @@ export const useUserStore = defineStore('userStore', () => {
     })
 
     async function fetchUser() {
-        const response = await getUserInfo()
+        const { userInfo, hasErrors } = await getUserInfo()
         
-        if (response.status === 200) {
-
-                
-            setUserInfo(response.data)
+        if (!hasErrors) {
+            setUserInfo(userInfo)
         }
     }
 
-    function setUserInfo(userData: Api.User.Info) {
+    function setUserInfo(userData: App.User.Info) {
         Object.assign(userInfo, userData)
     }
 
-    async function editUserInfo(userData: Api.User.Info) {
-        const response = await putUserInfo(userData)
-        if (response) {
-            const editedUserInfo = response.data
-            Object.assign(userInfo, editedUserInfo)
+    async function editUserInfo(userData: App.User.Info) {
+        const { updatedUserInfo, hasErrors } = await putUserInfo(userData)
+        if (!hasErrors) {
+
+            Object.assign(userInfo, updatedUserInfo)
         }
     }
 

@@ -7,18 +7,20 @@ import api from "../api";
  *
  * @returns {Promise<App.Professor.Professor[]>} A promise that resolves to an array of Professor objects.
  */
-export async function getProfessorsInfo(): Promise<App.Professor.Professor[]> {
-    const response = await api.get<App.Professor.Professor[]>(`professors`);
-    return response.data
+export async function getProfessorsInfo(): Promise<{ professorsInfo: App.Professor.Professor[], hasErrors: boolean }> {
+    const { data, hasErrors } = await api.get<App.Professor.Professor[]>(`professors`);
+    return { professorsInfo: data, hasErrors}
 }
 
-export async function postProfessorInfo(newProfessor: App.Professor.AddProfessor) {
-    await api.post('professors', newProfessor);
+export async function postProfessorInfo(newProfessor: App.Professor.AddProfessor): Promise<{ professorInfo: App.Professor.Professor, hasErrors: boolean }> {
+    const { data, hasErrors } = await api.post<App.Professor.Professor>('professors', newProfessor);
+    return { professorInfo: data, hasErrors}
 }
 
 
-export async function editProfessorInfo(newProfessor: App.Professor.AddProfessor) {
-    await api.put('professors', newProfessor);
+export async function editProfessorInfo(newProfessor: App.Professor.AddProfessor): Promise<{ professorInfo: App.Professor.Professor, hasErrors: boolean }> {
+    const { data, hasErrors }  = await api.put('professors', newProfessor);
+    return { professorInfo: data, hasErrors}
 }
 
 

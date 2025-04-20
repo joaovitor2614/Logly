@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 import { useToast } from "vue-toastification";
+import { authenticateUser } from '../api/services/auth'
 import api from '../api/api'
 
 
@@ -20,17 +21,15 @@ export const useAuthStore = defineStore('authStore', () => {
      * @param userData - user data to be sent to the API
      */
     const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
-        try {
-            
-            const response = await api.post<App.Auth.Token>(`auth/${authType}`, userData);
-            token.value = response.data.token;
+        const { jwtToken, hasErrors } = await authenticateUser(authType, userData)
+        if (!hasErrors) {
+            console.log('jwtToken', jwtToken)
+            token.value = jwtToken
 
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
-
-        } catch (error) {
-            console.log('error', error)
-            toast.error(error.response.data.detail);
         }
+        
+
     
     }
 

@@ -30,23 +30,20 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
       
-            const professorInfo = await getProfessorsInfo()
-            professorCollection.value = professorInfo
-
+            const { professorsInfo, hasErrors } = await getProfessorsInfo()
+            if (!hasErrors) {
+                professorCollection.value = professorInfo
+            }   
+            
     }
 
-
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
-        try {
-      
-            await postProfessorInfo(newProfessorData)
+        const { professorInfo, hasErrors } = await postProfessorInfo(newProfessorData)
+        if (!hasErrors) {
             toast.success(`${newProfessorData.name} added successfully!`);
             await fetchProfessorsInfo()
-
-
-        } catch (error) {
-            toast.error(error.response.data.detail);
         }
+
     
     }
     

@@ -2,14 +2,14 @@ import api from "../api";
 
 
 
-export async function getUserInfo(): Promise<Api.User.Info> {
-    const response = await api.get<Api.User.Info>('users')
-    return response
+export async function getUserInfo(): Promise<{ userInfo: App.User.Info, hasErrors: boolean }> {
+    const { data, hasErrors }  = await api.get<App.User.Info>('users')
+    return { userInfo: data, hasErrors }
 }
 
-export async function putUserInfo(): Promise<Api.User.Info> {
-    const response = await api.put<Api.User.Info>('users')
-    return response
+export async function putUserInfo(userData: App.User.Info): Promise<{ updatedUserInfo: App.User.Info, hasErrors: boolean }> {
+    const { data, hasErrors } = await api.put<App.User.Info>('users', userData)
+    return { updatedUserInfo: data, hasErrors }
 }
 
 
