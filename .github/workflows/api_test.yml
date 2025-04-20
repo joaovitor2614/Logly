@@ -1,8 +1,8 @@
-name: Pytest Mamaa ou Cilada's API Rest
+name: Pytest Mamata ou Cilada's API Rest
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   pytest:
