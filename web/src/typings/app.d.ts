@@ -22,8 +22,7 @@ declare namespace App {
         }
     
         interface Register extends Login {
-            confirmPassword: string,
-            username: string
+            name: string
         }
     }
 

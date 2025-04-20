@@ -1,22 +1,27 @@
 <script setup lang="ts">
 
-import { computed } from 'vue';
+
 import { useAuthStore } from '../../stores/index';
 
 import useForm from '../../hooks/useForm'
-import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
+import { computed } from 'vue';
 
 
 
 const { form, errorsMessages } = useForm()
 
 const authStore = useAuthStore();
-
+const isDisabled = computed(() => 
+    errorsMessages.value.email.length 
+    || errorsMessages.value.password.length 
+    || errorsMessages.value.name.length
+    ? true : false
+);
 
 
 const handleRegister = async () => {
-    await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
+    await authStore.registerUser({ name: form.name, password: form.password, email: form.email });
 }
 
 
@@ -29,12 +34,12 @@ const handleRegister = async () => {
     <AuthBase :helperTitle="'Create an account to start using it..'">
         <form @submit.prevent="handleRegister">
                 <v-text-field
-                    v-model="form.username"
-                    :error-messages="errorsMessages.username"
-                    name="username"
-                    label="Username"
+                    v-model="form.name"
+                    :error-messages="errorsMessages.name"
+                    name="name"
+                    label="name"
                     type="text"
-                    placeholder="username"
+                    placeholder="name"
          
                     required
                 ></v-text-field>
@@ -69,7 +74,7 @@ const handleRegister = async () => {
                     required
                 ></v-text-field>
                 
-                <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="false">Register</v-btn>
+                <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Register</v-btn>
                 <div style="  text-align: center; padding: 10px 0;">
                         <v-card-text class="white--text" >
                             <h3 class="text-center ">Alredy Signed up?</h3>

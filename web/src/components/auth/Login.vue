@@ -1,29 +1,23 @@
 <script setup lang="ts">
-import { reactive, computed, type Reactive } from 'vue';
+import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
-import { required, email, sameAs } from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core';
-import { createFormAttributeErrors} from '../../utils/validations'
+
+
+import useForm from '../../hooks/useForm'
+
 import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
-const form: Reactive<App.User.Login> = reactive({
-    email: '',
-    password: '',
-})
-
-const rules = {
-  email: { required, email, $autoDirty: true },
-  password: { required,  $autoDirty: true },
-};
-
-const v$ = useVuelidate(rules, form);
-
-const isDisabled = computed (() =>   v$.value.email.$invalid || v$.value.password.$invalid);
 
 
 
-const emailErrors = computed(() => createFormAttributeErrors(v$, 'email'))
-const passwordErrors = computed(() => createFormAttributeErrors(v$, 'password'))
+
+
+
+
+
+const { form, errorsMessages } = useForm()
+const isDisabled = computed (() =>   errorsMessages.value.email.length || errorsMessages.value.password.length ? true : false);
+
 
 const authStore = useAuthStore();
 
@@ -44,7 +38,7 @@ const handleLogin = async () => {
                             label="Email"
                             type="email"
                             placeholder="email"
-                            :error-messages="emailErrors"
+                            :error-messages="errorsMessages.email"
                             required
                         ></v-text-field>
                         <v-text-field
@@ -53,7 +47,7 @@ const handleLogin = async () => {
                             label="Password"
                             type="password"
                             placeholder="password"
-                            :error-messages="passwordErrors"
+                            :error-messages="errorsMessages.password"
                             required
                         ></v-text-field>
                         <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Login</v-btn>

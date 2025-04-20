@@ -1,13 +1,13 @@
 import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators'
-import { computed, Reactive, reactive } from 'vue';
+import { computed, ComputedRef, Reactive, reactive } from 'vue';
 import { createFormAttributeErrors } from '../utils/validations';
 
 
 
 const useForm = () => {
     const formInitialValues = {
-        username: '',
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -19,15 +19,15 @@ const useForm = () => {
     const form = reactive(formInitialValues)
   
     const formRules = {
-        username: { required,  $autoDirty: true },
+        name: { required,  $autoDirty: true },
         email: { required, email, $autoDirty: true },
         password: { required,  $autoDirty: true },
         confirmPassword: sameAs(form.password),
         disciplines: { required,  $autoDirty: true },
       };
-      
+
       const v$ = useVuelidate(formRules, form);
-      const errorsMessages = computed(() => Object.fromEntries(
+      const errorsMessages: ComputedRef<Record<keyof typeof formRules, string[]>> = computed(() => Object.fromEntries(
         Object.keys(formRules).map((formAttribute) => {
           return [formAttribute, createFormAttributeErrors(v$, formAttribute)]
         
