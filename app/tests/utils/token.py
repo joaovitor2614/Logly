@@ -7,7 +7,7 @@ def get_authorization_setted_request_headers_from_register_response(response: Re
     register endpoint.
 
     Args:
-        response (Response): The response from a register endpoint.
+        response (Response): The esponse from a register endpoint.
 
     Returns:
         A dictionary with the 'Authorization' key and a Bearer token value.
