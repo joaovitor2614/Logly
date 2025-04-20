@@ -9,8 +9,15 @@ import AuthBase from './AuthBase.vue'
 
 
 
+const { form, errorsMessages } = useForm()
+
+const authStore = useAuthStore();
 
 
+
+const handleRegister = async () => {
+    await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
+}
 
 
 
@@ -20,9 +27,10 @@ import AuthBase from './AuthBase.vue'
     
     
     <AuthBase :helperTitle="'Create an account to start using it..'">
-        <form>
+        <form @submit.prevent="handleRegister">
                 <v-text-field
-
+                    v-model="form.username"
+                    :error-messages="errorsMessages.username"
                     name="username"
                     label="Username"
                     type="text"
@@ -31,6 +39,8 @@ import AuthBase from './AuthBase.vue'
                     required
                 ></v-text-field>
                 <v-text-field
+                    v-model="form.email"
+                    :error-messages="errorsMessages.email"
                     name="email"
                     label="Email Address"
                     type="email"
@@ -39,6 +49,8 @@ import AuthBase from './AuthBase.vue'
                     required
                 ></v-text-field>
                 <v-text-field
+                    v-model="form.password"
+                    :error-messages="errorsMessages.password"
                     name="password"
                     label="Password"
                     type="password"
@@ -47,6 +59,8 @@ import AuthBase from './AuthBase.vue'
                     required
                 ></v-text-field>
                 <v-text-field 
+                    v-model="form.confirmPassword"
+                    :error-messages="errorsMessages.confirmPassword"
                     name="confirmPassword"
                     label="Confirm Password"
                     type="password"

@@ -3,6 +3,8 @@ import { required, email, sameAs } from '@vuelidate/validators'
 import { computed, Reactive, reactive } from 'vue';
 import { createFormAttributeErrors } from '../utils/validations';
 
+
+
 const useForm = () => {
     const formInitialValues = {
         username: '',
@@ -25,12 +27,12 @@ const useForm = () => {
       };
       
       const v$ = useVuelidate(formRules, form);
-      const errorsMessages = computed(() => Object.keys(formRules).map((formAttribute) => {
-        console.log('formAttribute', formAttribute)
-        return {
-            formAttribute: createFormAttributeErrors(v$, formAttribute)
-        }
-      }));
+      const errorsMessages = computed(() => Object.fromEntries(
+        Object.keys(formRules).map((formAttribute) => {
+          return [formAttribute, createFormAttributeErrors(v$, formAttribute)]
+        
+        }))
+      )
       console.log('errorsMessages', errorsMessages)
 
       return { form, errorsMessages }
