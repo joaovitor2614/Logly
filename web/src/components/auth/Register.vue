@@ -11,20 +11,6 @@ import AuthBase from './AuthBase.vue'
 
 
 
-const { form, errorsMessages } = useForm()
-//console.log('errorsMessages', errorsMessages)
-//const isDisabled = computed (() =>  errorsMessages.value.username || errorsMessages.value.password || errorsMessages.value.email);
-
-const authStore = useAuthStore();
-
-
-
-const handleRegister = async () => {
-    await authStore.registerUser({ name: form.username, password: form.password, email: form.email });
-    
- 
-}
-
 
 
 
@@ -34,9 +20,9 @@ const handleRegister = async () => {
     
     
     <AuthBase :helperTitle="'Create an account to start using it..'">
-        <form @submit.prevent="handleRegister">
+        <form>
                 <v-text-field
-                    v-model="form.username"
+
                     name="username"
                     label="Username"
                     type="text"
@@ -45,7 +31,6 @@ const handleRegister = async () => {
                     required
                 ></v-text-field>
                 <v-text-field
-                    v-model="form.email"
                     name="email"
                     label="Email Address"
                     type="email"
@@ -54,7 +39,6 @@ const handleRegister = async () => {
                     required
                 ></v-text-field>
                 <v-text-field
-                    v-model="form.password"
                     name="password"
                     label="Password"
                     type="password"
@@ -63,7 +47,6 @@ const handleRegister = async () => {
                     required
                 ></v-text-field>
                 <v-text-field 
-                    v-model="form.confirmPassword""
                     name="confirmPassword"
                     label="Confirm Password"
                     type="password"
@@ -81,7 +64,7 @@ const handleRegister = async () => {
                             >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
                         </v-card-text>
                         <div class="text-center">
-                            <v-btn tile color="primary" outlined dark @click="router.push('/login')">Log in</v-btn>
+                            <v-btn tile color="primary" outlined dark>Log in</v-btn>
                         </div>
                 </div>
 

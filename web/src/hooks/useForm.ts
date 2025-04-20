@@ -31,7 +31,7 @@ const useForm = () => {
             formAttribute: createFormAttributeErrors(v$, formAttribute)
         }
       }));
-
+      console.log('errorsMessages', errorsMessages)
 
       return { form, errorsMessages }
 }
