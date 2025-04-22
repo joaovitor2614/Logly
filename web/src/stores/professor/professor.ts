@@ -32,7 +32,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
       
             const { professorsInfo, hasErrors } = await getProfessorsInfo()
             if (!hasErrors) {
-                professorCollection.value = professorInfo
+                professorCollection.value = professorsInfo
             }   
             
     }
