@@ -1,8 +1,8 @@
 import api from "../api";
 
 
-export async function authenticateUser(authType: 'register' | 'login', userData: App.User.Register | App.User.Login): Promise<{ jwtToken: string, hasErrors: boolean }> {
+export async function authenticateUser(authType: 'register' | 'login', userData: App.User.Register | App.User.Login): Promise<{ jwtToken: string | undefined, hasErrors: boolean }> {
     const { data, hasErrors } = await api.post<App.Auth.Token>(`auth/${authType}`, userData);
-    
-    return { jwtToken: data.token, hasErrors }
+    const jwtToken = data ? data.token : undefined;
+    return { jwtToken, hasErrors }
 }

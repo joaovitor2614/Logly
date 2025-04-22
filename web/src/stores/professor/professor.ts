@@ -49,37 +49,32 @@ export const useProfessorStore = defineStore('professorStore', () => {
     
     async function rankProssessor(professorID:string, voteType: 'upvotes' | 'downvotes') {
        
-       try {
-            const newProfessorData = await addProfessorVote(professorID, voteType)
-          
-          
-            professorCollection.value.forEach((professor) => {
-                if (professor._id == professorID) {
-                    professor[`${voteType}`] = newProfessorData[`${voteType}`]
-                }
-            })
+      
+        const { professorInfo, hasErrors } = await addProfessorVote(professorID, voteType)
+            
+            
+        professorCollection.value.forEach((professor) => {
+            if (professor._id == professorID) {
+                professor[`${voteType}`] = professorInfo[`${voteType}`]
+            }
+        })
   
  
-        } catch (error) {
-            toast.error(error.response.data.detail);
-        }
+       
     }
 
     async function commentProfessor(professorID:string, text: string) {
        
-        try {
-             const newProfessorData = await addProfessorComment(professorID, text)
 
-             professorCollection.value.forEach((professor) => {
-                 if (professor._id == professorID) {
-                     professor["comments"] = newProfessorData["comments"]
-                 }
-             })
-   
-  
-         } catch (error) {
-             toast.error(error.response.data.detail);
-         }
+        const  { professorInfo, hasErrors } = await addProfessorComment(professorID, text)
+
+        professorCollection.value.forEach((professor) => {
+            if (professor._id == professorID) {
+                professor["comments"] = professorInfo["comments"]
+            }
+        })
+
+         
      }
 
    
