@@ -1,11 +1,11 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
-import { getUserInfo, editUserInfo, putUserInfo } from '@/api/services/user'
-import api from '../api/api'
+import { getUserInfo, putUserInfo } from '@/api/services/user'
+
 
 
 export const useUserStore = defineStore('userStore', () => {
-    const userInfo: Api.User.Info = reactive({
+    const userInfo: App.User.Info = reactive({
         name: '',
         image: '',
         _id: '',
@@ -24,8 +24,9 @@ export const useUserStore = defineStore('userStore', () => {
         Object.assign(userInfo, userData)
     }
 
-    async function editUserInfo(userData: App.User.Info) {
-        const { updatedUserInfo, hasErrors } = await putUserInfo(userData)
+    async function editUserInfo(userData: Partial<App.User.Info>) {
+        print('userInfo._id', userInfo._id)
+        const { updatedUserInfo, hasErrors } = await putUserInfo(userInfo._id, userData)
         if (!hasErrors) {
 
             Object.assign(userInfo, updatedUserInfo)
@@ -36,6 +37,7 @@ export const useUserStore = defineStore('userStore', () => {
     return {
         userInfo,
         setUserInfo,
+        editUserInfo,
         fetchUser
     }
 })
