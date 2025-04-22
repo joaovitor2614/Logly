@@ -32,7 +32,7 @@ def test_register_user(client, register_user):
 
     assert verify_password(mock_new_user_data["password"], new_user["password"]), "Password not hashed correctly"
     assert new_user["email"] == mock_new_user_data["email"], "Email not stored correctly"
-    #assert new_user["name"] == mock_new_user_data["name"], "Name not stored correctly"
+    assert new_user["name"] == mock_new_user_data["name"], "Name not stored correctly"
 
 
    
