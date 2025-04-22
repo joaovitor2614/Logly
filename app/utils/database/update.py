@@ -8,14 +8,14 @@ def update_document_object_instance(database, object_id: str, updated_object: di
     if len(updated_object) >= 1:
         
         update_result = database.update_one(
-            {"_id": ObjectId(object_id)}, {"$set": updated_object}
+            {"_id": object_id}, {"$set": updated_object}
         )
 
         if update_result.modified_count == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Object with ID {object_id} not found")
 
     if (
-        existing_object := database.find_one({"_id": ObjectId(object_id)})
+        existing_object := database.find_one({"_id": object_id})
     ) is not None:
         return existing_object
 
