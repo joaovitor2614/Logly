@@ -8,7 +8,7 @@ const registerResponseInterceptors = (customAPI: AxiosInstance) => {
     customAPI.interceptors.response.use(function (response) {
         return { data: response.data, hasErrors: false};
     }, function (error) {
-        console.log('error', error)
+        
         toast.error(error.response.data.message, {
             timeout: 4000
         })

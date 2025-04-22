@@ -33,7 +33,7 @@ const useForm = () => {
         
         }))
       )
-      console.log('errorsMessages', errorsMessages)
+  
 
       return { form, errorsMessages }
 }

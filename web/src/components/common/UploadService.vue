@@ -24,7 +24,7 @@ const upload = async () => {
     }
 
     const imageUrl = await UploadFilesService.upload(currentImage.value)
-    console.log('imageUrl', imageUrl)
+
     image.value = imageUrl
 }
 

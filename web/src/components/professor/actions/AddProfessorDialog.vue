@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import UploadService from '../../common/UploadService.vue'
 import { useProfessorStore } from '../../../stores/index'
-import { availableDisciplines } from '../../../constants/professor'
+import { availableDisciplines } from '../../../constants/disciplines/index'
 import  useForm from '../../../hooks/useForm'
 
 const professorStore = useProfessorStore()
@@ -85,4 +85,4 @@ const cancel = () => {
 
 <style scoped>
 
-</style>
+</style>../../../constants/disciplines/professor
