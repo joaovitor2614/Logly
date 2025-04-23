@@ -77,6 +77,7 @@ const editUserInfo = () => {
                                 <v-btn 
                                     @click="editUserInfo" 
                                     :disabled="isDisabled"
+                                    type="button"
                                     tile 
                                     color="primary" 
                                     outlined
