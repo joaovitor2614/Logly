@@ -1,9 +1,12 @@
 import api from "../api";
 
-
-
 export async function getUserInfo(): Promise<{ userInfo: App.User.Info, hasErrors: boolean }> {
     const { data, hasErrors }  = await api.get<App.User.Info>('users')
+    return { userInfo: data, hasErrors }
+}
+
+export async function getUserInfoByID(id: string): Promise<{ userInfo: App.User.Info, hasErrors: boolean }> {
+    const { data, hasErrors }  = await api.get<App.User.Info>(`/users/${id}`)
     return { userInfo: data, hasErrors }
 }
 

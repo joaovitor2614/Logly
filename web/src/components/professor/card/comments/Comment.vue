@@ -1,34 +1,50 @@
 <script setup lang="ts">
+import { getUserInfoByID } from '@/api/services/user'
+import { reactive } from 'vue';
+import { onBeforeMount } from 'vue';
 interface Props {
   //axis: Plot.Axis;
-  comment: App.Comment
+  comment: App.Professor.Comment
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const commentAuthorInfo: Partial<App.User.Info> = reactive({
+  name: '',
+  image: ''
+})
 
-const getInitials = (name: string) => {
-  return name
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase())
-    .join('');
-};
+const setCommentAuthorUserInfo = async () => {
+  const { userInfo: authorUserInfo, hasErrors } = await getUserInfoByID(props.comment.user_id)
+  if (!hasErrors) {
+    commentAuthorInfo.name = authorUserInfo.name
+    commentAuthorInfo.image = authorUserInfo.image
+  }
+
+}
+
+
+onBeforeMount(() => {
+  setCommentAuthorUserInfo()
+ 
+})
 
 </script>
 
-<template>
+<template v-if="commentAuthorInfo.name">
   <v-list-item class="comment">
     <v-avatar color="primary" class="avatar">
-      {{ getInitials(comment.author) }}
+      <v-img :src="commentAuthorInfo.image"></v-img>
+      {{ commentAuthorInfo.name.charAt(0) }}
     </v-avatar>
 
     <v-list-item-content>
       <v-list-item-title class="author">
-        {{ comment.author }}
+        {{  commentAuthorInfo.name }}
       </v-list-item-title>
       <v-list-item-subtitle class="timestamp">
-        {{ comment.create_time }}
+        {{ props.comment.create_time }}
       </v-list-item-subtitle>
-      <v-list-item-text class="content">{{ comment.text }}</v-list-item-text>
+      <v-list-item-text class="content">{{ props.comment.text }}</v-list-item-text>
     </v-list-item-content>
   </v-list-item>
 

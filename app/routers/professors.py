@@ -91,7 +91,7 @@ def add_professor_comment(id: str, request: Request, comment: Comment,  user_id:
         {"_id": user_id}    
     )
     comment.user_id = str(user_id)
-    comment.author = user["name"]
+
     print('professor', professor, type(professor))
     professor["comments"].append(comment)
     new_professor_comments = jsonable_encoder(professor["comments"])

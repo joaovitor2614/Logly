@@ -18,6 +18,23 @@ def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id
 
     return updated_user
 
+
+@router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)
+async def get_user_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
+    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
+   
+
+    user = database.find_one(
+        {"_id": id}    
+    )
+  
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User not found!"
+        )
+    return user
+
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
 async def get_user(request: Request, user_id: str = Depends(get_current_user)):
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]

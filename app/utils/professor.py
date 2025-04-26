@@ -20,7 +20,6 @@ def create_new_fake_professors(amount: int):
                 disciplines=[fake.job(), fake.job()],
                 gender=user.get_gender(),
                 email=user.get_email(),
-                comments=create_fake_professor_comments()
             )
             
            
@@ -28,13 +27,4 @@ def create_new_fake_professors(amount: int):
         for user in user_list
     ]
 
-
-def create_fake_professor_comments():
-    """
-    Creates a list of fake comments for a professor.
-
-    :return: list of Comment objects
-    """
-    fake = Faker()
-    return [Comment(text=fake.text(), author=fake.user_name(), user_id="123123") for i in range(0, random.randint(0, 3))]
 

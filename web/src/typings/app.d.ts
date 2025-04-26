@@ -33,7 +33,6 @@ declare namespace App {
         }
         interface Comment extends UserBoundObject {
             text: string,
-            author: string,
             create_time: string,
         }
         interface Vote extends UserBoundObject{
