@@ -12,7 +12,7 @@ const useForm = () => {
         password: '',
         confirmPassword: '',
         disciplines: [],
-        gender: 'other',
+        gender: 'other' as App.Professor.Gender,
         phone: '',
         image: '../assets/fallBackProfileImage.jpg'
     }
