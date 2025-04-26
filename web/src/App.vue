@@ -25,7 +25,7 @@ watch(
     setAPIHeadersBearerToken(token)
 
     const hasErrors = await userStore.fetchUser()
-    console.log('hasErrors', hasErrors)
+   
     if (!hasErrors) {
       localStorage.setItem("token", token)
       await professorStore.fetchProfessorsInfo()
