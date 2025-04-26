@@ -31,28 +31,28 @@ const upload = async () => {
 </script>
 
 <template>
-    <v-row no-gutters  align="center" justify="center">
-        <v-col cols="8">
-            <v-file-input
-                show-size
-                label="Select Image"
-                accept="image/*"
-                @change="selectImage"
-            ></v-file-input>
-        </v-col>
-        <v-col cols="4" v-if="previewImage">
+ 
+        <v-row class="d-flex align-center justify-center">
+            <v-col cols="12" class="mt-4 mb-4">
+                <label for="image-input" class="d-flex justify-center align-center img-avatar" style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer">
+                    <input type="file" id="image-input" @change="selectImage" style="display: none" />
+                    <v-img alt="Preview Image" :src="image"></v-img>
+                </label>
+               
+            </v-col>
+        </v-row>
 
-            <v-avatar size="150">
-                <v-img
-                    alt="Preview Image"
-                    :src="previewImage"
-                ></v-img>
-            </v-avatar>
+        
                              
-        </v-col>
-    </v-row>
+    
+   
 </template>
 
 <style scoped>
-
+#image-input {
+  border-radius: 50%;
+}
+label[for="image-input"] {
+  border-radius: 50%;
+}
 </style>
