@@ -12,12 +12,13 @@ export const useUserStore = defineStore('userStore', () => {
         email: ''
     })
 
-    async function fetchUser() {
+    async function fetchUser(): Promise<boolean> {
         const { userInfo, hasErrors } = await getUserInfo()
         
         if (!hasErrors) {
             setUserInfo(userInfo)
         }
+        return hasErrors
     }
 
     function setUserInfo(userData: App.User.Info) {

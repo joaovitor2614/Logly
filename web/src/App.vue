@@ -9,23 +9,34 @@ const authStore = useAuthStore();
 const userStore = useUserStore()
 const professorStore = useProfessorStore()
 
+const deAuthenticatedUser = () => {
+    localStorage.removeItem('token')
+    deleteAPIHeadersAuthToken();
+    authStore.isAuthenticated = false
+}
+
 watch(
   () => authStore.token, // Use a getter function to maintain reactivity
   async (token) => {
 
   if (token) {
 
-    localStorage.setItem("token", token)
+
     setAPIHeadersBearerToken(token)
 
-    await userStore.fetchUser()
-    await professorStore.fetchProfessorsInfo()
-    authStore.isAuthenticated = true;
+    const hasErrors = await userStore.fetchUser()
+    console.log('hasErrors', hasErrors)
+    if (!hasErrors) {
+      localStorage.setItem("token", token)
+      await professorStore.fetchProfessorsInfo()
+      authStore.isAuthenticated = true;
+    } else {
+      deAuthenticatedUser()
+    }
+
 
   } else {
-    localStorage.removeItem('token')
-    deleteAPIHeadersAuthToken();
-    authStore.isAuthenticated = false
+    deAuthenticatedUser()
 
   }
 },  { immediate: true })
