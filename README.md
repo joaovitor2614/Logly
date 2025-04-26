@@ -18,6 +18,7 @@
 
 ![Pydantic](https://img.shields.io/badge/Pydantic-005571?logo=pydantic&logoColor=edb641)
 
+</div>
 # Summary
 Mamata ou Cilada is a web app focused for student users to help them evaluate and feedback professors
 
@@ -70,4 +71,3 @@ Step 5 - Run the app:
    ```
 
 
-</div>
