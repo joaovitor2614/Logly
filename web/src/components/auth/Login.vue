@@ -27,8 +27,8 @@ const handleLogin = async () => {
 
 }
 
-const redirectToLogin = () => {
-    router.push("login")
+const redirectToRegister = () => {
+    router.push("register")
 }
 </script>
 
@@ -64,7 +64,7 @@ const redirectToLogin = () => {
                                     >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
                                 </v-card-text>
                                 <div class="text-center">
-                                    <Button :isDisabled="isDisabled" :buttonAction="redirectToLogin">SIGN UP</Button>
+                                    <Button :isDisabled="isDisabled" :buttonAction="redirectToRegister">SIGN UP</Button>
                                  
                                 </div>
                         </div>

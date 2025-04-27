@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import Button from '@/components/common/Button.vue'
 
 import { useAuthStore } from '../../stores/index';
 
@@ -25,7 +25,9 @@ const handleRegister = () => {
 }
 
 
-
+const redirectToLogin = () => {
+    router.push("login")
+}
 </script>
 
 <template>
@@ -74,7 +76,7 @@ const handleRegister = () => {
                     required
                 ></v-text-field>
                 
-                <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Register</v-btn>
+                <Button :buttonAction="handleRegister" :isDisabled="isDisabled">Register</Button>
                 <div style="  text-align: center; padding: 10px 0;">
                         <v-card-text class="white--text" >
                             <h3 class="text-center ">Alredy Signed up?</h3>
@@ -83,7 +85,7 @@ const handleRegister = () => {
                             >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
                         </v-card-text>
                         <div class="text-center">
-                            <v-btn tile color="primary" outlined dark>Log in</v-btn>
+                            <Button :buttonAction="redirectToLogin">Log in</Button>
                         </div>
                 </div>
 
