@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '@/components/common/Button.vue'
 import { computed } from 'vue';
 import { useUserStore } from '../../stores/index';
 import UploadService from '../common/UploadService.vue'
@@ -74,18 +75,13 @@ const editUserInfo = () => {
                             </v-row>
 
                             <v-card-actions>
-                                <v-btn 
-                                    @click="editUserInfo" 
-                                    :disabled="isDisabled"
-                                    type="button"
-                                    tile 
-                                    color="primary" 
-                                    outlined
-                                    dark
+                                <Button
+                                    :buttonAction="editUserInfo" 
+                                    :isDisabled="isDisabled" 
                                 >
                                     Edit
 
-                                </v-btn>
+                                </Button>
                             </v-card-actions>
                         </v-card-text>
                     </v-card>

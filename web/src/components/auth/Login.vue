@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '@/components/common/Button.vue'
 import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
 
@@ -25,6 +26,10 @@ const handleLogin = async () => {
     await authStore.loginUser({ password: form.password, email: form.email });
 
 }
+
+const redirectToLogin = () => {
+    router.push("login")
+}
 </script>
 
 <template>
@@ -50,7 +55,7 @@ const handleLogin = async () => {
                             :error-messages="errorsMessages.password"
                             required
                         ></v-text-field>
-                        <v-btn type="submit" class="mt-4" color="primary" value="log in" :disabled="isDisabled">Login</v-btn>
+                        <Button :isDisabled="isDisabled" :buttonAction="handleLogin">Login</Button>
                         <div style="  text-align: center; padding: 60px 0;">
                                 <v-card-text class="white--text" >
                                     <h3 class="text-center ">Don't Have an Account Yet?</h3>
@@ -59,7 +64,8 @@ const handleLogin = async () => {
                                     >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
                                 </v-card-text>
                                 <div class="text-center">
-                                    <v-btn tile color="primary" outlined dark @click="router.push('/register')">SIGN UP</v-btn>
+                                    <Button :isDisabled="isDisabled" :buttonAction="redirectToLogin">SIGN UP</Button>
+                                 
                                 </div>
                         </div>
                     

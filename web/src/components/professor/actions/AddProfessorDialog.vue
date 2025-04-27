@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import Button from '@/components/common/Button.vue'
 import UploadService from '../../common/UploadService.vue'
 import { useProfessorStore } from '../../../stores/index'
 import { availableDisciplines } from '../../../constants/disciplines/index'
@@ -94,8 +94,8 @@ const isDisabled = computed(() => errorsMessages.value.name.length || errorsMess
                             </v-row>
             
                             <v-card-actions>
-                                <v-btn @click="handleAddProfessor()" :disabled="isDisabled">Add</v-btn>
-                                <v-btn @click="cancel">Cancel</v-btn>
+                                <Button :buttonAction="handleAddProfessor" :disabled="isDisabled">Add</Button>
+                                <Button :buttonAction="cancel">Cancel</Button>
                             </v-card-actions>
                         </v-card-text>
                     </v-card>
@@ -109,4 +109,4 @@ const isDisabled = computed(() => errorsMessages.value.name.length || errorsMess
 
 <style scoped>
 
-</style>../../../constants/disciplines/professor
+</style>
