@@ -74,7 +74,7 @@ const editUserInfo = () => {
                                 </v-col>
                             </v-row>
 
-                            <v-card-actions>
+                      
                                 <Button
                                     :buttonAction="editUserInfo" 
                                     :isDisabled="isDisabled" 
@@ -82,7 +82,7 @@ const editUserInfo = () => {
                                     Edit
 
                                 </Button>
-                            </v-card-actions>
+                       
                         </v-card-text>
                     </v-card>
                 </v-col>

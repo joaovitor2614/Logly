@@ -93,10 +93,11 @@ const isDisabled = computed(() => errorsMessages.value.name.length || errorsMess
                                 </v-col>
                             </v-row>
             
-                            <v-card-actions>
+                            <v-row class="d-flex justify-start align-center">
                                 <Button :buttonAction="handleAddProfessor" :disabled="isDisabled">Add</Button>
+                                
                                 <Button :buttonAction="cancel">Cancel</Button>
-                            </v-card-actions>
+                            </v-row>
                         </v-card-text>
                     </v-card>
              

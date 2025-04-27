@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '@/components/common/Button.vue'
 import { ref, computed } from 'vue';
 import Comment from './Comment.vue';
 import { useProfessorStore } from '../../../../stores/index';
@@ -50,7 +51,7 @@ const isDisabled = computed(() => newComment.value ? false : true)
     ></v-textarea>
 
 
-    <v-btn color="primary" block class="post-btn" @click="addComment()" :disabled="isDisabled">Post Comment</v-btn>
+    <Button :buttonAction="addComment" :isDisabled="isDisabled">Post Comment</Button>
   </v-card>
 </template>
 
