@@ -8,6 +8,7 @@ from ..utils.picture import save_picture
 from ..utils.database.professor import get_professor_by_id, retrive_rank_updated_professor
 from ..utils.database.update import update_document_object_instance
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
+from ..controllers.professor import ProfessorController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from faker import Faker
@@ -42,12 +43,9 @@ def create_professor(request: Request, new_professor: Professor, user_id: str = 
     
 @router.get("/", response_description="Get professors data in Database", status_code=status.HTTP_200_OK)
 async def get_professors(request: Request, user_id: str = Depends(get_current_user)):
-    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professors = list(professors_database.find())
-    for professor in professors:
-        professor["_id"] = str(professor["_id"])
-    return professors
-
+    professor_controller = ProfessorController(request)
+    professors_db = professor_controller.get_professors()
+    return professors_db
 
 
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
@@ -122,13 +120,8 @@ def delete_professor(id: str, request: Request, response: Response,  user_id: st
 
 @router.post("/test/{amount}", response_description="Post fake professors data in Database", status_code=status.HTTP_200_OK)
 async def create_fake_professors(request: Request, amount: int, user_id: str = Depends(get_current_user)):
-    professors_database =  request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-
-
-    new_fake_professors = create_new_fake_professors(amount)
-    for new_fake_professor in new_fake_professors:
-        new_fake_professor = jsonable_encoder(new_fake_professor)
-        new_fake_professor = professors_database.insert_one(new_fake_professor)
+    professor_controller = ProfessorController(request)
+    professor_controller.add_fake_professors(amount)
 
     
     

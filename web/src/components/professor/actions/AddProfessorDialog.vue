@@ -43,7 +43,7 @@ const isDisabled = computed(() => errorsMessages.value.name.length || errorsMess
         <v-container fluid class="d-flex align-center justify-center fill-height">
            
                     <v-card width="100%" max-width="80vh" class="pa-6">
-                    <v-card-title class="grey lighten-2">Add Professor</v-card-title>
+                    <v-card-title >Add Professor</v-card-title>
                         <v-card-text>
                             <v-row class="d-flex justify-center align-center">
                                 <v-col cols="12">
