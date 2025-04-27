@@ -3,12 +3,17 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 import uuid
 
+def formatted_datetime():
+    current_date_and_hour = datetime.now()
+    return current_date_and_hour.strftime('%d/%m/%Y %H:%M')
+
+
 
 class Comment(BaseModel):
     user_id: str = Annotated[datetime | None, Field(description="Comment user ID", default_factory='')]
     text: str = Field(...)
 
-    create_time: Annotated[datetime | None, Field(description="Comment added time", default_factory=datetime.utcnow)] = None
+    create_time: Annotated[datetime | None, Field(description="Comment added time", default_factory=formatted_datetime)] = None
 
 
 
