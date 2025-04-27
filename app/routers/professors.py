@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.professor import create_new_fake_professors
 from ..utils.picture import save_picture
-from ..utils.database.professor import get_professor_by_id, handle_current_user_professor_vote, retrive_rank_updated_professor
+from ..utils.database.professor import get_professor_by_id, retrive_rank_updated_professor
 from ..utils.database.update import update_document_object_instance
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from bson.objectid import ObjectId
