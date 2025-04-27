@@ -34,10 +34,11 @@ def test_generate_fake_professors(client, register_user):
 def test_get_professors(client, register_user):
     response, _ = register_user
     request_headers = get_authorization_setted_request_headers_from_register_response(response)
+    response = client.post(f"{ENDPOINTS.PROFESSORS}/test/3", headers=request_headers)
     get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
 
     fetched_professors = get_professors_response.json()
-
+    print('fetched_professors', fetched_professors)
     professor_model_fields = list(Professor.model_fields.keys())
 
 
