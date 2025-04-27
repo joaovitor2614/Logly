@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Form from './Form.vue'
 import Button from '@/components/common/Button.vue'
 import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
@@ -37,24 +38,7 @@ const redirectToRegister = () => {
     
         <AuthBase :helperTitle="'Login to access your acount.'">
             <form @submit.prevent="handleLogin">
-                        <v-text-field
-                            v-model="form.email"
-                            name="email"
-                            label="Email"
-                            type="email"
-                            placeholder="email"
-                            :error-messages="errorsMessages.email"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="form.password"
-                            name="password"
-                            label="Password"
-                            type="password"
-                            placeholder="password"
-                            :error-messages="errorsMessages.password"
-                            required
-                        ></v-text-field>
+                <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
                         <Button :isDisabled="isDisabled" :buttonAction="handleLogin">Login</Button>
                         <div style="  text-align: center; padding: 60px 0;">
                                 <v-card-text class="white--text" >

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
-
+import Form from './Form.vue'
 import { useAuthStore } from '../../stores/index';
 
 import useForm from '../../hooks/useForm'
 import AuthBase from './AuthBase.vue'
 import { computed } from 'vue';
 
+import { router } from '../../router/router'
 
 
 const { form, errorsMessages } = useForm()
@@ -35,46 +36,7 @@ const redirectToLogin = () => {
     
     <AuthBase :helperTitle="'Create an account to start using it..'">
         <form @submit.prevent="handleRegister">
-                <v-text-field
-                    v-model="form.name"
-                    :error-messages="errorsMessages.name"
-                    name="name"
-                    label="name"
-                    type="text"
-                    placeholder="name"
-         
-                    required
-                ></v-text-field>
-                <v-text-field
-                    v-model="form.email"
-                    :error-messages="errorsMessages.email"
-                    name="email"
-                    label="Email Address"
-                    type="email"
-                    placeholder="email"
-         
-                    required
-                ></v-text-field>
-                <v-text-field
-                    v-model="form.password"
-                    :error-messages="errorsMessages.password"
-                    name="password"
-                    label="Password"
-                    type="password"
-        
-                    placeholder="password"
-                    required
-                ></v-text-field>
-                <v-text-field 
-                    v-model="form.confirmPassword"
-                    :error-messages="errorsMessages.confirmPassword"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    type="password"
-                    placeholder="cocnfirm password"
-          
-                    required
-                ></v-text-field>
+                <Form :form="form" :errorsMessages="errorsMessages" :authType="'register'"/>
                 
                 <Button :buttonAction="handleRegister" :isDisabled="isDisabled">Register</Button>
                 <div style="  text-align: center; padding: 10px 0;">
