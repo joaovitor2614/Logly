@@ -3,17 +3,14 @@ import Form from './Form.vue'
 import Button from '@/components/common/Button.vue'
 import { computed } from 'vue';
 import { useAuthStore } from '../../stores/index';
-
-
+import { useRouter } from 'vue-router'
 import useForm from '../../hooks/useForm'
-
-import { router } from '../../router/router'
 import AuthBase from './AuthBase.vue'
 
 
 
 
-
+const router = useRouter()
 
 
 

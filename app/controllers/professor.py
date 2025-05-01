@@ -1,5 +1,5 @@
 from fastapi import Request, HTTPException, status
-from app.models.professor.professor import Professor, UpVote, DownVote
+from app.models.professor.professor import Professor, UpVote, DownVote, Comment
 from fastapi.encoders import jsonable_encoder
 from app.settings import APP_SETTINGS
 from faker import Faker
@@ -52,9 +52,12 @@ class ProfessorController:
 
 
 
-    def handle_professor_feedback(self, professor_id: str, user_id: str, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"):
+    def handle_professor_feedback(
+        self, professor_id: str, user_id: str, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"
+        ) -> Professor:
         
         professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
+        print('professor_db_instance', professor_db_instance, professor_id)
         if not professor_db_instance:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
 
@@ -63,6 +66,7 @@ class ProfessorController:
             professor = self._remove_professor_feedback_for_user(professor, user_id, feedback_type)
         else:
             professor = self.__add_professor_feedback_for_user(professor, user_id, feedback_type)
+        return professor
         
     def get_professor_db_instance_by_id(self, id: str):
         return self.professor_database.find_one({"_id": id})
@@ -82,6 +86,27 @@ class ProfessorController:
 
     def add_professor(self, professor: Professor) -> Professor:
          self._add_professor_to_db(fake_professor_db_instance)
+
+    def add_professor_comment(self, professor_id: str, user_id: str, comment_text: str) -> Professor:
+        professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
+
+        if not professor_db_instance:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
+
+        new_comment = Comment(user_id=str(user_id), text=comment_text)
+        professor["comments"].append(new_comment)
+        new_professor_comments = jsonable_encoder(professor["comments"])
+
+        update_result = self.professor_database.update_one(
+            {"_id": professor["_id"]}, {"$set": {"comments": new_professor_comments}}
+        )
+
+        professor = self.professor_database.find_one(
+            {"_id":  professor["_id"]}    
+        )
+        professor["_id"] = str(professor["_id"])
+        return professor
+
 
 
            

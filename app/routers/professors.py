@@ -34,6 +34,12 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
     professors_db = professor_controller.get_professors()
     return professors_db
 
+@router.get("/{id}", response_description="Get professor by id data in Database", status_code=status.HTTP_200_OK)
+async def get_professor_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
+    professor_controller = ProfessorController(request)
+    professor_db = professor_controller.get_professor_db_instance_by_id(id)
+    return professor_db
+
 
 @router.put("/{id}", response_description="Update a professor", response_model=Professor, )
 def update_professor(id: str, request: Request, professor: Professor = Body(...), user_id: str = Depends(get_current_user)):
@@ -44,57 +50,25 @@ def update_professor(id: str, request: Request, professor: Professor = Body(...)
     return updated_professor
 @router.put("/upvotes/{id}", response_description="Upvote a professor", status_code=status.HTTP_201_CREATED)
 def up_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
-    #professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professor = get_professor_by_id(request, id)
-
-    feedback_type = "upvotes"
-
-    update_ranks_professor = retrive_rank_updated_professor(request, professor, user_id, feedback_type)
-
-    #update_ranks_professor = add_feedback_to_professor(professor, user_id, feedback_type)
-
-    return update_ranks_professor
+    professor_controller = ProfessorController(request)
+    updated_professor = professor_controller.handle_professor_feedback(id, user_id, "upvotes")
+    return updated_professor
 
 @router.put("/downvotes/{id}", response_description="Downvote a professor", status_code=status.HTTP_201_CREATED)
 def down_vote_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
-    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professor = get_professor_by_id(request, id)
-
-    feedback_type = "downvotes"
-    update_ranks_professor = retrive_rank_updated_professor(request, professor, user_id, feedback_type)
-    #update_ranks_professor = add_feedback_to_professor(professor, user_id, feedback_type)
-
-    return update_ranks_professor
+    professor_controller = ProfessorController(request)
+    updated_professor = professor_controller.handle_professor_feedback(id, user_id, "downvotes")
+    return updated_professor
 
 
 
 @router.put("/comments/{id}", response_description="Comment a professor", status_code=status.HTTP_201_CREATED)
-def add_professor_comment(id: str, request: Request, comment: Comment,  user_id: str = Depends(get_current_user)):
-    professors_database = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    users_database = request.app.database[APP_SETTINGS.USERS_DB_NAME]
-    professor = get_professor_by_id(request, id)
-    
-    user = users_database.find_one(
-        {"_id": user_id}    
-    )
-    comment.user_id = str(user_id)
-
-    print('professor', professor, type(professor))
-    professor["comments"].append(comment)
-    new_professor_comments = jsonable_encoder(professor["comments"])
-    update_result = professors_database.update_one(
-            {"_id": professor["_id"]}, {"$set": {"comments": new_professor_comments}}
-    )
-
-    professor = professors_database.find_one(
-        {"_id":  professor["_id"]}    
-    )
-    professor["_id"] = str(professor["_id"])
+def add_professor_comment(id: str, request: Request, text: str,  user_id: str = Depends(get_current_user)):
+    professor_controller = ProfessorController(request)
+    professor = professor_controller.add_professor_comment(id, user_id, text)
     return professor
 
-    #update_ranks_professor = add_feedback_to_professor(professor, user_id, feedback_type)
 
-    return update_ranks_professor
 @router.delete("/{id}", response_description="Delete a professors")
 def delete_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
     delete_result = request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME].delete_one({"_id": (ObjectId(id))})
