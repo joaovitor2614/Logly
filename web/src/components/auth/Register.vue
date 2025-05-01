@@ -2,12 +2,12 @@
 import Button from '@/components/common/Button.vue'
 import Form from './Form.vue'
 import { useAuthStore } from '../../stores/index';
-
+import { useRouter } from 'vue-router'
 import useForm from '../../hooks/useForm'
 import AuthBase from './AuthBase.vue'
 import { computed } from 'vue';
 
-import { router } from '../../router/router'
+
 
 
 const { form, errorsMessages } = useForm()
@@ -25,7 +25,7 @@ const handleRegister = () => {
     authStore.registerUser({ name: form.name, password: form.password, email: form.email });
 }
 
-
+const router = useRouter()
 const redirectToLogin = () => {
     router.push("login")
 }
