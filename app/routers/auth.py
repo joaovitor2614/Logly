@@ -3,8 +3,8 @@ from fastapi import APIRouter, Request, Response, HTTPException, status
 from ..models.user.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, generate_jwt_token_payload_from_user_info
-from libgravatar import Gravatar
 from app.settings import APP_SETTINGS
+from ..controllers.user import UserController
 from datetime import timedelta
 
 
@@ -13,28 +13,10 @@ router = APIRouter()
 
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def register_user(request: Request, userInfo: UserCreate):
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
+    user_controller = UserController(request)
 
-    user = database.find_one(
-        {"email": userInfo.email}
-    )
-    if user:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=f"User with given email already exists!"
-        )
-    
-    g = Gravatar(userInfo.email)
-    setattr(userInfo, "image", g.get_image())
+    created_new_user = user_controller.create_user(userInfo)
 
-    hashed_password = get_hashed_password(userInfo.password)
-    userInfo.password = hashed_password
-
-    userInfo = jsonable_encoder(userInfo)
-    new_user = database.insert_one(userInfo)
-    created_new_user = database.find_one(
-        {"_id": new_user.inserted_id}
-    )
     jwt_payload = generate_jwt_token_payload_from_user_info(created_new_user)
     jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
 

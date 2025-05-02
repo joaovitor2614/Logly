@@ -4,6 +4,7 @@ from ..models.user.user import UserCreate, UserUpdate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
+from ..controllers.user import UserController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 
@@ -21,32 +22,14 @@ def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id
 
 @router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)
 async def get_user_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-   
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_id(user_id)
 
-    user = database.find_one(
-        {"_id": id}    
-    )
-  
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User not found!"
-        )
     return user
 
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
 async def get_user(request: Request, user_id: str = Depends(get_current_user)):
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-   
-
-    user = database.find_one(
-        {"_id": user_id}    
-    )
-  
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User not found!"
-        )
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_id(user_id)
+    
     return user
