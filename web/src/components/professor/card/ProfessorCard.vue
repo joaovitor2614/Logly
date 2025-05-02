@@ -22,9 +22,6 @@ const handleUpVoteProfessor = async (professorID:string) => {
 
 
 const handleDownVoteProfessor = async (professorID:string) => {
-    if (hasUserDownVotedProfessor.value) {
-        return
-    }
     professorStore.rankProssessor(professorID, 'downvotes')
 
     //await professorStore.editProfessor(professor._id, newProfessorData)

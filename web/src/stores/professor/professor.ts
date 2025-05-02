@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
-import { getProfessorsInfo, postProfessorInfo, addProfessorVote, addProfessorComment } from '@/api/services/professor'
+import { getProfessorsInfo, postProfessorInfo, addProfessorVote, addProfessorComment, deleteProfessorComment } from '@/api/services/professor'
 import { ProfessorFilters } from './types'
 import getFilteredProfessorCollection from './filter'
 
@@ -37,6 +37,14 @@ export const useProfessorStore = defineStore('professorStore', () => {
             
     }
 
+    const updateProfessorField = (professorID: string, fieldKey: keyof App.Professor.Professor, newFieldValue: any[]) => {
+        professorCollection.value.forEach((professor) => {
+            if (professor._id == professorID) {
+                professor[fieldKey] = newFieldValue
+            }
+        })
+    }
+
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         const { professorInfo, hasErrors } = await postProfessorInfo(newProfessorData)
         if (!hasErrors) {
@@ -52,13 +60,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
       
         const { professorInfo, hasErrors } = await addProfessorVote(professorID, voteType)
             
-            
-        professorCollection.value.forEach((professor) => {
-            if (professor._id == professorID) {
-                professor[`${voteType}`] = professorInfo[`${voteType}`]
-            }
-        })
-  
+        updateProfessorField(professorID, voteType, professorInfo[`${voteType}`])
+
  
        
     }
@@ -67,20 +70,16 @@ export const useProfessorStore = defineStore('professorStore', () => {
        
 
         const  { professorInfo, hasErrors } = await addProfessorComment(professorID, text)
-
-        professorCollection.value.forEach((professor) => {
-            if (professor._id == professorID) {
-                professor["comments"] = professorInfo["comments"]
-            }
-        })
-
-         
+        updateProfessorField(professorID, "comments", professorInfo["comments"])  
      }
 
-   
+     async function deleteComment(professorID:string, commentID: string) {
+       
 
+        const  { professorInfo, hasErrors } = await deleteProfessorComment(professorID, commentID)
+        updateProfessorField(professorID, "comments", professorInfo["comments"])  
+     }
 
-    
 
     return {
         finalProfessorCollection,
@@ -89,6 +88,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         rankProssessor,
         professorCollection,
         commentProfessor,
+        deleteComment,
         addProfessor,
         filters
     }

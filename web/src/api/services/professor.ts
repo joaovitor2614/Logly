@@ -36,4 +36,11 @@ export async function addProfessorComment(professorID:string, text: string): Pro
     return{ professorInfo: data, hasErrors}
 }
 
+export async function deleteProfessorComment(professorID:string, commentID: string): Promise<{ professorInfo: App.Professor.Professor, hasErrors: boolean }> {
+  
+    const { data, hasErrors } = await api.delete(`professors/comments/${professorID}/${commentID}`)
+    return{ professorInfo: data, hasErrors}
+}
+
+
 

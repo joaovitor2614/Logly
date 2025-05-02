@@ -35,7 +35,7 @@ const isDisabled = computed(() => newComment.value ? false : true)
 
     <v-list class="comments-list">
       <transition-group name="fade">
-        <Comment v-for="comment in props.comments" :comment="comment" />
+        <Comment v-for="comment in props.comments" :comment="comment" :professorID="props.professorID"/>
       </transition-group>
     </v-list>
 
