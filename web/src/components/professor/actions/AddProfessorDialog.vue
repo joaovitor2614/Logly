@@ -34,8 +34,12 @@ const currentGenderIcon = computed(() => {
     return genderItemByIconMapping[form.gender]
 })
 
-const isDisabled = computed(() => errorsMessages.value.name.length || errorsMessages.value.disciplines.length ? true : false)
-
+const isDisabled = computed(() => 
+errorsMessages.value.name.length 
+|| errorsMessages.value.disciplines.length
+|| errorsMessages.value.phone.length ? true : false
+)
+console.log('isDisabled', isDisabled)
 </script>
 
 <template>
@@ -66,7 +70,7 @@ const isDisabled = computed(() => errorsMessages.value.name.length || errorsMess
                                         v-model="form.phone"
                                         name="Phone"
                                         label="Phone"
-                                        type="text"
+                                        type="number"
                                         :prepend-inner-icon="'mdi-phone'"
                                         placeholder="Name"
                                         prepend-icon="mdiPhone"

@@ -1,11 +1,11 @@
-import Login from './Login.vue'
+import Register from './Register.vue'
+import "vuetify/styles";
 
 
-
-describe('<Login />', () => {
+describe('<Register />', () => {
   it('renders', () => {
     // see: https://on.cypress.io/mounting-vue
-    cy.mountWithPiniaVuetify(Login)
+    cy.mountWithPiniaVuetify(Register)
     //cy.get('#test-login-btn').should('be.disabled')
     //cy.get('#test-login-btn').should('be.disabled')
   })

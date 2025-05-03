@@ -11,3 +11,4 @@
 # Development automation scripts
 .bat
 /.vscode
+.vercel

@@ -19,6 +19,10 @@ import { createPinia, Pinia, setActivePinia } from "pinia";
 import { mount } from 'cypress/vue'
 import { DefineComponent } from 'vue';
 
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
 let pinia: Pinia;
 
 beforeEach(() => {
@@ -27,7 +31,12 @@ beforeEach(() => {
   setActivePinia(pinia);
 })
 
-function mountWithPinia(
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+function mountWithPiniaVuetify(
   Comp: DefineComponent,
   options?: Parameters<typeof mount>[1]
 ): Cypress.Chainable {
@@ -35,7 +44,7 @@ function mountWithPinia(
     ...options,
     global: {
       ...options?.global,
-      plugins: [...(options?.global?.plugins ?? []), pinia],
+      plugins: [...(options?.global?.plugins ?? []), pinia, vuetify],
     },
   });
 }
@@ -48,7 +57,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add("mountWithPinia", mountWithPinia);
+Cypress.Commands.add("mountWithPiniaVuetify", mountWithPiniaVuetify);
 Cypress.Commands.add('mount', mount)
 
 // Example use:

@@ -2,6 +2,7 @@ import useVuelidate from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators'
 import { computed, ComputedRef, Reactive, reactive } from 'vue';
 import { createFormAttributeErrors } from '../utils/validations';
+import { hasArrayAtLeastOneItem, isValidPhoneNumber } from '@/validation';
 
 
 
@@ -23,7 +24,8 @@ const useForm = () => {
         email: { required, email, $autoDirty: true },
         password: { required,  $autoDirty: true },
         confirmPassword: sameAs(form.password),
-        disciplines: { required,  $autoDirty: true },
+        phone: { required,  isValidPhoneNumber, $autoDirty: true },
+        disciplines: { hasArrayAtLeastOneItem,  $autoDirty: true },
       };
 
       const v$ = useVuelidate(formRules, form);

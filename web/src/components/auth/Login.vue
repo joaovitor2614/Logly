@@ -45,7 +45,13 @@ const redirectToRegister = () => {
                                     >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
                                 </v-card-text>
                                 <div class="text-center">
-                                    <Button :isDisabled="isDisabled" :buttonAction="redirectToRegister">SIGN UP</Button>
+                                    <Button 
+                                    :isDisabled="isDisabled" 
+                                    :buttonAction="redirectToRegister"
+                                    :id="'test-login-btn'"
+                                    >
+                                        SIGN UP
+                                    </Button>
                                  
                                 </div>
                         </div>
