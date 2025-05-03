@@ -50,7 +50,7 @@ console.log('isDisabled', isDisabled)
                     <v-card-title >Add Professor</v-card-title>
                         <v-card-text>
                             <v-row class="d-flex justify-center align-center">
-                                <v-col cols="12">
+                                <v-col cols="4">
                                     <UploadService v-model:image="form.image"/>
                                 </v-col>
                             </v-row>

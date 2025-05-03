@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import fallBackImage from '@/assets/fallBackProfileImage.jpg'
+import { onMounted } from 'vue'
 import UploadFilesService from '../../api/uploadFileService'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+
 const currentImage = ref('')
 const previewImage = ref('')
 
@@ -28,6 +31,12 @@ const upload = async () => {
     image.value = imageUrl
 }
 
+onBeforeMount(() => {
+    if (!image.value) {
+        previewImage.value = fallBackImage
+        console.log('previewImage.value', previewImage.value)
+    }
+})
 </script>
 
 <template>
@@ -36,16 +45,11 @@ const upload = async () => {
             <v-col cols="12" class="mt-4 mb-4">
                 <label for="image-input" class="d-flex justify-center align-center img-avatar" style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer">
                     <input type="file" id="image-input" @change="selectImage" style="display: none" />
-                    <v-img alt="Preview Image" :src="image"></v-img>
+                    <v-img alt="Preview Image" :src="previewImage"></v-img>
                 </label>
                
             </v-col>
         </v-row>
-
-        
-                             
-    
-   
 </template>
 
 <style scoped>

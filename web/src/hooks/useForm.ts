@@ -15,7 +15,7 @@ const useForm = () => {
         disciplines: [],
         gender: 'other' as App.Professor.Gender,
         phone: '',
-        image: '../assets/fallBackProfileImage.jpg'
+        image: ''
     }
     const form = reactive(formInitialValues)
   
