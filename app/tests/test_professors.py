@@ -1,4 +1,4 @@
-from app.tests.utils.token import get_authorization_setted_request_headers_from_register_response
+
 from ..models.professor.professor import Professor
 from bson.objectid import ObjectId
 from app.routers import ENDPOINTS
@@ -17,9 +17,8 @@ def test_generate_fake_professors(client, register_user):
     that the correct number of fake professors have been added to the database.
     """
 
-    response, _ = register_user
+    response, _, request_headers = register_user
 
-    request_headers = get_authorization_setted_request_headers_from_register_response(response)
 
     response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
     assert response.status_code == 200
@@ -33,8 +32,8 @@ def test_generate_fake_professors(client, register_user):
 
 
 def test_get_professors(client, register_user):
-    response, _ = register_user
-    request_headers = get_authorization_setted_request_headers_from_register_response(response)
+    response, _, request_headers = register_user
+
     response = client.post(f"{ENDPOINTS.PROFESSORS}/test/3", headers=request_headers)
     get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
 
@@ -51,8 +50,8 @@ def test_get_professors(client, register_user):
 
 @pytest.mark.parametrize("feedback_type", ["upvotes", "downvotes"])
 def test_feedback_professor(feedback_type, client, register_user):
-    response, _ = register_user
-    request_headers = get_authorization_setted_request_headers_from_register_response(response)
+    response, _, request_headers = register_user
+
     response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
     get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
     fetched_professors = get_professors_response.json()
@@ -71,8 +70,8 @@ def test_feedback_professor(feedback_type, client, register_user):
 
 
 def test_comment_professor(client, register_user):
-    response, _ = register_user
-    request_headers = get_authorization_setted_request_headers_from_register_response(response)
+    response, _, request_headers = register_user
+
     #response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
     get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
     fetched_professors = get_professors_response.json()
