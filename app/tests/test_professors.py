@@ -52,23 +52,27 @@ def test_get_professors(client, register_user):
 
 @pytest.mark.parametrize("feedback_type", ["upvotes", "downvotes"])
 def test_feedback_professor(feedback_type, client, register_user):
-    response, _, request_headers = register_user
+    response, mock_new_user_data, request_headers = register_user
+  
 
     response =  execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
     get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
  
-    professor_id = fetched_professors[0]["_id"]
+    professor_id = str(fetched_professors[0]["_id"])
     voted_professor_response = client.put(f"{ENDPOINTS.PROFESSORS}/{feedback_type}/{professor_id}", headers=request_headers)
-    #updated_feedback_professor_db_obj = voted_professor_response.json()
-    #assert len(updated_feedback_professor_db_obj[feedback_type]) == 1
-    
-    #print('upvote_professor_response', upvote_professor_response)
-    #assert upvote_professor_response.status_code == 200
+    assert voted_professor_response.status_code == 201
 
-    # Get upvotes professor
-    #upvoted_professor = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers)
-    #print('upvoted_professor', upvoted_professor)
+    updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
+    professor_feedback_collection = updated_professor_db_obj[feedback_type]
+    assert len(professor_feedback_collection) == 1, f"{feedback_type} were not added as expect"
+
+
+    #current_user = client.get(f"/{ENDPOINTS.USERS}/", headers=request_headers).json()
+    #current_user_id = current_user["_id"]
+    #assert professor_feedback_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
+    # Check that upvote object user id was the user id that feedbacked the professor
+
 
 
 def test_comment_professor(client, register_user):

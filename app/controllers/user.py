@@ -5,6 +5,7 @@ from ..utils.security import get_hashed_password, generate_jwt_token_payload_fro
 from app.settings import APP_SETTINGS
 from libgravatar import Gravatar
 from faker import Faker
+from bson.objectid import ObjectId
 from typing import Union, Literal, List
 import random
 from datetime import timedelta
