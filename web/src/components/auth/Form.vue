@@ -31,6 +31,8 @@ const showConfirmPassword = ref(false);
                     name="email"
                     label="Email Address"
                     type="email"
+                    id='test-email-input'
+
                     placeholder="email"
          
                     required
@@ -43,6 +45,7 @@ const showConfirmPassword = ref(false);
                     :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append-inner="showPassword = !showPassword"
                     name="password"
+                    id='test-password-input'
                     label="Password"
         
                     placeholder="password"
