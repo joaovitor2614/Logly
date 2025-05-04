@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore, useUserStore, useProfessorStore } from '../../stores/index';
+import { useRouter } from 'vue-router'
 
-import { router } from '../../router/router'
 const authStore = useAuthStore();
 const userStore = useUserStore()
 
-
+const router = useRouter()
 
 const professorStore = useProfessorStore()
 
@@ -15,6 +15,7 @@ const openAddProfessorDialog = () => {
 </script>
 
 <template>
+
         <v-navigation-drawer
           theme="dark"
           permanent
@@ -45,7 +46,7 @@ const openAddProfessorDialog = () => {
           <v-btn class="mt-16" @click="authStore.logout">Logout</v-btn>
         </v-navigation-drawer>
   
-
+        
 </template>
 
 <style scoped>
