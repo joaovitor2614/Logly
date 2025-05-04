@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI
-from .database import register_db_connection
+from .database import db_lifespan
 from .routers import register_routers
 from .middlewares import register_middlewares
 
@@ -11,9 +11,11 @@ import os
 
 def create_app() -> FastAPI:
 
-    app = FastAPI()
-
-    register_db_connection(app)
+    app = FastAPI(
+        title="Mamata ou Cilada",
+        version="1.0.0",
+        lifespan=db_lifespan
+    )
      
     register_middlewares(app)
     register_routers(app)
