@@ -17,6 +17,7 @@ const isDisabled = computed(() =>
     formFieldsInvalidState.value['email'] 
     || formFieldsInvalidState.value['password'] 
     || formFieldsInvalidState.value['name']
+
     ? true : false
 );
 
@@ -38,10 +39,10 @@ const redirectToLogin = () => {
         <form @submit.prevent="handleRegister">
                 <Form :form="form" :errorsMessages="errorsMessages" :authType="'register'"/>
                 
-                <Button :buttonAction="handleRegister" :isDisabled="isDisabled">Register</Button>
+                <Button :buttonAction="handleRegister" :isDisabled="isDisabled"  :id="'test-register-btn'">Register</Button>
                 <div style="  text-align: center; padding: 10px 0;">
                         <v-card-text class="white--text" >
-                            <h3 class="text-center ">Alredy Signed up?</h3>
+                            <h3 class="text-center">Alredy Signed up?</h3>
                             <h6
                             class="text-center"
                             >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>

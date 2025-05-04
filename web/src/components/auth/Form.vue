@@ -15,6 +15,7 @@ const showConfirmPassword = ref(false);
 <template>
          <v-text-field
                     v-if="props.authType === 'register'"
+                    id='test-name-input'
                     v-model="props.form.name"
                     :error-messages="props.errorsMessages.name"
                     name="name"
@@ -60,7 +61,7 @@ const showConfirmPassword = ref(false);
                     @click:append-inner="showConfirmPassword = !showConfirmPassword"
                     name="confirmPassword"
                     label="Confirm Password"
-
+                    id='test-confirm-password-input'
                     placeholder="cocnfirm password"
           
                     required

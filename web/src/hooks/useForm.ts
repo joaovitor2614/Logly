@@ -23,7 +23,6 @@ const useForm = () => {
         name: { required,  $autoDirty: true },
         email: { required, email, $autoDirty: true },
         password: { required,  $autoDirty: true },
-        confirmPassword: sameAs(form.password),
         phone: { required,  isValidPhoneNumber, $autoDirty: true },
         disciplines: { hasArrayAtLeastOneItem,  $autoDirty: true },
       };
