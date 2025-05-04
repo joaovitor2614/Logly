@@ -14,8 +14,8 @@ const router = useRouter()
 
 
 
-const { form, errorsMessages } = useForm()
-const isDisabled = computed (() =>   errorsMessages.value.email.length || errorsMessages.value.password.length ? true : false);
+const { form, errorsMessages, formFieldsInvalidState } = useForm()
+const isDisabled = computed (() =>   formFieldsInvalidState.value['email'] || formFieldsInvalidState.value['password'] ? true : false);
 
 
 const authStore = useAuthStore();
@@ -35,7 +35,7 @@ const redirectToRegister = () => {
     
         <AuthBase :helperTitle="'Login to access your acount.'">
             <form @submit.prevent="handleLogin">
-                <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
+                        <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
                         <Button :isDisabled="isDisabled" :buttonAction="handleLogin">Login</Button>
                         <div style="  text-align: center; padding: 60px 0;">
                                 <v-card-text class="white--text" >

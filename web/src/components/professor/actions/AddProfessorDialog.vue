@@ -10,7 +10,7 @@ const professorStore = useProfessorStore()
 
 
 
-const { form, errorsMessages } = useForm()
+const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
 const handleAddProfessor = () => {
     professorStore.addProfessor(form)
@@ -35,9 +35,9 @@ const currentGenderIcon = computed(() => {
 })
 
 const isDisabled = computed(() => 
-errorsMessages.value.name.length 
-|| errorsMessages.value.disciplines.length
-|| errorsMessages.value.phone.length ? true : false
+formFieldsInvalidState.value['name'] 
+|| formFieldsInvalidState.value['disciplines']
+|| formFieldsInvalidState.value['phone'] ? true : false
 )
 console.log('isDisabled', isDisabled)
 </script>

@@ -29,15 +29,23 @@ const useForm = () => {
       };
 
       const v$ = useVuelidate(formRules, form);
+
       const errorsMessages: ComputedRef<Record<keyof typeof formRules, string[]>> = computed(() => Object.fromEntries(
         Object.keys(formRules).map((formAttribute) => {
           return [formAttribute, createFormAttributeErrors(v$, formAttribute)]
         
         }))
       )
+
+      const formFieldsInvalidState: ComputedRef<Record<keyof typeof formRules, boolean>> = computed(() => Object.fromEntries(
+        Object.keys(formRules).map((formAttribute) => {
+          return [formAttribute, v$.value[formAttribute].$invalid]
+        
+        }))
+      )
   
 
-      return { form, errorsMessages }
+      return { form, errorsMessages, formFieldsInvalidState }
 }
 
 export default useForm

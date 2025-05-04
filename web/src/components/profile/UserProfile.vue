@@ -9,7 +9,7 @@ import useForm from '../../hooks/useForm';
 
 const userStore = useUserStore()
 
-const {form, errorsMessages } = useForm()
+const {form, errorsMessage, formFieldsInvalidState } = useForm()
 
 
 
@@ -22,9 +22,9 @@ const setDefaultFormValues = () => {
 }
 
 const isDisabled = computed(() => 
-    errorsMessages.value.email.length 
-    || errorsMessages.value.password.length 
-    || errorsMessages.value.name.length
+    formFieldsInvalidState.value['email'] 
+    || formFieldsInvalidState.value['password'] 
+    || formFieldsInvalidState.value['name']
     ? true : false
 );
 

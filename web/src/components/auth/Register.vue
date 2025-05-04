@@ -10,13 +10,13 @@ import { computed } from 'vue';
 
 
 
-const { form, errorsMessages } = useForm()
+const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
 const authStore = useAuthStore();
 const isDisabled = computed(() => 
-    errorsMessages.value.email.length 
-    || errorsMessages.value.password.length 
-    || errorsMessages.value.name.length
+    formFieldsInvalidState.value['email'] 
+    || formFieldsInvalidState.value['password'] 
+    || formFieldsInvalidState.value['name']
     ? true : false
 );
 
