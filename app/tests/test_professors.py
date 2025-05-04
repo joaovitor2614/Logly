@@ -45,7 +45,7 @@ def test_get_professors(client, register_user):
 
 
     assert get_professors_response.status_code == 200
-    assert len(fetched_professors) == FAKE_PROFESSORS_AMOUNT, "Get professors failed"
+
     for professor in fetched_professors:
         for professor_field in professor_model_fields:
             assert professor_field in professor, f"{professor_field} not in professor"

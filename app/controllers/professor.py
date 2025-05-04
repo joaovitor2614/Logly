@@ -50,6 +50,14 @@ class ProfessorController:
             created_new_professor["_id"] = str(created_new_professor["_id"])
             return created_new_professor
 
+    def _update_professor_obj_field(self, professor_id: str, field_name: str, field_value: list):
+        field_valud_json_encoded = jsonable_encoder(field_value)
+
+        self.professor_database.update_one(
+            {"_id": professor_id}, {"$set": {field_name: new_professor_comments}}
+        )
+
+
 
 
     def handle_professor_feedback(
@@ -66,7 +74,10 @@ class ProfessorController:
             professor = self._remove_professor_feedback_for_user(professor, user_id, feedback_type)
         else:
             professor = self.__add_professor_feedback_for_user(professor, user_id, feedback_type)
-        return professor
+        self._update_professor_obj_field(professor_id, feedback_type, professor[feedback_type])
+        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data["_id"] = str(new_professor_data["_id"])
+        return new_professor_data
         
     def get_professor_db_instance_by_id(self, id: str):
         return self.professor_database.find_one({"_id": id})
@@ -97,16 +108,10 @@ class ProfessorController:
 
         new_comment = Comment(user_id=str(user_id), text=comment_text)
         professor["comments"].append(new_comment)
-        new_professor_comments = jsonable_encoder(professor["comments"])
 
-        update_result = self.professor_database.update_one(
-            {"_id": professor["_id"]}, {"$set": {"comments": new_professor_comments}}
-        )
-
-        professor = self.professor_database.find_one(
-            {"_id":  professor["_id"]}    
-        )
-        professor["_id"] = str(professor["_id"])
+        self._update_professor_obj_field(professor_id, "comments", professor["comments"])
+        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data["_id"] = str(new_professor_data["_id"])
         return professor
 
 

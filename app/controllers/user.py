@@ -32,7 +32,7 @@ class UserController:
 
         return user
     def create_user(self, user_data: UserCreate) -> dict:
-        user = self.get_user_by_email(self)
+        user = self.get_user_by_email(user_data.email)
 
         if user:
             raise HTTPException(
