@@ -119,6 +119,23 @@ class ProfessorController:
         new_professor_data["_id"] = str(new_professor_data["_id"])
         return new_professor_data
 
+    def remove_professor_comment(self, professor_id: str, user_id: str, comment_id: str):
+        professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
+        professor_comment = next(
+            (comment for comment in professor_db_instance["comments"] if comment.get('_id') == comment_id), 
+            None
+        )
+        if not professor_comment:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found")
+        if professor_comment.user_id != str(user_id):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+
+        professor_db_instance["comments"].remove(professor_comment)
+        self._update_professor_obj_field(professor_id, "comments", professor_db_instance["comments"])
+        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data["_id"] = str(new_professor_data["_id"])
+        return new_professor_data
+
 
 
            
