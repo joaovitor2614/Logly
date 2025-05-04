@@ -1,5 +1,6 @@
 from faker import Faker
 from app.settings import APP_SETTINGS
+import json
 from ..utils.security import decode_jwt_token, verify_password
 from app.tests.utils.auth import execute_register_endpoint
 from app.tests.utils.token import get_authorization_setted_request_headers_from_register_response
@@ -14,7 +15,7 @@ def test_register_user(client, register_user):
     successful creation. It also checks that a token is returned in the 
     response JSON, confirming that the user has been authenticated.
     """
-    response, mock_new_user_data = register_user
+    response, mock_new_user_data, _ = register_user
 
 
     assert response.status_code == 201, f"Response status code expected to be 201, but got {response.status_code}"
@@ -34,6 +35,11 @@ def test_register_user(client, register_user):
     assert new_user["email"] == mock_new_user_data["email"], "Email not stored correctly"
     assert new_user["name"] == mock_new_user_data["name"], "Name not stored correctly"
 
+    # Try register user with the same email
+    #register_response = execute_register_endpoint(client, mock_new_user_data)
+    #assert register_response.status_code == 409
+    #print('register_response', register_response)
+
 
    
 def test_login_user(client, register_user):
@@ -47,13 +53,26 @@ def test_login_user(client, register_user):
     authentication. It also checks that a token is returned in the response
     JSON, verifying that the user has been authenticated.
     """
-    _, mock_new_user_data = register_user
+    _, mock_new_user_data, _ = register_user
+
+    # Try login with right password
     response = client.post(
         "/auth/login",
         json={"email": mock_new_user_data["email"], "password": mock_new_user_data["password"]},
     )
     assert response.status_code == 201
     assert "token" in response.json(), "Token not present auth endpoint response."
+
+    # try login with wrong password
+    response = client.post(
+        "/auth/login",
+        json={"email": mock_new_user_data["email"], "password": "coxinha123"},
+    )
+
+    response_text = json.loads(response.text)["detail"]
+    assert response.status_code == 401
+    assert response_text == "Password is not valid!"
+
 
 
 def test_get_user_info(client, register_user):
@@ -64,7 +83,7 @@ def test_get_user_info(client, register_user):
     JWT token, the response status code is 200, indicating successful retrieval. It also
     checks that the response contains the expected user information.
     """
-    response, mock_new_user_data = register_user
+    response, mock_new_user_data, _ = register_user
     request_headers = get_authorization_setted_request_headers_from_register_response(response)
     
     response = client.get("/users/", headers=request_headers)
