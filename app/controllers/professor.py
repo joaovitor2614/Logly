@@ -2,6 +2,7 @@ from fastapi import Request, HTTPException, status
 from app.models.professor.professor import Professor, UpVote, DownVote, Comment
 from fastapi.encoders import jsonable_encoder
 from app.settings import APP_SETTINGS
+from bson.objectid import ObjectId
 from faker import Faker
 from typing import Union, Literal, List
 from randomuser import RandomUser
@@ -80,9 +81,12 @@ class ProfessorController:
         return new_professor_data
         
     def get_professor_db_instance_by_id(self, id: str):
-        return self.professor_database.find_one({"_id": id})
+        print('9get_professor_db_instance_by_id', id, type(id), ObjectId(id))
+        professor = self.professor_database.find_one({"_id": ObjectId(id)})
+        return professor
 
     def get_professors(self) -> List[Professor]:
+        
         professors = list(self.professor_database.find())
         for professor in professors:
             professor["_id"] = str(professor["_id"])
