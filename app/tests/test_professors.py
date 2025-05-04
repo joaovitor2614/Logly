@@ -3,6 +3,7 @@ from ..models.professor.professor import Professor
 from bson.objectid import ObjectId
 from app.routers import ENDPOINTS
 from app.settings import APP_SETTINGS
+from app.tests.utils.professor import execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint
 import pytest
 FAKE_PROFESSORS_AMOUNT = 3
 def test_generate_fake_professors(client, register_user):
@@ -19,11 +20,12 @@ def test_generate_fake_professors(client, register_user):
 
     response, _, request_headers = register_user
 
-
-    response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
+    # Execute the endpoint
+    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
     assert response.status_code == 200
-    professors_db_mock = client.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
 
+    # Query mongodb mock to check if fake fake professors were added
+    professors_db_mock = client.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
     professors = list(professors_db_mock.find())
     assert len(professors) == FAKE_PROFESSORS_AMOUNT, "Add fake professors failed"
 
@@ -34,8 +36,8 @@ def test_generate_fake_professors(client, register_user):
 def test_get_professors(client, register_user):
     response, _, request_headers = register_user
 
-    response = client.post(f"{ENDPOINTS.PROFESSORS}/test/3", headers=request_headers)
-    get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
+    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
+    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
 
     fetched_professors = get_professors_response.json()
 
@@ -52,8 +54,8 @@ def test_get_professors(client, register_user):
 def test_feedback_professor(feedback_type, client, register_user):
     response, _, request_headers = register_user
 
-    response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
-    get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
+    response =  execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
+    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
  
     professor_id = fetched_professors[0]["_id"]
@@ -72,8 +74,8 @@ def test_feedback_professor(feedback_type, client, register_user):
 def test_comment_professor(client, register_user):
     response, _, request_headers = register_user
 
-    #response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=request_headers)
-    get_professors_response = client.get(f"{ENDPOINTS.PROFESSORS}", headers=request_headers)
+    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
+    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
     
     professor_id = fetched_professors[0]["_id"]
