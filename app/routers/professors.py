@@ -63,9 +63,9 @@ def down_vote_professor(id: str, request: Request, response: Response,  user_id:
 
 
 @router.put("/comments/{id}", response_description="Comment a professor", status_code=status.HTTP_201_CREATED)
-def add_professor_comment(id: str, request: Request, text: str,  user_id: str = Depends(get_current_user)):
+def add_professor_comment(id: str, request: Request, comment: Comment,  user_id: str = Depends(get_current_user)):
     professor_controller = ProfessorController(request)
-    professor = professor_controller.add_professor_comment(id, user_id, text)
+    professor = professor_controller.add_professor_comment(id, user_id, comment)
     return professor
 
 

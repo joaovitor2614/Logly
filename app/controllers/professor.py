@@ -52,10 +52,10 @@ class ProfessorController:
             return created_new_professor
 
     def _update_professor_obj_field(self, professor_id: str, field_name: str, field_value: list):
-        field_valud_json_encoded = jsonable_encoder(field_value)
+        field_value_json_encoded = jsonable_encoder(field_value)
 
         self.professor_database.update_one(
-            {"_id": professor_id}, {"$set": {field_name: new_professor_comments}}
+            {"_id": ObjectId(professor_id)}, {"$set": {field_name: field_value_json_encoded}}
         )
 
 
@@ -65,23 +65,24 @@ class ProfessorController:
         self, professor_id: str, user_id: str, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"
         ) -> Professor:
         
-        professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
-        print('professor_db_instance', professor_db_instance, professor_id)
-        if not professor_db_instance:
+        professor_db_obj = self.get_professor_db_instance_by_id(professor_id)
+        print('professor_db_instance', professor_db_obj, professor_id)
+        if not professor_db_obj:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
 
-        has_user_feedbacked_professor = any(feedback["user_id"] == user_id for feedback in professor[feedback_type])
+        has_user_feedbacked_professor = any(feedback["user_id"] == user_id for feedback in professor_db_obj[feedback_type])
+        print('has_user_feedbacked_professor', has_user_feedbacked_professor)
         if has_user_feedbacked_professor:
-            professor = self._remove_professor_feedback_for_user(professor, user_id, feedback_type)
+            professor_db_obj = self._remove_professor_feedback_for_user(professor_db_obj, user_id, feedback_type)
         else:
-            professor = self.__add_professor_feedback_for_user(professor, user_id, feedback_type)
-        self._update_professor_obj_field(professor_id, feedback_type, professor[feedback_type])
+            professor_db_obj = self.__add_professor_feedback_for_user(professor_db_obj, user_id, feedback_type)
+        self._update_professor_obj_field(professor_id, feedback_type, professor_db_obj[feedback_type])
         new_professor_data = self.get_professor_db_instance_by_id(professor_id)
         new_professor_data["_id"] = str(new_professor_data["_id"])
         return new_professor_data
         
     def get_professor_db_instance_by_id(self, id: str):
-        print('9get_professor_db_instance_by_id', id, type(id), ObjectId(id))
+
         professor = self.professor_database.find_one({"_id": ObjectId(id)})
         return professor
 
@@ -102,21 +103,21 @@ class ProfessorController:
     def add_professor(self, professor: Professor) -> Professor:
          self._add_professor_to_db(fake_professor_db_instance)
 
-    def add_professor_comment(self, professor_id: str, user_id: str, comment_text: str) -> Professor:
+    def add_professor_comment(self, professor_id: str, user_id: str, new_comment: Comment) -> Professor:
         professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
         all_profs = self.get_professors()
         print('professor_db_instance', professor_id, 'all profs', all_profs)
 
         if not professor_db_instance:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
+        new_comment.user_id = str(user_id)
 
-        new_comment = Comment(user_id=str(user_id), text=comment_text)
-        professor["comments"].append(new_comment)
+        professor_db_instance["comments"].append(new_comment)
 
-        self._update_professor_obj_field(professor_id, "comments", professor["comments"])
+        self._update_professor_obj_field(professor_id, "comments", professor_db_instance["comments"])
         new_professor_data = self.get_professor_db_instance_by_id(professor_id)
         new_professor_data["_id"] = str(new_professor_data["_id"])
-        return professor
+        return new_professor_data
 
 
 
