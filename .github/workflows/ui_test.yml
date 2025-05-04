@@ -7,13 +7,15 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        working-directory: ./web
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+
+      - name: Install dependencies
         working-directory: ./web
+        run: npm ci
+
+      - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          working-directory: ./web
           build: npm run build
           start: npm start
