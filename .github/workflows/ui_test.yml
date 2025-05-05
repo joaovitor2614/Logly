@@ -13,9 +13,12 @@ jobs:
         working-directory: ./web
         run: npm ci
 
-      - name: Cypress run
+      - name: Build project
+        working-directory: ./web
+        run: npm run build
+
+      - name: Cypress component tests
         uses: cypress-io/github-action@v6
         with:
           working-directory: ./web
-          build: npm run build
-          start: npm start
+          command: npx cypress run --component
