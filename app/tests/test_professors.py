@@ -83,14 +83,23 @@ def test_comment_professor(client, register_user):
     get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
     
-    professor_id = fetched_professors[0]["_id"]
+    professor_id = str(fetched_professors[0]["_id"])
 
     comment_text = "test comment"
 
-    comment_professor_response = client.post(
-        "f{ENDPOINTS.PROFESSORS}/comments/{professor_id}", headers=request_headers, json={"comment": comment_text}
+    comment_professor_response = client.put(
+        f"{ENDPOINTS.PROFESSORS}/comments/{professor_id}", headers=request_headers, json={"text": comment_text}
     )
-    assert comment_professor_response.status_code == 200
+    assert comment_professor_response.status_code == 201
+
+    updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
+    professor_comment_collection = updated_professor_db_obj["comments"]
+    assert len(updated_professor_db_obj["comments"]) == 1, "Professor comment were not added correctly"
+    current_user = client.get(f"{ENDPOINTS.USERS}", headers=request_headers).json()
+
+    current_user_id = current_user["_id"]
+
+    assert professor_comment_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
 
 
 

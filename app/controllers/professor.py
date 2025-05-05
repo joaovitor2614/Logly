@@ -107,9 +107,9 @@ class ProfessorController:
 
     def add_professor_comment(self, professor_id: str, user_id: str, new_comment: Comment) -> Professor:
         professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
-        all_profs = self.get_professors()
-        print('professor_db_instance', professor_id, 'all profs', all_profs)
-
+        #all_profs = self.get_professors()
+        #print('professor_db_instance', professor_id, 'all profs', all_profs)
+        print('professor_db_instance', professor_db_instance)
         if not professor_db_instance:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
         new_comment.user_id = str(user_id)
