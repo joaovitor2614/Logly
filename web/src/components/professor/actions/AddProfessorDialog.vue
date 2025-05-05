@@ -58,6 +58,7 @@ console.log('isDisabled', isDisabled)
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="form.name"
+                                        :error-messages="errorsMessages.name"
                                         name="Name"
                                         label="Name"
                                         type="text"
@@ -68,6 +69,7 @@ console.log('isDisabled', isDisabled)
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="form.phone"
+                                        :error-messages="errorsMessages.phone"
                                         name="Phone"
                                         label="Phone"
                                         type="number"
@@ -84,6 +86,7 @@ console.log('isDisabled', isDisabled)
                                         :items="availableDisciplines"
                                         multiple
                                         v-model="form.disciplines"
+                                        :error-messages="errorsMessages.disciplines"
                                         label="Disciplines"
                                     ></v-select>
                                 </v-col>
