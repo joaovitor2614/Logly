@@ -52,6 +52,7 @@ class ProfessorController:
             return created_new_professor
 
     def _update_professor_obj_field(self, professor_id: str, field_name: str, field_value: list):
+        print('field_value', field_value)
         field_value_json_encoded = jsonable_encoder(field_value)
 
         self.professor_database.update_one(
@@ -84,6 +85,7 @@ class ProfessorController:
     def get_professor_db_instance_by_id(self, id: str):
 
         professor = self.professor_database.find_one({"_id": ObjectId(id)})
+        professor["_id"] = str(professor["_id"])
         return professor
 
     def get_professors(self) -> List[Professor]:

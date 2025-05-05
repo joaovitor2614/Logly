@@ -52,10 +52,10 @@ def test_get_professors(client, register_user):
 
 @pytest.mark.parametrize("feedback_type", ["upvotes", "downvotes"])
 def test_feedback_professor(feedback_type, client, register_user):
-    response, mock_new_user_data, request_headers = register_user
+    _, _, request_headers = register_user
   
 
-    response =  execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
+    execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
     get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
  
@@ -67,11 +67,12 @@ def test_feedback_professor(feedback_type, client, register_user):
     professor_feedback_collection = updated_professor_db_obj[feedback_type]
     assert len(professor_feedback_collection) == 1, f"{feedback_type} were not added as expect"
 
-
-    #current_user = client.get(f"/{ENDPOINTS.USERS}/", headers=request_headers).json()
-    #current_user_id = current_user["_id"]
-    #assert professor_feedback_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
     # Check that upvote object user id was the user id that feedbacked the professor
+    current_user = client.get(f"{ENDPOINTS.USERS}", headers=request_headers).json()
+
+    current_user_id = current_user["_id"]
+
+    assert professor_feedback_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
 
 
 
