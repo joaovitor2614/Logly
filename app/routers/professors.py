@@ -67,6 +67,11 @@ def add_professor_comment(id: str, request: Request, comment: Comment,  user_id:
     professor = professor_controller.add_professor_comment(id, user_id, comment)
     return professor
 
+@router.delete("/comments/{id}/{comment_id}", response_description="Comment a professor", status_code=status.HTTP_201_CREATED)
+def remove_professor_comment(id: str, comment_id: str, request: Request, user_id: str = Depends(get_current_user)):
+    professor_controller = ProfessorController(request)
+    professor = professor_controller.remove_professor_comment(id, user_id, comment_id)
+    return professor
 
 @router.delete("/{id}", response_description="Delete a professors")
 def delete_professor(id: str, request: Request, response: Response,  user_id: str = Depends(get_current_user)):
