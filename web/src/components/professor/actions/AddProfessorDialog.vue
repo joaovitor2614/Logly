@@ -98,9 +98,10 @@ console.log('isDisabled', isDisabled)
                             </v-row>
             
                             <v-row class="d-flex justify-start align-center">
-                                <Button :buttonAction="handleAddProfessor" :disabled="isDisabled">Add</Button>
                                 
-                                <Button :buttonAction="cancel">Cancel</Button>
+                                
+                                <Button :buttonAction="cancel" class="mr-4">Cancel</Button>
+                                <Button :buttonAction="handleAddProfessor" :disabled="isDisabled">Add</Button>
                             </v-row>
                         </v-card-text>
                     </v-card>

@@ -2,6 +2,7 @@
 interface Props {
     isDisabled?: boolean,
     isButtonLoading?: boolean,
+    class?: string,
     id?: string
     buttonAction: () => void
 }
@@ -9,6 +10,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     isDisabled: false,
     isButtonLoading: false,
+    class: '',
     id: ''
     
 })
@@ -22,6 +24,7 @@ console.log('isDisabled', props.isDisabled)
     :disabled="props.isDisabled"
     :loading="props.isButtonLoading"
     color="black"
+    :class="class"
     dark
     :id="props.id"
     @click="props.buttonAction"
