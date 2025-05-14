@@ -1,75 +1,85 @@
 <template>
-  <v-card class="pa-4" elevation="6" rounded="xl">
-    <v-row align="center" justify="space-between" class="flex-wrap">
-      <!-- Left: Image -->
-      <v-col cols="12" md="3" class="text-center">
-        <v-avatar size="120">
-          <v-img :src="professorInfo.image" alt="Professor image" />
-        </v-avatar>
-      </v-col>
+  <v-card class="mx-auto" max-width="800" elevation="4">
+    <v-card-title class="text-h5 font-weight-bold primary--text">
+      {{ professorInfo.name }}
+      <v-chip class="ml-2" color="secondary" small>
+        {{ professorInfo.gender }}
+      </v-chip>
+    </v-card-title>
 
-      <!-- Center: Name and Votes -->
-      <v-col cols="12" md="6" class="text-center">
-        <h2 class="text-h5 font-weight-bold mb-2">{{ professorInfo.name }}</h2>
-        <v-row align="center" justify="center" dense>
-          <v-icon color="success" class="mr-1">mdi-thumb-up</v-icon>
-          <span class="mr-4">{{ professorInfo.upvotes.length || 0 }}</span>
+    <v-divider></v-divider>
 
-          <v-icon color="error" class="mr-1">mdi-thumb-down</v-icon>
-          <span>{{ professorInfo.downvotes.length || 0 }}</span>
-        </v-row>
-      </v-col>
+    <v-card-text>
+      <v-row>
+        <!-- Left Column - Image -->
+        <v-col cols="12" md="4" class="text-center">
+          <v-avatar size="200" class="elevation-4">
+            <v-img
+              :src="professorInfo.image"
+              alt="Professor photo"
+              aspect-ratio="1"
+            ></v-img>
+          </v-avatar>
+        </v-col>
 
-      <!-- Right: Gender and Create Time -->
-      <v-col cols="12" md="3" class="text-md-right text-center mt-2 mt-md-0">
-        <div class="text-caption grey--text">Gender: {{ professorInfo.gender }}</div>
-        <div class="text-caption grey--text">Since: {{ professorInfo.create_time }}</div>
-      </v-col>
-    </v-row>
+        <!-- Right Column - Details -->
+        <v-col cols="12" md="8">
+          <!-- Contact Information -->
+          <v-list dense class="transparent">
+            <v-list-item v-if="professorInfo.phone">
+              <v-list-item-icon>
+                <v-icon color="primary">mdi-phone</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ professorInfo.phone }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
-    <v-divider class="my-4" />
+            <v-list-item v-if="professorInfo.email">
+              <v-list-item-icon>
+                <v-icon color="primary">mdi-email</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ professorInfo.email }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
-    <!-- Contact and Disciplines -->
-    <v-row>
-      <!-- Contact Info -->
-      <v-col cols="12" md="6">
-        <h3 class="text-subtitle-1 font-weight-medium mb-2">Contact Info</h3>
-        <v-list dense>
-          <v-list-item>
-            <v-list-item-title>
-              📞 {{ professorInfo.phone || 'N/A' }}
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>
-              📧 {{ 'N/A' }}
-            </v-list-item-title>
-          </v-list-item>
-          <!--
-          <v-list-item>
-            <v-list-item-title>
-              🔗 <a :href="professor.lattes" target="_blank">{{ professor.lattes }}</a>
-            </v-list-item-title>
-          </v-list-item>
-           -->
-        </v-list>
-       
-      </v-col>
+          </v-list>
 
-      <!-- Disciplines -->
-      <v-col cols="12" md="6">
-        <h3 class="text-subtitle-1 font-weight-medium mb-2">Disciplines</h3>
-        <v-chip-group column>
-          <v-chip v-for="(discipline, index) in professorInfo.disciplines" :key="index" class="ma-1" color="primary" variant="tonal">
-            {{ discipline }}
-          </v-chip>
-        </v-chip-group>
-      </v-col>
-    </v-row>
+          <!-- Disciplines -->
+          <v-divider class="my-4"></v-divider>
+          <div class="text-subtitle-1 primary--text mb-2">Disciplinas</div>
+          <v-chip-group>
+            <v-chip
+              v-for="(discipline, index) in professorInfo.disciplines"
+              :key="index"
+              color="secondary"
+              class="ma-1"
+              outlined
+            >
+              {{ discipline }}
+            </v-chip>
+          </v-chip-group>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+    <!-- Voting Section -->
+    <v-card-actions class="px-4 pb-4">
+      <v-btn color="success" outlined>
+        <v-icon left>mdi-thumb-up</v-icon>
+        {{ professorInfo.upvotes.length }}
+      </v-btn>
+      <v-btn color="error" outlined class="ml-2">
+        <v-icon left>mdi-thumb-down</v-icon>
+        {{ professorInfo.downvotes.length }}
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
-  <script setup lang="ts">
+
+<script setup lang="ts">
 import { onBeforeMount } from 'vue';
 import { useProfessorStore } from '../../stores';
 import { ref } from 'vue';
@@ -101,35 +111,20 @@ onBeforeMount(() => {
 </script>
   
 <style scoped>
-  .profile-card {
-    margin: auto;
-    max-width: 800px;
-    padding-right: 16px;
-    border-right: 1px solid #e0e0e0;
-  }
+.v-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
 
-  .metric:last-child {
-    border-right: none;
-    padding-right: 0;
-  }
+.v-card:hover {
+  transform: translateY(-2px);
+}
 
-  .metric-value {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #1a1a1a;
-  }
-  
+.primary--text {
+  color: #1976d2 !important;
+}
 
-  .metric {
-    display: flex;
-    flex-direction: column;
-  }
-  
-
-
-  
-  .metric-label {
-    font-size: 1.25rem;
-    color: #666;
-  }
+.secondary {
+  background-color: #26a69a !important;
+}
   </style>
