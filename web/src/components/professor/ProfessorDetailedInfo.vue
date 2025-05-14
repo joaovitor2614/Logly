@@ -1,89 +1,73 @@
 <template>
-  <v-container fluid class="d-flex flex-column align-center  justify-center">
-    <v-avatar size="225">
-      <v-img :src="professorInfo.image" :alt="professorInfo.name" />
-    </v-avatar>
-    <v-row class="mt-4">
-      <v-col cols="12">
-        <div class="text-h4 font-weight-bold">{{ professorInfo.name }}</div>
+  <v-card class="pa-4" elevation="6" rounded="xl">
+    <v-row align="center" justify="space-between" class="flex-wrap">
+      <!-- Left: Image -->
+      <v-col cols="12" md="3" class="text-center">
+        <v-avatar size="120">
+          <v-img :src="professorInfo.image" alt="Professor image" />
+        </v-avatar>
+      </v-col>
+
+      <!-- Center: Name and Votes -->
+      <v-col cols="12" md="6" class="text-center">
+        <h2 class="text-h5 font-weight-bold mb-2">{{ professorInfo.name }}</h2>
+        <v-row align="center" justify="center" dense>
+          <v-icon color="success" class="mr-1">mdi-thumb-up</v-icon>
+          <span class="mr-4">{{ professorInfo.upvotes.length || 0 }}</span>
+
+          <v-icon color="error" class="mr-1">mdi-thumb-down</v-icon>
+          <span>{{ professorInfo.downvotes.length || 0 }}</span>
+        </v-row>
+      </v-col>
+
+      <!-- Right: Gender and Create Time -->
+      <v-col cols="12" md="3" class="text-md-right text-center mt-2 mt-md-0">
+        <div class="text-caption grey--text">Gender: {{ professorInfo.gender }}</div>
+        <div class="text-caption grey--text">Since: {{ professorInfo.create_time }}</div>
       </v-col>
     </v-row>
-    <v-row class="d-flex  align-center  justify-center">
-      <div class="mr-4">
-        <v-icon
-          color="black"
-          icon="mdi-thumb-up"
 
-        ></v-icon>
-        <span class="metric-label">{{ professorInfo.upvotes.length }}</span>
-      
-  
-      </div>
-      <div class="ml-4">
-        <v-icon
-          color="black"
-          icon="mdi-thumb-down"
+    <v-divider class="my-4" />
 
-        ></v-icon>
-        <span class="metric-label">{{ professorInfo.downvotes.length }}</span>
-      
-  
-      </div>
+    <!-- Contact and Disciplines -->
+    <v-row>
+      <!-- Contact Info -->
+      <v-col cols="12" md="6">
+        <h3 class="text-subtitle-1 font-weight-medium mb-2">Contact Info</h3>
+        <v-list dense>
+          <v-list-item>
+            <v-list-item-title>
+              📞 {{ professorInfo.phone || 'N/A' }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>
+              📧 {{ 'N/A' }}
+            </v-list-item-title>
+          </v-list-item>
+          <!--
+          <v-list-item>
+            <v-list-item-title>
+              🔗 <a :href="professor.lattes" target="_blank">{{ professor.lattes }}</a>
+            </v-list-item-title>
+          </v-list-item>
+           -->
+        </v-list>
+       
+      </v-col>
+
+      <!-- Disciplines -->
+      <v-col cols="12" md="6">
+        <h3 class="text-subtitle-1 font-weight-medium mb-2">Disciplines</h3>
+        <v-chip-group column>
+          <v-chip v-for="(discipline, index) in professorInfo.disciplines" :key="index" class="ma-1" color="primary" variant="tonal">
+            {{ discipline }}
+          </v-chip>
+        </v-chip-group>
+      </v-col>
     </v-row>
-
-      <v-div class="d-flex align-center justify-center ma-6">
-        <div class="mr-6">
-          <v-icon
-            color="black"
-            icon="mdi-phone"
-
-          ></v-icon>
-          <span class="text-subtitle-1">{{ professorInfo.phone ? professorInfo.phone : 'Unknown'  }}</span>
-        </div>
-        <div class="ml-6">
-          <v-icon
-            color="black"
-            :icon="professorGenderByIconName[professorInfo.gender]"
-
-          ></v-icon>
-          <span class="text-subtitle-1">{{professorInfo.gender}}</span>
-
-        </div>
-      
-      </v-div>
-
-
-
-  </v-container>
-  <!--
-    <v-card class="pa-6 d-flex align-center justify-center rounded-xl profile-card" elevation="2">
-    <v-avatar size="96" class="me-6">
-      <v-img :src="professorInfo.image" alt="Francisco R. Abrantes Júnior" />
-    </v-avatar>
-    
-    <div class="flex-grow-1">
-      <div class="text-h6 font-weight-bold">{{ professorInfo.name }}</div>
-      <div class="text-subtitle-2 text-grey-darken-1 mb-1">
-        PhD · Professor at Fluminense Federal University
-      </div>
-      <div class="text-body-2 text-grey-darken-1 mb-4">Brazil</div>
-
-      <div class="d-flex flex-wrap gap-4">
-        <div class="metric">
-          <span class="metric-value">{{ professorInfo.upvotes.length }}</span>
-          <span class="metric-label">Upvotes</span>
-        </div>
-        <div class="metric">
-          <span class="metric-value">{{ professorInfo.downvotes.length }}</span>
-          <span class="metric-label">DownVotes</span>
-        </div>
-    
-      </div>
-    </div>
   </v-card>
-  -->
 </template>
-
 
   <script setup lang="ts">
 import { onBeforeMount } from 'vue';
