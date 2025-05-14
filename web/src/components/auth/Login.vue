@@ -46,7 +46,7 @@ const redirectToRegister = () => {
                                 </v-card-text>
                                 <div class="text-center">
                                     <Button 
-                                    :isDisabled="isDisabled" 
+                                 
                                     :buttonAction="redirectToRegister"
                                     :id="'test-login-btn'"
                                     >

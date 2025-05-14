@@ -32,10 +32,8 @@ const upload = async () => {
 }
 
 onBeforeMount(() => {
-    if (!image.value) {
-        previewImage.value = fallBackImage
-        console.log('previewImage.value', previewImage.value)
-    }
+   previewImage.value = !image.value ? fallBackImage : image.value
+  
 })
 </script>
 

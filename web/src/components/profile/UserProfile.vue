@@ -23,7 +23,6 @@ const setDefaultFormValues = () => {
 
 const isDisabled = computed(() => 
     formFieldsInvalidState.value['email'] 
-    || formFieldsInvalidState.value['password'] 
     || formFieldsInvalidState.value['name']
     ? true : false
 );
@@ -40,8 +39,8 @@ const editUserInfo = () => {
 <template>
     <v-container fluid class="d-flex align-center justify-center fill-height">
             <v-row justify="center">
-                <v-col cols="12" sm="8">
-                    <v-card>
+                <v-col cols="10" sm="4">
+                    <v-card class="pa-4" elevation="2">
                     
                         <v-card-text>
                             <v-row >
@@ -50,8 +49,7 @@ const editUserInfo = () => {
                                     <UploadService v-model:image="form.image"/>
                                 </v-col>
                             </v-row>
-                            <v-row >
-                                <v-col cols="6">
+                            <v-row class="d-flex justify-start align-center">
                                     <v-text-field
                                         v-model="form.name"
                                         name="Name"
@@ -60,8 +58,8 @@ const editUserInfo = () => {
                                         placeholder="Name"
                                         required
                                     ></v-text-field>
-                                </v-col>
-                                <v-col cols="6">
+                            </v-row>
+                            <v-row class="d-flex justify-start align-center">
                                     <v-text-field
                                         v-model="form.email"
                                         :disabled="true"
@@ -71,10 +69,10 @@ const editUserInfo = () => {
                                         placeholder="Email"
                                         required
                                     ></v-text-field>
-                                </v-col>
+
                             </v-row>
 
-                      
+                            <v-row class="d-flex justify-start align-center">
                                 <Button
                                     :buttonAction="editUserInfo" 
                                     :isDisabled="isDisabled" 
@@ -82,6 +80,8 @@ const editUserInfo = () => {
                                     Edit
 
                                 </Button>
+                            </v-row>
+                              
                        
                         </v-card-text>
                     </v-card>
