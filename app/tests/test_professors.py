@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from app.routers import ENDPOINTS
 from app.settings import APP_SETTINGS
 from app.tests.utils.professor import execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint
+from app.utils.professor import create_new_fake_professor
 import pytest
 FAKE_PROFESSORS_AMOUNT = 3
 def test_generate_fake_professors(client, register_user):
@@ -31,7 +32,18 @@ def test_generate_fake_professors(client, register_user):
 
 
    
+def test_add_new_professor(client, register_user):
+    response, _, request_headers = register_user
 
+    fake_professor_info = create_new_fake_professor()
+
+    post_professor_response = client.post(
+        f"{ENDPOINTS.PROFESSORS}", 
+        json=fake_professor_info.model_dump(mode='json'), 
+        headers=request_headers
+        )
+
+    #assert post_professor_response.status_code == 200
 
 def test_get_professors(client, register_user):
     response, _, request_headers = register_user
