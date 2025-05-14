@@ -20,7 +20,7 @@ router = APIRouter()
 @router.post("/", response_description="Add a professor in Database", status_code=status.HTTP_201_CREATED)
 def create_professor(request: Request, new_professor: Professor, user_id: str = Depends(get_current_user)):
     professor_controller = ProfessorController(request)
-    created_new_professor = professor_controller.add_professor(new_professor, True)
+    created_new_professor = professor_controller.add_professor(new_professor)
     return created_new_professor
 
 

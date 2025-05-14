@@ -99,8 +99,8 @@ class ProfessorController:
             self._add_professor_to_db(fake_professor_db_instance)
 
     def add_professor(self, professor: Professor) -> Professor:
-         self._add_professor_to_db(fake_professor_db_instance)
-
+        created_new_professor = self._add_professor_to_db(professor, return_db_obj=True)
+        return created_new_professor
     def add_professor_comment(self, professor_id: str, user_id: str, new_comment: Comment) -> Professor:
         professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
         #all_profs = self.get_professors()
