@@ -1,6 +1,7 @@
 from fastapi import Request, HTTPException, status
 from app.models.professor.professor import Professor, UpVote, DownVote, Comment
 from fastapi.encoders import jsonable_encoder
+from app.utils.professor import create_new_fake_professor
 from app.settings import APP_SETTINGS
 from bson.objectid import ObjectId
 from faker import Faker
@@ -13,14 +14,9 @@ class ProfessorController:
          self.professor_database =  request.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
 
     def _create_fake_professor(self, faker_instance):
-        return Professor(
-                name=faker_instance.name(),
-                image=faker_instance.image_url(),
-                disciplines=['Calculo IV'],
-                gender='other',
-                email=faker_instance.email(),
-                phone=faker_instance.phone_number()
-            )        
+        professor = create_new_fake_professor(faker_instance)
+        return professor
+    
 
     def _remove_professor_feedback_for_user(
         self,
