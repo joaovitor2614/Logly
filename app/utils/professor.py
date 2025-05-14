@@ -8,7 +8,7 @@ def create_new_fake_professor(faker_instance: Faker | None = None) -> Professor:
         faker_instance = Faker()
     return Professor(
         name=faker_instance.name(),
-        image=faker_instance.image_url(),
+        image='https://thispersondoesnotexist.com/',
         disciplines=['Calculo IV'],
         gender='other',
         email=faker_instance.email(),
