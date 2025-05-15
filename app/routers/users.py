@@ -23,7 +23,7 @@ def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id
 @router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)
 async def get_user_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
     user_controller = UserController(request)
-    user = user_controller.get_user_by_id(user_id)
+    user = user_controller.get_user_by_id(id)
 
     return user
 
