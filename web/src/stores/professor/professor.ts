@@ -30,7 +30,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
 
     async function fetchProfessorsInfo() {
       
-            const { professorsInfo, hasErrors } = await getProfessorsInfo()
+            const { data: professorsInfo, hasErrors } = await getProfessorsInfo()
             if (!hasErrors) {
                 professorCollection.value = professorsInfo
             }   
@@ -46,7 +46,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     }
 
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
-        const { professorInfo, hasErrors } = await postProfessorInfo(newProfessorData)
+        const { data: professorInfo, hasErrors } = await postProfessorInfo(newProfessorData)
         if (!hasErrors) {
             toast.success(`${newProfessorData.name} added successfully!`);
             await fetchProfessorsInfo()
@@ -59,7 +59,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function rankProssessor(professorID:string, voteType: 'upvotes' | 'downvotes') {
        
       
-        const { professorInfo, hasErrors } = await addProfessorVote(professorID, voteType)
+        const { data: professorInfo, hasErrors } = await addProfessorVote(professorID, voteType)
             
         updateProfessorField(professorID, voteType, professorInfo[`${voteType}`])
 
@@ -70,14 +70,14 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function commentProfessor(professorID:string, text: string) {
        
 
-        const  { professorInfo, hasErrors } = await addProfessorComment(professorID, text)
+        const  { data: professorInfo, hasErrors } = await addProfessorComment(professorID, text)
         updateProfessorField(professorID, "comments", professorInfo["comments"])  
      }
 
      async function deleteComment(professorID:string, commentID: string) {
        
 
-        const  { professorInfo, hasErrors } = await deleteProfessorComment(professorID, commentID)
+        const  { data: professorInfo, hasErrors } = await deleteProfessorComment(professorID, commentID)
         updateProfessorField(professorID, "comments", professorInfo["comments"])  
      }
 

@@ -18,7 +18,7 @@ const commentAuthorInfo: Partial<App.User.Info> = reactive({
 })
 
 const setCommentAuthorUserInfo = async () => {
-  const { userInfo: authorUserInfo, hasErrors } = await getUserInfoByID(props.comment.user_id)
+  const { data: authorUserInfo, hasErrors } = await getUserInfoByID(props.comment.user_id)
   if (!hasErrors) {
     commentAuthorInfo.name = authorUserInfo.name
     commentAuthorInfo.image = authorUserInfo.image
