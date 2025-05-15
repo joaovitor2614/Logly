@@ -24,7 +24,12 @@ class ProfessorController:
         user_id: str, 
         feedback_type: Literal["upvotes", "downvotes"] = "upvotes"
     ) -> Professor:
-        professor[feedback_type].remove({"user_id": user_id})
+        professor_comment = next(
+            (feedback for feedback in professor[feedback_type] if feedback.get('user_id') == user_id), 
+            None
+        )
+        professor[feedback_type].remove(professor_comment)
+    
         return professor
 
     def __add_professor_feedback_for_user(
@@ -70,6 +75,7 @@ class ProfessorController:
         has_user_feedbacked_professor = any(feedback["user_id"] == user_id for feedback in professor_db_obj[feedback_type])
         print('has_user_feedbacked_professor', has_user_feedbacked_professor)
         if has_user_feedbacked_professor:
+            print('has_user_feedbacked_professor')
             professor_db_obj = self._remove_professor_feedback_for_user(professor_db_obj, user_id, feedback_type)
         else:
             professor_db_obj = self.__add_professor_feedback_for_user(professor_db_obj, user_id, feedback_type)
