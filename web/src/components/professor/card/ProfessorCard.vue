@@ -14,9 +14,7 @@ const props = defineProps<Props>();
 
 const professorStore = useProfessorStore();
 const handleUpVoteProfessor = async (professorID:string) => {
-    if (hasUserUpVotedProfessor.value) {
-        return
-    }
+
     professorStore.rankProssessor(professorID, 'upvotes')
 }
 
