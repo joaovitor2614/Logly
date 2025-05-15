@@ -125,7 +125,7 @@ class ProfessorController:
         )
         if not professor_comment:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found")
-        if professor_comment.user_id != str(user_id):
+        if professor_comment["user_id"] != str(user_id):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
 
         professor_db_instance["comments"].remove(professor_comment)

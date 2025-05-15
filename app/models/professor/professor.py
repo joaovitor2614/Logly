@@ -10,6 +10,7 @@ def formatted_datetime():
 
 
 class Comment(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     user_id: str = Annotated[datetime | None, Field(description="Comment user ID", default_factory='')]
     text: str = Field(...)
 
