@@ -67,7 +67,7 @@ class ProfessorController:
         self, professor_id: str, user_id: str, feedback_type: Literal["upvotes", "downvotes"] = "upvotes"
         ) -> Professor:
         
-        professor_db_obj = self.get_professor_db_instance_by_id(professor_id)
+        professor_db_obj = self.get_professor_by_id(professor_id)
         print('professor_db_instance', professor_db_obj, professor_id)
         if not professor_db_obj:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Professor not found")
@@ -80,11 +80,11 @@ class ProfessorController:
         else:
             professor_db_obj = self.__add_professor_feedback_for_user(professor_db_obj, user_id, feedback_type)
         self._update_professor_obj_field(professor_id, feedback_type, professor_db_obj[feedback_type])
-        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data = self.get_professor_by_id(professor_id)
         new_professor_data["_id"] = str(new_professor_data["_id"])
         return new_professor_data
         
-    def get_professor_db_instance_by_id(self, id: str):
+    def get_professor_by_id(self, id: str):
 
         professor = self.professor_database.find_one({"_id": ObjectId(id)})
         professor["_id"] = str(professor["_id"])
@@ -108,7 +108,7 @@ class ProfessorController:
         created_new_professor = self._add_professor_to_db(professor, return_db_obj=True)
         return created_new_professor
     def add_professor_comment(self, professor_id: str, user_id: str, new_comment: Comment) -> Professor:
-        professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
+        professor_db_instance = self.get_professor_by_id(professor_id)
         #all_profs = self.get_professors()
         #print('professor_db_instance', professor_id, 'all profs', all_profs)
         print('professor_db_instance', professor_db_instance)
@@ -119,12 +119,12 @@ class ProfessorController:
         professor_db_instance["comments"].append(new_comment)
 
         self._update_professor_obj_field(professor_id, "comments", professor_db_instance["comments"])
-        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data = self.get_professor_by_id(professor_id)
         new_professor_data["_id"] = str(new_professor_data["_id"])
         return new_professor_data
 
     def remove_professor_comment(self, professor_id: str, user_id: str, comment_id: str):
-        professor_db_instance = self.get_professor_db_instance_by_id(professor_id)
+        professor_db_instance = self.get_professor_by_id(professor_id)
         professor_comment = next(
             (comment for comment in professor_db_instance["comments"] if comment.get('_id') == comment_id), 
             None
@@ -136,7 +136,7 @@ class ProfessorController:
 
         professor_db_instance["comments"].remove(professor_comment)
         self._update_professor_obj_field(professor_id, "comments", professor_db_instance["comments"])
-        new_professor_data = self.get_professor_db_instance_by_id(professor_id)
+        new_professor_data = self.get_professor_by_id(professor_id)
         new_professor_data["_id"] = str(new_professor_data["_id"])
         return new_professor_data
 

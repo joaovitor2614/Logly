@@ -35,7 +35,7 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
 @router.get("/{id}", response_description="Get professor by id data in Database", status_code=status.HTTP_200_OK)
 async def get_professor_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
     professor_controller = ProfessorController(request)
-    professor_db = professor_controller.get_professor_db_instance_by_id(id)
+    professor_db = professor_controller.get_professor_by_id(id)
     return professor_db
 
 

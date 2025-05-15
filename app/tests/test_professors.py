@@ -38,15 +38,24 @@ def test_generate_fake_professors(client, register_user):
 def test_add_new_professor(client, register_user):
     response, _, request_headers = register_user
 
+    professor_controller = ProfessorController(client)
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
+
     fake_professor_info = create_new_fake_professor()
 
-    post_professor_response = client.post(
-        f"{ENDPOINTS.PROFESSORS}", 
-        json=fake_professor_info.model_dump(mode='json'), 
-        headers=request_headers
-        )
+    post_professor_response = professor_client_mocker.post_professor(fake_professor_info)
+    
 
-    #assert post_professor_response.status_code == 200
+    assert post_professor_response.status_code == 201
+
+    added_professor_id = str(post_professor_response.json()["_id"])
+    added_professor_db_obj = professor_controller.get_professor_by_id(added_professor_id)
+    print('added_professor_db_obj', added_professor_db_obj)
+    assert added_professor_db_obj["name"] == fake_professor_info.name
+    assert added_professor_db_obj["image"] == fake_professor_info.image
+    assert added_professor_db_obj["phone"] == fake_professor_info.phone
+    assert added_professor_db_obj["gender"] == fake_professor_info.gender
+
 
 def test_get_professors(client, register_user):
     response, _, request_headers = register_user
