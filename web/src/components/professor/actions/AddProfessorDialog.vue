@@ -13,7 +13,10 @@ const professorStore = useProfessorStore()
 const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
 const handleAddProfessor = () => {
-    professorStore.addProfessor(form)
+    const hasErrors = professorStore.addProfessor(form)
+    if (!hasErrors) {
+        professorStore.shouldOpenAddProfessorDialog = false;
+    }
 }
 
 const genderItems: App.Professor.Gender[] = ['male', 'female', 'other']

@@ -51,6 +51,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
             toast.success(`${newProfessorData.name} added successfully!`);
             await fetchProfessorsInfo()
         }
+        return hasErrors
 
     
     }
