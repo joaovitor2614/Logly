@@ -21,9 +21,10 @@ export const useAuthStore = defineStore('authStore', () => {
      * @param userData - user data to be sent to the API
      */
     const executeAuthAction = async (authType: 'register' | 'login', userData: App.User.Register | App.User.Login) => {
-        const { jwtToken, hasErrors } = await authenticateUser(authType, userData)
+        const { data, hasErrors } = await authenticateUser(authType, userData)
+        console.log('data', data)
         if (!hasErrors) {
-            token.value = jwtToken
+            token.value = data.token
 
             toast.success(`User ${authType === 'register' ? 'registered' : 'logged in'} successfully!`);
         }
