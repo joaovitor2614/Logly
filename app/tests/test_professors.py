@@ -3,10 +3,11 @@ from ..models.professor.professor import Professor
 from bson.objectid import ObjectId
 from app.routers import ENDPOINTS
 from app.settings import APP_SETTINGS
-from app.tests.utils.professor import execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint, execute_add_professor_comment_endpoint
+from app.controllers.professor import ProfessorController
+from app.tests.utils.professor import ProfessorClientMocker, FAKE_PROFESSORS_AMOUNT, execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint, execute_add_professor_comment_endpoint
 from app.utils.professor import create_new_fake_professor
 import pytest
-FAKE_PROFESSORS_AMOUNT = 3
+
 def test_generate_fake_professors(client, register_user):
 
     """
@@ -18,16 +19,18 @@ def test_generate_fake_professors(client, register_user):
     The test then asserts that the response status code is 200 and verifies
     that the correct number of fake professors have been added to the database.
     """
-
+    
     response, _, request_headers = register_user
+    professor_controller = ProfessorController(client)
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
 
     # Execute the endpoint
-    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
+    response = professor_client_mocker.post_fake_professors()
     assert response.status_code == 200
 
     # Query mongodb mock to check if fake fake professors were added
-    professors_db_mock = client.app.database[APP_SETTINGS.PROFESSORS_DB_NAME]
-    professors = list(professors_db_mock.find())
+
+    professors = professor_controller.get_professors()
     assert len(professors) == FAKE_PROFESSORS_AMOUNT, "Add fake professors failed"
 
 

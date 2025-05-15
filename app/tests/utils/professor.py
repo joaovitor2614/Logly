@@ -2,6 +2,28 @@ from fastapi import Request
 from app.routers import ENDPOINTS
 from fastapi.testclient import TestClient
 
+FAKE_PROFESSORS_AMOUNT = 3
+class ProfessorClientMocker:
+     def __init__(self, client: TestClient, request_headers: dict) -> None:
+          self.client = client
+          self.request_headers = request_headers
+
+     def post_fake_professors(self) -> Request:
+          response = self.client.post(f"{ENDPOINTS.PROFESSORS}/test/{FAKE_PROFESSORS_AMOUNT}", headers=self.request_headers) 
+          return response
+
+     def get_all_professors(self) -> Request:
+          response = self.client.get(f"{ENDPOINTS.PROFESSORS}", headers=self.request_headers)
+          return response
+
+     def post_professor_comment(self, professor_id: str) -> Request:
+          comment_text = "test comment"
+          response = self.client.put(
+               f"{ENDPOINTS.PROFESSORS}/comments/{professor_id}", headers=self.request_headers, json={"text": comment_text}
+          )
+
+          return response
+
 
 def execute_generate_fake_profs_endpoint(client: TestClient, amount: str, request_headers: dict) -> Request:
      response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{amount}", headers=request_headers)
