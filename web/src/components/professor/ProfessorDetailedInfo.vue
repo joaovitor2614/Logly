@@ -1,8 +1,11 @@
 <template>
+  <v-container  fluid class="bg-grey-lighten-3">
+
+
   <v-card class="mx-auto" max-width="800" elevation="4">
-    <v-card-title class="text-h5 font-weight-bold primary--text">
+    <v-card-title class="text-h5 font-weight-bold">
       {{ professorInfo.name }}
-      <v-chip class="ml-2" color="secondary" small>
+      <v-chip class="ml-2" small>
         {{ professorInfo.gender }}
       </v-chip>
     </v-card-title>
@@ -28,7 +31,7 @@
           <v-list dense class="transparent">
             <v-list-item v-if="professorInfo.phone">
               <v-list-item-icon>
-                <v-icon color="primary">mdi-phone</v-icon>
+                <v-icon>mdi-phone</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>{{ professorInfo.phone }}</v-list-item-title>
@@ -48,12 +51,11 @@
 
           <!-- Disciplines -->
           <v-divider class="my-4"></v-divider>
-          <div class="text-subtitle-1 primary--text mb-2">Disciplinas</div>
+          <div class="text-subtitle-1 mb-2">Disciplinas</div>
           <v-chip-group>
             <v-chip
               v-for="(discipline, index) in professorInfo.disciplines"
               :key="index"
-              color="secondary"
               class="ma-1"
               outlined
             >
@@ -66,16 +68,17 @@
 
     <!-- Voting Section -->
     <v-card-actions class="px-4 pb-4">
-      <v-btn color="success" outlined>
+      <v-btn outlined>
         <v-icon left>mdi-thumb-up</v-icon>
         {{ professorInfo.upvotes.length }}
       </v-btn>
-      <v-btn color="error" outlined class="ml-2">
+      <v-btn  outlined class="ml-2">
         <v-icon left>mdi-thumb-down</v-icon>
         {{ professorInfo.downvotes.length }}
       </v-btn>
     </v-card-actions>
   </v-card>
+    </v-container>
 </template>
 
 
