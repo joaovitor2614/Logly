@@ -42,7 +42,7 @@ const sortByOptionsItems = [
 </script>
 
 <template>
-     <v-container class="mt-6">
+     <v-container class="mt-9">
             <v-row align="center" justify="center">
                 <v-col cols="6">
                     <v-text-field

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProfessorGalery from './components/professor/ProfessorGalery.vue'
-import ProfessorActions from './components/professor/ProfessorActions.vue'
+import ProfessorSearchFilters from './components/professor/ProfessorSearchFilters.vue'
+
 import AddProfessorDialog from './components/professor/actions/AddProfessorDialog.vue'
 
 defineOptions({
@@ -15,7 +16,7 @@ defineOptions({
     <v-container fluid style="max-width: 125vh;">
 
         <AddProfessorDialog />
-        <ProfessorActions />
+        <ProfessorSearchFilters />
         <ProfessorGalery />
     </v-container>
  </template>
