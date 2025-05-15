@@ -50,7 +50,7 @@ def test_add_new_professor(client, register_user):
 
     added_professor_id = str(post_professor_response.json()["_id"])
     added_professor_db_obj = professor_controller.get_professor_by_id(added_professor_id)
-    print('added_professor_db_obj', added_professor_db_obj)
+
     assert added_professor_db_obj["name"] == fake_professor_info.name
     assert added_professor_db_obj["image"] == fake_professor_info.image
     assert added_professor_db_obj["phone"] == fake_professor_info.phone
@@ -60,8 +60,10 @@ def test_add_new_professor(client, register_user):
 def test_get_professors(client, register_user):
     response, _, request_headers = register_user
 
-    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
-    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
+
+    _ = professor_client_mocker.post_fake_professors()
+    get_professors_response = professor_client_mocker.get_all_professors()
 
     fetched_professors = get_professors_response.json()
 
