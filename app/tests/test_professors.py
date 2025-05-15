@@ -3,7 +3,7 @@ from ..models.professor.professor import Professor
 from bson.objectid import ObjectId
 from app.routers import ENDPOINTS
 from app.settings import APP_SETTINGS
-from app.tests.utils.professor import execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint
+from app.tests.utils.professor import execute_generate_fake_profs_endpoint, execute_get_all_professor_endpoint, execute_add_professor_comment_endpoint
 from app.utils.professor import create_new_fake_professor
 import pytest
 FAKE_PROFESSORS_AMOUNT = 3
@@ -94,14 +94,11 @@ def test_comment_professor(client, register_user):
     response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
     get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
     fetched_professors = get_professors_response.json()
-    
+
     professor_id = str(fetched_professors[0]["_id"])
+    comment_professor_response = execute_add_professor_comment_endpoint(client, request_headers, professor_id)
+  
 
-    comment_text = "test comment"
-
-    comment_professor_response = client.put(
-        f"{ENDPOINTS.PROFESSORS}/comments/{professor_id}", headers=request_headers, json={"text": comment_text}
-    )
     assert comment_professor_response.status_code == 201
 
     updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
