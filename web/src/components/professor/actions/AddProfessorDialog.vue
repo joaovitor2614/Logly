@@ -12,8 +12,8 @@ const professorStore = useProfessorStore()
 
 const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
-const handleAddProfessor = () => {
-    const hasErrors = professorStore.addProfessor(form)
+const handleAddProfessor = async () => {
+    const hasErrors = await professorStore.addProfessor(form)
     if (!hasErrors) {
         professorStore.shouldOpenAddProfessorDialog = false;
     }
