@@ -65,8 +65,6 @@ export const useProfessorStore = defineStore('professorStore', () => {
         }
             
         updateProfessorField(professorID, voteType, professorInfo[`${voteType}`])
-
- 
        
     }
 
@@ -86,6 +84,7 @@ export const useProfessorStore = defineStore('professorStore', () => {
         if (!hasErrors) {
             updateProfessorField(professorID, "comments", professorInfo["comments"])  
         }
+     }
 
 
     return {
@@ -99,5 +98,5 @@ export const useProfessorStore = defineStore('professorStore', () => {
         addProfessor,
         filters
     }
-    
+
 })
