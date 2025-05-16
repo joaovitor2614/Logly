@@ -4,7 +4,7 @@ from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from ..models.auth.auth import JWTPayload
-from datetime import datetime, UTC
+from datetime import datetime, UTC, timedelta
 from typing import Dict
 
 

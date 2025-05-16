@@ -21,6 +21,8 @@ def register_user(request: Request, userInfo: UserCreate):
     jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
 
     jwt_token = encode_jwt_token(jwt_payload)
+    #jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(created_new_user)
+
 
     return {"token": jwt_token}
 
