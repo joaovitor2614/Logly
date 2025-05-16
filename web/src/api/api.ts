@@ -2,7 +2,7 @@
 import axios from 'axios'
 import registerResponseInterceptors from './interceptors';
 const api = axios.create({
-    baseURL: 'https://mamata-ou-cilada-serve-git-f4529e-joao-vitors-projects-80c25497.vercel.app/',
+    baseURL: 'http://127.0.0.1:5000',
     timeout: 10000,
 });
 
