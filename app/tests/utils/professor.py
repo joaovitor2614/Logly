@@ -50,6 +50,13 @@ class ProfessorClientMocker:
 
           return response
 
+     def delete_professor_comment(self, professor_id: str, comment_id: str) -> Response:
+          response = self.client.delete(
+               f"{ENDPOINTS.PROFESSORS}/comments/{professor_id}/{comment_id}", headers=self.request_headers
+          )
+
+          return response
+
 
 def execute_generate_fake_profs_endpoint(client: TestClient, amount: str, request_headers: dict) -> Request:
      response = client.post(f"{ENDPOINTS.PROFESSORS}/test/{amount}", headers=request_headers)

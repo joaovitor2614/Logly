@@ -120,28 +120,26 @@ def test_comment_professor(client, register_user):
 
 
 
-'''
+
 def test_delete_professor_comment(client, register_user):
     response, _, request_headers = register_user
+    
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
+    fetched_professors = professor_client_mocker.generate_and_fetch_fake_professor()
 
-    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
-    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
-    fetched_professors = get_professors_response.json()
 
     professor_id = str(fetched_professors[0]["_id"])
-    comment_professor_response = execute_add_professor_comment_endpoint(client, request_headers, professor_id)
+    comment_professor_response = professor_client_mocker.post_professor_comment(professor_id)
 
-    updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
+    updated_professor_db_obj = professor_client_mocker.get_professor_by_id(professor_id).json()
+    
     professor_comment_collection = updated_professor_db_obj["comments"]
     current_professor_comments_amount = len(professor_comment_collection) 
  
     added_comment_id = professor_comment_collection[0]["_id"]
 
-    delete_professor_comment_response = client.delete(
-        f"{ENDPOINTS.PROFESSORS}/comments/{professor_id}/{added_comment_id}", headers=request_headers
-    )
-
+    delete_professor_comment_response = professor_client_mocker.delete_professor_comment(professor_id, added_comment_id)
+    assert delete_professor_comment_response.status_code == 201
     updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
     professor_comment_collection = updated_professor_db_obj["comments"]
     assert len(professor_comment_collection) == (current_professor_comments_amount-1), "Comment was not deleted correctly"
-'''
