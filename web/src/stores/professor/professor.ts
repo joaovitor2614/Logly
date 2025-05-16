@@ -48,8 +48,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
     async function addProfessor(newProfessorData: App.Professor.AddProfessor) {
         const { data: professorInfo, hasErrors } = await postProfessorInfo(newProfessorData)
         if (!hasErrors) {
+            professorCollection.value.push(professorInfo)
             toast.success(`${newProfessorData.name} added successfully!`);
-            await fetchProfessorsInfo()
         }
         return hasErrors
 
