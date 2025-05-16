@@ -29,6 +29,7 @@ watch(
     if (!hasErrors) {
       localStorage.setItem("token", token)
       await professorStore.fetchProfessorsInfo()
+      await professorStore.fetchAvailableProfessorDisciplines()
       authStore.isAuthenticated = true;
     } else {
       deAuthenticatedUser()

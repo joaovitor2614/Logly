@@ -2,7 +2,6 @@
 import Button from '@/components/common/Button.vue'
 import UploadService from '../../common/UploadService.vue'
 import { useProfessorStore } from '../../../stores/index'
-import { availableDisciplines } from '../../../constants/disciplines/index'
 import  useForm from '../../../hooks/useForm'
 import { computed } from 'vue'
 
@@ -86,7 +85,7 @@ console.log('isDisabled', isDisabled)
                             <v-row class="d-flex justify-start align-center">
                                 <v-col cols="6">
                                     <v-select
-                                        :items="availableDisciplines"
+                                        :items="professorStore.availableProfessorDisciplines"
                                         multiple
                                         v-model="form.disciplines"
                                         :error-messages="errorsMessages.disciplines"

@@ -1,7 +1,14 @@
 import { defineStore } from "pinia"
 import { Ref, ref, computed } from "vue"
 import { useToast } from "vue-toastification";
-import { getProfessorsInfo, postProfessorInfo, addProfessorVote, addProfessorComment, deleteProfessorComment } from '@/api/services/professor'
+import { 
+    getAvaiablesProfessorDisciplines, 
+    getProfessorsInfo, 
+    postProfessorInfo, 
+    addProfessorVote,
+    addProfessorComment, 
+    deleteProfessorComment 
+} from '@/api/services/professor'
 import { ProfessorFilters } from './types'
 import getFilteredProfessorCollection from './filter'
 
@@ -10,6 +17,7 @@ import getFilteredProfessorCollection from './filter'
 
 export const useProfessorStore = defineStore('professorStore', () => {
     const professorCollection: Ref<App.Professor.Professor[]> = ref([])
+    const availableProfessorDisciplines: Ref<string[]> = ref([])
     const shouldOpenAddProfessorDialog = ref(false)
     const toast = useToast();
     const filters: Ref<ProfessorFilters> = ref({
@@ -35,6 +43,13 @@ export const useProfessorStore = defineStore('professorStore', () => {
                 professorCollection.value = professorsInfo
             }   
             
+    }
+
+    async function fetchAvailableProfessorDisciplines() {
+        const { data: disciplines, hasErrors } = await getAvaiablesProfessorDisciplines()
+        if (!hasErrors) {
+            availableProfessorDisciplines.value = disciplines
+        }
     }
 
     const updateProfessorField = (professorID: string, fieldKey: keyof App.Professor.Professor, newFieldValue: any[]) => {
@@ -90,6 +105,8 @@ export const useProfessorStore = defineStore('professorStore', () => {
     return {
         finalProfessorCollection,
         fetchProfessorsInfo,
+        fetchAvailableProfessorDisciplines,
+        availableProfessorDisciplines,
         shouldOpenAddProfessorDialog,
         rankProssessor,
         professorCollection,

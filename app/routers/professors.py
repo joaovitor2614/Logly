@@ -4,11 +4,13 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status, D
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.picture import save_picture
+from ..constants.professor import AVAIABLE_PROFESSOR_DISCIPLINES
 from ..utils.database.update import update_document_object_instance
 from ..models.professor.professor import Professor, Comment, UpVote, DownVote
 from ..controllers.professor import ProfessorController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
+import json
 from faker import Faker
 from randomuser import RandomUser
 from datetime import datetime
@@ -32,6 +34,9 @@ async def get_professors(request: Request, user_id: str = Depends(get_current_us
     professors_db = professor_controller.get_professors()
     return professors_db
 
+@router.get("/disciplines", response_description="Get available professor disciplines in Database", status_code=status.HTTP_200_OK)
+async def get_available_professor_disciplines(request: Request, user_id: str = Depends(get_current_user)):
+    return AVAIABLE_PROFESSOR_DISCIPLINES
 @router.get("/{id}", response_description="Get professor by id data in Database", status_code=status.HTTP_200_OK)
 async def get_professor_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
     professor_controller = ProfessorController(request)

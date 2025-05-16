@@ -11,6 +11,10 @@ export async function getProfessorsInfo(): Promise<ApiResponse<App.Professor.Pro
     return api.get<App.Professor.Professor[]>(`professors`);
 
 }
+export async function getAvaiablesProfessorDisciplines(): Promise<ApiResponse<string[]>> {
+    return api.get<string[]>(`professors/disciplines`);
+
+}
 
 export async function postProfessorInfo(newProfessor: App.Professor.AddProfessor): Promise<ApiResponse<App.Professor.Professor>> {
     return api.post<App.Professor.Professor>('professors', newProfessor);
