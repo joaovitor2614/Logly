@@ -67,6 +67,7 @@ def test_get_professors(client, register_user):
 
     fetched_professors = get_professors_response.json()
 
+
     professor_model_fields = list(Professor.model_fields.keys())
 
 
@@ -80,47 +81,40 @@ def test_get_professors(client, register_user):
 def test_feedback_professor(feedback_type, client, register_user):
     _, _, request_headers = register_user
   
-
-    execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
-    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
-    fetched_professors = get_professors_response.json()
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
+    fetched_professors = professor_client_mocker.generate_and_fetch_fake_professor()
  
     professor_id = str(fetched_professors[0]["_id"])
-    voted_professor_response = client.put(f"{ENDPOINTS.PROFESSORS}/{feedback_type}/{professor_id}", headers=request_headers)
+    voted_professor_response = professor_client_mocker.put_professor_feedback(professor_id, feedback_type)
     assert voted_professor_response.status_code == 201
 
-    updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
+    updated_professor_db_obj = professor_client_mocker.get_professor_by_id(professor_id).json()
     professor_feedback_collection = updated_professor_db_obj[feedback_type]
     assert len(professor_feedback_collection) == 1, f"{feedback_type} were not added as expect"
 
     # Check that upvote object user id was the user id that feedbacked the professor
-    current_user = client.get(f"{ENDPOINTS.USERS}", headers=request_headers).json()
-
-    current_user_id = current_user["_id"]
+    current_user_id = professor_client_mocker.get_current_user_id()
 
     assert professor_feedback_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
-
 
 
 def test_comment_professor(client, register_user):
     response, _, request_headers = register_user
 
-    response = execute_generate_fake_profs_endpoint(client, FAKE_PROFESSORS_AMOUNT, request_headers)
-    get_professors_response = execute_get_all_professor_endpoint(client, request_headers)
-    fetched_professors = get_professors_response.json()
+    professor_client_mocker = ProfessorClientMocker(client, request_headers)
+    fetched_professors = professor_client_mocker.generate_and_fetch_fake_professor()
 
     professor_id = str(fetched_professors[0]["_id"])
-    comment_professor_response = execute_add_professor_comment_endpoint(client, request_headers, professor_id)
+    comment_professor_response = professor_client_mocker.post_professor_comment(professor_id)
   
 
     assert comment_professor_response.status_code == 201
 
-    updated_professor_db_obj = client.get(f"{ENDPOINTS.PROFESSORS}/{professor_id}", headers=request_headers).json()
+    updated_professor_db_obj = professor_client_mocker.get_professor_by_id(professor_id).json()
     professor_comment_collection = updated_professor_db_obj["comments"]
     assert len(updated_professor_db_obj["comments"]) == 1, "Professor comment were not added correctly"
-    current_user = client.get(f"{ENDPOINTS.USERS}", headers=request_headers).json()
 
-    current_user_id = current_user["_id"]
+    current_user_id = professor_client_mocker.get_current_user_id()
 
     assert professor_comment_collection[0]["user_id"] == current_user_id, "professor feedback object user id was not the user id that feedbacked the professor"
 

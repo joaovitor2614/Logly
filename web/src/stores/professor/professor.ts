@@ -60,6 +60,9 @@ export const useProfessorStore = defineStore('professorStore', () => {
        
       
         const { data: professorInfo, hasErrors } = await addProfessorVote(professorID, voteType)
+        if (!hasErrors) {
+            updateProfessorField(professorID, voteType, professorInfo[`${voteType}`])
+        }
             
         updateProfessorField(professorID, voteType, professorInfo[`${voteType}`])
 
@@ -71,15 +74,18 @@ export const useProfessorStore = defineStore('professorStore', () => {
        
 
         const  { data: professorInfo, hasErrors } = await addProfessorComment(professorID, text)
-        updateProfessorField(professorID, "comments", professorInfo["comments"])  
+        if (!hasErrors) {
+            updateProfessorField(professorID, "comments", professorInfo["comments"])  
+        }
      }
 
      async function deleteComment(professorID:string, commentID: string) {
        
 
         const  { data: professorInfo, hasErrors } = await deleteProfessorComment(professorID, commentID)
-        updateProfessorField(professorID, "comments", professorInfo["comments"])  
-     }
+        if (!hasErrors) {
+            updateProfessorField(professorID, "comments", professorInfo["comments"])  
+        }
 
 
     return {
