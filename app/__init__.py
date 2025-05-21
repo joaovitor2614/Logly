@@ -12,9 +12,8 @@ import os
 def create_app() -> FastAPI:
 
     app = FastAPI(
-        title="Mamata ou Cilada",
+        title="Logly",
         version="1.0.0",
-        lifespan=db_lifespan
     )
      
     register_middlewares(app)

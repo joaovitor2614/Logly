@@ -1,4 +1,4 @@
-name: Pytest Mamata ou Cilada's API Rest
+name: Pytest API Rest
 on:
   push:
     branches:

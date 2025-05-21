@@ -16,7 +16,7 @@ const props = defineProps({
         
                <v-container class="d-flex flex-column align-center justify-center">
                    <v-container class="d-flex flex-column align-center justify-center mt-6 mb-6">
-                       <h2 class="font-weight-bold mb-4">Welcome to Mamata ou Cilada!</h2>
+                       
                        <p class="text-medium-emphasis">{{ props.helperTitle }}</p>
                    </v-container>
                    <slot></slot>
