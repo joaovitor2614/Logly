@@ -13,7 +13,7 @@ const useForm = () => {
         password: '',
         confirmPassword: '',
         disciplines: [],
-        gender: 'other' as App.Professor.Gender,
+        gender: 'other',
         phone: '',
         image: ''
     }

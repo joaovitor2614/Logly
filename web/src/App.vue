@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
-import { useAuthStore, useProfessorStore, useUserStore } from './stores/index';
+import { useAuthStore, useUserStore } from './stores/index';
 import { watch } from 'vue';
 
 const authStore = useAuthStore();
 const userStore = useUserStore()
-const professorStore = useProfessorStore()
+
 
 const deAuthenticatedUser = () => {
     localStorage.removeItem('token')
@@ -27,8 +27,6 @@ watch(
    
     if (!hasErrors) {
       localStorage.setItem("token", token)
-      await professorStore.fetchProfessorsInfo()
-      await professorStore.fetchAvailableProfessorDisciplines()
       authStore.isAuthenticated = true;
     } else {
       deAuthenticatedUser()

@@ -1,9 +1,8 @@
-from . import auth, users, professors, upload
+from . import auth, users, upload
 from fastapi import FastAPI
 
 
 class ENDPOINTS:
-    PROFESSORS = "/professors"
     USERS = "/users"
     AUTH = "/auth"
     UPLOAD = "/upload"

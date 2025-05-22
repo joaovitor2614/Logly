@@ -26,35 +26,7 @@ declare namespace App {
         }
     }
 
-    namespace Professor {
-        interface UserBoundObject {
-            _id: string,
-            user_id: string
-        }
-        interface Comment extends UserBoundObject {
-            text: string,
-            create_time: string,
-        }
-        interface Vote extends UserBoundObject{
-            
-        }
-        type Gender = "female" | "male" | "other"
-        interface Professor {
-            _id?: string,
-            name: string,
-            image: string,
-            disciplines: string[],
-            gender: Gender,
-            comments: Comment[],
-            phone: string,
-            upvotes: Vote[],
-            downvotes: Vote[],
-        }
 
-        type AddProfessor = Pick<Professor, 'name' | 'image'>
-            
-    }
-    
 
 
 
