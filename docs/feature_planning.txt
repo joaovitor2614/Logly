@@ -1,0 +1,9 @@
+- JWT Authentication with access and refresh token
+- Register with email verification
+- SAAS Landing Page
+- Solution to import well data
+- Solution to plot las data
+- App deploy with vercel
+- User roles: Free | Paid | Admin
+- Good test coverage with pytest and cypress
+- Payment system with stripe
