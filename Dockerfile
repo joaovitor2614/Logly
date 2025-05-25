@@ -1,5 +1,5 @@
 # Define base image for the container
-FROM python:3.9
+FROM python:3.12
 
 WORKDIR /code
 
