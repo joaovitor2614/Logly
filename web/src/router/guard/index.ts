@@ -7,7 +7,7 @@ import { watch } from 'vue';
 
 
 export const registerRouteGuard = (router: Router) => {
-    const publicComponentesRoutes = ['Login', 'Register'];
+    const publicComponentesRoutes = ['Login', 'Register', 'Landing'];
     
     router.beforeEach(async (to, from) => {
         const authStore = useAuthStore();

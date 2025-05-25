@@ -3,6 +3,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Dashboard from '../Dashboard.vue'
 import Register from '../components/auth/Register.vue'
 import Login from '../components/auth/Login.vue'
+import LandingPage from '../components/landing/LandingPage.vue'
 import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
 
@@ -21,6 +22,11 @@ const routes = [
   },
   {
     path: '/',
+    name: 'Landing',
+    component: LandingPage
+  },
+  {
+    path: '/dashbaord',
     name: 'Dashboard',
     component: Dashboard
   },
