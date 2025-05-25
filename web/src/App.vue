@@ -2,6 +2,7 @@
 
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
 import { useAuthStore, useUserStore } from './stores/index';
+import Header from '@/components/layout/Header.vue'
 import { watch } from 'vue';
 
 const authStore = useAuthStore();
@@ -50,6 +51,7 @@ watch(
     <div>
       <v-app>
         <v-main>
+          <Header />
           <router-view :key="$route.fullPath" />
         </v-main>
       </v-app>
