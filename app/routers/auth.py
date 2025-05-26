@@ -28,7 +28,7 @@ def register_user(request: Request, userInfo: UserCreate):
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
 def login_user(request: Request, userInfo: UserCrendentials):
     user_controller = UserController(request)
-    
+    jwt_controller = JWTController()
     print('userInfo', userInfo)
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user = database.find_one(
@@ -40,16 +40,12 @@ def login_user(request: Request, userInfo: UserCrendentials):
             detail=f"User with given name does not exist!"
         )
     
-    is_password_valid = verify_password(userInfo.password, user["password"])
 
-    if not is_password_valid:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Password is not valid!"
-        )
-    jwt_payload = generate_jwt_token_payload_from_user_info(user)
-    jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
-    jwt_token = encode_jwt_token(jwt_payload)
+    user_controller.verify_password(userInfo.password, user["password"])
+
+    jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(user)
+
+
 
     return {"token": jwt_token}
   

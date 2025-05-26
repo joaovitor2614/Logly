@@ -1,7 +1,7 @@
 from fastapi import Request, HTTPException, status
 from app.models.user.user import UserCreate
 from fastapi.encoders import jsonable_encoder
-from ..utils.security import get_hashed_password, generate_jwt_token_payload_from_user_info, encode_jwt_token
+from ..utils.security import get_hashed_password, verify_password
 from app.settings import APP_SETTINGS
 from libgravatar import Gravatar
 from faker import Faker
@@ -58,3 +58,11 @@ class UserController:
         hashed_password = get_hashed_password(user_data.password)
         user_data.password = hashed_password
 
+    def verify_password(self, plain_password: str, hashed_password: str) -> bool:
+        is_password_valid = verify_password(plain_password, hashed_password)
+        if not is_password_valid:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=f"Password is not valid!"
+            )
+    
