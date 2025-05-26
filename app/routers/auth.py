@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, generate_jwt_token_payload_from_user_info
 from app.settings import APP_SETTINGS
 from ..controllers.user import UserController
+from ..controllers.token import JWTController
 from datetime import timedelta
 
 
@@ -14,14 +15,11 @@ router = APIRouter()
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def register_user(request: Request, userInfo: UserCreate):
     user_controller = UserController(request)
+    jwt_controller = JWTController()
 
     created_new_user = user_controller.create_user(userInfo)
 
-    jwt_payload = generate_jwt_token_payload_from_user_info(created_new_user)
-    jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
-
-    jwt_token = encode_jwt_token(jwt_payload)
-    #jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(created_new_user)
+    jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(created_new_user)
 
 
     return {"token": jwt_token}

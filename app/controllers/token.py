@@ -11,6 +11,7 @@ class JWTController:
         jwt_payload = self.get_jwt_payload_from_user_db_obj(user_db_obj)
         self.set_jwt_payload_expires_time(jwt_payload)
         jwt_token = self.create_jwt_token_payload(jwt_payload)
+        return jwt_token
 
     def get_jwt_payload_from_user_db_obj(self, user_db_obj: dict) -> JWTPayload:
         return JWTPayload(
