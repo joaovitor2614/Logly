@@ -1,5 +1,6 @@
 - JWT Authentication with access and refresh token
 - Register with email verification
+- Password recovering
 - SAAS Landing Page
 - Solution to import well data
 - Solution to plot las data
