@@ -24,9 +24,9 @@ watch(
 
     setAPIHeadersBearerToken(token)
 
-    const hasErrors = await userStore.fetchUser()
+    const response = await userStore.fetchUser()
    
-    if (!hasErrors) {
+    if (response) {
       localStorage.setItem("token", token)
       authStore.isAuthenticated = true;
     } else {

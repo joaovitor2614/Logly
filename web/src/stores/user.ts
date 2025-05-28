@@ -12,13 +12,14 @@ export const useUserStore = defineStore('userStore', () => {
         email: ''
     })
 
-    async function fetchUser(): Promise<boolean> {
-        const { data: userInfo, hasErrors } = await getUserInfo()
+    async function fetchUser() {
+        const response = await getUserInfo()
         
-        if (!hasErrors) {
+        if (response) {
+            const userInfo = response.data
             setUserInfo(userInfo)
         }
-        return hasErrors
+        return response
     }
 
     function setUserInfo(userData: App.User.Info) {
@@ -27,9 +28,9 @@ export const useUserStore = defineStore('userStore', () => {
 
     async function editUserInfo(userData: Partial<App.User.Info>) {
         
-        const { data: updatedUserInfo, hasErrors } = await putUserInfo(userInfo._id, userData)
-        if (!hasErrors) {
-
+        const response = await putUserInfo(userInfo._id, userData)
+        if (response) {
+            const updatedUserInfo = response.data
             Object.assign(userInfo, updatedUserInfo)
         }
     }

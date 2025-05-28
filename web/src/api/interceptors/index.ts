@@ -6,13 +6,13 @@ const toast = useToast();
 
 const registerResponseInterceptors = (customAPI: AxiosInstance) => {
     customAPI.interceptors.response.use(function (response) {
-        return { data: response.data, hasErrors: false};
+        return response
     }, function (error) {
 
         toast.error(error.response.data.detail, {
             timeout: 4000
         })
-        return { data: undefined, hasErrors: true};
+        return undefined
     }
 )
 }
