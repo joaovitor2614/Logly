@@ -1,10 +1,11 @@
 from faker import Faker
 from app.settings import APP_SETTINGS
 import json
+from faker import Faker
 from ..utils.security import decode_jwt_token, verify_password
+from app.tests.utils.auth import AuthEndPointMocker
 
-
-def test_register_user(client, register_user):
+def test_register_user(client):
 
     """
     Test the user registration endpoint.
@@ -14,7 +15,10 @@ def test_register_user(client, register_user):
     successful creation. It also checks that a token is returned in the 
     response JSON, confirming that the user has been authenticated.
     """
-    response, mock_new_user_data, _ = register_user
+    fake = Faker()
+    auth_endpoint_mocker = AuthEndPointMocker(client)
+    mock_new_user_data = {"name": fake.name(), "email": fake.email(), "password": fake.password()}
+    response = auth_endpoint_mocker.register(mock_new_user_data)
 
 
     assert response.status_code == 201, f"Response status code expected to be 201, but got {response.status_code}"
@@ -53,7 +57,7 @@ def test_login_user(client, register_user):
     authentication. It also checks that a token is returned in the response
     JSON, verifying that the user has been authenticated.
     """
-    _, mock_new_user_data, _ = register_user
+    mock_new_user_data, _ = register_user
 
     # Try login with right password
     response = client.post(
@@ -83,7 +87,7 @@ def test_get_user_info(client, register_user):
     JWT token, the response status code is 200, indicating successful retrieval. It also
     checks that the response contains the expected user information.
     """
-    response, mock_new_user_data, request_headers  = register_user
+    mock_new_user_data, request_headers  = register_user
     
     response = client.get("/users/", headers=request_headers)
     fetch_user_info = response.json()

@@ -26,4 +26,4 @@ def register_user(client):
 
     request_headers = get_authorization_setted_request_headers_from_register_response(register_response)
    
-    return register_response, mock_new_user_data, request_headers
+    return mock_new_user_data, request_headers
