@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 import os
 
 @asynccontextmanager
-def db_lifespan(app: FastAPI):
+async def db_lifespan(app: FastAPI):
     app.mongodb_client = MongoClient(APP_SETTINGS.MONGO_DB_ATLAS_URI, server_api=server_api.ServerApi(version="1", strict=True, deprecation_errors=True))
     app.database = app.mongodb_client[APP_SETTINGS.DB_NAME]
     app.mongodb_client.admin.command("ping")
