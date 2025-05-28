@@ -1,43 +1,28 @@
 import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs } from '@vuelidate/validators'
+
 import { computed, ComputedRef, Reactive, reactive } from 'vue';
 import { createFormAttributeErrors } from '../utils/validations';
-import { hasArrayAtLeastOneItem, isValidPhoneNumber } from '@/validation';
+import { baseForm, baseRules } from './base'
 
 
 
 const useForm = () => {
-    const formInitialValues = {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        disciplines: [],
-        gender: 'other',
-        phone: '',
-        image: ''
-    }
-    const form = reactive(formInitialValues)
+
+      const form = reactive(baseForm)
   
-    const formRules = {
-        name: { required,  $autoDirty: true },
-        email: { required, email, $autoDirty: true },
-        password: { required,  $autoDirty: true },
-        phone: { required,  isValidPhoneNumber, $autoDirty: true },
-        disciplines: { hasArrayAtLeastOneItem,  $autoDirty: true },
-      };
 
-      const v$ = useVuelidate(formRules, form);
 
-      const errorsMessages: ComputedRef<Record<keyof typeof formRules, string[]>> = computed(() => Object.fromEntries(
-        Object.keys(formRules).map((formAttribute) => {
+      const v$ = useVuelidate(baseRules, form);
+
+      const errorsMessages: ComputedRef<Record<keyof typeof baseRules, string[]>> = computed(() => Object.fromEntries(
+        Object.keys(baseRules).map((formAttribute) => {
           return [formAttribute, createFormAttributeErrors(v$, formAttribute)]
         
         }))
       )
 
-      const formFieldsInvalidState: ComputedRef<Record<keyof typeof formRules, boolean>> = computed(() => Object.fromEntries(
-        Object.keys(formRules).map((formAttribute) => {
+      const formFieldsInvalidState: ComputedRef<Record<keyof typeof baseRules, boolean>> = computed(() => Object.fromEntries(
+        Object.keys(baseRules).map((formAttribute) => {
           return [formAttribute, v$.value[formAttribute].$invalid]
         
         }))
