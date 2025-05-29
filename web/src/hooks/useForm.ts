@@ -2,13 +2,14 @@ import useVuelidate from '@vuelidate/core';
 
 import { computed, ComputedRef, Reactive, reactive } from 'vue';
 import { createFormAttributeErrors } from '../utils/validations';
-import { baseForm, baseRules } from './base'
+import { createBaseForm, baseRules } from './base'
 
 
 
 const useForm = () => {
 
-      const form = reactive(baseForm)
+
+      const form = reactive(createBaseForm())
   
 
 
