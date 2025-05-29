@@ -14,18 +14,19 @@ const useForm = () => {
 
       const v$ = useVuelidate(baseRules, form);
 
-      const errorsMessages: ComputedRef<Record<keyof typeof baseRules, string[]>> = computed(() => Object.fromEntries(
-        Object.keys(baseRules).map((formAttribute) => {
-          return [formAttribute, createFormAttributeErrors(v$, formAttribute)]
-        
-        }))
-      )
+      function createFormFieldsByAttribute<T>(
+        formFieldMapper: (formField: string) => T
+      ): Record<string, T> {
+        return Object.fromEntries(
+          Object.keys(baseRules).map((formField) => [formField, formFieldMapper(formField)])
+        );
+      }
 
-      const formFieldsInvalidState: ComputedRef<Record<keyof typeof baseRules, boolean>> = computed(() => Object.fromEntries(
-        Object.keys(baseRules).map((formAttribute) => {
-          return [formAttribute, v$.value[formAttribute].$invalid]
-        
-        }))
+      const errorsMessages: ComputedRef<Record<keyof typeof baseRules, string[]>> = computed(() => 
+          createFormFieldsByAttribute((formField) => createFormAttributeErrors(v$, formField))
+      )
+      const formFieldsInvalidState: ComputedRef<Record<keyof typeof baseRules, boolean>> = computed(() => 
+          createFormFieldsByAttribute((formField) => v$.value[formField].$invalid)
       )
   
 
