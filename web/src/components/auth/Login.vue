@@ -36,7 +36,7 @@ const redirectToRegister = () => {
         <AuthBase :helperTitle="'Login to access your acount.'">
             <form @submit.prevent="handleLogin">
                         <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
-                        <Button :isDisabled="isDisabled" :buttonAction="handleLogin">Login</Button>
+                        <Button :isDisabled="isDisabled" :buttonAction="handleLogin" :id="'test-login-btn'">Login</Button>
                         <div style="  text-align: center; padding: 60px 0;">
                                 <v-card-text class="white--text" >
                                     <h3 class="text-center ">Don't Have an Account Yet?</h3>
@@ -48,7 +48,7 @@ const redirectToRegister = () => {
                                     <Button 
                                  
                                     :buttonAction="redirectToRegister"
-                                    :id="'test-login-btn'"
+                                    
                                     >
                                         SIGN UP
                                     </Button>
