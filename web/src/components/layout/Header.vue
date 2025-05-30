@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores';
 import { useRouter } from 'vue-router';
 
+const authStore = useAuthStore();
 const router = useRouter()
 </script>
 
@@ -22,6 +24,7 @@ const router = useRouter()
         <div class="flex items-center gap-4">
           <div class="sm:flex sm:gap-4">
             <a
+              v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
               href="#"
               @click="router.push('/login')"
@@ -30,11 +33,20 @@ const router = useRouter()
             </a>
   
             <a
+              v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
               href="#"
               @click="router.push('/register')"
             >
               Register
+            </a>
+             <a
+              v-if="authStore.isAuthenticated"
+              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+              href="#"
+              @click="authStore.logout()"
+            >
+              Log out
             </a>
           </div>
   
