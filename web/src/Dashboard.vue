@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import WellImport from './components/well/WellImport.vue';
 
 
 defineOptions({
@@ -14,6 +14,7 @@ defineOptions({
     <v-container fluid style="max-width: 125vh;">
 
        <h1>Dashboard</h1>
+       <WellImport />
     </v-container>
  </template>
 
