@@ -17,6 +17,7 @@ class UserCreate(UserCrendentials):
     email: Annotated[str, Field(title="User Email Address")] 
     name: Annotated[str, Field(title="User Name")] 
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
+    has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
 
     class Config:
         populate_by_name = True
