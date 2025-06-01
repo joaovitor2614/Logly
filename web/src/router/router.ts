@@ -1,5 +1,5 @@
 
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter, createMemoryHistory } from "vue-router";
 import Dashboard from '../Dashboard.vue'
 import Register from '../components/auth/Register.vue'
 import Login from '../components/auth/Login.vue'
@@ -44,10 +44,15 @@ const routes = [
     component: VerifyAccountByCode
   },
 ]
-export const router = createRouter({
-  history: createWebHistory(),
+
+export function createRouterInstance(is_test: boolean = false) {
+  return createRouter({
+  history: is_test ? createMemoryHistory() : createWebHistory(),
   routes
 })
+
+}
+export const router = createRouterInstance()
 
 export const setupRouter = (app: App) => {
 

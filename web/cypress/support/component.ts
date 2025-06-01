@@ -18,7 +18,7 @@ import './commands'
 import { createPinia, Pinia, setActivePinia } from "pinia";
 import { mount } from 'cypress/vue'
 import { DefineComponent } from 'vue';
-
+import { createRouterInstance } from '@/router/router'
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
@@ -40,11 +40,12 @@ function mountWithPiniaVuetify(
   Comp: DefineComponent,
   options?: Parameters<typeof mount>[1]
 ): Cypress.Chainable {
+  const router = createRouterInstance(true)
   return mount(Comp, {
     ...options,
     global: {
       ...options?.global,
-      plugins: [...(options?.global?.plugins ?? []), pinia, vuetify],
+      plugins: [...(options?.global?.plugins ?? []), pinia, vuetify, router],
     },
   });
 }
