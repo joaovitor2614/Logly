@@ -10,6 +10,7 @@ declare namespace App {
         interface Info {
             _id: string
             name: string
+            has_confirmed_email: boolean,
             email: string
             image: string
             password?: string

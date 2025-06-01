@@ -9,7 +9,8 @@ export const useUserStore = defineStore('userStore', () => {
         name: '',
         image: '',
         _id: '',
-        email: ''
+        email: '',
+        has_confirmed_email: false
     })
 
     async function fetchUser() {
