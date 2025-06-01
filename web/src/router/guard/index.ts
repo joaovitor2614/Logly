@@ -35,7 +35,4 @@ export const registerRouteGuard = (router: Router) => {
        
       },  { immediate: true })
 
-
-
-
 }
