@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "015a42020f023ac2c3eda3d45fe5ca3fef8921ce63589f6d4fcdef9814cd7fa7"
     JWT_ALGORITHM: str = "HS256"
     USERS_DB_NAME: str = "Users"
+    VERIFY_ACCOUNT_SENDER_EMAIL_ADDRESS: str = "WxG9i@example.com"
+    VERIFY_ACCOUNT_SENDER_EMAIL_PASSWORD: str = "12345654"
     DB_NAME: str = "MyDB"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   # 12 hours
     

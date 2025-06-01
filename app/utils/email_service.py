@@ -1,10 +1,9 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from app.settings import APP_SETTINGS
 
-SENDER_EMAIL_ADDRESS = "Nl4dM@example.com"
-SENDER_EMAIL_PASSWORD = "asasasas"
-
+print('APP_SETTINGS', APP_SETTINGS)
 
 class EmailSender:
     def __init__(self):
@@ -26,7 +25,7 @@ class EmailSender:
         </htm>
         """
         msg = MIMEMultipart()
-        msg["From"] = SENDER_EMAIL_ADDRESS
+        msg["From"] = APP_SETTINGS.VERIFY_ACCOUNT_SENDER_EMAIL_ADDRESS
         msg["To"] = email_data.to_email
         msg["Subject"] = "Email Verification"
         msg.attach(MIMEText(email_html_content, "html"))
