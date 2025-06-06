@@ -17,6 +17,7 @@ class UserController:
     def get_user_by_id(self, id: str) -> UserCreate:
         user = self.user_database.find_one(
             {"_id": id}
+            
         )
         if not user:
             raise HTTPException(
