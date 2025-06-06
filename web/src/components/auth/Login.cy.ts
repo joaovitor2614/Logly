@@ -16,4 +16,14 @@ describe('<Login />', () => {
     // Now the buttn should be enabled
     cy.get('#test-login-btn').should('be.enabled')
   })
+  it('redirects to register page when clicking button', () => {
+    cy.mountWithPiniaVuetify(Login).then(({router}) => {
+      cy.get('#test-redirect-to-register-btn').click();
+      cy.wrap(router.isReady()).then(() => {
+        cy.wrap(router.currentRoute.value.fullPath).should('eq', '/register')
+      })
+    })
+    
+  })
+
 })

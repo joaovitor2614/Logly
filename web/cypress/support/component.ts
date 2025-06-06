@@ -47,7 +47,9 @@ function mountWithPiniaVuetify(
       ...options?.global,
       plugins: [...(options?.global?.plugins ?? []), pinia, vuetify, router],
     },
-  });
+  }).then(() => {
+    return { router }
+  })
 }
 
 declare global {

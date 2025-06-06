@@ -48,7 +48,7 @@ const redirectToLogin = () => {
                             >Log in to your account so you can continue building and<br>  editing your onboarding flows</h6>
                         </v-card-text>
                         <div class="text-center">
-                            <Button :buttonAction="redirectToLogin">Log in</Button>
+                            <Button :buttonAction="redirectToLogin" :id="'test-redirect-to-login-btn'">Log in</Button>
                         </div>
                 </div>
 
@@ -56,7 +56,7 @@ const redirectToLogin = () => {
     </AuthBase>
 
                
-            
+        
        
 
 </template>

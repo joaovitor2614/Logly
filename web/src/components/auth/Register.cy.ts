@@ -19,5 +19,14 @@ describe('<Register />', () => {
 
     cy.get('#test-name-input').type('João Vitor')
     cy.get('#test-register-btn').should('be.enabled')
-  })
+    it('redirects to login page when clicking button', () => {
+      cy.mountWithPiniaVuetify(Login).then(({router}) => {
+        cy.get('#test-redirect-to-login-btn').click();
+        cy.wrap(router.isReady()).then(() => {
+          cy.wrap(router.currentRoute.value.fullPath).should('eq', '/login')
+        })
+      })
+      
+      })
+    })
 })
