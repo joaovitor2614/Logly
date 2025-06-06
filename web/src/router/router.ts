@@ -8,39 +8,39 @@ import BillingPlanSelection from '../components/billing/BillingPlanSelection.vue
 import VerifyAccountByCode from "@/components/verify/VerifyAccountByCode.vue";
 import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
-
+import { routesInfo } from './info'
 
 
 
 const routes = [
   {
-    path: '/register',
-    name: 'Register',
+    path: routesInfo.register.path,
+    name: routesInfo.register.name,
     component: Register
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: routesInfo.login.path,
+    name: routesInfo.login.name,
     component: Login
   },
   {
-    path: '/',
-    name: 'Landing',
+    path: routesInfo.landing.path,
+    name: routesInfo.landing.name,
     component: LandingPage
   },
   {
-    path: '/billing',
-    name: 'Billing',
+    path: routesInfo.billing.path,
+    name: routesInfo.billing.name,
     component: BillingPlanSelection
   },
   {
-    path: '/dashbaord',
-    name: 'Dashboard',
+    path: routesInfo.dashboard.path,
+    name: routesInfo.dashboard.name,
     component: Dashboard
   },
   {
-    path: '/verify-account',
-    name: 'VerifyAccount',
+    path: routesInfo.verifyAccount.path,
+    name: routesInfo.verifyAccount.name,
     component: VerifyAccountByCode
   },
 ]
