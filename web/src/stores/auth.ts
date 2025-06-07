@@ -2,13 +2,12 @@ import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 import { useToast } from "vue-toastification";
 import { authenticateUser } from '../api/services/auth'
-import api from '../api/api'
+
 
 
 export const useAuthStore = defineStore('authStore', () => {
     const token: Ref<string | null> = ref(localStorage.getItem('token'))
     const isAuthenticated = ref(false);
-    const isLoading = ref(false);
     const toast = useToast();
 
 
@@ -54,7 +53,6 @@ export const useAuthStore = defineStore('authStore', () => {
         token,
         logout,
         isAuthenticated,
-        isLoading,
         loginUser,
         registerUser
     }
