@@ -6,7 +6,10 @@ import uuid
 
 class WellLog(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    user_id: str = Field(...)
+
+    mnemonic = Annotated[str, Field(title="WellLog mnemonic", default="")]
+    unit = Annotated[str, Field(title="WellLog unit", default="")]
+    description = Annotated[str, Field(title="WellLog description", default="")]
     data = Annotated[List[float], Field(default_factory=list)] = []  # Ensuring a list
 
 class Well(BaseModel):
@@ -15,6 +18,6 @@ class Well(BaseModel):
     create_time: Annotated[
         Optional[datetime], Field(description="Well imported time", default_factory=datetime.utcnow)
     ] = None
-    user_id: str = Field(...)
+
 
     welllogs: Annotated[List[WellLog], Field(default_factory=list)] = []  # Ensuring a list
