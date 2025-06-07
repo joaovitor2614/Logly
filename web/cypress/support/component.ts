@@ -17,11 +17,11 @@
 import './commands'
 import { createPinia, Pinia, setActivePinia } from "pinia";
 import { mount } from 'cypress/vue'
-import { DefineComponent } from 'vue';
 import { createRouterInstance } from '@/router/router'
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import { Component } from 'vue';  // <--- this is the key
 
 let pinia: Pinia;
 
@@ -36,8 +36,8 @@ const vuetify = createVuetify({
   directives,
 });
 
-function mountWithPiniaVuetify(
-  Comp: DefineComponent,
+function mountWithPiniaVuetify<T extends Component>(
+  Comp: T,
   options?: Parameters<typeof mount>[1]
 ): Cypress.Chainable {
   const router = createRouterInstance(true)
@@ -64,5 +64,3 @@ declare global {
 Cypress.Commands.add("mountWithPiniaVuetify", mountWithPiniaVuetify);
 Cypress.Commands.add('mount', mount)
 
-// Example use:
-// cy.mount(MyComponent)
