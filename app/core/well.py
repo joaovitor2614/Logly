@@ -15,9 +15,9 @@ class WellHandler:
 
         welllogs = self.create_well_logs_instances_from_curves_section()
         
-        print(welllogs)
+        print('WELL', welllogs)
 
-    def create_well_logs_instances_from_curves_section(self, curves_section):
+    def create_well_logs_instances_from_curves_section(self):
         curves_section = self.lasio_object.sections["Curves"]
         return [
             WellLog(

@@ -13,3 +13,4 @@ class WellController:
 
     def import_well(self, las_file_path: str):
         well_handler = WellHandler(las_file_path)
+        well_handler.read_las()
