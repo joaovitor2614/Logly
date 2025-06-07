@@ -17,7 +17,7 @@ class UserController:
     def get_user_by_id(self, id: str) -> UserCreate:
         user = self.user_database.find_one(
             {"_id": id}
-            
+
         )
         if not user:
             raise HTTPException(
@@ -31,6 +31,11 @@ class UserController:
         user = self.user_database.find_one(
             {"email": email}
         )
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with given name does not exist!"
+            )
 
         return user
     def create_user(self, user_data: UserCreate) -> dict:

@@ -55,7 +55,8 @@ function mountWithPiniaVuetify(
 declare global {
   namespace Cypress {
     interface Chainable {
-      mountWithPinia: typeof mountWithPinia;
+      mountWithPiniaVuetify: typeof mountWithPiniaVuetify;
+      mount: typeof mount
     }
   }
 }

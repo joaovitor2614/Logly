@@ -30,16 +30,8 @@ def login_user(request: Request, userInfo: UserCrendentials):
     user_controller = UserController(request)
     jwt_controller = JWTController()
     print('userInfo', userInfo)
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-    user = database.find_one(
-        {"email": userInfo.email}    
-    )
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with given name does not exist!"
-        )
-    
+
+    user = user_controller.get_user_by_email(userInfo.email) 
 
     user_controller.verify_password(userInfo.password, user["password"])
 
