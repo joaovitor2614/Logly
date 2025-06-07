@@ -1,11 +1,10 @@
-from . import auth, users, upload, verify
+from . import auth, users, verify
 from fastapi import FastAPI
 
 
 class ENDPOINTS:
     USERS = "/users"
     AUTH = "/auth"
-    UPLOAD = "/upload"
     EMAIL = "/verify-email"
 
 def register_routers(app: FastAPI):
