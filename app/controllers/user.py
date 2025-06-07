@@ -64,6 +64,10 @@ class UserController:
         hashed_password = get_hashed_password(user_data.password)
         user_data.password = hashed_password
 
+    def set_user_verification_code(self, user_obj: dict, otp_code: str):
+        user_obj["verification_code"] = otp_code
+
+
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         is_password_valid = verify_password(plain_password, hashed_password)
         if not is_password_valid:

@@ -10,18 +10,15 @@ class EmailSender:
     def __init__(self):
         pass
 
-    def send_verification_email(self, user_email: str):
-
-        # Create the verification link
-        verification_link = f"http://your-website.com"
+    def send_verification_email(self, user_email: str, otp_code: str):
 
         # HTML content for the email
         email_html_content = f"""
         <html>
         <body>
             <p>Hello,</p>
-            <p>Click the following link to verify your email:</p>
-            <a href="{verification_link}">{verification_link}</a>
+            <p>Bellow is your OTP code to verify your Logly account</p>
+            <p>{otp_code}</p>
         </body>
         </htm>
         """

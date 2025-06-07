@@ -4,6 +4,8 @@ from ..models.user.user import UserCreate, UserUpdate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
+from ..utils.otp import generate_otp_code
+from ..utils.email_service import EmailSender
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -33,3 +35,22 @@ async def get_user(request: Request, user_id: str = Depends(get_current_user)):
     user = user_controller.get_user_by_id(user_id)
     
     return user
+
+
+@router.post("/send-verification-code", response_description="Send verification code to user email", response_model=UserCreate)
+def update_user(request: Request, user: UserUpdate = Body(...), user_id: str = Depends(get_current_user)):
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_id(user_id)
+    if user.has_confirmed_email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="User has already confirmed email address"
+        )
+        return user
+    otp_code = generate_otp_code()
+    user_controller.set_user_verification_code(user, otp_code)
+    
+    email_sender = EmailSender()
+    email_sender.send_verification_email(user.email, otp_code)
+    return updated_user
+

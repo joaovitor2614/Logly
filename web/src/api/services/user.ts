@@ -16,3 +16,6 @@ export async function putUserInfo(userID: string, userData: Partial<App.User.Inf
 }
 
 
+export const sendEmailVerificationCode = () => {
+    return api.get(`/send-verification-code/`);
+}

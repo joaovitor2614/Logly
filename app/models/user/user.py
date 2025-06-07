@@ -16,7 +16,7 @@ class UserCreate(UserCrendentials):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     email: Annotated[str, Field(title="User Email Address")] 
     name: Annotated[str, Field(title="User Name")] 
-    verification_code: Annotated[int, Field(title="User Email Verification Code")] = None
+    verification_code: Annotated[str, Field(title="User Email Verification Code")] = None
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
 
