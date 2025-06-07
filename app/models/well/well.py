@@ -4,13 +4,16 @@ from datetime import datetime
 import uuid
 
 
+class ImportWell(BaseModel):
+    file_path: Annotated[str, Field(title="Well LAS file path", default="")]
+
 class WellLog(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
 
-    mnemonic = Annotated[str, Field(title="WellLog mnemonic", default="")]
-    unit = Annotated[str, Field(title="WellLog unit", default="")]
-    description = Annotated[str, Field(title="WellLog description", default="")]
-    data = Annotated[List[float], Field(default_factory=list)] = []  # Ensuring a list
+    mnemonic: Annotated[str, Field(title="WellLog mnemonic", default="")]
+    unit: Annotated[str, Field(title="WellLog unit", default="")]
+    description: Annotated[str, Field(title="WellLog description", default="")]
+    data: Annotated[List[float], Field(default_factory=list)] = []  # Ensuring a list
 
 class Well(BaseModel):
     name: str = Field(...)

@@ -1,5 +1,5 @@
 import lasio
-from app.models.well import WellLog
+from app.models.well.well import WellLog
 
 
 
@@ -10,6 +10,7 @@ class WellHandler:
 
 
     def read_las(self):
+        
         self.lasio_object = lasio.read(self.las_file_path)
 
         welllogs = self.create_well_logs_instances_from_curves_section()
@@ -27,8 +28,3 @@ class WellHandler:
         ]
 
 
-
-
-
-well_handler = WellHandler('../tests/data/well1.las')
-well_handler.read_las()
