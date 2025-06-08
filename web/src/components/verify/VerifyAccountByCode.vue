@@ -1,5 +1,9 @@
 <script setup lang="ts">
-
+import { useUserStore } from '@/stores';
+import { getMaskedEmail } from '@/utils/email'
+import { Ref } from 'vue';
+const userStore = useUserStore()
+const maskedUserEmail: Ref<string> = getMaskedEmail(userStore.userInfo.email)
 </script>
 
 <template>
@@ -12,7 +16,7 @@
                 <p>Email Verification</p>
                 </div>
                 <div class="flex flex-row text-sm font-medium text-gray-400">
-                <p>We have sent a code to your email ba**@dipainhouse.com</p>
+                <p>We have sent a code to your email {{ maskedUserEmail }}</p>
                 </div>
             </div>
 
