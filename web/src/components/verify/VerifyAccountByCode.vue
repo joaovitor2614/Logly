@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { sendEmailVerificationCode } from '@/api/services/user';
 import { useUserStore } from '@/stores';
 import { getMaskedEmail } from '@/utils/email'
-import { Ref } from 'vue';
+
+import { onMounted } from 'vue';
+import { Ref, ref } from 'vue';
 const userStore = useUserStore()
-const maskedUserEmail: Ref<string> = getMaskedEmail(userStore.userInfo.email)
+const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
+
+onMounted(() => {
+    sendEmailVerificationCode()
+})
 </script>
 
 <template>
@@ -46,7 +53,13 @@ const maskedUserEmail: Ref<string> = getMaskedEmail(userStore.userInfo.email)
                     </div>
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                        <p>Didn't recieve code?</p> <a class="flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer">Resend</a>
+                        <p>Didn't recieve code?</p> <a @click="sendEmailVerificationCode()" 
+                        class="flex flex-row items-center text-blue-600" 
+                        href="http://" 
+                        target="_blank" 
+                        rel="noopener noreferrer">
+                        Resend
+                        </a>
                     </div>
                     </div>
                 </div>

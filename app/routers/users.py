@@ -52,5 +52,4 @@ def update_user(request: Request, user: UserUpdate = Body(...), user_id: str = D
     
     email_sender = EmailSender()
     email_sender.send_verification_email(user.email, otp_code)
-    return updated_user
-
+ 
