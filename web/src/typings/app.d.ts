@@ -27,6 +27,22 @@ declare namespace App {
         }
     }
 
+    namespace Well {
+        interface Well {
+            name: string
+            create_time: string
+            welllogs: WellLog[]
+        }
+
+        interface WellLog {
+            id: string
+            mnemonic: string
+            unit: string
+            description: string
+            data: number[]
+        }
+    }
+
 
 
 
