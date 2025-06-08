@@ -29,6 +29,7 @@ const router = useRouter()
               v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
               href="#"
+              id="test-header-login-btn"
               @click="router.push('/login')"
             >
               Login
@@ -38,6 +39,7 @@ const router = useRouter()
               v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
               href="#"
+              id="test-header-register-btn"
               @click="router.push('/register')"
             >
               Register
@@ -46,6 +48,7 @@ const router = useRouter()
               v-if="authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
               href="#"
+              id="test-logout-btn"
               @click="authStore.logout()"
             >
               Log out
