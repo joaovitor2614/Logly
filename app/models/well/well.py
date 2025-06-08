@@ -6,6 +6,7 @@ import uuid
 
 class ImportWell(BaseModel):
     file_path: Annotated[str, Field(title="Well LAS file path", default="")]
+    well_name: Annotated[str, Field(title="Well name", default="")]
 
 class WellLog(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
