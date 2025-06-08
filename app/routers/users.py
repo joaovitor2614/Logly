@@ -53,3 +53,15 @@ def update_user(request: Request, user: UserUpdate = Body(...), user_id: str = D
     email_sender = EmailSender()
     email_sender.send_verification_email(user.email, otp_code)
  
+@router.put("/verify-verification-code/{code}", response_description="Attempt to verify user account")
+def verify_user(request: Request, code: str, user_id: str = Depends(get_current_user)):
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_id(user_id)
+    if user.has_confirmed_email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="User has already confirmed email address"
+        )
+        return user
+   
+    user_controller.verify_verification_code(user, code)

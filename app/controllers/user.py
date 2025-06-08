@@ -63,6 +63,23 @@ class UserController:
     def set_user_verification_code(self, user_obj: dict, otp_code: str):
         user_obj["verification_code"] = otp_code
 
+    def verify_verification_code(self, user_obj: dict, otp_code: str):
+        if user_obj["verification_code"] != otp_code:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=f"Verification code is not valid!"
+            )
+            return
+        self.set_user_acccount_verified_status(user_obj)
+        
+
+    def set_user_acccount_verified_status(self, user_obj: dict):
+        self.user_database.update_one(
+            {"_id": user_obj["_id"]}, {"$set": {"has_confirmed_email": True}}
+        )
+
+     
+
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         is_password_valid = verify_password(plain_password, hashed_password)

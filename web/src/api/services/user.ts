@@ -22,5 +22,5 @@ export const sendEmailVerificationCode = () => {
 
 
 export const verifyEmailVerificationCode = (code: string) => {
-    return api.get(`/verify-verification-code/${code}`);
+    return api.put(`/verify-verification-code/${code}`);
 }
