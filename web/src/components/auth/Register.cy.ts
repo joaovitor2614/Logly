@@ -1,6 +1,5 @@
 import Register from './Register.vue'
-import "vuetify/styles";
-
+import { verifyRedirect } from '@/test/utils/redirect'
 
 describe('<Register />', () => {
   it('renders', () => {
@@ -20,11 +19,9 @@ describe('<Register />', () => {
     cy.get('#test-name-input').type('João Vitor')
     cy.get('#test-register-btn').should('be.enabled')
     it('redirects to login page when clicking button', () => {
-      cy.mountWithPiniaVuetify(Login).then(({router}) => {
-        cy.get('#test-redirect-to-login-btn').click();
-        cy.wrap(router.isReady()).then(() => {
-          cy.wrap(router.currentRoute.value.fullPath).should('eq', '/login')
-        })
+      cy.mountWithPiniaVuetify(Register).then(({router}) => {
+        verifyRedirect('#test-redirect-to-login-btn', '/login', router)
+
       })
       
       })
