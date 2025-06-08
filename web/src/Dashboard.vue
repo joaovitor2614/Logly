@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import WellImport from './components/well/WellImport.vue';
+import UtilitiesDrawer from '@/components/drawer/UtilitiesDrawer.vue';
+import WellImport from '@/components/well/WellImport.vue';
 
 
 defineOptions({
@@ -12,7 +13,7 @@ defineOptions({
 
 <template>
     <v-container fluid style="max-width: 125vh;">
-
+        <UtilitiesDrawer />
        <h1>Dashboard</h1>
        <WellImport />
     </v-container>
