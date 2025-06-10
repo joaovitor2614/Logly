@@ -59,7 +59,7 @@ def send_verification_code(request: Request, user_id: str = Depends(get_current_
 def verify_user(request: Request, code: str, user_id: str = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(user_id)
-    if user.has_confirmed_email:
+    if user["has_confirmed_email"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail="User has already confirmed email address"
