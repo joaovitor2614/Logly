@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores';
+import { useAuthStore, useUserStore } from '@/stores';
 
 
 
 const userStore = useUserStore()
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -32,7 +33,7 @@ const userStore = useUserStore()
         
             
           </v-list>
-          
+          <v-btn class="logout-btn" @click="authStore.logout">Logout</v-btn>
         </v-navigation-drawer>
   
         
