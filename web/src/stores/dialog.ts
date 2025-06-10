@@ -4,7 +4,7 @@ import { ref, Ref } from "vue"
 
 
 export const useDialogStore = defineStore('dialogStore', () => {
-    const shouldOpenDialog: Ref<App.Well.Well[]> = ref([])
+    const shouldOpenDialog: Ref<boolean> = ref(false)
     const dialogName: Ref<string> = ref('')
 
     return { 

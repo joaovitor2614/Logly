@@ -8,6 +8,7 @@ import * as directives from 'vuetify/directives'
 import "vue-toastification/dist/index.css";
 import '@mdi/font/css/materialdesignicons.css'
 import "./assets/main.css";
+import WellImport from '@/components/well/WellImport.vue';
 
 const vuetify = createVuetify({
   components,
@@ -40,4 +41,5 @@ app.use(Toast);
 setupRouter(app)
 
 
+app.component('WellImport', WellImport)
 app.mount("#app");
