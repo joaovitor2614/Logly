@@ -26,7 +26,7 @@ const importWell = () => {
 </script>
 
 <template>
-    <v-dialog :model-value="dialogStore.shouldOpenDialog" width="auto">
+    <v-dialog :model-value="dialogStore.shouldOpenDialog" max-width="600px" persistent>
         <v-card>
             <v-card-title class="grey lighten-2">Import</v-card-title>
             <v-card-text>

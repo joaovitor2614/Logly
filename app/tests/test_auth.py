@@ -3,7 +3,7 @@ from app.settings import APP_SETTINGS
 import json
 from faker import Faker
 from ..utils.security import decode_jwt_token, verify_password
-from app.tests.utils.auth import AuthEndPointMocker
+from app.tests.utils.auth import AuthEndPointMocker, get_user_id_from_register_response
 
 def test_register_user(client):
 
@@ -26,9 +26,8 @@ def test_register_user(client):
     print('response_content["token"]', response_content["token"])
     assert response_content["token"] is not None, "Token not present auth endpoint response."
 
-    token = response.json()["token"]
-    jwt_payload = decode_jwt_token(token)
-    user_id = jwt_payload["data"]["id"]
+
+    user_id = get_user_id_from_register_response(response)
 
     users_db_mock = client.app.database[APP_SETTINGS.USERS_DB_NAME]
     new_user = users_db_mock.find_one(

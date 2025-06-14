@@ -1,4 +1,4 @@
-
+from app.tests.utils.auth import get_user_id_from_register_response
 from ..controllers.user import UserController
 
 def test_get_user_info(client, register_user):
@@ -21,3 +21,12 @@ def test_generate_verify_account_code(client, register_user):
     
     response = client.post("/users/send-verification-code", headers=request_headers)
     assert response.status_code == 200
+
+
+def test_verify_account_code(client, register_user):
+    mock_new_user_data, request_headers  = register_user
+    
+    #response = client.post("/users/send-verification-code", headers=request_headers)
+
+    #user_id = get_user_id_from_register_response(response)
+    #assert response.status_code == 200
