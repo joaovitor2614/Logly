@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { useAuthStore, useUserStore } from '@/stores';
+import { useAuthStore, useDialogStore, useUserStore } from '@/stores';
 
 
 
 const userStore = useUserStore()
 const authStore = useAuthStore()
+const dialogStore = useDialogStore()
+
+const openDialogComponent = (componentName: string) => {
+  dialogStore.openDialogWindow(componentName)
+}
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const authStore = useAuthStore()
             nav
           >
     
-            <v-list-item append-icon="mdi-file" class="mt-10 mb-10">Import Well</v-list-item>
+            <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="openDialogComponent('WellImport')">Import Well</v-list-item>
  
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10">CrossPlot</v-list-item>
 
