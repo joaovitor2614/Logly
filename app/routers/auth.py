@@ -30,7 +30,7 @@ def login_user(request: Request, userInfo: UserCrendentials):
     user_controller = UserController(request)
     jwt_controller = JWTController()
     print('userInfo', userInfo)
-    print('KJSAKAKSAS')
+  
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user = database.find_one(
         {"email": userInfo.email}    

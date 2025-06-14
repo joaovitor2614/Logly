@@ -61,7 +61,10 @@ class UserController:
         user_data.password = hashed_password
 
     def set_user_verification_code(self, user_obj: dict, otp_code: str):
-        user_obj["verification_code"] = otp_code
+        
+        self.user_database.update_one(
+            {"_id": user_obj["_id"]}, {"$set": {"verification_code": otp_code}}
+        )
 
     def verify_verification_code(self, user_obj: dict, otp_code: str):
         if user_obj["verification_code"] != otp_code:
