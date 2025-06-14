@@ -18,7 +18,7 @@ class WellLog(BaseModel):
 
 class Well(BaseModel):
     name: str = Field(...)
-
+    user_id: Annotated[str, Field(title="User ID")]
     create_time: Annotated[
         Optional[datetime], Field(description="Well imported time", default_factory=datetime.utcnow)
     ] = None

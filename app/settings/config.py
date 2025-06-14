@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "015a42020f023ac2c3eda3d45fe5ca3fef8921ce63589f6d4fcdef9814cd7fa7"
     JWT_ALGORITHM: str = "HS256"
     USERS_DB_NAME: str = "Users"
+    WELLS_DB_NAME: str = "Wells"
     VERIFY_ACCOUNT_SENDER_EMAIL_ADDRESS: str = "WxG9i@example.com"
     VERIFY_ACCOUNT_SENDER_EMAIL_PASSWORD: str = "12345654"
     DB_NAME: str = "MyDB"
