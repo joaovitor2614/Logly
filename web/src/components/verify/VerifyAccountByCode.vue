@@ -11,6 +11,21 @@ const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email
 onMounted(() => {
     sendEmailVerificationCode()
 })
+
+
+
+const otpDigit1: Ref<string> = ref('')
+const otpDigit2: Ref<string> = ref('')
+const otpDigit3: Ref<string> = ref('')
+const otpDigit4: Ref<string> = ref('')
+const otpDigit5: Ref<string> = ref('')
+const otpDigit6: Ref<string> = ref('')
+
+
+const verifyOTPCode = () => {
+    const otpCode = otpDigit1.value + otpDigit2.value + otpDigit3.value + otpDigit4.value + otpDigit5.value + otpDigit6.value
+    console.log('otpco', otpCode)
+}
 </script>
 
 <template>
@@ -28,26 +43,32 @@ onMounted(() => {
             </div>
 
             <div>
-                <form action="" method="post">
+         
                 <div class="flex flex-col space-y-16">
                     <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
                     <div class="w-16 h-16 ">
-                        <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                        <input v-model="otpDigit1" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
                     </div>
                     <div class="w-16 h-16 ">
-                        <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                        <input v-model="otpDigit2" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
                     </div>
                     <div class="w-16 h-16 ">
-                        <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                        <input v-model="otpDigit3" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
                     </div>
                     <div class="w-16 h-16 ">
-                        <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                        <input v-model="otpDigit4" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                    </div>
+                    <div class="w-16 h-16 ">
+                        <input v-model="otpDigit5" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
+                    </div>
+                    <div class="w-16 h-16 ">
+                        <input v-model="otpDigit6" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
                     </div>
                     </div>
 
                     <div class="flex flex-col space-y-5">
                     <div>
-                        <button class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                        <button @click="verifyOTPCode()" class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
                         Verify Account
                         </button>
                     </div>
@@ -63,7 +84,7 @@ onMounted(() => {
                     </div>
                     </div>
                 </div>
-                </form>
+     
             </div>
             </div>
         </div>
