@@ -5,6 +5,8 @@ import { required} from '@vuelidate/validators'
 import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
 import { importWellFile } from '@/api/services/well'
+
+import DialogWrapper from '../common/DialogWrapper.vue';
 import { useDialogStore } from '@/stores';
 
 const dialogStore = useDialogStore()
@@ -26,10 +28,7 @@ const importWell = () => {
 </script>
 
 <template>
-    <v-dialog :model-value="dialogStore.shouldOpenDialog" max-width="600px" persistent>
-        <v-card>
-            <v-card-title class="grey lighten-2">Import</v-card-title>
-            <v-card-text>
+    <DialogWrapper cardTitle="Import Well">
                 <v-row>
                     <v-col cols="6">
                         <v-text-field 
@@ -58,11 +57,15 @@ const importWell = () => {
                 
                 >
                     Import
+                </Button>       
+                <Button 
+                :id="'test-import-cancel-btn'"
+                :buttonAction="dialogStore.closeDialogWindow"
+                >
+                    Cancel
                 </Button>        
-            </v-card-text>
-        </v-card>
-
-    </v-dialog>
+        
+        </DialogWrapper >
 </template>
 
 <style scoped>

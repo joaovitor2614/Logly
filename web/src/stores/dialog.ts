@@ -12,7 +12,7 @@ export const useDialogStore = defineStore('dialogStore', () => {
         dialogName.value = name
     }
 
-    const closeDialogWidnow = () => {
+    const closeDialogWindow = () => {
         shouldOpenDialog.value = false
         dialogName.value = ''
     }
@@ -20,7 +20,7 @@ export const useDialogStore = defineStore('dialogStore', () => {
     return { 
         shouldOpenDialog,
         openDialogWindow,
-        closeDialogWidnow,
+        closeDialogWindow,
         dialogName
     }
 })
