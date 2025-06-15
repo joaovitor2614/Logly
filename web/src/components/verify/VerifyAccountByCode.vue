@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { sendEmailVerificationCode } from '@/api/services/user';
+import { sendEmailVerificationCode} from '@/api/services/user';
+
 import { useUserStore } from '@/stores';
 import { getMaskedEmail } from '@/utils/email'
 
@@ -14,6 +15,8 @@ onMounted(() => {
 
 
 
+
+
 const otpDigit1: Ref<string> = ref('')
 const otpDigit2: Ref<string> = ref('')
 const otpDigit3: Ref<string> = ref('')
@@ -22,9 +25,9 @@ const otpDigit5: Ref<string> = ref('')
 const otpDigit6: Ref<string> = ref('')
 
 
-const verifyOTPCode = () => {
+const verifyOTPCode = async ()  => {
     const otpCode = otpDigit1.value + otpDigit2.value + otpDigit3.value + otpDigit4.value + otpDigit5.value + otpDigit6.value
-    console.log('otpco', otpCode)
+    userStore.verifyPassedOTPCode(otpCode)
 }
 </script>
 

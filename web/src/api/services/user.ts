@@ -17,10 +17,10 @@ export async function putUserInfo(userID: string, userData: Partial<App.User.Inf
 
 
 export const sendEmailVerificationCode = () => {
-    return api.get(`/send-verification-code/`);
+    return api.post(`users/send-verification-code/`);
 }
 
 
 export const verifyEmailVerificationCode = (code: string) => {
-    return api.put(`/verify-verification-code/${code}`);
+    return api.put(`users/verify-verification-code/${code}`);
 }

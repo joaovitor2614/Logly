@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
-import { getUserInfo, putUserInfo } from '@/api/services/user'
+import { getUserInfo, putUserInfo, verifyEmailVerificationCode } from '@/api/services/user'
+import { useToast } from "vue-toastification"
 
 
 
@@ -12,7 +13,7 @@ export const useUserStore = defineStore('userStore', () => {
         email: '',
         has_confirmed_email: false
     })
-
+    const toast = useToast()
     async function fetchUser() {
         const response = await getUserInfo()
         
@@ -36,11 +37,20 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
 
+    async function verifyPassedOTPCode(otpCode: string) {
+        const response = await verifyEmailVerificationCode(otpCode)
+        if (response) {
+            toast.success('Account verified successfully!')
+            await fetchUser()
+        }
+    }
+
 
     return {
         userInfo,
         setUserInfo,
         editUserInfo,
+        verifyPassedOTPCode,
         fetchUser
     }
 })
