@@ -38,7 +38,7 @@ def login_user(request: Request, userInfo: UserCrendentials):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with given name does not exist!"
+            detail=f"User with given name does not exist"
         )
 
     user_controller.verify_password(userInfo.password, user["password"])

@@ -1,8 +1,11 @@
 version: '3.8'
 
 services:
-  myapp:
-    image: loglyapi
+  loglyapi:
+    build: .  # Use build context to rebuild on changes
     ports:
       - "5000:5000"
+    volumes:
+      - ./app:/code/app  # Live-reload works when the code is mounted
+    command: uvicorn app:app --host 0.0.0.0 --port 5000 --reload
     restart: unless-stopped
