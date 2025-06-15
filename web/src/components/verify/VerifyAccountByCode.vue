@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '@/components/common/Button.vue'
 import { sendEmailVerificationCode} from '@/api/services/user';
 
 import { useUserStore } from '@/stores';
@@ -6,6 +7,7 @@ import { getMaskedEmail } from '@/utils/email'
 
 import { onMounted } from 'vue';
 import { Ref, ref } from 'vue';
+import { computed } from 'vue';
 const userStore = useUserStore()
 const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
 
@@ -24,6 +26,7 @@ const otpDigit4: Ref<string> = ref('')
 const otpDigit5: Ref<string> = ref('')
 const otpDigit6: Ref<string> = ref('')
 
+const isDisabled = computed(() => otpDigit1.value && otpDigit2.value && otpDigit3.value && otpDigit4.value && otpDigit5.value && otpDigit6.value ? false : true);
 
 const verifyOTPCode = async ()  => {
     const otpCode = otpDigit1.value + otpDigit2.value + otpDigit3.value + otpDigit4.value + otpDigit5.value + otpDigit6.value
@@ -71,9 +74,12 @@ const verifyOTPCode = async ()  => {
 
                     <div class="flex flex-col space-y-5">
                     <div>
-                        <button @click="verifyOTPCode()" class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                    <div class="flex flex-col items-center justify-center">
+                        <Button :buttonAction="verifyOTPCode" :is-disabled="isDisabled">
                         Verify Account
-                        </button>
+                        </Button>
+                    </div>
+             
                     </div>
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
