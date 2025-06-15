@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app.settings import APP_SETTINGS
 
-print('APP_SETTINGS', APP_SETTINGS)
+
 
 class EmailSender:
     def __init__(self):

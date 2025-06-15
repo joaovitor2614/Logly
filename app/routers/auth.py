@@ -29,7 +29,7 @@ def register_user(request: Request, userInfo: UserCreate):
 def login_user(request: Request, userInfo: UserCrendentials):
     user_controller = UserController(request)
     jwt_controller = JWTController()
-    print('userInfo', userInfo)
+
   
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user = database.find_one(

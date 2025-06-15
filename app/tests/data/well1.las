@@ -12,7 +12,7 @@ STOP               .M        3080.3516                     : Last reference valu
 STEP               .M        0.1524                        : Step increment
 NULL               .         -9999                         : Missing value
 COMP               .         PETROLEO BRASILEIRO S/A       : Company
-WELL               .                                       : Well name
+WELL               .         WELL1                         : Well name
 FLD                .                                       : Field
 LOC                .                                       : Location
 PROV               .                                       : Province

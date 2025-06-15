@@ -4,14 +4,15 @@ from typing import List
 
 
 class WellHandler:
-    def __init__(self, las_file_path: str):
+    def __init__(self, las_file_path: str, user_id: str):
         self.las_file_path = las_file_path
         self.lasio_object = None
-
+        self.user_id = user_id
 
     def get_well_db_obj_from_las_file(self):
         
         self.lasio_object = lasio.read(self.las_file_path)
+        
 
         welllogs = self._create_well_logs_instances_from_curves_section()
 
@@ -21,7 +22,8 @@ class WellHandler:
         
     def _create_well_instance(self, welllogs: List[WellLog]):
         well_name = self.lasio_object.sections["Well"]["WELL"].value
-        return Well(name=well_name, welllogs=welllogs)
+        print('well_namewell_name', well_name)
+        return Well(name=well_name, welllogs=welllogs, user_id=self.user_id)
        
        
 

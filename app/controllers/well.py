@@ -14,9 +14,10 @@ class WellController(BaseController):
          super().__init__(self.well_database)
 
 
-    def import_well(self, las_file_path: str):
-        well_handler = WellHandler(las_file_path)
+    def import_well(self, las_file_path: str, user_id: str):
+        well_handler = WellHandler(las_file_path, user_id)
         well_db_obj = well_handler.get_well_db_obj_from_las_file()
+        print('well_db_obj', well_db_obj)
         self.add_new_db_obj(well_db_obj)
 
     def get_all_wells_data(self, user_id: str):
