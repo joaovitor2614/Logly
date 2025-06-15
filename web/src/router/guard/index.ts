@@ -13,6 +13,7 @@ export const registerRouteGuard = (router: Router) => {
 
     const authStore = useAuthStore();
     const userStore = useUserStore()
+    console.log('userStore', userStore.userInfo)
     const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
 
 

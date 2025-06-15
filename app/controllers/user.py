@@ -3,6 +3,7 @@ from app.models.user.user import UserCreate
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
 from app.settings import APP_SETTINGS
+from .base import BaseController
 from libgravatar import Gravatar
 from faker import Faker
 from bson.objectid import ObjectId
@@ -10,9 +11,10 @@ from typing import Union, Literal, List
 import random
 from datetime import timedelta
 
-class UserController:
+class UserController(BaseController):
     def __init__(self, request: Request):
          self.user_database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
+         super().__init__(self.user_database)
 
     def get_user_by_id(self, id: str) -> UserCreate:
         user = self.user_database.find_one(
@@ -51,10 +53,8 @@ class UserController:
         return user_db_obj
 
     def add_new_user_to_database(self, user_data: UserCreate):
-        
-        user_data = jsonable_encoder(user_data)
-        new_user = self.user_database.insert_one(user_data)
-        return new_user.inserted_id
+        return self.add_new_db_obj(user_data)
+
 
     def set_user_info_hashed_password(self, user_data: UserCreate):
         hashed_password = get_hashed_password(user_data.password)

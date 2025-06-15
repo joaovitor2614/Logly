@@ -1,5 +1,5 @@
 import lasio
-from app.models.well.well import WellLog
+from app.models.well.well import WellLog, Well
 from typing import List
 
 
@@ -9,7 +9,7 @@ class WellHandler:
         self.lasio_object = None
 
 
-    def read_las(self):
+    def get_well_db_obj_from_las_file(self):
         
         self.lasio_object = lasio.read(self.las_file_path)
 
