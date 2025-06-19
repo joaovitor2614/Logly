@@ -38,9 +38,7 @@ const importWell = () => {
                         append-inner-icon="mdi-folder-open" 
                         />
                     </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="6">
+                     <v-col cols="6">
                         <v-text-field 
                         type="text" 
                         v-model="form.wellName"
@@ -50,20 +48,23 @@ const importWell = () => {
                         />
                     </v-col>
                 </v-row>
-                <Button 
-                :id="'test-import-well-btn'"
-                :buttonAction="importWell"
-                :is-disabled="isDisabled"
-                
-                >
-                    Import
-                </Button>       
-                <Button 
-                :id="'test-import-cancel-btn'"
-                :buttonAction="dialogStore.closeDialogWindow"
-                >
-                    Cancel
-                </Button>        
+
+            
+                <v-card-actions>
+        
+                    <Button 
+                    :id="'test-import-cancel-btn'"
+                    :buttonAction="dialogStore.closeDialogWindow"
+                    >
+                        Cancel
+                    </Button>  
+                    <Button 
+                    :id="'test-import-well-btn'"
+                    :buttonAction="importWell"
+                    :is-disabled="isDisabled"
+                    
+                    >Import</Button> 
+                </v-card-actions>     
         
         </DialogWrapper >
 </template>
