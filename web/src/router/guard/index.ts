@@ -11,13 +11,16 @@ import { getFinalNavigationTarget } from './redirect'
 
 export const registerRouteGuard = (router: Router) => {
 
-    const authStore = useAuthStore();
-    const userStore = useUserStore()
-    console.log('userStore', userStore.userInfo)
-    const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
 
+
+
+    const authStore = useAuthStore();
 
     router.beforeEach(async (to, from) => {
+
+        const userStore = useUserStore()
+        const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
+        console.log('router befora each', userStore.userInfo)
         const targetRouteName = to.name as string;
         const isLoggedIn = authStore.isAuthenticated;
 
@@ -33,6 +36,10 @@ export const registerRouteGuard = (router: Router) => {
     watch(
         () => authStore.isAuthenticated, // Use a getter function to maintain reactivity
         async (isAuthenticated) => {
+            
+            const userStore = useUserStore()
+            const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
+            console.log('wathc is aut', userStore.userInfo)
             const targetRouteName = router.currentRoute.value.name as string;
             const navigationTarget = getFinalNavigationTarget(isAuthenticated, hasConfirmedEmail, targetRouteName)
             if (navigationTarget && navigationTarget !== targetRouteName) {
