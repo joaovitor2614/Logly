@@ -1,5 +1,5 @@
 from typing import Annotated, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 import uuid
 
 class UserCrendentials(BaseModel):
@@ -8,8 +8,9 @@ class UserCrendentials(BaseModel):
 
 
 
-    class Config:
-        populate_by_name = True
+     
+    ConfigDict.extra = "allow"
+    ConfigDict.populate_by_name = True
 
     
 class UserCreate(UserCrendentials):
@@ -20,8 +21,9 @@ class UserCreate(UserCrendentials):
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
 
-    class Config:
-        populate_by_name = True
+     
+    ConfigDict.extra = "allow"
+    ConfigDict.populate_by_name = True
 
 class UserUpdate(BaseModel):
     name: Optional[str] = Field(None)

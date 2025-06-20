@@ -1,5 +1,5 @@
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 class JWTPayload(BaseModel):
@@ -7,10 +7,7 @@ class JWTPayload(BaseModel):
     iat: datetime
     exp: datetime
 
-    # aud: str
-    # iss: str
-    # sub: str
-
-    class Config:
-        allow_extra = True
-        populate_by_name = True
+ 
+    ConfigDict.extra = "allow"
+    ConfigDict.populate_by_name = True
+  
