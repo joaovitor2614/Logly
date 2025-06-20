@@ -1,5 +1,5 @@
 from faker import Faker
-from app.tests.utils.auth import AuthEndPointMocker
+from app.tests.utils.wrapper.auth import AuthEndPointWrapper
 from app.tests.utils.token import get_authorization_setted_request_headers_from_register_response
 import pytest
 @pytest.fixture
@@ -19,7 +19,7 @@ def register_user(client):
     """
 
     fake = Faker()
-    auth_endpoint_mocker = AuthEndPointMocker(client)
+    auth_endpoint_mocker = AuthEndPointWrapper(client)
     mock_new_user_data = {"name": fake.name(), "email": fake.email(), "password": fake.password()}
 
     register_response = auth_endpoint_mocker.register(mock_new_user_data)

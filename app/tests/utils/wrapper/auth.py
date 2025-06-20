@@ -9,14 +9,23 @@ def get_user_id_from_register_response(response: Response) -> str:
     user_id = jwt_payload["data"]["id"]
     return user_id
 
-class AuthEndPointMocker:
-    def __init__(self, client):
+class AuthEndPointWrapper:
+
+    def __init__(self, client, request_headers=None):
         self.client = client
+        self.request_headers = request_headers
 
     def register(self, user_data: dict):
         response = self.client.post(
             "/auth/register",
             json=user_data,
+        )
+        return response
+
+    def login(self, email: str, password: str):
+        response = self.client.post(
+            "/auth/login",
+            json={"email": email, "password": password},
         )
         return response
 

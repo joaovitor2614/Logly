@@ -3,7 +3,7 @@ from app.settings import APP_SETTINGS
 import json
 from faker import Faker
 from ..utils.security import decode_jwt_token, verify_password
-from app.tests.utils.auth import AuthEndPointMocker, get_user_id_from_register_response
+from app.tests.utils.wrapper.auth import AuthEndPointWrapper, get_user_id_from_register_response
 
 def test_register_user(client):
 
@@ -16,7 +16,7 @@ def test_register_user(client):
     response JSON, confirming that the user has been authenticated.
     """
     fake = Faker()
-    auth_endpoint_mocker = AuthEndPointMocker(client)
+    auth_endpoint_mocker = AuthEndPointWrapper(client)
     mock_new_user_data = {"name": fake.name(), "email": fake.email(), "password": fake.password()}
     response = auth_endpoint_mocker.register(mock_new_user_data)
 
@@ -46,8 +46,6 @@ def test_register_user(client):
 
    
 def test_login_user(client, register_user):
-
-    
     """
     Test the user login endpoint.
 
@@ -56,21 +54,15 @@ def test_login_user(client, register_user):
     authentication. It also checks that a token is returned in the response
     JSON, verifying that the user has been authenticated.
     """
-    mock_new_user_data, _ = register_user
-
+    mock_new_user_data, request_headers = register_user
+    auth_endpoint_mocker = AuthEndPointWrapper(client, request_headers)
     # Try login with right password
-    response = client.post(
-        "/auth/login",
-        json={"email": mock_new_user_data["email"], "password": mock_new_user_data["password"]},
-    )
+    response = auth_endpoint_mocker.login(mock_new_user_data["email"], mock_new_user_data["password"])
     assert response.status_code == 201
     assert "token" in response.json(), "Token not present auth endpoint response."
 
     # try login with wrong password
-    response = client.post(
-        "/auth/login",
-        json={"email": mock_new_user_data["email"], "password": "coxinha123"},
-    )
+    response = auth_endpoint_mocker.login(mock_new_user_data["email"], "coxinha123")
 
     response_text = json.loads(response.text)["detail"]
     assert response.status_code == 401
