@@ -3,7 +3,8 @@ from app.settings import APP_SETTINGS
 import json
 from faker import Faker
 from ..utils.security import decode_jwt_token, verify_password
-from app.tests.utils.wrapper.auth import AuthEndPointWrapper, get_user_id_from_register_response
+from app.tests.utils.wrapper.auth import AuthEndPointWrapper
+from app.tests.utils.auth import get_user_id_from_register_response
 
 def test_register_user(client):
 
@@ -54,8 +55,8 @@ def test_login_user(client, register_user):
     authentication. It also checks that a token is returned in the response
     JSON, verifying that the user has been authenticated.
     """
-    mock_new_user_data, request_headers = register_user
-    auth_endpoint_mocker = AuthEndPointWrapper(client, request_headers)
+    mock_new_user_data, _ = register_user
+    auth_endpoint_mocker = AuthEndPointWrapper(client)
     # Try login with right password
     response = auth_endpoint_mocker.login(mock_new_user_data["email"], mock_new_user_data["password"])
     assert response.status_code == 201
