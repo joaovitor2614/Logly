@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import { computed } from 'vue';
 import { deleteAPIHeadersAuthToken, setAPIHeadersBearerToken } from './api/utils'
 import { useAuthStore, useUserStore } from './stores/index';
 import Header from '@/components/layout/Header.vue'
@@ -43,7 +44,16 @@ watch(
 
 
 
-
+const shouldDisplayHeader = computed(() => {
+  if (!authStore.isAuthenticated) {
+    return true
+  } else {
+    if (!userStore.userInfo.has_confirmed_email) {
+      return false
+    }
+  }
+  
+})
 
 </script>
 
@@ -51,7 +61,7 @@ watch(
     <div>
       <v-app>
         <v-main>
-          <Header />
+          <Header v-if="shouldDisplayHeader"/>
           <router-view :key="$route.fullPath" />
         </v-main>
       </v-app>
