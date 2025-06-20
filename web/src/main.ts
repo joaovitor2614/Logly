@@ -9,6 +9,7 @@ import "vue-toastification/dist/index.css";
 import '@mdi/font/css/materialdesignicons.css'
 import "./assets/main.css";
 import WellImport from '@/components/well/WellImport.vue';
+import PlotDialog from "@/components/plot/dialog/PlotDialog.vue";
 
 const vuetify = createVuetify({
   components,
@@ -40,6 +41,6 @@ app.use(vuetify)
 app.use(Toast);
 setupRouter(app)
 
-
+app.component("PlotDialog", PlotDialog)
 app.component('WellImport', WellImport)
 app.mount("#app");

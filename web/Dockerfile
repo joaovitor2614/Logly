@@ -1,9 +1,9 @@
-FROM node
+FROM node:22-slim
 
 WORKDIR /web
 
-COPY package.json .
-RUN npm i
+COPY package*.json ./
+RUN npm install
 
 COPY . .
 
