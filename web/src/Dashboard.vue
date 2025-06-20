@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import UtilitiesDrawer from '@/components/drawer/UtilitiesDrawer.vue';
 import WellImport from '@/components/well/WellImport.vue';
-import { useDialogStore } from './stores';
+import { useDialogStore, useWellStore } from './stores';
+import { onMounted } from 'vue';
 
 
 defineOptions({
@@ -9,7 +10,11 @@ defineOptions({
 })
 
 const dialogStore = useDialogStore()
+const wellStore = useWellStore()
 
+onMounted(() => {
+    wellStore.getWells();
+})
 </script>
 
 <template>

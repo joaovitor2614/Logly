@@ -4,13 +4,13 @@ import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
-import { importWellFile } from '@/api/services/well'
+
 
 import DialogWrapper from '../common/DialogWrapper.vue';
-import { useDialogStore } from '@/stores';
+import { useDialogStore, useWellStore } from '@/stores';
 
 const dialogStore = useDialogStore()
-
+const wellStore = useWellStore();
 const form = reactive({
     lasFilePath: '',
     wellName: ''
@@ -23,7 +23,9 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => v$.value.lasFilePath.$invalid || v$.value.wellName.$invalid ? true : false);
 const importWell = () => {
-    importWellFile(form.lasFilePath, form.wellName)
+    wellStore.importNewFile(form.lasFilePath, form.wellName)
+        
+    
 }
 </script>
 
