@@ -11,11 +11,6 @@ import { computed } from 'vue';
 const userStore = useUserStore()
 const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
 
-onMounted(() => {
-    sendEmailVerificationCode()
-})
-
-
 
 
 
@@ -26,12 +21,29 @@ const otpDigit4: Ref<string> = ref('')
 const otpDigit5: Ref<string> = ref('')
 const otpDigit6: Ref<string> = ref('')
 
+const resetOTCCodeDigits = () => {
+    otpDigit1.value = ''
+    otpDigit2.value = ''
+    otpDigit3.value = ''
+    otpDigit4.value = ''
+    otpDigit5.value = ''
+    otpDigit6.value = ''
+}
+
 const isDisabled = computed(() => otpDigit1.value && otpDigit2.value && otpDigit3.value && otpDigit4.value && otpDigit5.value && otpDigit6.value ? false : true);
 
 const verifyOTPCode = async ()  => {
     const otpCode = otpDigit1.value + otpDigit2.value + otpDigit3.value + otpDigit4.value + otpDigit5.value + otpDigit6.value
     userStore.verifyPassedOTPCode(otpCode)
 }
+
+
+onMounted(() => {
+    resetOTCCodeDigits()
+    sendEmailVerificationCode()
+})
+
+
 </script>
 
 <template>
@@ -51,7 +63,7 @@ const verifyOTPCode = async ()  => {
             <div>
          
                 <div class="flex flex-col space-y-16">
-                    <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
+                    <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs space-x-2">
                     <div class="w-16 h-16 ">
                         <input v-model="otpDigit1" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
                     </div>
@@ -84,10 +96,8 @@ const verifyOTPCode = async ()  => {
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                         <p>Didn't recieve code?</p> <a @click="sendEmailVerificationCode()" 
-                        class="flex flex-row items-center text-blue-600" 
-                        href="http://" 
-                        target="_blank" 
-                        rel="noopener noreferrer">
+                        class="flex flex-row items-center text-blue-600 cursor-pointer hover:underline" 
+                        >
                         Resend
                         </a>
                     </div>
