@@ -12,6 +12,10 @@ class WellController(BaseController):
          self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
          super().__init__(self.well_database)
 
+    def get_well_by_name(self, well_name: str):
+        return self.well_database.find_one(
+        {"name": well_name}    
+        )
 
     def import_well(self, las_file_path: str, user_id: str):
         well_handler = WellHandler(las_file_path, user_id)
