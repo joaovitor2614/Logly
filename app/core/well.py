@@ -1,4 +1,5 @@
 import lasio
+import pandas as pd
 from app.models.well.well import WellLog, Well
 from typing import List
 
@@ -43,7 +44,8 @@ class WellHandler:
     def _populate_well_logs_instances_data(self, welllogs: List[WellLog]):
         well_logs_amount = self.lasio_object.data.shape[1]
         for i in range(well_logs_amount):
-            welllogs[i].data = self.lasio_object.data[:, i]
+            well_log_data_jsonfied = pd.Series(self.lasio_object.data[:, i]).to_json(orient='values')
+            welllogs[i].data = well_log_data_jsonfied
  
     
 

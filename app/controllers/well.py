@@ -1,5 +1,4 @@
 from fastapi import Request, HTTPException, status
-from app.models.user.user import UserCreate
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
 from app.core.well import WellHandler

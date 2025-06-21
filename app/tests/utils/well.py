@@ -13,6 +13,7 @@ class WellEndPointMocker:
     def import_file(self, las_file_path: str):
         response = self.client.post(
             "/well",
+            headers=self.request_headers,
             json={"file_path": las_file_path},
         )
         return response

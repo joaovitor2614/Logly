@@ -1,13 +1,14 @@
 from app.tests.utils.well import WellEndPointMocker
+from app.tests.utils.test_data_path import TEST_WELL_FILE_PATH
 from app.settings import APP_SETTINGS
 
 
 def test_import_well_file(client, register_user):
     _, request_headers  = register_user
     well_endpoint_mocker = WellEndPointMocker(client, request_headers)
-    las_file_path = "C:\\Users\\jvito\\Desktop\\Projects\\logly\\app\\tests\\data\\well1.las"
-    well_endpoint_mocker.import_file(las_file_path)
-
+    print('TEST_WELL_FILE_PATH', TEST_WELL_FILE_PATH)
+    response = well_endpoint_mocker.import_file(TEST_WELL_FILE_PATH)
+    assert response.status_code == 201
     
     #well_db_mock = client.app.database[APP_SETTINGS.WELLS_DB_NAME]
     #new_well = well_db_mock.find_one(
