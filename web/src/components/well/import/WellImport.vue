@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
 
 
-import DialogWrapper from '../common/DialogWrapper.vue';
+import DialogWrapper from '../../common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
 
 const dialogStore = useDialogStore()
