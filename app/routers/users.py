@@ -14,7 +14,7 @@ from app.settings import APP_SETTINGS
 router = APIRouter()
 
 @router.put("/{id}", response_description="Update a user", response_model=UserCreate)
-def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id: str = Depends(get_current_user)):
+def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id: ObjectId = Depends(get_current_user)):
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
     user_data = user.dict(exclude_unset=True)
     updated_user = update_document_object_instance(database, id, user_data)
@@ -23,14 +23,14 @@ def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id
 
 
 @router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)
-async def get_user_by_id(id: str, request: Request, user_id: str = Depends(get_current_user)):
+async def get_user_by_id(id: str, request: Request, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(id)
 
     return user
 
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
-async def get_user(request: Request, user_id: str = Depends(get_current_user)):
+async def get_user(request: Request, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(user_id)
     
@@ -38,7 +38,7 @@ async def get_user(request: Request, user_id: str = Depends(get_current_user)):
 
 
 @router.post("/send-verification-code", response_description="Send verification code to user email")
-def send_verification_code(request: Request, user_id: str = Depends(get_current_user)):
+def send_verification_code(request: Request, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     print('send-verification-code', user_id)
     user = user_controller.get_user_by_id(user_id)
@@ -56,7 +56,7 @@ def send_verification_code(request: Request, user_id: str = Depends(get_current_
     return {"message": "Verification code sent successfully"}
  
 @router.put("/verify-verification-code/{code}", response_description="Attempt to verify user account")
-def verify_user(request: Request, code: str, user_id: str = Depends(get_current_user)):
+def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(user_id)
     if user["has_confirmed_email"]:

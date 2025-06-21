@@ -1,6 +1,7 @@
 from fastapi import Request, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
+from bson.objectid import ObjectId
 from app.core.well import WellHandler
 from .user import UserController
 from app.settings import APP_SETTINGS
@@ -17,14 +18,14 @@ class WellController(BaseController):
         {"name": well_name}    
         )
 
-    def import_well(self, las_file_path: str, user_id: str):
+    def import_well(self, las_file_path: str, user_id: ObjectId):
         well_handler = WellHandler(las_file_path, user_id)
         well_db_obj = well_handler.get_well_db_obj_from_las_file()
         
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
 
     def get_all_wells_data(self, user_id: str):
-        well_db_objs = self.well_database.find({"user_id": ObjectId(user_id)})
+        well_db_objs = self.well_database.find({"user_id": user_id})
         return well_db_objs
 
         

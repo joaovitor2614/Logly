@@ -1,11 +1,12 @@
 import lasio
 import pandas as pd
 from app.models.well.well import WellLog, Well
+from bson.objectid import ObjectId
 from typing import List
 
 
 class WellHandler:
-    def __init__(self, las_file_path: str, user_id: str):
+    def __init__(self, las_file_path: str, user_id: ObjectId):
         self.las_file_path = las_file_path
         self.lasio_object = None
         self.user_id = user_id
