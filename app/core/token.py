@@ -4,7 +4,7 @@ from app.settings import APP_SETTINGS
 import jwt
 
 
-class JWTController:
+class JWTHandler:
     def __init__(self):
         pass
     def get_jwt_token_from_user_db_obj(self, user_db_obj: dict) -> str:
