@@ -45,8 +45,8 @@ class WellHandler:
     def _populate_well_logs_instances_data(self, welllogs: List[WellLog]):
         well_logs_amount = self.lasio_object.data.shape[1]
         for i in range(well_logs_amount):
-            well_log_data_jsonfied = pd.Series(self.lasio_object.data[:, i]).to_json(orient='values')
-            welllogs[i].data = well_log_data_jsonfied
+
+            welllogs[i].data = self.lasio_object.data[:, i]
  
     
 

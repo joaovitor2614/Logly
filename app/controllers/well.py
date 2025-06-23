@@ -2,11 +2,14 @@ from fastapi import Request, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
 from bson.objectid import ObjectId
+from app.models.well.well import WellLog, Well
 from app.core.well import WellHandler
 from .user import UserController
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from bson.objectid import ObjectId
+from typing import List
+import pandas as pd
 
 class WellController(BaseController):
     def __init__(self, request: Request):
@@ -21,11 +24,18 @@ class WellController(BaseController):
     def import_well(self, las_file_path: str, user_id: ObjectId):
         well_handler = WellHandler(las_file_path, user_id)
         well_db_obj = well_handler.get_well_db_obj_from_las_file()
-        
+        well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = self.well_database.find({"user_id": user_id})
+        for well_db_obj in well_db_objs:
+            well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
+
         return well_db_objs
 
-        
+    def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
+        return [
+            pd.Series(well_log_db_obj.data).to_json(orient='values')
+            for well_log_db_obj in well_log_db_objs
+        ]
