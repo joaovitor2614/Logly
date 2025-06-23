@@ -3,6 +3,7 @@ import jwt
 from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from ..core.token import JWTHandler
 from ..models.auth.auth import JWTPayload
 from datetime import datetime, UTC
 from typing import Dict
@@ -26,14 +27,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
         HTTPException: If the token is invalid or the user ID is not found.
     """
     try:
-        payload = decode_jwt_token(token)
+        jwt_handler = JWTHandler()
+        payload = jwt_handler.decode_jwt_token(token)
 
         user_id = payload["data"].get("id", None)
 
         
  
     except (jwt.PyJWTError):
-        raise HTTPException(
+        raise HTTP- AException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
@@ -45,33 +47,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
             detail="Could not find user ID in token",
         )
     return user_id
-def generate_jwt_token_payload_from_user_info(user_info: Dict[str, str]) -> JWTPayload:
-    """
-    Generate a JWT payload from the given user info.
 
-    Args:
-        user_info (Dict[str, str]): The user info containing the email and ID.
-
-    Returns:
-        JWTPayload: The JWT payload.
-    """
-    return JWTPayload(
-        data={"email": user_info["email"], "id": user_info["_id"]}, 
-        iat=datetime.now(UTC), 
-        exp=datetime.now(UTC)
-    )
-def decode_jwt_token(token: str) -> JWTPayload:
-    """
-    Decode a JWT token.
-
-    Args:
-        token (str): The JWT token.
-
-    Returns:
-        JWTPayload: The decoded JWT payload.
-    """
-    payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
-    return payload
     
 def encode_jwt_token(jwt_payload: JWTPayload) -> str:
     """

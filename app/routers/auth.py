@@ -2,7 +2,7 @@ import jwt
 from fastapi import APIRouter, Request, Response, HTTPException, status
 from ..models.user.user import UserCreate, UserCrendentials
 from fastapi.encoders import jsonable_encoder
-from ..utils.security import get_hashed_password, verify_password, encode_jwt_token, generate_jwt_token_payload_from_user_info
+from ..utils.security import verify_password
 from app.settings import APP_SETTINGS
 from ..controllers.user import UserController
 from ..core.token import JWTHandler
@@ -15,11 +15,11 @@ router = APIRouter()
 @router.post("/register", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def register_user(request: Request, userInfo: UserCreate):
     user_controller = UserController(request)
-    jwt_controller = JWTHandler()
+    jwt_handler = JWTHandler()
 
     created_new_user = user_controller.create_user(userInfo)
 
-    jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(created_new_user)
+    jwt_token = jwt_handler.get_jwt_token_from_user_db_obj(created_new_user)
 
 
     return {"token": jwt_token}
@@ -28,7 +28,7 @@ def register_user(request: Request, userInfo: UserCreate):
 @router.post("/login", response_description="Login user", status_code=status.HTTP_201_CREATED)    
 def login_user(request: Request, userInfo: UserCrendentials):
     user_controller = UserController(request)
-    jwt_controller = JWTHandler()
+    jwt_handler = JWTHandler()
 
   
     database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
@@ -43,7 +43,7 @@ def login_user(request: Request, userInfo: UserCrendentials):
 
     user_controller.verify_password(userInfo.password, user["password"])
 
-    jwt_token = jwt_controller.get_jwt_token_from_user_db_obj(user)
+    jwt_token = jwt_handler.get_jwt_token_from_user_db_obj(user)
 
 
 

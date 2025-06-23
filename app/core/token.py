@@ -20,6 +20,11 @@ class JWTHandler:
             exp=datetime.now(UTC)
         )
 
+    def decode_jwt_token(self, token: str):
+        payload = jwt.decode(token, APP_SETTINGS.SECRET_KEY, algorithms=[APP_SETTINGS.JWT_ALGORITHM])
+        return payload
+
+
     def create_jwt_token_payload(self, jwt_payload: JWTPayload) -> str:
         jwt_payload = jwt_payload.model_dump().copy()
         jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
