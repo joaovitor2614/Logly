@@ -32,3 +32,4 @@ def client(app):
     return TestClient(app)
 
 from app.tests.fixture.auth import *
+from app.tests.fixture.well import *

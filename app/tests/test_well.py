@@ -1,15 +1,12 @@
-from app.tests.utils.well import WellEndPointMocker
+from app.tests.utils.wrapper.well import WellEndPointWrapper
 from app.controllers.well import WellController
-from app.tests.utils.test_data_path import TEST_WELL_FILE_PATH
+
 from app.settings import APP_SETTINGS
 
 
-def test_import_well_file(client, register_user):
-    
-    _, request_headers  = register_user
-    well_endpoint_mocker = WellEndPointMocker(client, request_headers)
-    print('TEST_WELL_FILE_PATH', TEST_WELL_FILE_PATH)
-    response = well_endpoint_mocker.import_file(TEST_WELL_FILE_PATH)
+def test_import_well_file(client, import_well_file):
+    response = import_well_file
+
     assert response.status_code == 201
     
     well_controller = WellController(client)
