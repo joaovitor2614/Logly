@@ -24,7 +24,7 @@ onMounted(() => {
        <WellTable/>
         <component :is="dialogStore.dialogName"></component>
  
-       <WellImport />
+   
     </v-container>
  </template>
 

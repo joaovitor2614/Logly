@@ -41,6 +41,6 @@ app.use(vuetify)
 app.use(Toast);
 setupRouter(app)
 
-app.component("PlotDialog", PlotDialog)
+app.component('PlotDialog', PlotDialog)
 app.component('WellImport', WellImport)
 app.mount("#app");
