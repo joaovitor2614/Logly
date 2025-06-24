@@ -27,7 +27,7 @@ const router = useRouter()
           <div class="sm:flex sm:gap-4">
             <a
               v-if="!authStore.isAuthenticated"
-              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-header-login-btn"
               @click="router.push('/login')"
@@ -37,7 +37,7 @@ const router = useRouter()
   
             <a
               v-if="!authStore.isAuthenticated"
-              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-header-register-btn"
               @click="router.push('/register')"
@@ -46,7 +46,7 @@ const router = useRouter()
             </a>
              <a
               v-if="authStore.isAuthenticated"
-              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+              class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-logout-btn"
               @click="authStore.logout()"
@@ -56,7 +56,7 @@ const router = useRouter()
           </div>
   
           <button
-            class="block rounded-sm bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
+            class="block rounded-sm bg-gray-100 p-2.5 text-gray-600 transition md:hidden"
           >
             <span class="sr-only">Toggle menu</span>
             <svg

@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.post("/", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def import_well_file(request: Request, file_info: ImportWell, user_id: ObjectId  = Depends(get_current_user)):
-    print('heree')
+
     well_controller = WellController(request)
     
     well_controller.import_well(file_info.file_path, user_id)

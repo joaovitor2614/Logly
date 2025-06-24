@@ -24,7 +24,7 @@ class WellHandler:
         
     def _create_well_instance(self, welllogs: List[WellLog]):
         well_name = self.lasio_object.sections["Well"]["WELL"].value
-        print('well_namewell_name', well_name)
+ 
         return Well(name=well_name, welllogs=welllogs, user_id=self.user_id)
        
        

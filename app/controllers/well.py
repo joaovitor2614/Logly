@@ -26,9 +26,9 @@ class WellController(BaseController):
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = self.well_database.find({"user_id": user_id})
-        print('well_db_objs', well_db_objs)
+
         for well_db_obj in well_db_objs:
-            print('well_db_obj', well_db_obj)
+  
             well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj["welllogs"])
 
         return well_db_objs
