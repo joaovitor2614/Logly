@@ -17,6 +17,11 @@ def test_import_well_file(client, import_well_file):
     assert len(well_db_obj["welllogs"]) == 20, "Well logs were not imported sucessfully"
     
 
+def test_get_wells(client, import_well_file):
+    well_controller = WellController(client)
+    well_db_objs = well_controller.ge
 
+
+    
 
 

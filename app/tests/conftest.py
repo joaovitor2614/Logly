@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from app.settings import APP_SETTINGS
 from fastapi.testclient import TestClient
+from app.tests.utils.wrapper.well import WellEndPointWrapper
 from app import create_app
 import mongomock
 import pytest
