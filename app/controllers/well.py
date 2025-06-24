@@ -1,10 +1,7 @@
-from fastapi import Request, HTTPException, status
-from fastapi.encoders import jsonable_encoder
-from ..utils.security import get_hashed_password, verify_password
+from fastapi import Request
 from bson.objectid import ObjectId
-from app.models.well.well import WellLog, Well
+from app.models.well.well import WellLog
 from app.core.well import WellHandler
-from .user import UserController
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from bson.objectid import ObjectId
@@ -29,13 +26,16 @@ class WellController(BaseController):
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = self.well_database.find({"user_id": user_id})
+        print('well_db_objs', well_db_objs)
         for well_db_obj in well_db_objs:
-            well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
+            print('well_db_obj', well_db_obj)
+            well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj["welllogs"])
 
         return well_db_objs
 
     def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
-        return [
-            pd.Series(well_log_db_obj.data).to_json(orient='values')
-            for well_log_db_obj in well_log_db_objs
-        ]
+        json_serialize_well_logs_data = []
+        for well_log_db_obj in well_log_db_objs:
+            well_log_data = well_log_db_obj["data"] if isinstance(well_log_db_obj, dict) else well_log_db_obj.data
+            json_serialize_well_logs_data.append(pd.Series(well_log_data).to_json(orient='values'))
+   
