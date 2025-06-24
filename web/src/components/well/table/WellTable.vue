@@ -12,6 +12,7 @@ const wellLogsFilterTableHeader = [
           removable: false,
         },
         { title: 'Creation time', key: 'create_time', removable: false },
+        { title: 'Actions', key: 'id', removable: false },
 ]
 
 
@@ -29,7 +30,7 @@ const populateTableWellInfo = () => {
     tableWellInfo.value = wellStore.wells.forEach((well) => {
         return {name: well.name, create_time: well.create_time}
     })
-    tableWellInfo.value = [{name: "355RJS", create_time: "2022-01-01"}, {name: "342", create_time: "2022-01-01"}, {name: "355RJS", create_time: "2022-01-01"}]
+    tableWellInfo.value = [{name: "355RJS", create_time: "2022-01-01", id: ''}, {name: "342", create_time: "2022-01-01", id: ''}, {name: "355RJS", create_time: "2022-01-01", id: ''}]
 }
 
 
@@ -46,6 +47,16 @@ onMounted(() => {
             disable-pagination
             hide-default-footer
         >
+        <template v-slot:item.id="{ item }">
+            <v-btn
+            icon
+            variant="text"
+            style="color: black"
+        >
+            <v-icon >mdi-delete</v-icon>
+            </v-btn>
+        </template>
+
    
         
     </v-data-table>
