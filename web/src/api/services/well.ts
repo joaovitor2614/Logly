@@ -9,3 +9,7 @@ export async function importWellFile(lasFilePath: string, wellName: string) {
 export async function getAllWellsData() {
     return await api.get(`/well`);
 }
+
+export async function deleteWellByID(wellID: string) {
+    return await api.delete(`/well/${wellID}`);
+}
