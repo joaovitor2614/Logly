@@ -21,21 +21,26 @@ class WellController(BaseController):
     def import_well(self, las_file_path: str, user_id: ObjectId):
         well_handler = WellHandler(las_file_path, user_id)
         well_db_obj = well_handler.get_well_db_obj_from_las_file()
-        well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
+        self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
+
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = self.well_database.find({"user_id": user_id})
 
         for well_db_obj in well_db_objs:
-  
-            well_db_obj.welllogs = self._serialize_well_db_objs_numpy_arrays(well_db_obj["welllogs"])
+   
+            self._serialize_well_db_objs_numpy_arrays(well_db_obj["welllogs"])
+   
 
         return well_db_objs
 
     def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
-        json_serialize_well_logs_data = []
+
         for well_log_db_obj in well_log_db_objs:
-            well_log_data = well_log_db_obj["data"] if isinstance(well_log_db_obj, dict) else well_log_db_obj.data
-            json_serialize_well_logs_data.append(pd.Series(well_log_data).to_json(orient='values'))
-   
+            if not isinstance(well_log_db_obj, dict):
+                well_log_db_obj.data = pd.Series(well_log_db_obj.data).to_json(orient='values')
+            else:
+                well_log_db_obj["data"] = pd.Series(well_log_db_obj["data"]).to_json(orient='values')
+                
+        
