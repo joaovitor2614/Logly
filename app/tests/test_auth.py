@@ -4,6 +4,7 @@ import json
 from faker import Faker
 from ..utils.security import verify_password
 from app.tests.utils.wrapper.auth import AuthEndPointWrapper
+from app.controllers.user import UserController
 from app.tests.utils.auth import get_user_id_from_register_response
 
 def test_register_user(client):
@@ -17,6 +18,7 @@ def test_register_user(client):
     response JSON, confirming that the user has been authenticated.
     """
     fake = Faker()
+    user_controller = UserController(client)
     auth_endpoint_mocker = AuthEndPointWrapper(client)
     mock_new_user_data = {"name": fake.name(), "email": fake.email(), "password": fake.password()}
     response = auth_endpoint_mocker.register(mock_new_user_data)
@@ -30,19 +32,11 @@ def test_register_user(client):
 
     user_id = get_user_id_from_register_response(response)
 
-    users_db_mock = client.app.database[APP_SETTINGS.USERS_DB_NAME]
-    new_user = users_db_mock.find_one(
-        {"_id": user_id}    
-    )
+    new_user = user_controller.get_user_by_id(user_id)
     
-
     assert verify_password(mock_new_user_data["password"], new_user["password"]), "Password not hashed correctly"
     assert new_user["email"] == mock_new_user_data["email"], "Email not stored correctly"
     assert new_user["name"] == mock_new_user_data["name"], "Name not stored correctly"
-
-    # Try register user with the same email
-    #assert register_response.status_code == 409
-    #print('register_response', register_response)
 
 
    
