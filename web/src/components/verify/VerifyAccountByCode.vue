@@ -47,7 +47,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- component -->
+
     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
         <div class="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
             <div class="mx-auto flex w-full max-w-md flex-col space-y-16">

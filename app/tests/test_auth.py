@@ -2,7 +2,7 @@ from faker import Faker
 from app.settings import APP_SETTINGS
 import json
 from faker import Faker
-from ..utils.security import decode_jwt_token, verify_password
+from ..utils.security import verify_password
 from app.tests.utils.wrapper.auth import AuthEndPointWrapper
 from app.tests.utils.auth import get_user_id_from_register_response
 
