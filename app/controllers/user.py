@@ -33,8 +33,14 @@ class UserController(BaseController):
         user = self.user_database.find_one(
             {"email": email}
         )
-
-
+        '''
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with given email not found!"
+            )
+            return
+        '''
         return user
     def create_user(self, user_data: UserCreate) -> dict:
         user = self.get_user_by_email(user_data.email)

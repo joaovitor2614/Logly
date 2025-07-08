@@ -1,4 +1,4 @@
-from app.tests.utils.auth import get_user_id_from_register_response
+from fastapi import  status
 from app.tests.utils.wrapper.user import UserEndPointWrapper
 from ..controllers.user import UserController
 
@@ -16,6 +16,18 @@ def test_get_user_info(client, register_user):
     fetch_user_info = response.json()
     assert response.status_code == 200, f"Response status code expected to be 200, but got {response.status_code}"
     assert mock_new_user_data["email"] in fetch_user_info["email"], "Email not present in user info response."
+
+'''
+def test_delete_user(mocker, client, register_user):
+    mock_new_user_data, request_headers  = register_user
+    user_controller = UserController(client)
+    user_endpoint_wrapper = UserEndPointWrapper(client, request_headers)
+    response = user_endpoint_wrapper.delete_user()
+    http_exception_mocker = mocker.patch("fastapi.HTTPException")
+    user_db_obj = user_controller.get_user_by_email(mock_new_user_data["email"])
+    http_exception_mocker.assert_called_once_with(status_code=status.HTTP_404_NOT_FOUND)
+    assert response.status_code == 200
+'''
     
 def test_generate_verify_account_code(client, register_user):
     mock_new_user_data, request_headers  = register_user

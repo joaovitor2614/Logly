@@ -17,6 +17,9 @@ class UserEndPointWrapper:
             headers=self.request_headers
         )
         return response
+    
+    def delete_user(self):
+        print('delete user')
 
     def send_verification_code(self):
         response = self.client.post(
