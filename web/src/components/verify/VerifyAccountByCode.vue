@@ -11,37 +11,21 @@ import { computed } from 'vue';
 const userStore = useUserStore()
 const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
 
+const otpCode: Ref<string> = ref('')
 
 
-
-const otpDigit1: Ref<string> = ref('')
-const otpDigit2: Ref<string> = ref('')
-const otpDigit3: Ref<string> = ref('')
-const otpDigit4: Ref<string> = ref('')
-const otpDigit5: Ref<string> = ref('')
-const otpDigit6: Ref<string> = ref('')
-
-const resetOTCCodeDigits = () => {
-    otpDigit1.value = ''
-    otpDigit2.value = ''
-    otpDigit3.value = ''
-    otpDigit4.value = ''
-    otpDigit5.value = ''
-    otpDigit6.value = ''
-}
-
-const isDisabled = computed(() => otpDigit1.value && otpDigit2.value && otpDigit3.value && otpDigit4.value && otpDigit5.value && otpDigit6.value ? false : true);
+const isDisabled = computed(() => otpCode.value.replace(/\s/g, '').length === 6 ? false : true);
 
 const verifyOTPCode = async ()  => {
-    const otpCode = otpDigit1.value + otpDigit2.value + otpDigit3.value + otpDigit4.value + otpDigit5.value + otpDigit6.value
-    userStore.verifyPassedOTPCode(otpCode)
+
+    userStore.verifyPassedOTPCode(otpCode.value)
 }
 
+const sendOTPCodeToUserEmail = () => {
+    otpCode.value = '';
+    sendEmailVerificationCode();
+}
 
-onMounted(() => {
-    resetOTCCodeDigits()
-    sendEmailVerificationCode()
-})
 
 
 </script>
@@ -63,30 +47,10 @@ onMounted(() => {
             <div>
          
                 <div class="flex flex-col space-y-16">
-                    <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs space-x-2">
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit1" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit2" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit3" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit4" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit5" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    <div class="w-16 h-16 ">
-                        <input v-model="otpDigit6" class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id="">
-                    </div>
-                    </div>
-
+                    <v-otp-input v-model="otpCode" length="6" type="text" />
                     <div class="flex flex-col space-y-5">
                     <div>
-                    <div class="flex flex-col items-center justify-center">
+                    <div class="flex flex-col items-center justify-center mb-4">
                         <Button :buttonAction="verifyOTPCode" :is-disabled="isDisabled">
                         Verify Account
                         </Button>
@@ -95,7 +59,7 @@ onMounted(() => {
                     </div>
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                        <p>Didn't recieve code?</p> <a @click="sendEmailVerificationCode()" 
+                        <p>Didn't recieve code? </p> <a @click="sendOTPCodeToUserEmail()" 
                         class="flex flex-row items-center text-blue-600 cursor-pointer hover:underline" 
                         >
                         Resend
