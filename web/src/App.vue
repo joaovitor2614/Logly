@@ -45,16 +45,13 @@ watch(
 
 
 const shouldDisplayHeader = computed(() => {
-  if (!authStore.isAuthenticated) {
-    return true
-  } else {
-    if (!userStore.userInfo.has_confirmed_email) {
-      return false
-    }
-  }
+  if (authStore.isAuthenticated && userStore.userInfo.has_confirmed_email) {
+    return false;
+  } 
+  return true
   
 })
-
+console.log('shouldDisplayHeader', shouldDisplayHeader.value)
 </script>
 
 <template>
