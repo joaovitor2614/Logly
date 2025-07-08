@@ -25,4 +25,5 @@ def get_all_wells_data(request: Request, user_id: ObjectId = Depends(get_current
     well_controller = WellController(request)
   
     well_db_obs = well_controller.get_all_wells_data(user_id)
+   
     return well_db_obs

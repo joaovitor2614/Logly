@@ -23,6 +23,7 @@ def test_get_wells(client, import_well_file):
     response = well_endpoint_wrapper.get_wells()
     assert response.status_code == 201
     well_db_objs_jsonfied = response.json()
+
     assert len(well_db_objs_jsonfied) == 1
 
 
