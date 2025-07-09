@@ -10,3 +10,13 @@ services:
       - action: sync
         path: ./app
         target: /code/app
+  loglyweb:
+    build: ./web
+    ports:
+      - "5173:5173"
+    command: npm run dev
+    develop:
+      watch:
+      - action: sync
+        path: ./web
+        target: /web
