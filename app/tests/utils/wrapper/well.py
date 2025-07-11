@@ -1,6 +1,6 @@
 from fastapi import Response
 from fastapi.testclient import TestClient
-
+from bson.objectid import ObjectId
 
 
 
@@ -24,3 +24,9 @@ class WellEndPointWrapper:
             headers=self.request_headers,
         )
         return response
+    
+    def delete_well(self, well_id: str | ObjectId):
+        if isinstance(well_id, ObjectId):
+            well_id = str(well_id)
+        
+        

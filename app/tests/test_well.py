@@ -1,6 +1,7 @@
 from app.tests.utils.wrapper.well import WellEndPointWrapper
 from app.controllers.well import WellController
-
+from app.tests.utils.test_data_path import TEST_WELL_FILE_PATH
+from app.tests.utils.auth import get_user_id_from_register_response
 from app.settings import APP_SETTINGS
 
 
@@ -26,6 +27,24 @@ def test_get_wells(client, import_well_file):
 
     assert len(well_db_objs_jsonfied) == 1
 
+
+def test_delete_well(client, register_user):
+    response, request_headers  = register_user
+    well_endpoint_wrapper = WellEndPointWrapper(client, request_headers)
+  
+    well_endpoint_wrapper.import_file(TEST_WELL_FILE_PATH)
+    
+    #user_id = get_user_id_from_register_response(response)
+
+    #well_controller = WellController(client)
+
+    #well_id = well_controller.get_well_by_name("WELL1")["_id"]
+
+    #well_endpoint_wrapper.delete_well(well_id)
+    #assert response.status_code == 201
+
+    #wells_db_objs = well_controller.get_all_wells_data(user_id)
+    #assert len(wells_db_objs) == 0
 
     
 
