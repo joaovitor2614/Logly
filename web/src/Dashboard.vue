@@ -2,7 +2,7 @@
 import UtilitiesDrawer from '@/components/drawer/UtilitiesDrawer.vue';
 import WellImport from '@/components/well/import/WellImport.vue';
 import { useDialogStore, useWellStore } from './stores';
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import WellTable from '@/components/well/table/WellTable.vue';
 
 
@@ -13,8 +13,8 @@ defineOptions({
 const dialogStore = useDialogStore()
 const wellStore = useWellStore()
 
-onMounted(() => {
-    wellStore.getWells();
+onBeforeMount(async () => {
+    await wellStore.getWells();
 })
 </script>
 

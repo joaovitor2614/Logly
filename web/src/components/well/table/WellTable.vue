@@ -27,10 +27,11 @@ interface WellInfo {
 
 const tableWellInfo: Ref<WellInfo[]> = ref([])
 const populateTableWellInfo = () => {
+    console.log('wellStore.wells', wellStore.wells)
     tableWellInfo.value = wellStore.wells.forEach((well) => {
         return {name: well.name, create_time: well.create_time}
     })
-    tableWellInfo.value = [{name: "355RJS", create_time: "2022-01-01", id: ''}, {name: "342", create_time: "2022-01-01", id: ''}, {name: "355RJS", create_time: "2022-01-01", id: ''}]
+
 }
 
 
