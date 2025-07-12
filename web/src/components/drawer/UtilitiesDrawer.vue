@@ -34,17 +34,30 @@ const openDialogComponent = (componentName: string) => {
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10">CrossPlot</v-list-item>
 
             <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openDialogComponent('PlotDialog')">Histogram</v-list-item>
+
+            <v-list-item append-icon="mdi-poll" class="mt-15" @click="openDialogComponent('PlotDialog')">Histogram</v-list-item>
       
 
         
             
           </v-list>
-          <v-btn class="logout-btn" @click="authStore.logout">Logout</v-btn>
+          <div class="d-flex flex-column  drawer-btns-box">
+            <v-btn elevation="0" append-icon="mdi-delete" class="mb-5 delete-account">Delete account</v-btn>
+            <v-btn elevation="0" append-icon="mdi-logout" @click="authStore.logout">Logout</v-btn>
+          </div>
+
         </v-navigation-drawer>
   
         
 </template>
 
 <style scoped>
+.drawer-btns-box {
+  margin-top: 18vh;
+}
+
+.delete-account {
+   color: red
+}
 
 </style>
