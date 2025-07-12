@@ -29,32 +29,42 @@ const createPlotView= () => {
 
 <template>
     <DialogWrapper :cardTitle="'Plot Dialog'">
-        <v-row>
-            <v-col cols="10">
-                <v-select
-                    class="mt-4 mb-3"
-                    :items="wellItems"
-                    label="Well name"
-                    v-model="selectedWell"
-                    hide-details
-                    outlined
-                    dense
-                ></v-select>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="6">
-                <v-select
-                    class="mx-10 mb-1"
-                    :items="wellLogItems"
-                    label="Well log name"
-                    v-model="xAxisSelectedWellLog"
-                    hide-details
-                    outlined
-                    dense
-                ></v-select>
-            </v-col>
-        </v-row>
+        <div  class="d-flex flex-column  justify-center">
+            <v-row>
+                <v-col cols="10">
+                    <v-select
+                        class="mt-4 mb-3"
+                        :items="wellItems"
+                        label="Well name"
+                        v-model="selectedWell"
+                        hide-details
+                        outlined
+                        dense
+                    ></v-select>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="10">
+                    <p class="font-weight-bold text-center mt-3 mb-6">
+                        X-Axis
+                    </p> 
+                    <v-divider />
+                </v-col>
+            </v-row>
+            <v-row >
+                <v-col cols="10">
+                    <v-select
+                        class="mx-10 mb-1"
+                        :items="wellLogItems"
+                        label="Well log name"
+                        v-model="xAxisSelectedWellLog"
+                        hide-details
+                        outlined
+                        dense
+                    ></v-select>
+                </v-col>
+            </v-row>
+        </div>
         
         <v-card-actions>
 
