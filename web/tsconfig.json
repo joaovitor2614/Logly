@@ -3,6 +3,7 @@
     /* Linting */
     "strict": true,
     "lib": [ "es2016", "dom"],
+    
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,

@@ -1,6 +1,6 @@
 from fastapi import Request
 from bson.objectid import ObjectId
-from app.models.well.well import WellLog
+from app.models.well.well import WellLog, WellLogData, Well
 from app.core.well import WellHandler
 from app.settings import APP_SETTINGS
 from .base import BaseController
@@ -13,14 +13,30 @@ class WellController(BaseController):
          self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
          super().__init__(self.well_database)
 
+    def _create_well_logs_db_objs(self, well_logs_info: List[dict]) -> List[WellLog]:
+        return [
+            WellLog(
+                name=well_log_info["name"],
+                unit=well_log_info["unit"],
+                description=well_log_info["description"],
+            ) 
+            for well_log_info in well_logs_info
+        ]
+
+    def _create_well_db_obj(self, well_info: dict, user_id: ObjectId):
+        well_logs_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
+        
+
     def get_well_by_name(self, well_name: str):
         return self.well_database.find_one(
         {"name": well_name}    
         )
 
     def import_well(self, las_file_path: str, user_id: ObjectId):
-        well_handler = WellHandler(las_file_path, user_id)
-        well_db_obj = well_handler.get_well_db_obj_from_las_file()
+        well_handler = WellHandler(las_file_path)
+        well_info = well_handler.get_well_info_from_las_file()
+
+        well_db_obj = self._create_well_db_obb(well_info, user_id)
         self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
 
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
