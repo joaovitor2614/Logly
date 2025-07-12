@@ -39,7 +39,7 @@ export const registerRouteGuard = (router: Router) => {
             
             const userStore = useUserStore()
             const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
-            console.log('wathc is aut', userStore.userInfo)
+      
             const targetRouteName = router.currentRoute.value.name as string;
             const navigationTarget = getFinalNavigationTarget(isAuthenticated, hasConfirmedEmail, targetRouteName)
             if (navigationTarget && navigationTarget !== targetRouteName) {

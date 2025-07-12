@@ -17,7 +17,7 @@ const dialogStore = useDialogStore()
 </script>
 
 <template>
-    <v-container class="d-flex flex-column  justify-center">
+
  
     <v-dialog :model-value="dialogStore.shouldOpenDialog" max-width="600px" persistent>
         <v-container class="d-flex flex-column align-center justify-center">
@@ -31,7 +31,7 @@ const dialogStore = useDialogStore()
    
     
     </v-dialog>
-       </v-container>
+   
 </template>
 
 <style scoped>

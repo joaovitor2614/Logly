@@ -11,6 +11,7 @@ export const useWellStore = defineStore('wellStore', () => {
     const getWells = async () => {
         const response = await getAllWellsData();
         if (response) {
+            console.log('resposen.data')
             wells.value = response.data
         }
     }

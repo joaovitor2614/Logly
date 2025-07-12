@@ -9,7 +9,7 @@ export function getFinalNavigationTarget(
     hasConfirmedEmail: boolean,
     targetRouteName: string,
 ) {
-    console.log('hasConfirmedEmail', hasConfirmedEmail, isAuthenticated)
+
     if (!isAuthenticated) {
         if (!PUBLIC_COMPS_NAMES.includes(targetRouteName) || routesInfo.verifyAccount.name == targetRouteName) {
             return routesInfo.login.name

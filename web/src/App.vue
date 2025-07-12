@@ -51,7 +51,7 @@ const shouldDisplayHeader = computed(() => {
   return true
   
 })
-console.log('shouldDisplayHeader', shouldDisplayHeader.value)
+
 </script>
 
 <template>

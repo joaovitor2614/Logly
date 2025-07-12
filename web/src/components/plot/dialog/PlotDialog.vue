@@ -2,7 +2,7 @@
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
-import { Ref, ref } from 'vue';
+import { Ref, ref, onMounted } from 'vue';
 
 
 
@@ -25,6 +25,10 @@ const populateWellItems = () => {
 const createPlotView= () => {
     console.log('createPlotVIew')
 }
+
+onMounted(() => {
+    console.log('wellStore', wellStore.wells)
+})
 </script>
 
 <template>

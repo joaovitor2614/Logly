@@ -15,7 +15,6 @@ const props = withDefaults(defineProps<Props>(), {
     
 })
 
-console.log('isDisabled', props.isDisabled)
 </script>
 
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useWellStore } from '@/stores';
 
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, Ref, ref, computed } from 'vue';
 
 const wellLogsFilterTableHeader = [
         {
@@ -24,20 +24,15 @@ interface WellInfo {
 }
 
 
-
-const tableWellInfo: Ref<WellInfo[]> = ref([])
-const populateTableWellInfo = () => {
-    console.log('wellStore.wells', wellStore.wells)
-    tableWellInfo.value = wellStore.wells.forEach((well) => {
-        return {name: well.name, create_time: well.create_time}
-    })
-
-}
+const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {
+    return { name: wellInfo.name, create_time: wellInfo.create_time }
+}))
 
 
-onMounted(() => {
-   populateTableWellInfo()
-})
+
+
+
+
 </script>
 
 <template>
