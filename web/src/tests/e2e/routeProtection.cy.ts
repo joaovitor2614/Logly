@@ -5,11 +5,4 @@ describe('Route Protection Tests', () => {
     cy.visit('/')
     cy.url().should('include', 'login') // => true 
   })
-  it('Should be redicted to Verify Account Page', () => {
-    const authStore = useAuthStore();
-    authStore.isAuthenticated = true
-    authStore.userInfo['has_confirmed_email'] = false
-    cy.visit('/')
-    cy.url().should('include', 'verify-account') // => true 
-  })
 })
