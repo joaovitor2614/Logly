@@ -11,22 +11,22 @@ const useForm = () => {
 
       const form = reactive(createBaseForm())
   
+      const rules = baseRules(form)
 
-
-      const v$ = useVuelidate(baseRules, form);
+      const v$ = useVuelidate(rules, form);
 
       function createFormFieldsByAttribute<T>(
         formFieldMapper: (formField: string) => T
       ): Record<string, T> {
         return Object.fromEntries(
-          Object.keys(baseRules).map((formField) => [formField, formFieldMapper(formField)])
+          Object.keys(rules).map((formField) => [formField, formFieldMapper(formField)])
         );
       }
 
-      const errorsMessages: ComputedRef<Record<keyof typeof baseRules, string[]>> = computed(() => 
+      const errorsMessages: ComputedRef<Record<keyof typeof rules, string[]>> = computed(() => 
           createFormFieldsByAttribute((formField) => createFormAttributeErrors(v$, formField))
       )
-      const formFieldsInvalidState: ComputedRef<Record<keyof typeof baseRules, boolean>> = computed(() => 
+      const formFieldsInvalidState: ComputedRef<Record<keyof typeof rules, boolean>> = computed(() => 
           createFormFieldsByAttribute((formField) => v$.value[formField].$invalid)
       )
   

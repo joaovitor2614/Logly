@@ -10,9 +10,18 @@ export function createBaseForm() {
         }
 }
 
-export const baseRules = {
-        name: { required,  $autoDirty: true },
-        email: { required, email, $autoDirty: true },
-        password: { required,  $autoDirty: true },
+export const baseRules = (form: ReturnType<typeof createBaseForm>) => {
+    
+        return {
+                name: { required,  $autoDirty: true },
+                email: { required, email, $autoDirty: true },
+                password: { required,  $autoDirty: true },
+                confirmPassword: {
+                        required,
+
+                        $autoDirty: true,
+                },
+        }
       
-};
+        
+}

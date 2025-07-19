@@ -17,11 +17,13 @@ const isDisabled = computed(() =>
     formFieldsInvalidState.value['email'] 
     || formFieldsInvalidState.value['password'] 
     || formFieldsInvalidState.value['name']
+    || formFieldsInvalidState.value['confirmPassword']
 
     ? true : false
 );
 
-
+console.log('errorsMessages', errorsMessages.value)
+console.log('formFieldsInvalidState', formFieldsInvalidState.value)
 const handleRegister = () => {
     authStore.registerUser({ name: form.name, password: form.password, email: form.email });
 }
