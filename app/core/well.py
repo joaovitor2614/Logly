@@ -21,7 +21,7 @@ class WellHandler:
 
         return well_info
         
-    def _create_well_info(self, well_logs_info: List[dct]):
+    def _create_well_info(self, well_logs_info: List[dict]):
         well_name = self.lasio_object.sections["Well"]["WELL"].value
 
         return {
