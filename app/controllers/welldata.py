@@ -1,4 +1,5 @@
 from fastapi import Request
+from bson.objectid import ObjectId
 from app.models.well.well import WellLog, WellLogData
 from app.settings import APP_SETTINGS
 from .base import BaseController
@@ -22,5 +23,9 @@ class WellDataController(BaseController):
             ) 
             for (i, well_log_info) in enumerate(well_logs_info)
         ]
+    
+    def get_well_log_data_by_id(self, well_log_id: str):
+        well_log_id = ObjectId(well_log_id)
+        print('get_well_log_data_by_id')
 
         
