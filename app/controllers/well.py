@@ -71,7 +71,7 @@ class WellController(BaseController):
 
         for well_db_obj in well_db_objs:
             well_db_obj["_id"] = str(well_db_obj["_id"])
-            self._serialize_well_db_objs_numpy_arrays(well_db_obj["welllogs"])
+            
    
 
         return well_db_objs
