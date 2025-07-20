@@ -29,10 +29,14 @@ def test_get_wells(client, import_well_file):
 
 
 def test_delete_well(client, register_user):
-    response, request_headers  = register_user
+    mock_new_user_data, request_headers  = register_user
     well_endpoint_wrapper = WellEndPointWrapper(client, request_headers)
-  
+    well_controller = WellController(client)
     well_endpoint_wrapper.import_file(TEST_WELL_FILE_PATH)
+    user_id = mock_new_user_data["_id"]
+    well_db_objs = well_controller.get_all_wells_data(user_id)
+
+    well_endpoint_wrapper.delete_well(well_db_objs[0]["_id"])
     
     #user_id = get_user_id_from_register_response(response)
 
