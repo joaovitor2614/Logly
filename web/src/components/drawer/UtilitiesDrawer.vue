@@ -42,7 +42,14 @@ const openDialogComponent = (componentName: string) => {
             
           </v-list>
           <div class="d-flex flex-column  drawer-btns-box">
-            <v-btn elevation="0" append-icon="mdi-delete" class="mb-5 delete-account">Delete account</v-btn>
+            <v-btn 
+              @click="openDialogComponent('ConfirmDeleteAccountDialog')" 
+              elevation="0" 
+              append-icon="mdi-delete" 
+              class="mb-5 delete-account"
+            >
+              Delete account
+            </v-btn>
             <v-btn elevation="0" append-icon="mdi-logout" @click="authStore.logout">Logout</v-btn>
           </div>
 

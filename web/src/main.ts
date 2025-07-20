@@ -9,6 +9,7 @@ import "vue-toastification/dist/index.css";
 import '@mdi/font/css/materialdesignicons.css'
 import "./assets/main.css";
 import WellImport from '@/components/well/import/WellImport.vue';
+import ConfirmDeleteAccountDialog from "@/components/account/ConfirmDeleteAccountDialog.vue";
 import PlotDialog from "@/components/plot/dialog/PlotDialog.vue";
 
 const vuetify = createVuetify({
@@ -43,4 +44,5 @@ setupRouter(app)
 
 app.component('PlotDialog', PlotDialog)
 app.component('WellImport', WellImport)
+app.component('ConfirmDeleteAccountDialog', ConfirmDeleteAccountDialog)
 app.mount("#app");
