@@ -15,7 +15,7 @@ class WellDataController(BaseController):
         self, 
         well_logs_info: List[dict], 
         well_log_data_db_objs_ids: List[uuid.UUID]
-    ) -> List[WellLog]:
+    ) -> List[WellLogData]:
         return [
             WellLogData(
                 well_log_id=str(well_log_data_db_objs_ids[i]),

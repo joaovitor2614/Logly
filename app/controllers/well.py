@@ -53,9 +53,18 @@ class WellController(BaseController):
             well_log_db_objs_ids
         )
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
+        self.save_well_related_db_objs(well_db_obj, well_log_data_db_objs)
+
         #self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
 
         #well_db_inserted_id = self.add_new_db_obj(well_db_obj)
+
+    def save_well_related_db_objs(self, well_db_obj: Well, well_log_data_db_objs: List[WellLogData]):
+        well_db_inserted_id = self.add_new_db_obj(well_db_obj)
+        for well_log_data_db_obj in well_log_data_db_objs:
+            well_log_data_db_obj.data = pd.Series(well_log_data_db_obj.data).to_json(orient='values')
+            self.well_data_database.add_new_db_obj(well_log_data_db_obj)
+        
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = list(self.well_database.find({"user_id": user_id}))
