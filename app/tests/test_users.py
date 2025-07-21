@@ -42,6 +42,9 @@ def test_generate_verify_account_code(client, register_user):
 
 def test_verify_account_code(client, register_user):
     mock_new_user_data, request_headers  = register_user
+
+    user_endpoint_wrapper = UserEndPointWrapper(client, request_headers)
+    #response = user_endpoint_wrapper.send_verification_code() 
     
     #response = client.post("/users/send-verification-code", headers=request_headers)
 

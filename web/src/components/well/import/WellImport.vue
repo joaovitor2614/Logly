@@ -24,8 +24,6 @@ const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => v$.value.lasFilePath.$invalid || v$.value.wellName.$invalid ? true : false);
 const importWell = () => {
     wellStore.importNewFile(form.lasFilePath, form.wellName)
-        
-    
 }
 </script>
 

@@ -40,6 +40,7 @@ const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {
             class="mt-10 mb-10"
             :headers="wellLogsFilterTableHeader"
             :items="tableWellInfo"
+            :id="'test-well-table'"
             disable-pagination
             hide-default-footer
         >
