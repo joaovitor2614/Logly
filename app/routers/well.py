@@ -29,6 +29,8 @@ def get_all_wells_data(request: Request, user_id: ObjectId = Depends(get_current
     return well_db_obs
 
 
+
+
 @router.get("/data/${well_log_id}", response_description="Get well log data by ID", status_code=status.HTTP_201_CREATED)
 def get_well_log_data_by_id(request: Request, well_log_id: str, user_id: ObjectId = Depends(get_current_user)):
     well_log_data_controller = WellDataController(request)

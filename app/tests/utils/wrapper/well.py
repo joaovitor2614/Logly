@@ -28,5 +28,10 @@ class WellEndPointWrapper:
     def delete_well(self, well_id: str | ObjectId):
         if isinstance(well_id, ObjectId):
             well_id = str(well_id)
+        response = self.client.delete(
+            f"/well/{well_id}",
+            headers=self.request_headers,
+        )
+        return response
         
         

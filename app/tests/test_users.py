@@ -31,8 +31,12 @@ def test_delete_user(mocker, client, register_user):
     
 def test_generate_verify_account_code(client, register_user):
     mock_new_user_data, request_headers  = register_user
+    user_controller = UserController(client)
     user_endpoint_wrapper = UserEndPointWrapper(client, request_headers)
-    response = user_endpoint_wrapper.send_verification_code()    
+    response = user_endpoint_wrapper.send_verification_code()   
+    user_db_obj = user_controller.get_user_by_id(mock_new_user_data["_id"]) 
+  
+    assert user_db_obj["verification_code"] is not None, "User verificatio was not setted correctly"
     assert response.status_code == 200
 
 
