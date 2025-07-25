@@ -37,9 +37,11 @@ onMounted(() => {
             <v-row>
                 <v-col cols="10">
                     <v-select
+                        
                         class="mt-4 mb-3"
                         :items="wellItems"
                         label="Well name"
+                        id="test-selected-wells-to-plot-selector"
                         v-model="selectedWell"
                         hide-details
                         outlined
