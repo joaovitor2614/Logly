@@ -27,6 +27,10 @@ const sendOTPCodeToUserEmail = () => {
 }
 
 
+onMounted(() => {
+    sendOTPCodeToUserEmail()
+})
+
 
 </script>
 
