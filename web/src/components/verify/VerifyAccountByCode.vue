@@ -47,11 +47,20 @@ const sendOTPCodeToUserEmail = () => {
             <div>
          
                 <div class="flex flex-col space-y-16">
-                    <v-otp-input v-model="otpCode" length="6" type="text" />
+                    <v-otp-input 
+                    v-model="otpCode" 
+                    id='test-otp-code-input'
+                    length="6" 
+                    type="text" 
+                    />
                     <div class="flex flex-col space-y-5">
                     <div>
                     <div class="flex flex-col items-center justify-center mb-4">
-                        <Button :buttonAction="verifyOTPCode" :is-disabled="isDisabled">
+                        <Button 
+                        :buttonAction="verifyOTPCode" 
+                        :is-disabled="isDisabled"
+                        :id="'test-verify-otp-btn'"
+                        >
                         Verify Account
                         </Button>
                     </div>
@@ -59,8 +68,10 @@ const sendOTPCodeToUserEmail = () => {
                     </div>
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                        <p>Didn't recieve code? </p> <a @click="sendOTPCodeToUserEmail()" 
+                        <p>Didn't recieve code? </p> <a 
+                        @click="sendOTPCodeToUserEmail()" 
                         class="flex flex-row items-center text-blue-600 cursor-pointer hover:underline" 
+                        id='test-resent-otp-code-btn'
                         >
                         Resend
                         </a>
