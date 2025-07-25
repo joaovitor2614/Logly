@@ -19,9 +19,11 @@ class WellLog(BaseModel):
 class WellLogData(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     well_log_id: str = Field(default_factory=uuid.uuid4)
+    well_id: str = Field(default_factory=uuid.uuid4)
     data: Annotated[List[float], Field(default_factory=list)] = []  # Ensuring a list
 
 class Well(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     name: str = Field(...)
     user_id: str = Field(default_factory=uuid.uuid4)
     create_time: Annotated[

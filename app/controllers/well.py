@@ -47,12 +47,15 @@ class WellController(BaseController):
 
 
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
+        well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
+        print('well_db_obj', well_db_obj)
         well_log_db_objs_ids = [well_log_db_obj.id for well_log_db_obj in well_log_db_objs]
         well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(
             well_info["well_logs"], 
+            str(well_db_obj.id),
             well_log_db_objs_ids
         )
-        well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
+        
         self.save_well_related_db_objs(well_db_obj, well_log_data_db_objs)
 
         #self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)

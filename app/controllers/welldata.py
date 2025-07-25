@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 from app.models.well.well import WellLog, WellLogData
 from app.settings import APP_SETTINGS
 from .base import BaseController
-from typing import List
+from typing import List, Union
 import uuid
 
 class WellDataController(BaseController):
@@ -14,10 +14,12 @@ class WellDataController(BaseController):
     def _create_well_logs_data_db_objs(
         self, 
         well_logs_info: List[dict], 
-        well_log_data_db_objs_ids: List[uuid.UUID]
+        well_id: uuid.UUID | str,
+        well_log_data_db_objs_ids: List[Union[str, uuid.UUID]]
     ) -> List[WellLogData]:
         return [
             WellLogData(
+                well_id=well_id,
                 well_log_id=str(well_log_data_db_objs_ids[i]),
                 data=well_log_info["data"],
             ) 
