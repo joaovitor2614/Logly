@@ -50,3 +50,13 @@ def test_verify_account_code(client, register_user):
 
     #user_id = get_user_id_from_register_response(response)
     #assert response.status_code == 200
+
+
+
+def test_delete_user_account(client, register_user):
+    mock_new_user_data, request_headers  = register_user
+    user_id = mock_new_user_data["_id"]
+    user_controller = UserController(client)
+    user_endpoint_wrapper = UserEndPointWrapper(client, request_headers)
+    response = user_endpoint_wrapper.delete_user()
+    assert response.status_code == 200

@@ -28,6 +28,13 @@ async def get_user_by_id(id: str, request: Request, user_id: ObjectId = Depends(
     user = user_controller.get_user_by_id(id)
 
     return user
+@router.delete("/", response_description="Delete current user account", status_code=status.HTTP_200_OK)
+async def delete_current_user(id: str, request: Request, user_id: ObjectId = Depends(get_current_user)):
+    user_controller = UserController(request)
+    user_id = str(user_id)
+    user_controller.delete_user_account(user_id)
+
+    
 
 @router.get("/", response_description="Get user info in Database", status_code=status.HTTP_200_OK)
 async def get_user(request: Request, user_id: ObjectId = Depends(get_current_user)):

@@ -2,6 +2,8 @@ from fastapi import Request, HTTPException, status
 from app.models.user.user import UserCreate
 from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
+from app.controllers.well import WellController
+
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from libgravatar import Gravatar
@@ -13,8 +15,15 @@ from datetime import timedelta
 
 class UserController(BaseController):
     def __init__(self, request: Request):
+         self.well_controller = WellController(request)
          self.user_database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
          super().__init__(self.user_database)
+
+    def delete_user_account(self, id: str):
+        self.get_user_by_id(id)
+        self.well_controller.delete_all_wells_by_user_id(id)
+        self.user_database.delete_one({"_id": id})
+
 
     def get_user_by_id(self, id: str) -> UserCreate:
         user = self.user_database.find_one(

@@ -85,6 +85,11 @@ class WellController(BaseController):
         self.well_data_database.delete_all_well_data_by_well_id(well_id)
         self.well_database.delete_one({"_id": well_id})
 
+    def delete_all_wells_by_user_id(self, user_id: str | ObjectId):
+        if isinstance(user_id, ObjectId):
+            user_id = str(user_id)
+        self.well_database.delete_many({"user_id": user_id})
+
     def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
 
         for well_log_db_obj in well_log_db_objs:
