@@ -30,7 +30,10 @@ class WellDataController(BaseController):
             ) 
             for (i, well_log_info) in enumerate(well_logs_info)
         ]
+    def get_all_well_log_data_db_objs_by_well_id(self, well_id):
     
+        well_log_data_db_objs = list(self.well_database.find({"well_id": well_id}))
+        return well_log_data_db_objs
     def get_well_log_data_by_id(self, well_log_id: str):
         well_log_id = ObjectId(well_log_id)
   
