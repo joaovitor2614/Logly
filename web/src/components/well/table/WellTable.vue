@@ -25,7 +25,7 @@ interface WellInfo {
 
 
 const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {
-    return { name: wellInfo.name, create_time: wellInfo.create_time }
+    return { name: wellInfo.name, create_time: wellInfo.create_time, id: wellInfo._id }
 }))
 
 
