@@ -1,8 +1,9 @@
 import { getAllWellsData, importWellFile, deleteWellByID } from "@/api/services/well"
 import { defineStore } from "pinia"
 import { ref, Ref } from "vue"
+import { useToast } from "vue-toastification"
 
-
+const toast = useToast()
 
 export const useWellStore = defineStore('wellStore', () => {
     const wells: Ref<App.Well.Well[]> = ref([])
@@ -21,8 +22,10 @@ export const useWellStore = defineStore('wellStore', () => {
             
         )
         if (response) {
+            toast.success(`${wellName} well imported successfully!`)
             getWells()
         }
+        return response
     }
 
     const deleteWell = async (wellID: string) => {

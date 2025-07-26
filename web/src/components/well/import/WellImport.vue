@@ -22,27 +22,35 @@ const rules = {
 }
 const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => v$.value.lasFilePath.$invalid || v$.value.wellName.$invalid ? true : false);
-const importWell = () => {
-    wellStore.importNewFile(form.lasFilePath, form.wellName)
+const importWell = async () => {
+    const response = await wellStore.importNewFile(form.lasFilePath, form.wellName)
+    if (response) {
+        dialogStore.closeDialogWindow()
+    }
 }
 
-const tryd = () => {
-    console.log('lasfile path', form.lasFilePath)
-}
+
 </script>
 
 <template>
     <DialogWrapper cardTitle="Import Well">
-                <v-row>
-                    <v-file-input
-          
-                        label="File input"
-                        v-model="form.lasFilePath"
-                    ></v-file-input>
+                  <v-row>
                     <v-col cols="6">
-               
-                  
-                        <v-btn @click="tryd">try</v-btn>
+                        <v-text-field 
+                        type="text" 
+                        label="LAS File" 
+                        v-model="form.lasFilePath"
+                        append-inner-icon="mdi-folder-open" 
+                        />
+                    </v-col>
+                     <v-col cols="6">
+                        <v-text-field 
+                        type="text" 
+                        v-model="form.wellName"
+                        label="Well name" 
+            
+            
+                        />
                     </v-col>
                 </v-row>
 
