@@ -36,7 +36,12 @@ def test_delete_well(client, register_user):
     user_id = mock_new_user_data["_id"]
     well_db_objs = well_controller.get_all_wells_data(user_id)
 
-    well_endpoint_wrapper.delete_well(well_db_objs[0]["_id"])
+
+    response = well_endpoint_wrapper.delete_well(well_db_objs[0]["_id"])
+    well_db_objs = well_controller.get_all_wells_data(user_id)
+    assert response.status_code == 201
+    assert len(well_db_objs) == 0
+
     
     #user_id = get_user_id_from_register_response(response)
 

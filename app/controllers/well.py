@@ -48,7 +48,7 @@ class WellController(BaseController):
 
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
-        print('well_db_obj', well_db_obj)
+ 
         well_log_db_objs_ids = [well_log_db_obj.id for well_log_db_obj in well_log_db_objs]
         well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(
             well_info["well_logs"], 
@@ -82,7 +82,8 @@ class WellController(BaseController):
     def delete_well_by_id(self, well_id: str | ObjectId):
         if isinstance(well_id, ObjectId):
             well_id = str(well_id)
-        self.well_database.delete_one({"_id": ObjectId(well_id)})
+        self.well_data_database.delete_all_well_data_by_well_id(well_id)
+        self.well_database.delete_one({"_id": well_id})
 
     def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
 

@@ -40,7 +40,7 @@ async def get_user(request: Request, user_id: ObjectId = Depends(get_current_use
 @router.post("/send-verification-code", response_description="Send verification code to user email")
 def send_verification_code(request: Request, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
-    print('send-verification-code', user_id)
+
     user = user_controller.get_user_by_id(user_id)
     if user["has_confirmed_email"]:
         raise HTTPException(

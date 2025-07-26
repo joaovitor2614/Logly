@@ -11,6 +11,11 @@ class WellDataController(BaseController):
          self.well_database =  request.app.database[APP_SETTINGS.WELLS_DATA_DB_NAME]
          super().__init__(self.well_database)
 
+    def delete_all_well_data_by_well_id(self, well_id: str | uuid.UUID):
+        if isinstance(well_id, uuid.UUID):
+            well_id = str(well_id)
+        self.well_database.delete_many({"well_id": well_id})
+
     def _create_well_logs_data_db_objs(
         self, 
         well_logs_info: List[dict], 
@@ -28,6 +33,6 @@ class WellDataController(BaseController):
     
     def get_well_log_data_by_id(self, well_log_id: str):
         well_log_id = ObjectId(well_log_id)
-        print('get_well_log_data_by_id')
+  
 
         
