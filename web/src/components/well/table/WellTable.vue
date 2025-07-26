@@ -47,6 +47,7 @@ const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {
         <template v-slot:item.id="{ item }">
             <v-btn
             icon
+            @click="wellStore.deleteWell(item.id)"
             variant="text"
             style="color: black"
         >

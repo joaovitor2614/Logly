@@ -29,13 +29,14 @@ declare namespace App {
 
     namespace Well {
         interface Well {
+             _id: string
             name: string
             create_time: string
             welllogs: WellLog[]
         }
 
         interface WellLog {
-            id: string
+            _id: string
             mnemonic: string
             unit: string
             description: string

@@ -13,3 +13,4 @@ export async function getAllWellsData() {
 export async function deleteWellByID(wellID: string) {
     return await api.delete(`/well/${wellID}`);
 }
+
