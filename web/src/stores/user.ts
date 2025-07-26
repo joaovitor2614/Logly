@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
-import { getUserInfo, putUserInfo, verifyEmailVerificationCode } from '@/api/services/user'
+import { getUserInfo, putUserInfo, verifyEmailVerificationCode, deleteCurrentUserAccount } from '@/api/services/user'
 import { useToast } from "vue-toastification"
 
 
@@ -42,6 +42,13 @@ export const useUserStore = defineStore('userStore', () => {
         if (response) {
             toast.success('Account verified successfully!')
             await fetchUser()
+        }
+    }
+
+    const deleteUserAccount = async () => {
+        const response = await deleteCurrentUserAccount();
+        if (response) {
+            console.log('deleted')
         }
     }
 

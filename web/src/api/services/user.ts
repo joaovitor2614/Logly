@@ -15,6 +15,11 @@ export async function putUserInfo(userID: string, userData: Partial<App.User.Inf
     
 }
 
+export async function deleteCurrentUserAccount() {
+    return api.delete(`users`)
+    
+}
+
 
 export const sendEmailVerificationCode = () => {
     return api.post(`users/send-verification-code/`);
