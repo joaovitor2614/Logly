@@ -12,18 +12,18 @@ import { useDialogStore, useWellStore } from '@/stores';
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
 const form = reactive({
-    lasFilePath: '',
+    lasFile: '',
     wellName: ''
 })
 
 const rules = {
-    lasFilePath: { required, $autoDirty: true },
+    lasFile: { required, $autoDirty: true },
     wellName: { required, $autoDirty: true }
 }
 const v$ = useVuelidate(rules, form);
-const isDisabled = computed(() => v$.value.lasFilePath.$invalid || v$.value.wellName.$invalid ? true : false);
+const isDisabled = computed(() => v$.value.lasFile.$invalid || v$.value.wellName.$invalid ? true : false);
 const importWell = async () => {
-    const response = await wellStore.importNewFile(form.lasFilePath, form.wellName)
+    const response = await wellStore.importNewFile(form.lasFile, form.wellName)
     if (response) {
         dialogStore.closeDialogWindow()
     }
@@ -36,12 +36,12 @@ const importWell = async () => {
     <DialogWrapper cardTitle="Import Well">
                   <v-row>
                     <v-col cols="6">
-                        <v-text-field 
-                        type="text" 
-                        label="LAS File" 
-                        v-model="form.lasFilePath"
-                        append-inner-icon="mdi-folder-open" 
-                        />
+                        <v-file-input
+                            accept="image/*"
+                            v-model="form.lasFile"
+                            label="LAS File"
+                        ></v-file-input>
+               
                     </v-col>
                      <v-col cols="6">
                         <v-text-field 

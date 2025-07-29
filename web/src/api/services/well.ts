@@ -1,8 +1,16 @@
 import api from "../api";
 
 
-export async function importWellFile(lasFilePath: string, wellName: string) {
-    return await api.post(`/well`, { file_path: lasFilePath, well_name: wellName });
+export async function importWellFile(lasFile: string, wellName: string) {
+
+    const formData = new FormData();
+    formData.append("las_file", lasFile); 
+    formData.append("well_name", wellName);
+
+    return await api.post(`/well`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }});
 }
 
 
