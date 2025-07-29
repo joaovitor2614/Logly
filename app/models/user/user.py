@@ -14,7 +14,7 @@ class UserCrendentials(BaseModel):
 
     
 class UserCreate(UserCrendentials):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     email: Annotated[str, Field(title="User Email Address")] 
     name: Annotated[str, Field(title="User Name")] 
     verification_code: Annotated[str, Field(title="User Email Verification Code")] = None

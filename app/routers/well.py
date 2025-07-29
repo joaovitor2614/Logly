@@ -1,5 +1,5 @@
 import jwt
-from fastapi import APIRouter, Request, Response, HTTPException, status, Depends
+from fastapi import APIRouter, Request, Response, UploadFile, status, Depends
 from app.models.well.well import ImportWell
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
@@ -11,11 +11,15 @@ router = APIRouter()
 
 
 @router.post("/", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
-def import_well_file(request: Request, file_info: ImportWell, user_id: ObjectId  = Depends(get_current_user)):
+def import_well_file(request: Request, file_info: ImportWell, las_file: UploadFile, user_id: ObjectId  = Depends(get_current_user)):
 
     well_controller = WellController(request)
     
-    well_controller.import_well(file_info.file_path, user_id)
+    well_controller.import_well(
+        las_file_path=file_info.file_path, 
+        las_file_object=las_file,
+        user_id=user_id
+    )
 
     return {"message": "Well imported successfully"}
     

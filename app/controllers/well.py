@@ -41,9 +41,14 @@ class WellController(BaseController):
         {"name": well_name}    
         )
 
-    def import_well(self, las_file_path: str, user_id: ObjectId):
-        well_handler = WellHandler(las_file_path)
-        well_info = well_handler.get_well_info_from_las_file()
+    def import_well(self, *, las_file_path: str, las_file_object,user_id: ObjectId):
+        well_handler = WellHandler()
+        if las_file_path:
+            well_info = well_handler.get_well_info_from_las_file(las_file_path)
+        else:
+            well_info = well_handler.get_well_info_from_las_file(las_file_object)
+            
+        
 
 
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])

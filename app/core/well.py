@@ -4,13 +4,13 @@ from typing import List
 
 
 class WellHandler:
-    def __init__(self, las_file_path: str):
-        self.las_file_path = las_file_path
+    def __init__(self):
+        self.las_file_path = None
         self.lasio_object = None
 
 
-    def get_well_info_from_las_file(self) -> dict:
-        
+    def get_well_info_from_las_file(self, las_file: str) -> dict:
+        self.las_file_path = las_file
         self.lasio_object = lasio.read(self.las_file_path)
         
 
