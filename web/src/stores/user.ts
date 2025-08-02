@@ -47,9 +47,7 @@ export const useUserStore = defineStore('userStore', () => {
 
     const deleteUserAccount = async () => {
         const response = await deleteCurrentUserAccount();
-        if (response) {
-            console.log('deleted')
-        }
+        return response
     }
 
 
@@ -57,6 +55,7 @@ export const useUserStore = defineStore('userStore', () => {
         userInfo,
         setUserInfo,
         editUserInfo,
+        deleteUserAccount,
         verifyPassedOTPCode,
         fetchUser
     }

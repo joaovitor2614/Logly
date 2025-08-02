@@ -16,7 +16,7 @@ export async function putUserInfo(userID: string, userData: Partial<App.User.Inf
 }
 
 export async function deleteCurrentUserAccount() {
-    return api.delete(`users`)
+    return api.delete(`/users`)
     
 }
 

@@ -1,9 +1,22 @@
 <script setup lang="ts">
-import { useDialogStore } from '@/stores';
+import { useAuthStore, useDialogStore, useUserStore } from '@/stores';
 import DialogWrapper from '../common/DialogWrapper.vue';
 import Button from '@/components/common/Button.vue'
+import { useToast } from 'vue-toastification';
 
 const dialogStore = useDialogStore()
+const authStore = useAuthStore()
+const userStore = useUserStore()
+const toast = useToast()
+
+const deleteUserAccount = async () => {
+    const response = await userStore.deleteUserAccount();
+    if (response) {
+        authStore.logout()
+        toast.success('Account deleted successfully')
+        dialogStore.closeDialogWindow()
+    }
+}
 </script>
 
 <template>
@@ -23,7 +36,7 @@ const dialogStore = useDialogStore()
                     </Button>  
                     <Button 
   
-                    :buttonAction="dialogStore.closeDialogWindow"
+                    :buttonAction="deleteUserAccount"
                     >
                         Delete
                     </Button>  
