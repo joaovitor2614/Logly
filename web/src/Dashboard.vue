@@ -4,7 +4,7 @@ import WellImport from '@/components/well/import/WellImport.vue';
 import { useDialogStore, useWellStore } from './stores';
 import { onMounted, ref } from 'vue';
 import WellTable from '@/components/well/table/WellTable.vue';
-
+import PlotView from '@/components/plot/view/PlotView.vue';
 
 defineOptions({
     name: 'Dashboard'
@@ -25,6 +25,7 @@ onMounted(async () => {
     <v-container>
        <UtilitiesDrawer />
        <WellTable/>
+       <PlotView />
         
 
  
