@@ -37,7 +37,7 @@ const importWell = async () => {
                   <v-row>
                     <v-col cols="6">
                         <v-file-input
-                            accept="image/*"
+               
                             v-model="form.lasFile"
                             label="LAS File"
                         ></v-file-input>

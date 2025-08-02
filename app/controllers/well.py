@@ -48,14 +48,14 @@ class WellController(BaseController):
         well_info = well_handler.get_well_info_from_las_file(las_file_object)
 
 
-        print('well_info', well_info)
+
             
         
 
 
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
- 
+        print('_create_well_db_obj', well_db_obj)
         well_log_db_objs_ids = [well_log_db_obj.id for well_log_db_obj in well_log_db_objs]
         well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(
             well_info["well_logs"], 
