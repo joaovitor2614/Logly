@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
-import { useDialogStore, useWellStore } from '@/stores';
+import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
+
 import { Ref, ref, onMounted, computed } from 'vue';
 
 
 
 const wellStore = useWellStore()
 const dialogStore = useDialogStore()
-
+const plotStore = usePlotStore()
 
 const selectedWellID: Ref<string> = ref('');
 const xAxisSelectedWellLog: Ref<string> = ref('');
@@ -31,7 +32,12 @@ const populateWellItems = () => {
 }
 
 const createPlotView= () => {
-    console.log('createPlotVIew')
+    plotStore.registerPlot(
+        xAxisSelectedWellLog.value,
+        yAxisSelectedWellLog.value,
+        selectedWellID.value
+    )
+   
 }
 
 onMounted(() => {
