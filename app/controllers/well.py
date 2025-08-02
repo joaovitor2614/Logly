@@ -43,9 +43,12 @@ class WellController(BaseController):
 
     def import_well(self, *, well_name: str, las_file_object,user_id: ObjectId):
         well_handler = WellHandler()
-        print('las_file_object', las_file_object)
+        
         
         well_info = well_handler.get_well_info_from_las_file(las_file_object)
+
+
+        print('well_info', well_info)
             
         
 

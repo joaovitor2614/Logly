@@ -17,12 +17,13 @@ def import_well_file(
     las_file: UploadFile = File(...), 
     user_id: ObjectId = Depends(get_current_user) 
     ):
-
+    las_file.file.seek(0)  # rewind stream
     well_controller = WellController(request)
+    text_stream = io.TextIOWrapper(las_file.file, encoding="utf-8", errors="ignore")
     print('las_file', las_file.file)
     well_controller.import_well(
         well_name=well_name, 
-        las_file_object=las_file.file.read(),
+        las_file_object=text_stream,
         user_id=user_id
     )
 
