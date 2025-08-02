@@ -2,7 +2,7 @@
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
-import { Ref, ref, onMounted } from 'vue';
+import { Ref, ref, onMounted, computed } from 'vue';
 
 
 
@@ -10,14 +10,22 @@ const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 
 
-const selectedWell: Ref<string> = ref('');
+const selectedWellID: Ref<string> = ref('');
 const xAxisSelectedWellLog: Ref<string> = ref('');
 const yAxisSelectedWellLog: Ref<string> = ref('');
 
-const wellLogItems = ref([])
-const wellItems = ref([])
 
+const wellItems = computed(() => wellStore.wells.map((well) => {
+    return { text: well.name, value: well._id }}))
 
+const wellLogItems = computed(() => {
+    const well = wellStore.wells.find((well) => well._id === selectedWellID.value)
+    if (well) {
+        return well.welllogs.map((wellLog) => {
+            return { text: wellLog.mnemonic, value: wellLog._id }
+        })
+    }
+})
 const populateWellItems = () => {
     console.log('populateWellItems')
 }
@@ -42,7 +50,7 @@ onMounted(() => {
                         :items="wellItems"
                         label="Well name"
                         id="test-selected-wells-to-plot-selector"
-                        v-model="selectedWell"
+                        v-model="selectedWellID"
                         hide-details
                         outlined
                         dense
