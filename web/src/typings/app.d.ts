@@ -37,7 +37,7 @@ declare namespace App {
 
         interface WellLog {
             _id: string
-            mnemonic: string
+            name: string
             unit: string
             description: string
             data: number[]

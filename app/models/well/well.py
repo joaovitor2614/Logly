@@ -11,7 +11,7 @@ class ImportWell(BaseModel):
 class WellLog(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     
-    mnemonic: Annotated[str, Field(title="WellLog mnemonic", default="")]
+    name: Annotated[str, Field(title="WellLog mnemonic", default="")]
     unit: Annotated[str, Field(title="WellLog unit", default="")]
     description: Annotated[str, Field(title="WellLog description", default="")]
 

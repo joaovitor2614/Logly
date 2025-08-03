@@ -23,7 +23,7 @@ const wellLogItems = computed(() => {
     const well = wellStore.wells.find((well) => well._id === selectedWellID.value)
     if (well) {
         return well.welllogs.map((wellLog) => {
-            return { title: wellLog.mnemonic, value: wellLog._id }
+            return { title: wellLog.name, value: wellLog._id }
         })
     }
 })

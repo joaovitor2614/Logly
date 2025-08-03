@@ -17,6 +17,7 @@ class WellController(BaseController):
          super().__init__(self.well_database)
 
     def _create_well_logs_db_objs(self, well_logs_info: List[dict]) -> List[WellLog]:
+     
         return [
             WellLog(
                 name=well_log_info["mnemonic"],

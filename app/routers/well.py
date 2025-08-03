@@ -20,7 +20,7 @@ def import_well_file(
 
     well_controller = WellController(request)
     text_stream = io.TextIOWrapper(las_file.file, encoding="utf-8", errors="ignore")
-    print('las_file', las_file.file)
+  
     well_controller.import_well(
         well_name=well_name, 
         las_file_object=text_stream,
