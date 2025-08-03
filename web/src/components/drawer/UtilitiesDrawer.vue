@@ -35,7 +35,7 @@ const openDialogComponent = (componentName: string) => {
 
             <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openDialogComponent('PlotDialog')">Histogram</v-list-item>
 
-            <v-list-item append-icon="mdi-poll" class="mt-15" @click="openDialogComponent('PlotDialog')">Histogram</v-list-item>
+   
       
 
         
