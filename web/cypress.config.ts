@@ -9,6 +9,8 @@ module.exports = defineConfig({
     devServer: {
       framework: "vue",
       bundler: "vite",
+      specPattern: 'src/components/**/*.cy.{js,ts}',
+
     },
   },
 
@@ -16,7 +18,6 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:5173',
     testIsolation: true,
     supportFile: 'cypress/support/e2e.ts',
-    specPattern: 'src/tests/e2e/**/*.cy.{js,ts}',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
