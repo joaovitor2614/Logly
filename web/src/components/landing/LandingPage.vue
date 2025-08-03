@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import Hero from './elements/Hero.vue'
+
 </script>
 
 <template>
-    <Hero />
+    <h1>as</h1>
+    
+
 </template>
 
 <style scoped>
