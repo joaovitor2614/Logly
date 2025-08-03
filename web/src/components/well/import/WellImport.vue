@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, Ref, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { computed } from 'vue';
@@ -8,8 +8,12 @@ import Button from '@/components/common/Button.vue'
 
 import DialogWrapper from '../../common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
+import { useToast } from 'vue-toastification';
 
+
+const isLoading: Ref<boolean> = ref(false)
 const dialogStore = useDialogStore()
+const toast = useToast()
 const wellStore = useWellStore();
 const form = reactive({
     lasFile: '',
@@ -23,8 +27,11 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => v$.value.lasFile.$invalid || v$.value.wellName.$invalid ? true : false);
 const importWell = async () => {
+    isLoading.value = true
     const response = await wellStore.importNewFile(form.lasFile, form.wellName)
+    isLoading.value = false
     if (response) {
+        toast.success('Well imported successfully')
         dialogStore.closeDialogWindow()
     }
 }
@@ -60,6 +67,7 @@ const importWell = async () => {
                     <Button 
                     :id="'test-import-cancel-btn'"
                     :buttonAction="dialogStore.closeDialogWindow"
+                    :is-button-loading="isLoading"
                     >
                         Cancel
                     </Button>  
