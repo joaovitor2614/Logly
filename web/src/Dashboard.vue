@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <component :is="dialogStore.dialogName"></component>
+    <component :is="dialogStore.dialogName" v-bind="dialogStore.dialogProps"></component>
     <v-container>
        <UtilitiesDrawer />
        <WellTable/>

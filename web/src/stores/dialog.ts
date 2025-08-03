@@ -6,10 +6,12 @@ import { ref, Ref } from "vue"
 export const useDialogStore = defineStore('dialogStore', () => {
     const shouldOpenDialog: Ref<boolean> = ref(false)
     const dialogName: Ref<string> = ref('')
+    const dialogProps: Ref<Record<string, any>> = ref({})
 
-    const openDialogWindow = (name: string) => {
+    const openDialogWindow = (name: string, props: Record<string, any>) => {
         shouldOpenDialog.value = true
         dialogName.value = name
+        dialogProps.value = props
     }
 
     const closeDialogWindow = () => {
@@ -21,6 +23,7 @@ export const useDialogStore = defineStore('dialogStore', () => {
         shouldOpenDialog,
         openDialogWindow,
         closeDialogWindow,
-        dialogName
+        dialogName,
+        dialogProps
     }
 })

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore, useDialogStore, useUserStore } from '@/stores';
 import { useRouter } from 'vue-router';
+import { PlotType } from '../plot/types';
 
 
 
@@ -10,6 +11,10 @@ const dialogStore = useDialogStore()
 const router = useRouter()
 const openDialogComponent = (componentName: string) => {
   dialogStore.openDialogWindow(componentName)
+}
+const openPlotDialog = (plotType: `${PlotType}`) => {
+  dialogStore.openDialogWindow('PlotDialog', {plotType: plotType})
+ 
 }
 </script>
 
@@ -31,9 +36,9 @@ const openDialogComponent = (componentName: string) => {
             <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="router.push('/dashboard')">Dashboard</v-list-item>
             <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="openDialogComponent('WellImport')">Import Well</v-list-item>
  
-            <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10">CrossPlot</v-list-item>
+            <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10" @click="openPlotDialog('scatter')">CrossPlot</v-list-item>
 
-            <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openDialogComponent('PlotDialog')">Histogram</v-list-item>
+            <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openPlotDialog('histogram')">Histogram</v-list-item>
 
    
       

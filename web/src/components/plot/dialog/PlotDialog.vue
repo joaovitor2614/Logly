@@ -2,10 +2,14 @@
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
-
 import { Ref, ref, onMounted, computed } from 'vue';
+import { PlotType } from '../types';
 
+interface Props {
+    plotType: `${PlotType}`,
+}
 
+defineProps<Props>();
 
 const wellStore = useWellStore()
 const dialogStore = useDialogStore()
@@ -66,6 +70,18 @@ onMounted(() => {
                 :items="wellLogItems"
                 label="Well log name"
                 v-model="xAxisSelectedWellLog"
+                hide-details
+                outlined
+                dense
+            ></v-select>
+            <p v-if="plotType === 'scatter'">Y-Axis</p>
+            <v-divider></v-divider>
+            <v-select
+                v-if="plotType === 'scatter'"
+                class="mx-10 mb-1"
+                :items="wellLogItems"
+                label="Well log name"
+                v-model="yAxisSelectedWellLog"
                 hide-details
                 outlined
                 dense
