@@ -17,13 +17,13 @@ const yAxisSelectedWellLog: Ref<string> = ref('');
 
 
 const wellItems = computed(() => wellStore.wells.map((well) => {
-    return { text: well.name, value: well._id }}))
+    return { title: well.name, value: well._id }}))
 
 const wellLogItems = computed(() => {
     const well = wellStore.wells.find((well) => well._id === selectedWellID.value)
     if (well) {
         return well.welllogs.map((wellLog) => {
-            return { text: wellLog.mnemonic, value: wellLog._id }
+            return { title: wellLog.mnemonic, value: wellLog._id }
         })
     }
 })
@@ -47,47 +47,32 @@ onMounted(() => {
 
 <template>
     <DialogWrapper :cardTitle="'Plot Dialog'">
-        <div  class="d-flex flex-column  justify-center">
-            <v-row>
-                <v-col cols="10">
-                    <v-select
+        <v-container class="d-flex flex-column">
+            <v-select
                         
-                        class="mt-4 mb-3"
-                        :items="wellItems"
-                        label="Well name"
-                        id="test-selected-wells-to-plot-selector"
-                        v-model="selectedWellID"
-                        hide-details
-                        outlined
-                        dense
-                    ></v-select>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="10">
-                    <p class="font-weight-bold text-center mt-3 mb-6">
-                        X-Axis
-                    </p> 
-                    <v-divider />
-                </v-col>
-            </v-row>
-            <v-row >
-                <v-col cols="10">
-                    <v-select
-                        class="mx-10 mb-1"
-                        :items="wellLogItems"
-                        label="Well log name"
-                        v-model="xAxisSelectedWellLog"
-                        hide-details
-                        outlined
-                        dense
-                    ></v-select>
-                </v-col>
-            </v-row>
-        </div>
-        
-        <v-card-actions>
+            class="mt-4 mb-3"
+            :items="wellItems"
+            label="Well name"
+            id="test-selected-wells-to-plot-selector"
+            v-model="selectedWellID"
+            hide-details
+            outlined
+            dense
+            />
+            <p>X-Axis</p>
+            <v-divider></v-divider>
+            <v-select
+                class="mx-10 mb-1"
+                :items="wellLogItems"
+                label="Well log name"
+                v-model="xAxisSelectedWellLog"
+                hide-details
+                outlined
+                dense
+            ></v-select>
+        </v-container>
 
+        <v-card-actions>
             <Button 
             :id="'test-plot-cancel-btn'"
             :buttonAction="dialogStore.closeDialogWindow"

@@ -31,7 +31,6 @@ const importWell = async () => {
     const response = await wellStore.importNewFile(form.lasFile, form.wellName)
     isLoading.value = false
     if (response) {
-        toast.success('Well imported successfully')
         dialogStore.closeDialogWindow()
     }
 }
