@@ -16,11 +16,10 @@ class WellDataController(BaseController):
             well_id = str(well_id)
         self.well_database.delete_many({"well_id": well_id})
 
-    def _create_well_logs_data_db_objs(
-        self, 
-        well_logs_info: List[dict], 
-        well_id: uuid.UUID | str,
-        well_log_data_db_objs_ids: List[Union[str, uuid.UUID]]
+    def _create_well_logs_data_db_objs(self, 
+        well_logs_info, 
+        well_id,
+        well_log_data_db_objs_ids
     ) -> List[WellLogData]:
         return [
             WellLogData(
