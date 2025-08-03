@@ -10,12 +10,19 @@ class WellEndPointWrapper:
         self.client = client
         self.request_headers = request_headers
 
+
+
+
     def import_file(self, las_file_path: str):
-        response = self.client.post(
-            "/well",
-            headers=self.request_headers,
-            json={"file_path": las_file_path},
-        )
+        with open(las_file_path, "rb") as f:
+            files = {"las_file": ("test.las", f, "application/octet-stream")}
+            data = {"well_name": "Test Well"}  # required form field
+            response = self.client.post(
+                "/well/",  # adjust to your router prefix
+                headers=self.request_headers,
+                files=files,
+                data=data
+            )
         return response
 
     def get_wells(self):
