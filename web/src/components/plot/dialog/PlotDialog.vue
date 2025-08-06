@@ -51,7 +51,9 @@ onMounted(() => {
 
 <template>
     <DialogWrapper :cardTitle="'Plot Dialog'">
-        <v-container class="d-flex flex-column">
+        <v-container class="d-flex flex-column justify-center pa-12">
+
+   
             <v-select
                         
             class="mt-4 mb-3"
@@ -63,10 +65,10 @@ onMounted(() => {
             outlined
             dense
             />
-            <p>X-Axis</p>
+            <p class="mb-5 mt-5 text-center">X-Axis</p>
             <v-divider></v-divider>
             <v-select
-                class="mx-10 mb-1"
+                class="mt-4"
                 :items="wellLogItems"
                 label="Well log name"
                 v-model="xAxisSelectedWellLog"
@@ -74,11 +76,12 @@ onMounted(() => {
                 outlined
                 dense
             ></v-select>
-            <p v-if="plotType === 'scatter'">Y-Axis</p>
+            <p v-if="plotType === 'scatter'" class="mb-5 mt-5 text-center">Y-Axis</p>
             <v-divider></v-divider>
             <v-select
                 v-if="plotType === 'scatter'"
-                class="mx-10 mb-1"
+            
+                class="mt-4"
                 :items="wellLogItems"
                 label="Well log name"
                 v-model="yAxisSelectedWellLog"

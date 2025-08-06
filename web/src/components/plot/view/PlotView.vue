@@ -1,28 +1,28 @@
 <script setup lang="ts">
+import { Ref, ref } from 'vue'
 import { usePlotStore } from '@/stores';
-//import Plotly from "plotly.js-dist/plotly";
+//import Chart from 'chart.js/auto';
+import { onMounted } from 'vue';
+import { getWellLogDataByIDs } from '@/api/services/well';
 const plotStore = usePlotStore()
-var x1 = [];
-for (var i = 1; i < 500; i++) {
-  
-	x1.push(Math.random() + 1);
-}
-var trace1 = {
-  x: x1,
-  type: "histogram",
-  opacity: 0.5,
-  marker: {
-     color: 'green',
-  },
-};
-var data = [trace1];
-//Plotly.newPlot('plotDiv', data);
 
+const isDataLoaded: Ref<boolean> = ref(false)
+
+const setWellLogData = async () => {
+    
+    const response = await getWellLogDataByIDs(plotStore.wellID, plotStore.xAxisSelectedWellLog)
+    const response2 = await getWellLogDataByIDs(plotStore.wellID, plotStore.yAxisSelectedWellLog)
+}
+
+onMounted(async () => {
+    //await setWellLogData()
+    //isDataLoaded.value = true
+})
 </script>
 
 <template>
     <div id="plotDiv">
-
+    
     </div>
 </template>
 
