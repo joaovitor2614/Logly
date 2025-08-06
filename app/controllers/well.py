@@ -64,10 +64,6 @@ class WellController(BaseController):
         
         self.save_well_related_db_objs(well_db_obj, well_log_data_db_objs)
 
-        #self._serialize_well_db_objs_numpy_arrays(well_db_obj.welllogs)
-
-        #well_db_inserted_id = self.add_new_db_obj(well_db_obj)
-
     def save_well_related_db_objs(self, well_db_obj: Well, well_log_data_db_objs: List[WellLogData]):
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
         for well_log_data_db_obj in well_log_data_db_objs:
@@ -96,13 +92,6 @@ class WellController(BaseController):
             user_id = str(user_id)
         self.well_database.delete_many({"user_id": user_id})
 
-    def _serialize_well_db_objs_numpy_arrays(self, well_log_db_objs: List[WellLog]):
 
-        for well_log_db_obj in well_log_db_objs:
-            if not isinstance(well_log_db_obj, dict):
-                well_log_db_obj.data = pd.Series(well_log_db_obj.data).to_json(orient='values')
-            else:
-                
-                well_log_db_obj["data"] = pd.Series(well_log_db_obj["data"]).to_json(orient='values')
                 
         

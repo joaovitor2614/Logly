@@ -52,6 +52,6 @@ def delete_well(request: Request, well_id: str, user_id: ObjectId = Depends(get_
 def get_well_log_data_by_id(request: Request, well_log_id: str, well_id: str,user_id: ObjectId = Depends(get_current_user)):
     well_log_data_controller = WellDataController(request)
   
-    well_log_data = well_log_data_controller.get_well_log_data_by_id(well_log_id)
+    well_log_data = well_log_data_controller.get_well_log_data_by_id(well_id, well_log_id)
    
     return {"data": well_log_data}

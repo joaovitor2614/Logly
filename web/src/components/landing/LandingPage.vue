@@ -5,7 +5,7 @@ import Footer from './elements/Footer.vue';
 </script>
 
 <template>
-    <h1>assaasasas</h1>
+
 
     <Footer />
     <ContactSection />
