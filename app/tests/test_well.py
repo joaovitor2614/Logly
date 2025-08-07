@@ -46,19 +46,18 @@ def test_delete_well(client, register_user):
     assert response.status_code == 201
     assert len(well_db_objs) == 0
 
+def test_get_well_log_data(client, register_user):
+    mock_new_user_data, request_headers  = register_user
+    well_endpoint_wrapper = WellEndPointWrapper(client, request_headers)
+    well_controller = WellController(client)
+    well_endpoint_wrapper.import_file(TEST_WELL_FILE_PATH)
+    user_id = mock_new_user_data["" \
+    "_id"]
+    well_db_obj = well_controller.get_all_wells_data(user_id)[0]
+    well_log_db_objs = well_db_obj["welllogs"]
+    response = well_endpoint_wrapper.get_well_log_data(well_log_db_objs[0]["_id"], well_db_obj["_id"])
+    assert response.status_code == 201
+
     
-    #user_id = get_user_id_from_register_response(response)
-
-    #well_controller = WellController(client)
-
-    #well_id = well_controller.get_well_by_name("WELL1")["_id"]
-
-    #well_endpoint_wrapper.delete_well(well_id)
-    #assert response.status_code == 201
-
-    #wells_db_objs = well_controller.get_all_wells_data(user_id)
-    #assert len(wells_db_objs) == 0
-
     
-
 

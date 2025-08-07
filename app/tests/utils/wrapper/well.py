@@ -41,5 +41,11 @@ class WellEndPointWrapper:
         )
         return response
     
+    def get_well_log_data(self, well_log_id: str, well_id: str):
+        response = self.client.get(
+            f"/well/data/{well_id}/{well_log_id}",
+            headers=self.request_headers,
+        )
+        return response
         
         
