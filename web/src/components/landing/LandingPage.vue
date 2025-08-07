@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ContactSection from './elements/ContactSection.vue';
-import Footer from './elements/Footer.vue';
+import ContactSection from './element/ContactSection.vue';
+import Footer from './element/Footer.vue';
 
 </script>
 
