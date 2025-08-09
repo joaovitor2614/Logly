@@ -1,61 +1,45 @@
 import lasio
 import pandas as pd
-from typing import List
+from typing import List, Union
 
 
 class WellHandler:
     def __init__(self):
         self.las_file_path = None
-        self.lasio_object = None
-
+        self.lasio_object: lasio.LASFile = None
 
     def get_well_info_from_las_file(self, las_file: str) -> dict:
         self.las_file_path = las_file
         self.lasio_object = lasio.read(self.las_file_path)
         
+        well_name = self._extract_well_name_from_lasio_obj()
+        well_logs_info = self._extract_well_logs_info_from_lasio_obj()
+        
 
-        well_logs_info = self._extract_well_logs_info_from_curves_section()
-
-        well_info = self._create_well_info(well_logs_info)
+        well_info = self._create_well_info(well_logs_info, well_name)
 
         return well_info
-        
-    def _create_well_info(self, well_logs_info: List[dict]):
-        well_name = self.lasio_object.sections["Well"]["WELL"].value
-
+    def _extract_well_name_from_lasio_obj(self) -> str:
+        return self.lasio_object.sections["Well"]["WELL"].value
+    def _create_well_info(self, well_logs_info: List[dict], well_name: str):
         return {
             "name": well_name,
             "well_logs": well_logs_info,
 
         }
- 
-   
-       
-       
 
-    def _extract_well_logs_info_from_curves_section(self):
+    def _extract_well_logs_info_from_lasio_obj(self):
         curves_section = self.lasio_object.sections["Curves"]
-        
     
-        welllogs_info = [
+        return [
             {
        
-                "mnemonic": curve_item.mnemonic,
-                "unit": curve_item.unit,
-                "descr": curve_item.descr,
-                "data": []
+                "mnemonic": curves_section[i].mnemonic,
+                "unit": curves_section[i].unit,
+                "descr": curves_section[i].descr,
+                "data": self.lasio_object.data[:, i]
             }
-            for curve_item in curves_section
+            for i in range(len(curves_section))
         ]
-        self._populate_well_logs_info_data(welllogs_info)
-        return welllogs_info
-            
 
-    def _populate_well_logs_info_data(self, welllogs_info: List[dict]):
-        well_logs_amount = self.lasio_object.data.shape[1]
-        for i in range(well_logs_amount):
-
-            welllogs_info[i]["data"] = self.lasio_object.data[:, i]
- 
-    
-
+        
