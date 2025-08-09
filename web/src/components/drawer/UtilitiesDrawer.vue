@@ -33,7 +33,7 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
             density="compact"
             nav
           >
-            <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="router.push('/dashboard')">Dashboard</v-list-item>
+         
             <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="openDialogComponent('WellImport')">Import Well</v-list-item>
  
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10" @click="openPlotDialog('scatter')">CrossPlot</v-list-item>
