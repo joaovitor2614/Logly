@@ -11,4 +11,4 @@ def import_well_file(client, register_user):
   
     response = well_endpoint_mocker.import_file(TEST_WELL_FILE_PATH)
 
-    return response, request_headers
+    return request_headers
