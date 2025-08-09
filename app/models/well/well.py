@@ -1,5 +1,6 @@
 from typing import Annotated, Optional, List, Literal
 from pydantic import BaseModel, Field
+from app.models import Base
 from datetime import datetime
 import uuid
 
@@ -8,22 +9,18 @@ class ImportWell(BaseModel):
     file_path: Annotated[str, Field(title="Well LAS file path", default="")] = ""
     well_name: Annotated[str, Field(title="Well name", default="")]
 
-class WellLog(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    
+class WellLog(Base):
     name: Annotated[str, Field(title="WellLog mnemonic", default="")]
     unit: Annotated[str, Field(title="WellLog unit", default="")]
     description: Annotated[str, Field(title="WellLog description", default="")]
 
 
-class WellLogData(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+class WellLogData(Base):
     well_log_id: str = Field(default_factory=uuid.uuid4)
     well_id: str = Field(default_factory=uuid.uuid4)
     data: Annotated[List[float], Field(default_factory=list)] = []  # Ensuring a list
 
-class Well(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+class Well(Base):
     name: str = Field(...)
     user_id: str = Field(default_factory=uuid.uuid4)
     create_time: Annotated[

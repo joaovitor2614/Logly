@@ -1,5 +1,6 @@
 from typing import Annotated, Optional
 from pydantic import BaseModel, Field, ConfigDict
+from app.models import Base
 import uuid
 
 class UserCrendentials(BaseModel):
@@ -13,9 +14,7 @@ class UserCrendentials(BaseModel):
     ConfigDict.populate_by_name = True
 
     
-class UserCreate(UserCrendentials):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
-    email: Annotated[str, Field(title="User Email Address")] 
+class UserCreate(Base, UserCrendentials):
     name: Annotated[str, Field(title="User Name")] 
     verification_code: Annotated[str, Field(title="User Email Verification Code")] = None
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
