@@ -7,10 +7,16 @@ class ENDPOINTS:
     AUTH = "/auth"
     WELL = "/well"
 
+routers_info = [
+        {"router": auth.router, "prefix": ENDPOINTS.AUTH},
+        {"router": users.router, "prefix": ENDPOINTS.USERS},
+        {"router": well.router, "prefix": ENDPOINTS.WELL}
+]
+
 def register_routers(app: FastAPI):
-    app.include_router(auth.router, tags=["auth"], prefix=ENDPOINTS.AUTH)
-    app.include_router(users.router, tags=["users"], prefix=ENDPOINTS.USERS)
-    app.include_router(well.router, tags=["well"], prefix=ENDPOINTS.WELL)
+    for route_info in routers_info:
+        app.include_router(route_info["router"], prefix=route_info["prefix"])
+
 
 
 
