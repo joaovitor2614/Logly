@@ -1,7 +1,5 @@
 import lasio
-import pandas as pd
-from typing import List, Union
-
+from typing import List
 
 class WellHandler:
     def __init__(self):

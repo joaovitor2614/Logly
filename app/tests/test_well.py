@@ -3,7 +3,6 @@ from app.controllers.well import WellController
 from app.controllers.welldata import WellDataController
 from app.tests.utils.test_data_path import TEST_WELL_FILE_PATH
 from app.tests.utils.auth import get_user_id_from_request_headers
-from app.settings import APP_SETTINGS
 
 
 def test_import_well_file(client, register_user):

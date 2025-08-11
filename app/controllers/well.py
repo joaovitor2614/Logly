@@ -8,7 +8,7 @@ from .welldata import WellDataController
 from bson.objectid import ObjectId
 from typing import List
 import pandas as pd
-import uuid
+
 
 class WellController(BaseController):
     def __init__(self, request: Request):

@@ -1,6 +1,5 @@
 import jwt
-from fastapi import APIRouter, Request, Response, UploadFile, status, Depends, File, Form
-from app.models.well.well import ImportWell
+from fastapi import APIRouter, Request, UploadFile, status, Depends, File, Form
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS

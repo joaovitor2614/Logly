@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pymongo import MongoClient, server_api
 from app.settings import APP_SETTINGS
 from contextlib import asynccontextmanager
-import os
 
 @asynccontextmanager
 async def db_lifespan(app: FastAPI):

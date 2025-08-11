@@ -1,7 +1,6 @@
-import jwt
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Depends
-from ..models.user.user import UserCreate, UserUpdate, UserCrendentials
-from fastapi.encoders import jsonable_encoder
+
+from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
+from ..models.user.user import UserCreate, UserUpdate
 from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
 from ..utils.otp import generate_otp_code

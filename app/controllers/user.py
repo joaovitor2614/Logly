@@ -1,17 +1,13 @@
 from fastapi import Request, HTTPException, status
 from app.models.user.user import UserCreate
-from fastapi.encoders import jsonable_encoder
 from ..utils.security import get_hashed_password, verify_password
 from app.controllers.well import WellController
 
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from libgravatar import Gravatar
-from faker import Faker
-from bson.objectid import ObjectId
-from typing import Union, Literal, List
-import random
-from datetime import timedelta
+
+
 
 class UserController(BaseController):
     def __init__(self, request: Request):

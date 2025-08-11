@@ -1,5 +1,5 @@
 import smtplib
-from fastapi import APIRouter, Request, Response, HTTPException, status
+from fastapi import HTTPException
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app.settings import APP_SETTINGS

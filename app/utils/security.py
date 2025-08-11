@@ -5,8 +5,6 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from ..core.token import JWTHandler
 from ..models.auth.auth import JWTPayload
-from datetime import datetime, UTC
-from typing import Dict
 
 
 

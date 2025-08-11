@@ -1,7 +1,7 @@
 from typing import Annotated, Optional
 from pydantic import BaseModel, Field, ConfigDict
 from app.models import Base
-import uuid
+
 
 class UserCrendentials(BaseModel):
     password: Annotated[str, Field(title="User Password")] 

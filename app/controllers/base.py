@@ -1,8 +1,5 @@
-from fastapi import Request, HTTPException, status
-from fastapi.encoders import jsonable_encoder
-from app.settings import APP_SETTINGS
 
-from bson.objectid import ObjectId
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
 

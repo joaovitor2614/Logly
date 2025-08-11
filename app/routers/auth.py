@@ -1,12 +1,10 @@
-import jwt
-from fastapi import APIRouter, Request, Response, HTTPException, status
+
+from fastapi import APIRouter, Request, HTTPException, status
 from ..models.user.user import UserCreate, UserCrendentials
-from fastapi.encoders import jsonable_encoder
-from ..utils.security import verify_password
 from app.settings import APP_SETTINGS
 from ..controllers.user import UserController
 from ..core.token import JWTHandler
-from datetime import timedelta
+
 
 
 router = APIRouter()

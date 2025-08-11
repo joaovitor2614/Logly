@@ -4,10 +4,6 @@ from .database import db_lifespan
 from .routers import register_routers
 from .middlewares import register_middlewares
 
-from pathlib import Path
-
-import os
-
 
 def create_app() -> FastAPI:
 

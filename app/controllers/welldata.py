@@ -1,9 +1,8 @@
 from fastapi import Request, status, HTTPException
-from bson.objectid import ObjectId
-from app.models.well.well import WellLog, WellLogData
+from app.models.well.well import WellLogData
 from app.settings import APP_SETTINGS
 from .base import BaseController
-from typing import List, Union
+from typing import List
 import uuid
 import pandas as pd
 import numpy as np
