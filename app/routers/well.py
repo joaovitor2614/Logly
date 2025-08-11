@@ -11,18 +11,16 @@ router = APIRouter()
 
 @router.post("/", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
 def import_well_file(
-    request: Request, 
-    well_name: str = Form(...),   
+    request: Request,  
     las_file: UploadFile = File(...), 
     user_id: ObjectId = Depends(get_current_user) 
     ):
 
     well_controller = WellController(request)
-    text_stream = io.TextIOWrapper(las_file.file, encoding="utf-8", errors="ignore")
+
   
     well_controller.import_well(
-        well_name=well_name, 
-        las_file_object=text_stream,
+        las_file_object=las_file,
         user_id=user_id
     )
 

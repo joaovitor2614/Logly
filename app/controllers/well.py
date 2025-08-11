@@ -7,6 +7,7 @@ from .base import BaseController
 from .welldata import WellDataController
 from bson.objectid import ObjectId
 from typing import List
+import io
 import json
 
 
@@ -42,9 +43,11 @@ class WellController(BaseController):
         {"name": well_name}    
         )
 
-    def import_well(self, *, well_name: str, las_file_object,user_id: ObjectId):
-        well_info = well_handler.get_well_info_from_las_file(las_file_object)
+    def import_well(self, *,las_file_object,user_id: ObjectId):
 
+
+        las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
+        well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
         

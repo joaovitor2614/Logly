@@ -1,11 +1,10 @@
 import api from "../api";
 
 
-export async function importWellFile(lasFile: string, wellName: string) {
+export async function importWellFile(lasFile: string) {
 
     const formData = new FormData();
     formData.append("las_file", lasFile); 
-    formData.append("well_name", wellName);
 
     return await api.post(`/well`, formData, {
     headers: {
