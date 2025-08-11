@@ -95,7 +95,7 @@ class UserController(BaseController):
      
 
 
-    def verify_password(self, plain_password: str, hashed_password: str) -> bool:
+    def verify_password(self, plain_password: str, hashed_password: str):
         is_password_valid = verify_password(plain_password, hashed_password)
         if not is_password_valid:
             raise HTTPException(

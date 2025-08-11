@@ -7,7 +7,7 @@ from .base import BaseController
 from .welldata import WellDataController
 from bson.objectid import ObjectId
 from typing import List
-import pandas as pd
+import json
 
 
 class WellController(BaseController):
@@ -67,7 +67,7 @@ class WellController(BaseController):
     def save_well_related_db_objs(self, well_db_obj: Well, well_log_data_db_objs: List[WellLogData]):
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
         for well_log_data_db_obj in well_log_data_db_objs:
-            well_log_data_db_obj.data = pd.Series(well_log_data_db_obj.data).to_json(orient='values')
+            well_log_data_db_obj.data = json.dumps(well_log_data_db_obj.data)
             self.well_data_database.add_new_db_obj(well_log_data_db_obj)
         
 

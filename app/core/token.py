@@ -30,5 +30,5 @@ class JWTHandler:
         jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
         return jwt_token
 
-    def set_jwt_payload_expires_time(self, jwt_payload: JWTPayload) -> JWTPayload:
+    def set_jwt_payload_expires_time(self, jwt_payload: JWTPayload):
         jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)

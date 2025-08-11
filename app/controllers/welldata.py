@@ -4,15 +4,15 @@ from app.settings import APP_SETTINGS
 from .base import BaseController
 from typing import List
 import uuid
-import pandas as pd
-import numpy as np
+import json
+
 
 class WellDataController(BaseController):
     def __init__(self, request: Request):
          self.well_database =  request.app.database[APP_SETTINGS.WELLS_DATA_DB_NAME]
          super().__init__(self.well_database)
-    def _serialize_well_log_data_numpy_array(self, well_log_data: np.array):         
-        return pd.Series(well_log_data).to_json(orient='values')
+    def _serialize_well_log_data_numpy_array(self, well_log_data: list):         
+        return json.dumps(well_log_data)
     def delete_all_well_data_by_well_id(self, well_id: str | uuid.UUID):
         if isinstance(well_id, uuid.UUID):
             well_id = str(well_id)
