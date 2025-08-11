@@ -16,7 +16,7 @@ class UserCrendentials(BaseModel):
     
 class UserCreate(Base, UserCrendentials):
     name: Annotated[str, Field(title="User Name")] 
-    verification_code: Annotated[str, Field(title="User Email Verification Code")] = None
+    verification_code: Annotated[str, Field(title="User Email Verification Code")] = ""
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
 

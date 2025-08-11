@@ -3,12 +3,10 @@ from typing import List
 
 class WellHandler:
     def __init__(self):
-        self.las_file_path = None
         self.lasio_object: lasio.LASFile = None
 
     def get_well_info_from_las_file(self, las_file: str) -> dict:
-        self.las_file_path = las_file
-        self.lasio_object = lasio.read(self.las_file_path)
+        self.lasio_object = lasio.read(las_file)
         
         well_name = self._extract_well_name_from_lasio_obj()
         well_logs_info = self._extract_well_logs_info_from_lasio_obj()
@@ -41,3 +39,4 @@ class WellHandler:
         ]
 
         
+well_handler = WellHandler()

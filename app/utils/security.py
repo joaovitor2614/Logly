@@ -3,7 +3,7 @@ import jwt
 from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from ..core.token import JWTHandler
+from ..core.token import jwt_handler
 from ..models.auth.auth import JWTPayload
 
 
@@ -25,7 +25,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
         HTTPException: If the token is invalid or the user ID is not found.
     """
     try:
-        jwt_handler = JWTHandler()
         payload = jwt_handler.decode_jwt_token(token)
 
         user_id = payload["data"].get("id", None)

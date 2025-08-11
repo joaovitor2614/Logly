@@ -5,8 +5,7 @@ import jwt
 
 
 class JWTHandler:
-    def __init__(self):
-        pass
+    
     def get_jwt_token_from_user_db_obj(self, user_db_obj: dict) -> str:
         jwt_payload = self.get_jwt_payload_from_user_db_obj(user_db_obj)
         self.set_jwt_payload_expires_time(jwt_payload)
@@ -32,3 +31,5 @@ class JWTHandler:
 
     def set_jwt_payload_expires_time(self, jwt_payload: JWTPayload):
         jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+
+jwt_handler = JWTHandler()

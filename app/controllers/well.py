@@ -1,7 +1,7 @@
 from fastapi import Request
 from bson.objectid import ObjectId
 from app.models.well.well import WellLog, WellLogData, Well
-from app.core.well import WellHandler
+from app.core.well import well_handler
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from .welldata import WellDataController
@@ -43,23 +43,13 @@ class WellController(BaseController):
         )
 
     def import_well(self, *, well_name: str, las_file_object,user_id: ObjectId):
-        well_handler = WellHandler()
-        
-        
         well_info = well_handler.get_well_info_from_las_file(las_file_object)
-
-
-
-            
-        
-
 
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
         
         well_log_db_objs_ids = [well_log_db_obj.id for well_log_db_obj in well_log_db_objs]
-        print('well_log_db_objs_ids', well_log_db_objs_ids)
-        print('well_info["well_logs"]', well_info["well_logs"])
+
         well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(well_info["well_logs"], str(well_db_obj.id),well_log_db_objs_ids)
         
         self.save_well_related_db_objs(well_db_obj, well_log_data_db_objs)
