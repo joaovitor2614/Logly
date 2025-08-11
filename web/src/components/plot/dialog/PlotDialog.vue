@@ -2,9 +2,9 @@
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
-import { Ref, ref, computed, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { required, email, sameAs } from '@vuelidate/validators'
+import { required } from '@vuelidate/validators'
 import { PlotType } from '../types';
 
 interface Props {

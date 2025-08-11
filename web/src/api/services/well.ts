@@ -1,7 +1,7 @@
 import api from "../api";
 
 
-export async function importWellFile(lasFile: string) {
+export async function importWellFile(lasFile: File) {
 
     const formData = new FormData();
     formData.append("las_file", lasFile); 

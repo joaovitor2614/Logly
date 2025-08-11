@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useWellStore } from '@/stores';
 
-import { onMounted, Ref, ref, computed } from 'vue';
+import { computed } from 'vue';
 
 const wellLogsFilterTableHeader = [
         {
           title: 'Name',
-          align: 'start',
           key: 'name',
           sortable: false,
           removable: false,
@@ -18,10 +17,6 @@ const wellLogsFilterTableHeader = [
 
 
 const wellStore = useWellStore()
-interface WellInfo {
-    create_time: String,
-    name: String
-}
 
 
 const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {

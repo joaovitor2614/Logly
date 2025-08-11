@@ -8,7 +8,7 @@ import { PlotType } from '../plot/types';
 const userStore = useUserStore()
 const authStore = useAuthStore()
 const dialogStore = useDialogStore()
-const router = useRouter()
+
 const openDialogComponent = (componentName: string) => {
   dialogStore.openDialogWindow(componentName)
 }

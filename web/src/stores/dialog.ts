@@ -8,7 +8,7 @@ export const useDialogStore = defineStore('dialogStore', () => {
     const dialogName: Ref<string> = ref('')
     const dialogProps: Ref<Record<string, any>> = ref({})
 
-    const openDialogWindow = (name: string, props: Record<string, any>) => {
+    const openDialogWindow = (name: string, props: Record<string, any> = {}) => {
         shouldOpenDialog.value = true
         dialogName.value = name
         dialogProps.value = props

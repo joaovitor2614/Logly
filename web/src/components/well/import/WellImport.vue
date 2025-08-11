@@ -11,8 +11,12 @@ import { useDialogStore, useWellStore } from '@/stores';
 const isLoading: Ref<boolean> = ref(false)
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
-const form = reactive({
-    lasFile: '',
+
+interface Form {
+    lasFile: undefined | File
+}
+const form: Form = reactive({
+    lasFile: undefined,
 })
 
 const rules = {
@@ -22,6 +26,7 @@ const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => v$.value.lasFile.$invalid ? true : false);
 const importWell = async () => {
     isLoading.value = true
+
     const response = await wellStore.importNewFile(form.lasFile)
     isLoading.value = false
     if (response) {
