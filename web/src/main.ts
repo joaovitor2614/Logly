@@ -11,6 +11,7 @@ import "./assets/main.css";
 import WellImport from '@/components/well/import/WellImport.vue';
 import ConfirmDeleteAccountDialog from "@/components/account/ConfirmDeleteAccountDialog.vue";
 import PlotDialog from "@/components/plot/dialog/PlotDialog.vue";
+import WellLogsTableDialog from "@/components/well/welllogs/WellLogsTableDialog.vue";
 
 const vuetify = createVuetify({
   components,
@@ -45,4 +46,5 @@ setupRouter(app)
 app.component('PlotDialog', PlotDialog)
 app.component('WellImport', WellImport)
 app.component('ConfirmDeleteAccountDialog', ConfirmDeleteAccountDialog)
+app.component('WellLogsTableDialog', WellLogsTableDialog)
 app.mount("#app");
