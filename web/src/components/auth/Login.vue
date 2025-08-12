@@ -28,6 +28,9 @@ const handleLogin = async () => {
 const redirectToRegister = () => {
     router.push("register")
 }
+const redirectToSendResetPasswordLink = () => {
+    router.push("send-reset-password-link")
+}
 </script>
 
 <template>
@@ -36,7 +39,20 @@ const redirectToRegister = () => {
         <AuthBase :helperTitle="'Login to access your acount.'">
             <form @submit.prevent="handleLogin">
                         <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
+                        
+                        <div class="d-flex">
+                            <v-btn
+                            variant="text"
+                            color="black"
+                            @click="redirectToSendResetPasswordLink"
+                            >
+                            I forgot my password
+                            <v-icon end>mdi-arrow-right</v-icon>
+                            </v-btn>
+                        </div>
                         <Button :isDisabled="isDisabled" :buttonAction="handleLogin" :id="'test-login-btn'">Login</Button>
+                        
+                            
                         <div style="  text-align: center; padding: 60px 0;">
                                 <v-card-text class="white--text" >
                                     <h3 class="text-center ">Don't Have an Account Yet?</h3>
