@@ -6,9 +6,11 @@ import Login from '../components/auth/Login.vue'
 import LandingPage from '../components/landing/LandingPage.vue'
 import BillingPlanSelection from '../components/billing/BillingPlanSelection.vue'
 import VerifyAccountByCode from "@/components/verify/VerifyAccountByCode.vue";
+import SendResetPasswordLink from "../components/verify/SendResetPasswordLink.vue";
 import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
 import { routesInfo } from './info'
+
 
 
 
@@ -17,6 +19,11 @@ const routes = [
     path: routesInfo.register.path,
     name: routesInfo.register.name,
     component: Register
+  },
+  {
+    path: routesInfo.sendResetPasswordLink.path,
+    name: routesInfo.sendResetPasswordLink.name,
+    component: SendResetPasswordLink
   },
   {
     path: routesInfo.login.path,
