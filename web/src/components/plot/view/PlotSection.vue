@@ -27,7 +27,7 @@
                 font-size: 1.1rem;
               "
             >
-              No plot created
+              <PlotView :plotType="'crossplot'" />
             </div>
           </v-card-text>
         </v-card>
@@ -57,7 +57,7 @@
                 font-size: 1.1rem;
               "
             >
-              No plot created
+              <PlotView :plotType="'histogram'" />
             </div>
           </v-card-text>
         </v-card>
@@ -67,6 +67,8 @@
 </template>
 
 <script setup>
+import PlotView from './PlotView.vue';
+
 
 </script>
 
