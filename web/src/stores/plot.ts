@@ -2,34 +2,34 @@ import { PlotType } from '@/components/plot/types'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 
-interface CrossPlotTemplate {
+interface PlotTemplate {
     wellID: string,
     xWellLogID: string,
     yWellLogID: string
 }
 
-interface HistogramTemplate extends Omit<CrossPlotTemplate, 'yWellLogID'>{}
-
-export const usePlotStore = defineStore('plotStore', () => {
-    const crossPlotTemplate = ref<CrossPlotTemplate>({
+function getNewPlotTemplate() {
+    return {
         wellID: '',
         xWellLogID: '',
         yWellLogID: ''
-    })
-    const histogramTemplate = ref<HistogramTemplate>({
-        wellID: '',
-        xWellLogID: ''
-    })
-    
-    const xAxisSelectedWellLog: Ref<string> = ref('');
-    const yAxisSelectedWellLog: Ref<string> = ref('');
-    const wellID: Ref<string> = ref('');
+    }
+}
 
-    const plotTemplateByType: Record<PlotType, Ref<CrossPlotTemplate> | Ref<HistogramTemplate>> = {
+
+
+export const usePlotStore = defineStore('plotStore', () => {
+    const crossPlotTemplate: Ref<PlotTemplate> = ref(getNewPlotTemplate())
+    const histogramTemplate: Ref<PlotTemplate> = ref(getNewPlotTemplate())
+    
+
+
+    const plotTemplateByType: Record<PlotType, Ref<PlotTemplate>> = {
         'histogram': histogramTemplate,
         'scatter': crossPlotTemplate
     }
-    const registerPlot = (plotTeplate: CrossPlotTemplate, plotType: `${PlotType}`) => {
+
+    const registerPlot = (plotTeplate: PlotTemplate, plotType: `${PlotType}`) => {
         const template = plotTemplateByType[plotType]
         template.value.wellID = plotTeplate.wellID
         template.value.xWellLogID = plotTeplate.xWellLogID
@@ -41,9 +41,8 @@ export const usePlotStore = defineStore('plotStore', () => {
 
 
     return ({
-        xAxisSelectedWellLog,
-        yAxisSelectedWellLog,
-        wellID,
+        histogramTemplate,
+        crossPlotTemplate,
         registerPlot
     })
 

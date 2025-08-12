@@ -17,23 +17,23 @@ const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 const plotStore = usePlotStore()
 const form = reactive({
-    selectedWellID: '',
-    xAxisSelectedWellLog: '',
-    yAxisSelectedWellLog: '',
+    wellID: '',
+    xWellLogID: '',
+    yWellLogID: '',
 })
 
 
 const rules = {
-    selectedWellID: { required, $autoDirty: true },
-    xAxisSelectedWellLog: { required,  $autoDirty: true },
-    yAxisSelectedWellLog: { required,  $autoDirty: true },
+    wellID: { required, $autoDirty: true },
+    xWellLogID: { required,  $autoDirty: true },
+    yWellLogID: { required,  $autoDirty: true },
 }
 
 const v$ = useVuelidate(rules, form);
 
 const isDisabled = computed(() => {
-    const isDisabledHistogram = v$.value.xAxisSelectedWellLog.$invalid || v$.value.selectedWellID.$invalid;
-    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.yAxisSelectedWellLog.$invalid : false;
+    const isDisabledHistogram = v$.value.xWellLogID.$invalid || v$.value.wellID.$invalid;
+    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.yWellLogID.$invalid : false;
 
     return isDisabledHistogram || isDisabledCrossPlot
 })
@@ -43,7 +43,7 @@ const wellItems = computed(() => wellStore.wells.map((well) => {
     return { title: well.name, value: well._id }}))
 
 const wellLogItems = computed(() => {
-    const well = wellStore.wells.find((well) => well._id === form.selectedWellID)
+    const well = wellStore.wells.find((well) => well._id === form.wellID)
     if (well) {
         return well.welllogs.map((wellLog) => {
             return { title: wellLog.name, value: wellLog._id }
@@ -53,11 +53,7 @@ const wellLogItems = computed(() => {
 
 
 const createPlotView= () => {
-    plotStore.registerPlot(
-        form.xAxisSelectedWellLog,
-        form.yAxisSelectedWellLog,
-        form.selectedWellID
-    )
+    plotStore.registerPlot(form, props.plotType)
    
 }
 
@@ -75,7 +71,7 @@ const createPlotView= () => {
             :items="wellItems"
             label="Well name"
             id="test-selected-wells-to-plot-selector"
-            v-model="form.selectedWellID"
+            v-model="form.wellID"
             hide-details
             outlined
             dense
@@ -86,7 +82,7 @@ const createPlotView= () => {
                 class="mt-4"
                 :items="wellLogItems"
                 label="Well log name"
-                v-model="form.xAxisSelectedWellLog"
+                v-model="form.xWellLogID"
                 hide-details
                 outlined
                 dense
@@ -99,7 +95,7 @@ const createPlotView= () => {
                 class="mt-4"
                 :items="wellLogItems"
                 label="Well log name"
-                v-model="form.yAxisSelectedWellLog"
+                v-model="form.yWellLogID"
                 hide-details
                 outlined
                 dense
