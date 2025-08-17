@@ -43,11 +43,11 @@ const tableWellLogsInfo = computed(() => {
     <DialogWrapper :cardTitle="'Well Logs Table'">
         <v-container class="d-flex flex-column justify-center pa-12">
             <v-data-table
-                    class="mt-10 mb-10"
+                    class="mt-2 mb-10"
                     :headers="wellLogsFilterTableHeader"
                     :items="tableWellLogsInfo"
                     :id="'test-well-table'"
-                    disable-pagination
+                 
                     hide-default-footer
                 >
                 <template v-slot:item.id="{ item }">
