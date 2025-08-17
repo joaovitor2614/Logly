@@ -10,15 +10,18 @@ export function getFinalNavigationTarget(
     hasConfirmedEmail: boolean,
     targetRouteName: string,
 ) {
-
+ 
     if (!isAuthenticated) {
+        console.log('targetRouteName', targetRouteName)
         if (!PUBLIC_COMPS_NAMES.includes(targetRouteName) || routesInfo.verifyAccount.name == targetRouteName) {
             return routesInfo.login.name
         }
         
     } else {
+        console.log('nout ahth')
         if (hasConfirmedEmail || !accountVerificationRequired) {
             if (PUBLIC_COMPS_NAMES.includes(targetRouteName) || routesInfo.verifyAccount.name == targetRouteName) {
+                
                 return routesInfo.dashboard.name
             }
         } else {
