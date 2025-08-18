@@ -31,12 +31,12 @@ export const usePlotStore = defineStore('plotStore', () => {
 
     const registerPlot = (plotTeplate: PlotTemplate, plotType: `${PlotType}`) => {
         const template = plotTemplateByType[plotType]
-        template.value.wellID = plotTeplate.wellID
         template.value.xWellLogID = plotTeplate.xWellLogID
-        
         if (plotType === 'scatter') {
             template.value.yWellLogID = plotTeplate.yWellLogID
         }
+
+        template.value.wellID = plotTeplate.wellID
     }
 
 
