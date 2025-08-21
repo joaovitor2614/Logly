@@ -19,6 +19,7 @@ class UserCreate(Base, UserCrendentials):
     verification_code: Annotated[str, Field(title="User Email Verification Code")] = ""
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
+    reset_password_token: Annotated[str | None, Field(title="User Password Reset Token")] = None
 
      
     ConfigDict.extra = "allow"

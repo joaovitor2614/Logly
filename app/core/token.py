@@ -6,9 +6,9 @@ import jwt
 
 class JWTHandler:
     
-    def get_jwt_token_from_user_db_obj(self, user_db_obj: dict) -> str:
+    def get_jwt_token_from_user_db_obj(self, user_db_obj: dict, custom_exp_time_minutes: int | None = None) -> str:
         jwt_payload = self.get_jwt_payload_from_user_db_obj(user_db_obj)
-        self.set_jwt_payload_expires_time(jwt_payload)
+        self.set_jwt_payload_expires_time(jwt_payload, custom_exp_time_minutes)
         jwt_token = self.create_jwt_token_payload(jwt_payload)
         return jwt_token
 
@@ -29,7 +29,8 @@ class JWTHandler:
         jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
         return jwt_token
 
-    def set_jwt_payload_expires_time(self, jwt_payload: JWTPayload):
-        jwt_payload.exp += timedelta(minutes=APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+    def set_jwt_payload_expires_time(self, jwt_payload: JWTPayload, custom_exp_time_minutes: int | None = None):
+        exp_time_minutes = APP_SETTINGS.JWT_ACCESS_TOKEN_EXPIRE_MINUTES if custom_exp_time_minutes is None else custom_exp_time_minutes
+        jwt_payload.exp += timedelta(minutes=exp_time_minutes)
 
 jwt_handler = JWTHandler()

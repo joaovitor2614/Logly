@@ -5,6 +5,7 @@ from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
+from app.core.token import JWTHandler
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -60,6 +61,25 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
     email_sender = EmailSender()
     email_sender.send_verification_email(user["email"], otp_code)
     return {"message": "Verification code sent successfully"}
+ 
+
+_RESET_PASSWORD_JWT_EXP_TIME_MINUTES = 5
+@router.post("/send-reset-password-link", response_description="Send reset password link to user email")
+def send_reset_password_link(request: Request, user_id: ObjectId = Depends(get_current_user)):
+    user_controller = UserController(request)
+
+    user = user_controller.get_user_by_id(user_id)
+    jwt_handler = JWTHandler()
+    reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
+
+    email_sender = EmailSender()
+
+    #otp_code = generate_otp_code()
+    #user_controller.set_user_verification_code(user, otp_code)
+    
+    #email_sender = EmailSender()
+    #email_sender.send_verification_email(user["email"], otp_code)
+    #return {"message": "Verification code sent successfully"}
  
 @router.put("/verify-verification-code/{code}", response_description="Attempt to verify user account")
 def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_current_user)):

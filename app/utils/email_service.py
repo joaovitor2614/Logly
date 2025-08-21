@@ -20,12 +20,13 @@ class EmailSender:
     def __init__(self):
         pass
 
-    def send_reset_password_email(self):
+    def send_reset_password_email(self, reset_password_jwt: str):
+       
         otp_code = "asaswa"
         email_html_content = get_html_content(
             message="Bellow is your OTP code to verify your Logly account",
             code=otp_code
-    )
+        )
         msg = self.generate_setted_multipart_mime_obj(email_html_content)
 
 
