@@ -71,9 +71,11 @@ def send_reset_password_link(request: Request, user_id: ObjectId = Depends(get_c
     user = user_controller.get_user_by_id(user_id)
     jwt_handler = JWTHandler()
     reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
-
+    user_controller.update_user_field(user["_id"], "reset_password_token", reset_password_jwt)
     email_sender = EmailSender()
+    email_sender.send_reset_password_email(user["email"], reset_password_jwt)
 
+    return {"message": "Reset password link sent successfully"}
     #otp_code = generate_otp_code()
     #user_controller.set_user_verification_code(user, otp_code)
     

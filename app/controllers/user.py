@@ -64,11 +64,14 @@ class UserController(BaseController):
         hashed_password = get_hashed_password(user_data.password)
         user_data.password = hashed_password
 
-    def set_user_verification_code(self, user_obj: dict, otp_code: str):
-        
+    def update_user_field(self, user_id: str, field_name: str, new_field_value):
         self.user_database.update_one(
-            {"_id": user_obj["_id"]}, {"$set": {"verification_code": otp_code}}
+            {"_id": user_id}, {"$set": {field_name: new_field_value}}
         )
+
+    def set_user_verification_code(self, user_obj: dict, otp_code: str):
+        self.update_user_field(user_obj["_id"], "verification_code", otp_code)
+
 
     def verify_verification_code(self, user_obj: dict, otp_code: str):
         if user_obj["verification_code"] != otp_code:
@@ -81,13 +84,8 @@ class UserController(BaseController):
         
 
     def set_user_acccount_verified_status(self, user_obj: dict):
-        self.user_database.update_one(
-            {"_id": user_obj["_id"]}, {"$set": {"has_confirmed_email": True}}
-        )
-
+        self.update_user_field(user_obj["_id"], "has_confirmed_email", True)
      
-
-
     def verify_password(self, plain_password: str, hashed_password: str):
         is_password_valid = verify_password(plain_password, hashed_password)
         if not is_password_valid:
