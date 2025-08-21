@@ -42,6 +42,14 @@ def delete_well(request: Request, well_id: str, user_id: ObjectId = Depends(get_
     well_db_obs = well_controller.delete_well_by_id(well_id)
     return well_db_obs
 
+@router.delete("/data/{well_id}/{well_log_id}", response_description="Remove by well log by ids", status_code=status.HTTP_201_CREATED)
+def delete_well_log(request: Request, well_id: str, well_log_id: str, user_id: ObjectId = Depends(get_current_user)):
+    well_controller = WellController(request)
+  
+    well_controller.delete_well_log_by_ids(well_id, well_log_id)
+  
+
+
 
 
 

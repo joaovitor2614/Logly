@@ -42,6 +42,11 @@ class WellController(BaseController):
         return self.well_database.find_one(
         {"name": well_name}    
         )
+    
+    def get_well_by_id(self, well_id: str | ObjectId):
+        if isinstance(well_id, ObjectId):
+            well_id = str(well_id)
+        return self.well_database.find_one({"_id": well_id})
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
 
@@ -74,11 +79,26 @@ class WellController(BaseController):
 
         return well_db_objs
     
+    def update_well_field(self, well_id: str, field_name: str, new_field_value):
+        self.well_database.update_one(
+            {"_id": well_id}, {"$set": {field_name: new_field_value}}
+        )
+    
     def delete_well_by_id(self, well_id: str | ObjectId):
         if isinstance(well_id, ObjectId):
             well_id = str(well_id)
         self.well_data_database.delete_all_well_data_by_well_id(well_id)
         self.well_database.delete_one({"_id": well_id})
+
+    def delete_well_log_by_ids(self, well_id: str | ObjectId, well_log_id: str | ObjectId):
+
+        well_id = str(well_id)
+        well_log_id = str(well_log_id)
+        self.well_data_database.delete_well_data_by_well_log_id(well_log_id)
+        well_db_obj = self.get_well_by_id(well_id)
+        new_well_logs = well_db_obj["welllogs"].remove({"_id": well_log_id})
+        self.update_well_field(well_id, "welllogs", new_well_logs)
+
 
     def delete_all_wells_by_user_id(self, user_id: str | ObjectId):
         if isinstance(user_id, ObjectId):

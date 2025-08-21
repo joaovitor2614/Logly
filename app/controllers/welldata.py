@@ -18,6 +18,11 @@ class WellDataController(BaseController):
             well_id = str(well_id)
         self.well_database.delete_many({"well_id": well_id})
 
+    def delete_well_data_by_well_log_id(self, well_log_id: str | uuid.UUID):
+        if isinstance(well_log_id, uuid.UUID):
+            well_log_id = str(well_log_id)
+        self.well_database.delete_one({"well_log_id": well_log_id})
+
     def _create_well_logs_data_db_objs(self, 
         well_logs_info, 
         well_id,
