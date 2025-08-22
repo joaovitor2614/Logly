@@ -26,9 +26,9 @@ export const registerRouteGuard = (router: Router) => {
        
         const targetRouteName = to.name as string;
         const isLoggedIn = authStore.isAuthenticated;
-        console.log('router before')
+
         const navigationTarget = getFinalNavigationTarget(isLoggedIn, hasConfirmedEmail, targetRouteName)
-     
+
         if (navigationTarget && navigationTarget !== targetRouteName) {
             return { name: navigationTarget }
         }
