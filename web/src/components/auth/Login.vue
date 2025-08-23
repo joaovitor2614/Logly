@@ -45,6 +45,7 @@ const redirectToSendResetPasswordLink = () => {
                             variant="text"
                             color="black"
                             @click="redirectToSendResetPasswordLink"
+                            id='test-forgot-password-btn'
                             >
                             I forgot my password
                             <v-icon end>mdi-arrow-right</v-icon>

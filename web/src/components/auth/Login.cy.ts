@@ -1,5 +1,19 @@
+import { routesInfo } from '@/router/info'
 import Login from './Login.vue'
 import { verifyRedirect } from '@/test/utils/redirect'
+
+
+const redirectTestCasesInfo = [
+  {
+    expectedRoutePath: routesInfo.register.path,
+    redirectionBtnIDName: '#test-redirect-to-register-btn',
+  },
+  {
+    expectedRoutePath: routesInfo.sendResetPasswordLink.path,
+    redirectionBtnIDName: '#test-forgot-password-btn',
+  },
+
+]
 
 
 describe('<Login />', () => {
@@ -16,11 +30,14 @@ describe('<Login />', () => {
     // Now the buttn should be enabled
     cy.get('#test-login-btn').should('be.enabled')
   })
-  it('redirects to register page when clicking button', () => {
-    cy.mountWithPiniaVuetify(Login).then(({router}) => {
-      verifyRedirect('#test-redirect-to-register-btn', '/register', router)
+  redirectTestCasesInfo.forEach((redirectTestCaseInfo) => {
+    it(`redirects to ${redirectTestCaseInfo.expectedRoutePath} when clicking button`, () => {
+      cy.mountWithPiniaVuetify(Login).then(({router}) => {
+        verifyRedirect(redirectTestCaseInfo.redirectionBtnIDName, redirectTestCaseInfo.expectedRoutePath, router)
+      })
+      
     })
-    
   })
+
 
 })
