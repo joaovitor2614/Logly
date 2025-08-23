@@ -1,4 +1,4 @@
-import { getAllWellsData, importWellFile, deleteWellByID } from "@/api/services/well"
+import { getAllWellsData, importWellFile, deleteWellByID, deleteWellLogByIDS } from "@/api/services/well"
 import { defineStore } from "pinia"
 import { ref, Ref } from "vue"
 import { useToast } from "vue-toastification"
@@ -33,10 +33,22 @@ export const useWellStore = defineStore('wellStore', () => {
             wells.value = wells.value.filter(well => well._id !== wellID)
         }
     }
+
+    const deleteWellLog = async (wellID: string, wellLogID: string) => {
+        console.log('wellLogID', wellLogID, wellID)
+        const response = await deleteWellLogByIDS(wellLogID, wellID)
+        if (response) {
+            
+            wells.value.find(well => well._id === wellID)
+                ?.welllogs
+                .filter(wellLog => wellLog._id !== wellLogID)
+        }
+    }
     return { 
         wells,
         deleteWell,
         importNewFile,
+        deleteWellLog,
         getWells
     }
 })

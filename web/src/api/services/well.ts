@@ -26,3 +26,7 @@ export async function deleteWellByID(wellID: string) {
     return await api.delete(`/well/${wellID}`);
 }
 
+
+export async function deleteWellLogByIDS(wellLogID: string,wellID: string) {
+    return await api.delete(`/well/data/${wellID}/${wellLogID}`);
+}

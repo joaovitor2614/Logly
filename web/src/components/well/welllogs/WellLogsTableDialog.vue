@@ -36,6 +36,11 @@ const tableWellLogsInfo = computed(() => {
     return wellLogsInfo
 })
 
+const deleteWellLog = (welllogID: string) => {
+    console.log('click icon', props.wellID, welllogID)
+    wellStore.deleteWellLog(props.wellID, welllogID)
+}
+
 
 </script>
 
@@ -53,6 +58,7 @@ const tableWellLogsInfo = computed(() => {
                 <template v-slot:item.id="{ item }">
                     <v-btn
                     icon
+                    @click="deleteWellLog(item.id)"
                     variant="text"
                     style="color: black"
                 >
