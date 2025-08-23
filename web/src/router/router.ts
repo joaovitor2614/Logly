@@ -10,6 +10,7 @@ import SendResetPasswordLink from "../components/verify/SendResetPasswordLink.vu
 import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
 import { routesInfo } from './info'
+import ResetPassword from "@/components/verify/ResetPassword.vue";
 
 
 
@@ -24,6 +25,11 @@ const routes = [
     path: routesInfo.sendResetPasswordLink.path,
     name: routesInfo.sendResetPasswordLink.name,
     component: SendResetPasswordLink
+  },
+  {
+    path: routesInfo.resetPasswordLink.path,
+    name: routesInfo.resetPasswordLink.name,
+    component: ResetPassword
   },
   {
     path: routesInfo.login.path,

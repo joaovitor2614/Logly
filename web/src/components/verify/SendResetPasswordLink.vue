@@ -1,9 +1,14 @@
-<script setup>
+<script setup lang="ts">
+import { sendResetPasswordLink } from '@/api/services/user';
 import Button from '@/components/common/Button.vue'
-const sendResetPasswordLink = async () => {
-    console.log('sendResetPasswordLink')
 
+import { Ref, ref, computed } from 'vue';
+
+const emailAddress: Ref<string> = ref('')
+const executeResetPasswordLink = async () => {
+    sendResetPasswordLink(emailAddress.value)
 }
+const isDisabled = computed(() => emailAddress.value ? false : true);
 </script>
 
 <template>
@@ -25,6 +30,7 @@ const sendResetPasswordLink = async () => {
                         name="email"
                         label="Email Address"
                         type="email"
+                        v-model="emailAddress"
                         placeholder="email"
                         class="mb-5"
                     />
@@ -32,7 +38,8 @@ const sendResetPasswordLink = async () => {
                     <div>
                     <div class="flex flex-col items-center justify-center mb-4">
                         <Button 
-                        :buttonAction="sendResetPasswordLink" 
+                        :buttonAction="executeResetPasswordLink" 
+                        :isDisabled="isDisabled"
           
            
                         >

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 interface Props {
     form: Record<string, string>,
     errorsMessages: Record<string, string[]>,
-    authType: 'register' | 'login'
+    authType: 'register' | 'login' | 'reset-password'
 }
 
 const props = defineProps<Props>();
@@ -39,7 +39,7 @@ const showConfirmPassword = ref(false);
                     required
                 ></v-text-field>
                 <v-text-field
-                    v-if="props.authType === 'login' || props.authType === 'register'"
+                    v-if="props.authType === 'login' || props.authType === 'register' || props.authType === 'reset-password'"
                     v-model="props.form.password"
                     :error-messages="props.errorsMessages.password"
                     :type="showPassword ? 'text' : 'password'"
@@ -53,7 +53,7 @@ const showConfirmPassword = ref(false);
                     required
                 ></v-text-field>
                 <v-text-field 
-                    v-if="props.authType === 'register'"
+                    v-if="props.authType === 'register' || props.authType === 'reset-password'"
                     v-model="props.form.confirmPassword"
                     :error-messages="props.errorsMessages.confirmPassword"
                     :type="showConfirmPassword ? 'text' : 'password'"

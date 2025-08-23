@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
-from ..models.user.user import UserCreate, UserUpdate
+from ..models.user.user import UserCreate, UserUpdate, UserResetPassword
 from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
 from ..utils.otp import generate_otp_code
@@ -64,11 +64,13 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
  
 
 _RESET_PASSWORD_JWT_EXP_TIME_MINUTES = 5
+
+
 @router.post("/send-reset-password-link", response_description="Send reset password link to user email")
-def send_reset_password_link(request: Request, user_id: ObjectId = Depends(get_current_user)):
+def send_reset_password_link(request: Request, payload: UserResetPassword):
     user_controller = UserController(request)
 
-    user = user_controller.get_user_by_id(user_id)
+    user = user_controller.get_user_by_email(payload.email)
     jwt_handler = JWTHandler()
     reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
     user_controller.update_user_field(user["_id"], "reset_password_token", reset_password_jwt)

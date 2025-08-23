@@ -25,6 +25,11 @@ export const sendEmailVerificationCode = () => {
     return api.post(`users/send-verification-code/`);
 }
 
+export const sendResetPasswordLink = (email: string) => {
+    return api.post(`users/send-reset-password-link/`, {"email": email});
+}
+
+
 
 export const verifyEmailVerificationCode = (code: string) => {
     return api.put(`users/verify-verification-code/${code}`);
