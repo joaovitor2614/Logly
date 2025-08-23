@@ -8,7 +8,6 @@ import Footer from './element/Footer.vue';
 
 
     <Footer />
-    <ContactSection />
     
 
 </template>

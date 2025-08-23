@@ -41,6 +41,15 @@ class WellEndPointWrapper:
         )
         return response
     
+    def delete_well_log_by_ids(self, well_id: str | ObjectId, well_log_id: str | ObjectId):
+        well_id = str(well_id)
+        well_log_id = str(well_log_id)
+        response = self.client.delete(
+            f"/well/data/{well_id}/{well_log_id}",
+            headers=self.request_headers,
+        )
+        return response
+    
     def get_well_log_data(self, well_log_id: str, well_id: str):
         response = self.client.get(
             f"/well/data/{well_id}/{well_log_id}",

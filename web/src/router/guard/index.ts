@@ -25,10 +25,10 @@ export const registerRouteGuard = (router: Router) => {
         const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
        
         const targetRouteName = to.name as string;
-        const isLoggedIn = authStore.isAuthenticated;
+        const isLoggedIn = authStore.isAuthenticated;   
 
         const navigationTarget = getFinalNavigationTarget(isLoggedIn, hasConfirmedEmail, targetRouteName)
-
+        console.log('router.beforeEach navigationTarget', navigationTarget)
         if (navigationTarget && navigationTarget !== targetRouteName) {
             return { name: navigationTarget }
         }
@@ -37,6 +37,7 @@ export const registerRouteGuard = (router: Router) => {
 
         const targetRouteName = router.currentRoute.value.name as string;
         const navigationTarget = getFinalNavigationTarget(isAuthenticated, hasConfirmedEmail, targetRouteName)
+        console.log('watch', navigationTarget)
         if (navigationTarget && navigationTarget !== targetRouteName) {
             router.push({ name: navigationTarget });
         }

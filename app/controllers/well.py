@@ -96,8 +96,16 @@ class WellController(BaseController):
         well_log_id = str(well_log_id)
         self.well_data_database.delete_well_data_by_well_log_id(well_log_id)
         well_db_obj = self.get_well_by_id(well_id)
-        new_well_logs = well_db_obj["welllogs"].remove({"_id": well_log_id})
-        self.update_well_field(well_id, "welllogs", new_well_logs)
+        for well_log_db_obj in well_db_obj["welllogs"]:
+    
+            if well_log_db_obj["_id"] == well_log_id:
+                well_log_to_remove_index = well_db_obj["welllogs"].index(well_log_db_obj)
+                break
+
+        well_db_obj["welllogs"].pop(well_log_to_remove_index)
+        well_db_obj["welllogs"]
+     
+        self.update_well_field(well_id, "welllogs", well_db_obj["welllogs"])
 
 
     def delete_all_wells_by_user_id(self, user_id: str | ObjectId):

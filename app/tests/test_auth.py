@@ -26,7 +26,7 @@ def test_register_user(client):
 
     assert response.status_code == 201, f"Response status code expected to be 201, but got {response.status_code}"
     response_content = response.json()
-    print('response_content["token"]', response_content["token"])
+
     assert response_content["token"] is not None, "Token not present auth endpoint response."
 
 

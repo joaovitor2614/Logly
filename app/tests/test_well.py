@@ -50,6 +50,31 @@ def test_delete_well(client, import_well_file):
     assert response.status_code == 201
     assert len(well_db_objs) == 0
 
+
+def test_delete_well_log_id(client, import_well_file):
+    
+    request_headers  = import_well_file
+    well_endpoint_wrapper = WellEndPointWrapper(client, request_headers)
+    well_controller = WellController(client)
+
+    user_id = get_user_id_from_request_headers(request_headers)
+    well_db_objs = well_controller.get_all_wells_data(user_id)
+
+    well_id = well_db_objs[0]["_id"]
+    well_log_to_delete_name = "GR"
+    
+    well_log_info = next((d for d in well_db_objs[0]["welllogs"] if d["name"] == well_log_to_delete_name), None)
+   
+    response = well_endpoint_wrapper.delete_well_log_by_ids(well_db_objs[0]["_id"], well_log_info["_id"])
+    assert response.status_code == 201
+
+    well_db_objs = well_controller.get_all_wells_data(user_id)
+    well_logs_info = well_db_objs[0]["welllogs"]
+  
+    assert any(well_log_db_obj["name"] == well_log_to_delete_name for well_log_db_obj in well_logs_info) == False
+
+    #assert len(well_db_objs) == 0
+
 def test_get_well_log_data(client, import_well_file):
     request_headers  = import_well_file
     well_endpoint_wrapper = WellEndPointWrapper(client, request_headers)
