@@ -1,5 +1,5 @@
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 from pydantic import Field
 
@@ -17,4 +17,7 @@ class Settings(BaseSettings):
     DB_NAME: str = "MyDB"
     APP_BASE_URL: str = "http://localhost:5173"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   # 12 hours
+
+    model_config = SettingsConfigDict(env_file="../.env")  
     
+
