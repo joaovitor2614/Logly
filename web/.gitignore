@@ -30,4 +30,5 @@ coverage
 
 # ENV VARS
 .env
+.env*
 .vercel
