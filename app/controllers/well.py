@@ -13,12 +13,32 @@ import json
 
 class WellController(BaseController):
     def __init__(self, request: Request):
+        """
+        Initialize the WellController object.
+
+        Args:
+            request (Request): The current request instance.
+
+        Sets the following instance variables:
+            self.well_database: The database collection for wells.
+            self.well_data_database: An instance of WellDataController for managing well log data.
+        """
+       
          self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
          self.well_data_database = WellDataController(request)
          super().__init__(self.well_database)
 
     def _create_well_logs_db_objs(self, well_logs_info: List[dict]) -> List[WellLog]:
      
+        """
+        Create a list of WellLog objects from a list of dictionaries containing well log information.
+
+        Args:
+            well_logs_info (List[dict]): A list of dictionaries containing well log information.
+
+        Returns:
+            List[WellLog]: A list of WellLog objects.
+        """
         return [
             WellLog(
                 name=well_log_info["mnemonic"],
@@ -31,6 +51,17 @@ class WellController(BaseController):
 
 
     def _create_well_db_obj(self, well_info: dict, user_id: ObjectId, well_logs_db_objs: List[WellLog]):
+        """
+        Create a Well object from the given well information and well log objects.
+
+        Args:
+            well_info (dict): A dictionary containing well information.
+            user_id (ObjectId): The user ID to associate with the well.
+            well_logs_db_objs (List[WellLog]): A list of WellLog objects.
+
+        Returns:
+            Well: A Well object.
+        """
         return Well(
             name=well_info["name"],
             user_id=user_id,
@@ -39,15 +70,44 @@ class WellController(BaseController):
         
 
     def get_well_by_name(self, well_name: str):
+        """
+        Retrieve a well by its name.
+
+        Args:
+            well_name (str): The name of the well to retrieve.
+
+        Returns:
+            Well: The well object if found, None otherwise.
+        """
         return self.well_database.find_one(
             {"name": well_name}    
         )
     
     def get_well_by_id(self, well_id: str | ObjectId):
+        """
+        Retrieve a well by its ID.
+
+        Args:
+            well_id (str | ObjectId): The ID of the well to retrieve.
+
+        Returns:
+            Well: The well object if found, None otherwise.
+        """
         return self.well_database.find_one({"_id": well_id})
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
 
+
+        """
+        Import a well from a LAS file and save it to the database.
+
+        Args:
+            las_file_object (UploadFile): The LAS file to import.
+            user_id (ObjectId): The ID of the user who is importing the well.
+
+        Returns:
+            None
+        """
 
         las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
         well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
@@ -73,6 +133,14 @@ class WellController(BaseController):
         return well_db_objs
     
     def update_well_field(self, well_id: str, field_name: str, new_field_value):
+        """
+        Update a field in the well database.
+
+        Args:
+            well_id (str): The ID of the well to update.
+            field_name (str): The name of the field to update.
+            new_field_value (any): The new value for the field.
+        """
         self.well_database.update_one(
             {"_id": well_id}, {"$set": {field_name: new_field_value}}
         )
@@ -82,6 +150,17 @@ class WellController(BaseController):
         self.well_database.delete_one({"_id": well_id})
 
     def delete_well_log_by_ids(self, well_id: str | ObjectId, well_log_id: str | ObjectId):
+        """
+        Delete a well log from a well by their IDs.
+
+        Args:
+            well_id (str | ObjectId): The ID of the well.
+            well_log_id (str | ObjectId): The ID of the well log to delete.
+
+        Returns:
+            None
+        """
+        
         self.well_data_database.delete_well_data_by_well_log_id(well_log_id)
         well_db_obj = self.get_well_by_id(well_id)
         for well_log_db_obj in well_db_obj["welllogs"]:
@@ -97,6 +176,15 @@ class WellController(BaseController):
 
 
     def delete_all_wells_by_user_id(self, user_id: str | ObjectId):
+        """
+        Delete all wells associated with a given user ID from the database.
+
+        Args:
+            user_id (str | ObjectId): The ID of the user whose wells to delete.
+
+        Returns:
+            None
+        """
         self.well_database.delete_many({"user_id": user_id})
 
 
