@@ -33,19 +33,17 @@ class WellController(BaseController):
     def _create_well_db_obj(self, well_info: dict, user_id: ObjectId, well_logs_db_objs: List[WellLog]):
         return Well(
             name=well_info["name"],
-            user_id=str(user_id),
+            user_id=user_id,
             welllogs=well_logs_db_objs
         )
         
 
     def get_well_by_name(self, well_name: str):
         return self.well_database.find_one(
-        {"name": well_name}    
+            {"name": well_name}    
         )
     
     def get_well_by_id(self, well_id: str | ObjectId):
-        if isinstance(well_id, ObjectId):
-            well_id = str(well_id)
         return self.well_database.find_one({"_id": well_id})
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
@@ -71,12 +69,7 @@ class WellController(BaseController):
 
     def get_all_wells_data(self, user_id: str):
         well_db_objs = list(self.well_database.find({"user_id": user_id}))
-
-        for well_db_obj in well_db_objs:
-            well_db_obj["_id"] = str(well_db_obj["_id"])
             
-   
-
         return well_db_objs
     
     def update_well_field(self, well_id: str, field_name: str, new_field_value):
@@ -85,15 +78,10 @@ class WellController(BaseController):
         )
     
     def delete_well_by_id(self, well_id: str | ObjectId):
-        if isinstance(well_id, ObjectId):
-            well_id = str(well_id)
         self.well_data_database.delete_all_well_data_by_well_id(well_id)
         self.well_database.delete_one({"_id": well_id})
 
     def delete_well_log_by_ids(self, well_id: str | ObjectId, well_log_id: str | ObjectId):
-
-        well_id = str(well_id)
-        well_log_id = str(well_log_id)
         self.well_data_database.delete_well_data_by_well_log_id(well_log_id)
         well_db_obj = self.get_well_by_id(well_id)
         for well_log_db_obj in well_db_obj["welllogs"]:
@@ -109,8 +97,6 @@ class WellController(BaseController):
 
 
     def delete_all_wells_by_user_id(self, user_id: str | ObjectId):
-        if isinstance(user_id, ObjectId):
-            user_id = str(user_id)
         self.well_database.delete_many({"user_id": user_id})
 
 
