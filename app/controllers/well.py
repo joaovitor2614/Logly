@@ -24,9 +24,9 @@ class WellController(BaseController):
             self.well_data_database: An instance of WellDataController for managing well log data.
         """
        
-         self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
-         self.well_data_database = WellDataController(request)
-         super().__init__(self.well_database)
+        self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
+        self.well_data_database = WellDataController(request)
+        super().__init__(self.well_database)
 
     def _create_well_logs_db_objs(self, well_logs_info: List[dict]) -> List[WellLog]:
      
