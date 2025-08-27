@@ -23,7 +23,9 @@ const rules = {
     lasFile: { required, $autoDirty: true },
 }
 const v$ = useVuelidate(rules, form);
-const isDisabled = computed(() => v$.value.lasFile.$invalid ? true : false);
+const isDisabled = computed(() => {
+    return v$.value.lasFile.$invalid || isLoading.value
+});
 const importWell = async () => {
     isLoading.value = true
 

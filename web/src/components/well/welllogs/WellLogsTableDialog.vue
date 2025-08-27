@@ -37,7 +37,6 @@ const tableWellLogsInfo = computed(() => {
 })
 
 const deleteWellLog = (welllogID: string) => {
-    console.log('click icon', props.wellID, welllogID)
     wellStore.deleteWellLog(props.wellID, welllogID)
 }
 

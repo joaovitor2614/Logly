@@ -27,7 +27,6 @@ export const useWellStore = defineStore('wellStore', () => {
     }
 
     const deleteWell = async (wellID: string) => {
-        console.log('wellID', wellID)
         const response = await deleteWellByID(wellID)
         if (response) {
             wells.value = wells.value.filter(well => well._id !== wellID)
@@ -35,13 +34,12 @@ export const useWellStore = defineStore('wellStore', () => {
     }
 
     const deleteWellLog = async (wellID: string, wellLogID: string) => {
-        console.log('wellLogID', wellLogID, wellID)
         const response = await deleteWellLogByIDS(wellLogID, wellID)
         if (response) {
             
-            wells.value.find(well => well._id === wellID)
-                ?.welllogs
-                .filter(wellLog => wellLog._id !== wellLogID)
+            let wellInfo = wells.value.find(well => well._id === wellID)
+            wellInfo.welllogs = wellInfo.welllogs.filter(wellLog => wellLog._id !== wellLogID)
+
         }
     }
     return { 
