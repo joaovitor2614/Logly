@@ -4,7 +4,8 @@ import { usePlotStore } from '@/stores';
 import { PlotType } from '../types';
 import { watch } from 'vue';
 import { getWellLogDataByIDs } from '@/api/services/well';
-//import Plotly from 'plotly.js-dist';
+import { PlotProvider } from './plotprovider';
+
 interface Props {
     plotType: `${PlotType}`,
 }
@@ -30,13 +31,26 @@ const parseWellLogDataIntoValidJsArray = (stringfiedData: string) => {
 
 const fetchWellLogData =  async () => {
     const xWellLogData = await getAxisWellLogData(template.xWellLogID)
+    let yWellLogData = []
     if (props.plotType === 'scatter') {
-        const yWellLogData = await getAxisWellLogData(template.yWellLogID)
+         yWellLogData = await getAxisWellLogData(template.yWellLogID)
     }
-    
-
+    const plotData = prepareWellLogData(xWellLogData, yWellLogData)
+    plotWellLogData(plotData)
 }
 
+const prepareWellLogData = (xWellLogData: Array<Number>, yWellLogData: Array<Number>) => {
+    return {
+        x: xWellLogData,
+        y: yWellLogData
+    }
+}
+
+const plotWellLogData = (plotData: Record<string, Array<Number>>) => {
+    const plotProvider = new PlotProvider(props.plotType, plotData)
+    plotProvider.run()
+;
+}
 const getAxisWellLogData = async (wellLogID: string) => {
     const response = await getWellLogDataByIDs(wellLogID, template.wellID)
     if (response) {
