@@ -2,15 +2,16 @@
 
 import { usePlotStore } from '@/stores';
 import { PlotType } from '../types';
-import { watch } from 'vue';
+import { watch, ref } from 'vue';
 import { getWellLogDataByIDs } from '@/api/services/well';
-import { PlotProvider } from './plotprovider';
+import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './plotprovider';
 
 interface Props {
     plotType: `${PlotType}`,
 }
 
 const props = defineProps<Props>();
+const plotDivID = ref(PLOT_DIV_ID_BY_PLOT_TYPE[props.plotType])
 
 const plotStore = usePlotStore()
 
@@ -73,7 +74,7 @@ watch(() => template.wellID, () => {
 </script>
 
 <template>
-    <div id="plotDiv">
+    <div :id="plotDivID">
     
     </div>
 </template>

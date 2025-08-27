@@ -1,5 +1,12 @@
 import Plotly from 'plotly.js-dist';
 import { PlotType } from '../types';
+import { h } from 'vue';
+
+
+export const PLOT_DIV_ID_BY_PLOT_TYPE = {
+    histogram: 'histogramPlot',
+    crossplot: 'crossplotPlot'
+}
 
 export class PlotProvider {
     plotType: string;
@@ -10,30 +17,29 @@ export class PlotProvider {
     }
 
     run() {
-        console.log('RUNNN')
+        let mainPlotTrace = []
+    
         if (this.plotType === 'histogram')  {
-            const trace = {
+            mainPlotTrace = {
                 x: this.plotData.x,
                 type: 'histogram',
             }
-            const plotData = [trace]
 
-            Plotly.newPlot('plotDiv', plotData)
         } else {
-            console.log('here scatepper')
+
             if (!this.plotData.y.length) {
                 throw "No y data for crossplot"
             }
-            const trace1 = {
+            mainPlotTrace = {
                 x: this.plotData.x,
                 y: this.plotData.y,
                 mode: 'markers',
                 type: 'scatter'
             };
-            Plotly.newPlot('plotDiv', trace1)
-       
         }
 
-       
+        const plotData = [mainPlotTrace]
+        Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotType], plotData)
+
     }
 }
