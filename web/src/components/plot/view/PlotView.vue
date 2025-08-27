@@ -16,12 +16,17 @@ const plotStore = usePlotStore()
 const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
 
 const parseWellLogDataIntoValidJsArray = (stringfiedData: string) => {
-    console.log('stringfiedData', stringfiedData)
+
     const cleaned = stringfiedData.replace(/^"|"$/g, "");
-    const dataArray = JSON.parse(cleaned);
-    console.log('dataArray', dataArray)
-    return dataArray
-}
+    
+    const arr = cleaned
+    .split(",")                // break into pieces
+    .map(s => s.trim())        // remove spaces
+    .map(s => s === "NaN" ? NaN : parseFloat(s)); // convert numbers, keep NaN
+    
+    return arr
+
+}   
 
 const fetchWellLogData =  async () => {
     const xWellLogData = await getAxisWellLogData(template.xWellLogID)
