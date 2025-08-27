@@ -10,13 +10,30 @@ export class PlotProvider {
     }
 
     run() {
-        const trace = {
-        x: this.plotData.x,
-        type: 'histogram',
-    }
-    const plotData = [trace]
+        console.log('RUNNN')
+        if (this.plotType === 'histogram')  {
+            const trace = {
+                x: this.plotData.x,
+                type: 'histogram',
+            }
+            const plotData = [trace]
 
-    Plotly.newPlot('plotDiv', plotData)
+            Plotly.newPlot('plotDiv', plotData)
+        } else {
+            console.log('here scatepper')
+            if (!this.plotData.y.length) {
+                throw "No y data for crossplot"
+            }
+            const trace1 = {
+                x: this.plotData.x,
+                y: this.plotData.y,
+                mode: 'markers',
+                type: 'scatter'
+            };
+            Plotly.newPlot('plotDiv', trace1)
+       
+        }
+
        
     }
 }

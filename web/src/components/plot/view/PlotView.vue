@@ -32,7 +32,7 @@ const parseWellLogDataIntoValidJsArray = (stringfiedData: string) => {
 const fetchWellLogData =  async () => {
     const xWellLogData = await getAxisWellLogData(template.xWellLogID)
     let yWellLogData = []
-    if (props.plotType === 'scatter') {
+    if (props.plotType === 'crossplot') {
          yWellLogData = await getAxisWellLogData(template.yWellLogID)
     }
     const plotData = prepareWellLogData(xWellLogData, yWellLogData)
@@ -64,6 +64,7 @@ const getAxisWellLogData = async (wellLogID: string) => {
 }
 
 watch(() => template.wellID, () => {
+    console.log('WACH FIRED')
     fetchWellLogData()
 })
 

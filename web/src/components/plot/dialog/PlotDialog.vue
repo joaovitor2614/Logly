@@ -54,6 +54,7 @@ const wellLogItems = computed(() => {
 
 const createPlotView= () => {
     plotStore.registerPlot(form, props.plotType)
+    dialogStore.closeDialogWindow()
    
 }
 
