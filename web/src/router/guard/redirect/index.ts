@@ -10,25 +10,24 @@ export function getFinalNavigationTarget(
     hasConfirmedEmail: boolean,
     targetRouteName: string,
 ): string | undefined {
-    console.log('targetRouteName', targetRouteName)
+
     const isTryingToAccessPublicComp = PUBLIC_COMPS_NAMES.includes(targetRouteName);
 
     if (!isAuthenticated) {
-        if (!isTryingToAccessPublicComp) {
-            return routesInfo.login.name
-        }
-        
-    } else {
- 
-        if (!hasConfirmedEmail && accountVerificationRequired) {
-            if (routesInfo.verifyAccount.name !== targetRouteName) {
-                return routesInfo.verifyAccount.name;
-            }
-        } 
-        else if (isTryingToAccessPublicComp) {
-            return routesInfo.dashboard.name
-        }
+        return !isTryingToAccessPublicComp ? routesInfo.login.name : undefined
     }
+
+    // Authenticated users but email not verified
+    if (!hasConfirmedEmail && accountVerificationRequired) {
+        return routesInfo.verifyAccount.name !== targetRouteName ? routesInfo.verifyAccount.name : undefined
+    }
+
+
+      // Authenticated users should not access public routes 
+    if (isTryingToAccessPublicComp) {
+        return routesInfo.dashboard.name
+    }
+
     return undefined
   
 }
