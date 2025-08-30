@@ -1,12 +1,14 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-
 def register_middlewares(app: FastAPI):
     app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+        CORSMiddleware,
+        allow_origins=[
+            "https://logly-qe0yqwza4-joao-vitors-projects-80c25497.vercel.app",  
+            "https://logly-web.vercel.app"
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
