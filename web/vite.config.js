@@ -14,6 +14,7 @@ export default defineConfig({
     host: true,
     strictPort: true,
     port: 5173,
+    cors: "https://logly-api-f5e0fb6df0c0.herokuapp.com/",
   },
   resolve: {
     alias: {
