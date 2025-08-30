@@ -14,7 +14,6 @@ export default defineConfig({
     host: true,
     strictPort: true,
     port: 5173,
-    cors: import.meta.env.VITE_API_BASE_URL,
   },
   resolve: {
     alias: {

@@ -18,6 +18,4 @@ class Settings(BaseSettings):
     APP_BASE_URL: str = "http://localhost:5173"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   # 12 hours
 
-    model_config = SettingsConfigDict(env_file="../.env")  
-    
 
