@@ -6,6 +6,8 @@ from ..utils.security import verify_password
 from app.tests.utils.wrapper.auth import AuthEndPointWrapper
 from app.controllers.user import UserController
 from app.tests.utils.auth import get_user_id_from_register_response
+from fastapi import  HTTPException
+import pytest
 
 def test_register_user(client):
 
@@ -62,6 +64,11 @@ def test_login_user(client, register_user):
     response_text = json.loads(response.text)["detail"]
     assert response.status_code == 401
     assert response_text == "Password is not valid!"
+
+
+    auth_endpoint_mocker.login("notexistinguser@gmail.com", "coxinha123")
+
+
 
 
 
