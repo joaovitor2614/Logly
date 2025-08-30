@@ -23,8 +23,10 @@ export function getFinalNavigationTarget(
     }
 
 
+
+
       // Authenticated users should not access public routes 
-    if (isTryingToAccessPublicComp) {
+    if (isTryingToAccessPublicComp || routesInfo.verifyAccount.name === targetRouteName) {
         return routesInfo.dashboard.name
     }
 

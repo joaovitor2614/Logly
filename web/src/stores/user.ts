@@ -42,6 +42,7 @@ export const useUserStore = defineStore('userStore', () => {
         if (response) {
             toast.success('Account verified successfully!')
             await fetchUser()
+          
         }
     }
 
