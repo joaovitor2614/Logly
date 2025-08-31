@@ -1,6 +1,13 @@
 from typing import Annotated, Optional
 from pydantic import BaseModel, Field, ConfigDict
+from datetime import datetime
 from app.models import Base
+import uuid
+
+class OTPCode(BaseModel):
+    exp: datetime
+    code: str
+    user_id: str = Field(default_factory=uuid.uuid4)
 
 
 class UserCrendentials(BaseModel):
@@ -20,7 +27,7 @@ class UserCreate(Base, UserCrendentials):
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
     reset_password_token: Annotated[str | None, Field(title="User Password Reset Token")] = None
-
+    otp_code: Annotated[None | OTPCode, Field(title="User Account Verification OTP Code")] = None
      
     ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
