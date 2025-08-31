@@ -6,7 +6,7 @@ class WellHandler:
         self.lasio_object: lasio.LASFile = None
 
     def get_well_info_from_las_file(self, las_file) -> dict:
-        
+        self.lasio_object = lasio.read(las_file)
         well_name = self._extract_well_name_from_lasio_obj()
         well_logs_info = self._extract_well_logs_info_from_lasio_obj()
         
