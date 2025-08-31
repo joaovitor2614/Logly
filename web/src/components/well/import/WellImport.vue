@@ -30,6 +30,7 @@ const importWell = async () => {
     isLoading.value = true
 
     const response = await wellStore.importNewFile(form.lasFile)
+    console.log('response comp')
     isLoading.value = false
     if (response) {
         dialogStore.closeDialogWindow()

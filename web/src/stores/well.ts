@@ -19,6 +19,7 @@ export const useWellStore = defineStore('wellStore', () => {
 
     const importNewFile = async (lasFile: File) => {
         const response = await importWellFile(lasFile)
+        console.log('store import well response', response)
         if (response) {
             toast.success(`Well imported successfully!`)
             getWells()

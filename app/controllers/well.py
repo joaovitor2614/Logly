@@ -1,5 +1,6 @@
 from fastapi import Request
 from bson.objectid import ObjectId
+from fastapi import Request, HTTPException, status
 from app.models.well.well import WellLog, WellLogData, Well
 from app.core.well import well_handler
 from app.settings import APP_SETTINGS
@@ -110,7 +111,12 @@ class WellController(BaseController):
         """
 
         las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
-        well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
+        try:
+
+            well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
+        except Exception as e:  
+            raise HTTPException(status_code=400, detail=f"Error importing well: {e}")
+            
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
         
