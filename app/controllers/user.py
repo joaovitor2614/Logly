@@ -1,8 +1,8 @@
 from fastapi import Request, HTTPException, status
-from app.models.user.user import UserCreate
+from app.models.user.user import UserCreate, OTPCode
 from ..utils.security import get_hashed_password, verify_password
 from app.controllers.well import WellController
-
+from datetime import datetime, UTC, timedelta
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from libgravatar import Gravatar
@@ -70,6 +70,9 @@ class UserController(BaseController):
         )
 
     def set_user_verification_code(self, user_obj: dict, otp_code: str):
+        #exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
+        #otp_code_db_obj = OTPCode(exp=exp_time, code=otp_code, user_id=user_obj["_id"])
+        #self.update_user_field(user_obj["_id"], "otp_code", otp_code_db_obj)
         self.update_user_field(user_obj["_id"], "verification_code", otp_code)
 
 
