@@ -1,4 +1,5 @@
 <script setup>
+import Form from '../auth/Form.vue';
 import AuthBase from '../auth/AuthBase.vue'
 import useForm from '@/hooks/useForm';
 
