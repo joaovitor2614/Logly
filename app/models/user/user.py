@@ -31,8 +31,14 @@ class UserCreate(Base, UserCrendentials):
      
     ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
-class UserResetPassword(Base):
+
+
+class UserSendResetPassword(Base):
     email: Annotated[str, Field(title="User Email Address")] 
+
+
+class UserResetPassword(Base):
+    password: Annotated[str, Field(title="User Password")] 
 
 class UserUpdate(BaseModel):
     name: Optional[str] = Field(None)

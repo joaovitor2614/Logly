@@ -1,8 +1,9 @@
 
 from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
-from ..models.user.user import UserCreate, UserUpdate, UserResetPassword
-from ..utils.security import get_current_user
+from ..models.user.user import UserCreate, UserUpdate, UserSendResetPassword, UserResetPassword
+from ..utils.security import get_current_user, get_hashed_password
 from ..utils.database.update import update_document_object_instance
+from ..core.token import jwt_handler
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
 from app.core.token import JWTHandler
@@ -67,7 +68,7 @@ _RESET_PASSWORD_JWT_EXP_TIME_MINUTES = 5
 
 
 @router.post("/send-reset-password-link", response_description="Send reset password link to user email")
-def send_reset_password_link(request: Request, payload: UserResetPassword):
+def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     user_controller = UserController(request)
 
     user = user_controller.get_user_by_email(payload.email)
@@ -78,12 +79,25 @@ def send_reset_password_link(request: Request, payload: UserResetPassword):
     email_sender.send_reset_password_email(user["email"], reset_password_jwt)
 
     return {"message": "Reset password link sent successfully"}
-    #otp_code = generate_otp_code()
-    #user_controller.set_user_verification_code(user, otp_code)
-    
-    #email_sender = EmailSender()
-    #email_sender.send_verification_email(user["email"], otp_code)
-    #return {"message": "Verification code sent successfully"}
+
+@router.post("/reset-password-link/{token}", response_description="Reset passwordl")
+def reset_password_link(request: Request, token: str, payload: UserResetPassword):
+    jwt_handler = JWTHandler()
+    try:
+        jwt_payload = jwt_handler.decode_jwt_token(token)
+ 
+        user_id = jwt_payload["data"].get("id", None)
+        user_controller = UserController(request)
+        hashed_password = get_hashed_password(payload.password)
+        user_controller.update_user_field(user_id, "password", hashed_password)
+        return {"message": "Password reset successfully"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+   
  
 @router.put("/verify-verification-code/{code}", response_description="Attempt to verify user account")
 def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_current_user)):
