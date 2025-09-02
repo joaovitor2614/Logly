@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { usePlotStore } from '@/stores';
+import { usePlotStore, useWellStore } from '@/stores';
 import { PlotType } from '../types';
 import { watch, ref } from 'vue';
 import { getWellLogDataByIDs } from '@/api/services/well';
@@ -14,6 +14,7 @@ const props = defineProps<Props>();
 const plotDivID = ref(PLOT_DIV_ID_BY_PLOT_TYPE[props.plotType])
 
 const plotStore = usePlotStore()
+const wellStore = useWellStore()
 
 const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
 
@@ -33,7 +34,7 @@ const parseWellLogDataIntoValidJsArray = (stringfiedData: string) => {
 const fetchWellLogData =  async () => {
     const xWellLogData = await getAxisWellLogData(template.xWellLogID)
     let yWellLogData = []
-    if (props.plotType === 'crossplot') {
+    if (props.plotType === 'scatter') {
          yWellLogData = await getAxisWellLogData(template.yWellLogID)
     }
     const plotData = prepareWellLogData(xWellLogData, yWellLogData)
@@ -48,7 +49,11 @@ const prepareWellLogData = (xWellLogData: Array<Number>, yWellLogData: Array<Num
 }
 
 const plotWellLogData = (plotData: Record<string, Array<Number>>) => {
-    const plotProvider = new PlotProvider(props.plotType, plotData)
+    const wellInfo = wellStore.wells.find(well => well._id === template.wellID)
+    const xWellLogName = wellInfo?.welllogs.find(wellLog => wellLog._id === template.xWellLogID)?.name
+    const yWellLogName = props.plotType === 'scatter' ? wellInfo?.welllogs.find(wellLog => wellLog._id === template.yWellLogID)?.name : ''
+    console.log('names', xWellLogName, yWellLogName)
+    const plotProvider = new PlotProvider(props.plotType, plotData, xWellLogName, yWellLogName)
     plotProvider.run()
 ;
 }

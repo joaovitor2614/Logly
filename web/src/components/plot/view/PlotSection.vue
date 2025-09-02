@@ -15,7 +15,7 @@
       
             <div
             >
-              <PlotView :plotType="'crossplot'" />
+              <PlotView :plotType="'scatter'" />
             </div>
           </v-card-text>
         </v-card>
