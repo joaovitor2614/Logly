@@ -1,7 +1,8 @@
 import { defineStore } from "pinia"
 import { reactive } from "vue"
-import { getUserInfo, putUserInfo, verifyEmailVerificationCode, deleteCurrentUserAccount } from '@/api/services/user'
+import { getUserInfo, resetPassword, putUserInfo, verifyEmailVerificationCode, deleteCurrentUserAccount } from '@/api/services/user'
 import { useToast } from "vue-toastification"
+import { useRouter } from "vue-router"
 
 
 
@@ -14,6 +15,8 @@ export const useUserStore = defineStore('userStore', () => {
         has_confirmed_email: false
     })
     const toast = useToast()
+    const router = useRouter()
+
     async function fetchUser() {
         const response = await getUserInfo()
         
@@ -46,6 +49,14 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
 
+    async function tryResetPassword(newPassword: string, resetPasswordToken: string) {
+        const response = await resetPassword(newPassword, resetPasswordToken)
+        if (response) {
+            toast.success('Password reset successfully, login to access your account!')
+            router.push('/login')
+        }
+    }
+
     const deleteUserAccount = async () => {
         const response = await deleteCurrentUserAccount();
         return response
@@ -57,6 +68,7 @@ export const useUserStore = defineStore('userStore', () => {
         setUserInfo,
         editUserInfo,
         deleteUserAccount,
+        tryResetPassword,
         verifyPassedOTPCode,
         fetchUser
     }

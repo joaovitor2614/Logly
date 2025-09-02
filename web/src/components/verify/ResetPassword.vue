@@ -2,12 +2,18 @@
 import Form from '../auth/Form.vue';
 import AuthBase from '../auth/AuthBase.vue'
 import useForm from '@/hooks/useForm';
+import { useUserStore } from '@/stores';
+import { useRoute } from 'vue-router';
 
 
 const { form, errorsMessages, formFieldsInvalidState } = useForm()
+const userStore = useUserStore()
+const route = useRoute()
 
-const handlResetPassword = () => {
-    console.log('handlResetPassword')
+const handlResetPassword = async () => {
+    const resetPasswordToken = route.params.token
+    await userStore.tryResetPassword(form.password, resetPasswordToken);
+  
 }
 </script>
 
@@ -16,7 +22,7 @@ const handlResetPassword = () => {
         <form @submit.prevent="handlResetPassword">
          <Form :form="form" :errorsMessages="errorsMessages" :authType="'reset-password'"/>
          <div class="text-center">
-            <Button :buttonAction="redirectToLogin" :id="'test-redirect-to-login-btn'">Change password</Button>
+            <Button :buttonAction="handlResetPassword">Change password</Button>
         </div>
         </form>
 
