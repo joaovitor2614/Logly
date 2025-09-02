@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pymongo import MongoClient, server_api
 from app.settings import APP_SETTINGS
 from contextlib import asynccontextmanager
-print('APP_SETTINGS.MONGO_DB_ATLAS_URI,', APP_SETTINGS.MONGO_DB_ATLAS_URI)
+
 @asynccontextmanager
 async def db_lifespan(app: FastAPI):
     app.mongodb_client = MongoClient(APP_SETTINGS.MONGO_DB_ATLAS_URI, server_api=server_api.ServerApi(version="1", strict=True, deprecation_errors=True))
