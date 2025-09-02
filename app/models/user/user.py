@@ -15,9 +15,6 @@ class UserCrendentials(BaseModel):
     email: Annotated[str, Field(title="User Email Address")] 
 
 
-
-     
-    ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
 
     
@@ -29,7 +26,6 @@ class UserCreate(Base, UserCrendentials):
     reset_password_token: Annotated[str | None, Field(title="User Password Reset Token")] = None
     otp_code: Annotated[None | OTPCode, Field(title="User Account Verification OTP Code")] = None
      
-    ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
 
 

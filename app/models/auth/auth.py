@@ -7,7 +7,5 @@ class JWTPayload(BaseModel):
     iat: datetime
     exp: datetime
 
- 
-    ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
   
