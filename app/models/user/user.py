@@ -35,10 +35,3 @@ class UserSendResetPassword(Base):
 
 class UserResetPassword(Base):
     password: Annotated[str, Field(title="User Password")] 
-
-class UserUpdate(BaseModel):
-    name: Optional[str] = Field(None)
-    email: Optional[str] = Field(None)
-    password: Optional[str] = Field(None)
-    image: Annotated[Optional[str], Field(title="User Profile Picture")] = None
-    

@@ -54,6 +54,7 @@ class UserController(BaseController):
         self.set_user_info_hashed_password(user_data)
         user_id = self.add_new_user_to_database(user_data)
         user_db_obj = self.get_user_by_id(user_id)
+  
         return user_db_obj
 
     def add_new_user_to_database(self, user_data: UserCreate):

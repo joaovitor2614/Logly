@@ -1,26 +1,15 @@
 
-from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
-from ..models.user.user import UserCreate, UserUpdate, UserSendResetPassword, UserResetPassword
+from fastapi import APIRouter, Request, HTTPException, status, Depends
+from ..models.user.user import UserSendResetPassword, UserResetPassword
 from ..utils.security import get_current_user, get_hashed_password
-from ..utils.database.update import update_document_object_instance
-from ..core.token import jwt_handler
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
 from app.core.token import JWTHandler
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
-from app.settings import APP_SETTINGS
 
 
 router = APIRouter()
-
-@router.put("/{id}", response_description="Update a user", response_model=UserCreate)
-def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id: ObjectId = Depends(get_current_user)):
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-    user_data = user.dict(exclude_unset=True)
-    updated_user = update_document_object_instance(database, id, user_data)
-
-    return updated_user
 
 
 @router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)

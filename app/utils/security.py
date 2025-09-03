@@ -46,20 +46,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
     return user_id
 
     
-def encode_jwt_token(jwt_payload: JWTPayload) -> str:
-    """
-    Encode a JWT token with the given user email and ID.
-
-    Args:
-        email (str): The user email.
-        id (str): The user ID.
-
-    Returns:
-        str: The encoded JWT token.
-    """
-    jwt_payload = jwt_payload.model_dump().copy()
-    jwt_token = jwt.encode(jwt_payload, APP_SETTINGS.SECRET_KEY, algorithm=APP_SETTINGS.JWT_ALGORITHM)
-    return jwt_token
    
 
 def get_hashed_password(password: str) -> str:
