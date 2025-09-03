@@ -71,19 +71,26 @@ class UserController(BaseController):
         )
 
     def set_user_verification_code(self, user_obj: dict, otp_code: str):
-        #exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
-        #otp_code_db_obj = OTPCode(exp=exp_time, code=otp_code, user_id=user_obj["_id"])
-        #self.update_user_field(user_obj["_id"], "otp_code", otp_code_db_obj)
-        self.update_user_field(user_obj["_id"], "verification_code", otp_code)
+        exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
+
+        self.update_user_field(user_obj["_id"], "otp_code.exp", exp_time)
+        self.update_user_field(user_obj["_id"], "otp_code.code", otp_code)
+        self.update_user_field(user_obj["_id"], "otp_code.user_id", user_obj["_id"])
 
 
     def verify_verification_code(self, user_obj: dict, otp_code: str):
-        if user_obj["verification_code"] != otp_code:
+        otp_code_obj = user_obj["otp_code"]
+        if datetime.now() > otp_code_obj["exp"]:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=f"Verification code is expired!"
+            )
+        if otp_code_obj["code"] != otp_code:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail=f"Verification code is not valid!"
             )
-            return
+
         self.set_user_acccount_verified_status(user_obj)
         
 

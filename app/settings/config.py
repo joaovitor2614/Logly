@@ -17,6 +17,6 @@ class Settings(BaseSettings):
     DB_NAME: str = "MyDB"
     APP_BASE_URL: str = "http://localhost:5173"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   
-    ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES: int = 2  
+    ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES: int = 1
 
 
