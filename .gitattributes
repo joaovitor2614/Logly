@@ -3,3 +3,4 @@
 *.las binary
 *.las export-ignore
 
+* linguist-vendored
