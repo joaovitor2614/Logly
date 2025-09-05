@@ -6,7 +6,7 @@ from ..utils.security import verify_password
 from app.tests.utils.wrapper.auth import AuthEndPointWrapper
 from app.controllers.user import UserController
 from app.tests.utils.auth import get_user_id_from_register_response
-from fastapi import  HTTPException
+from fastapi import  HTTPException, Response
 import pytest
 
 def test_register_user(client):
@@ -42,31 +42,43 @@ def test_register_user(client):
 
 
    
-def test_login_user(client, register_user):
-    """
-    Test the user login endpoint.
 
-    This test ensures that when a user attempts to login with correct
-    credentials, the response status code is 201, indicating successful
-    authentication. It also checks that a token is returned in the response
-    JSON, verifying that the user has been authenticated.
-    """
-    mock_new_user_data, _ = register_user
-    auth_endpoint_mocker = AuthEndPointWrapper(client)
-    # Try login with right password
-    response = auth_endpoint_mocker.login(mock_new_user_data["email"], mock_new_user_data["password"])
-    assert response.status_code == 201
-    assert "token" in response.json(), "Token not present auth endpoint response."
-
-    # try login with wrong password
-    response = auth_endpoint_mocker.login(mock_new_user_data["email"], "coxinha123")
-
-    response_text = json.loads(response.text)["detail"]
-    assert response.status_code == 401
-    assert response_text == "Password is not valid!"
+class TestLogin:
+    @pytest.fixture(autouse=True)
+    def setup(self, client, register_user):
+        self.client = client
+        self.auth_endpoint_mocker = AuthEndPointWrapper(self.client)
+        self.mock_new_user_data, _ = register_user
+    def test_login_user(self):
 
 
-    auth_endpoint_mocker.login("notexistinguser@gmail.com", "coxinha123")
+        response = self.auth_endpoint_mocker.login(self.mock_new_user_data["email"], self.mock_new_user_data["password"])
+        self.assert_response_info(response, 201)
+        assert "token" in response.json()
+
+    def test_login_wrong_password(self):
+        response = self.auth_endpoint_mocker.login(self.mock_new_user_data["email"], "coxinha123")
+        self.assert_response_info(response, 401, "Password is not valid!")
+
+    def test_login_non_existent_user(self):
+        response = self.auth_endpoint_mocker.login("2B2Gd@example.com", "coxinha123")
+        self.assert_response_info(response, 404, "User not found!")
+
+
+    def assert_response_info(self, response, expected_code: int, expected_text: str = ''):
+        assert response.status_code == expected_code
+        if expected_text:
+            response_text = json.loads(response.text)["detail"]
+            assert response_text == expected_text
+
+        
+
+
+
+
+
+
+
 
 
 
