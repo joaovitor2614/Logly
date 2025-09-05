@@ -3,6 +3,3 @@
 *.las binary
 *.las export-ignore
 
-* linguist-vendored
-*.py linguist-vendored=false
-*.py linguist-detectable=true
