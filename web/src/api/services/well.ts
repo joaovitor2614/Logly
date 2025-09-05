@@ -17,8 +17,11 @@ export async function getAllWellsData() {
     return await api.get<App.Well.Well[]>(`/well`);
 }
 
+interface GetWellLogResponse {
+    data: string
+}
 export async function getWellLogDataByIDs(wellLogID: string, wellID: string) {
-    return await api.get<string>(`/well/data/${wellID}/${wellLogID}`);
+    return await api.get<GetWellLogResponse>(`/well/data/${wellID}/${wellLogID}`);
 }
 
 
