@@ -30,7 +30,7 @@ export class PlotProvider {
             x: this.plotInfo.x.data,
         }
     
-        if (this.plotType === 'histogram')  {
+        if (this.plotInfo.type === 'histogram')  {
             mainPlotTrace.type = 'histogram'
 
         } else {

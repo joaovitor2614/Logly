@@ -41,6 +41,7 @@ const getAxisWellLogData = async (wellLogID: string) => {
 
 const populatePlotData = async (plotInfo) => {
     plotInfo.x.data = await getAxisWellLogData(template.xWellLogID)
+    if (props.plotType === 'histogram') return
     plotInfo.y.data = await getAxisWellLogData(template.yWellLogID)
 }
 
