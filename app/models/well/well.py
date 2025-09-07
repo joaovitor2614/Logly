@@ -23,6 +23,9 @@ class WellLogData(Base):
 class Well(Base):
     name: str = Field(...)
     user_id: str = Field(default_factory=uuid.uuid4)
+    company: str = Field(...)
+    start: float = Field(default=0.0)
+    stop: float = Field(default=0.0)
     create_time: Annotated[
         Optional[datetime], Field(description="Well imported time", default_factory=datetime.utcnow)
     ] = None

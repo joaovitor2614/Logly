@@ -65,6 +65,9 @@ class WellController(BaseController):
         """
         return Well(
             name=well_info["name"],
+            start=well_info["start"],
+            stop=well_info["stop"],
+            company=well_info["company"],
             user_id=user_id,
             welllogs=well_logs_db_objs
         )
