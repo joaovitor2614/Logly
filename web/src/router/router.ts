@@ -4,7 +4,7 @@ import Dashboard from '../Dashboard.vue'
 import Register from '../components/auth/Register.vue'
 import Login from '../components/auth/Login.vue'
 import LandingPage from '../components/landing/LandingPage.vue'
-import BillingPlanSelection from '../components/billing/BillingPlanSelection.vue'
+
 import VerifyAccountByCode from "@/components/verify/VerifyAccountByCode.vue";
 import SendResetPasswordLink from "../components/verify/SendResetPasswordLink.vue";
 import { registerRouteGuard } from './guard/index'
@@ -40,11 +40,6 @@ const routes = [
     path: routesInfo.landing.path,
     name: routesInfo.landing.name,
     component: LandingPage
-  },
-  {
-    path: routesInfo.billing.path,
-    name: routesInfo.billing.name,
-    component: BillingPlanSelection
   },
   {
     path: routesInfo.dashboard.path,
