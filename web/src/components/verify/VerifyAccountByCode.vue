@@ -8,23 +8,37 @@ import { getMaskedEmail } from '@/utils/email'
 import { onMounted } from 'vue';
 import { Ref, ref } from 'vue';
 import { computed } from 'vue';
-const userStore = useUserStore()
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
+const userStore = useUserStore();
+
 const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
-
 const otpCode: Ref<string> = ref('')
-
-
-const isDisabled = computed(() => otpCode.value.replace(/\s/g, '').length === 6 ? false : true);
+const isLoadingSendCode: Ref<boolean> = ref(false);
+const isLoadingVerify: Ref<boolean> = ref(false);
 
 const verifyOTPCode = async ()  => {
-
+    isLoadingVerify.value = true
     userStore.verifyPassedOTPCode(otpCode.value)
+    isLoadingVerify.value = false
 }
 
-const sendOTPCodeToUserEmail = () => {
+const sendOTPCodeToUserEmail = async () => {
+    isLoadingSendCode.value = true
     otpCode.value = '';
-    sendEmailVerificationCode();
+    const response = await sendEmailVerificationCode();
+    if (response) {
+        toast.success('Verification code sent successfully!')
+    }
+    isLoadingSendCode.value = false
 }
+
+
+const isVerifyAccountDisabled = computed(() => {
+    const hasNotEnteredCode = otpCode.value.replace(/\s/g, '').length === 6 ? false : true;
+    return hasNotEnteredCode || isLoadingVerify.value || isLoadingSendCode.value
+})
 
 
 onMounted(() => {
@@ -62,7 +76,8 @@ onMounted(() => {
                     <div class="flex flex-col items-center justify-center mb-4">
                         <Button 
                         :buttonAction="verifyOTPCode" 
-                        :is-disabled="isDisabled"
+                        :is-disabled="isVerifyAccountDisabled"
+                        :is-button-loading="isLoadingVerify"
                         :id="'test-verify-otp-btn'"
                         >
                         Verify Account
@@ -73,7 +88,8 @@ onMounted(() => {
 
                     <div class="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                         <p>Didn't recieve code? </p> <a 
-                        @click="sendOTPCodeToUserEmail()" 
+                        @click="sendOTPCodeToUserEmail()"
+                        :is-disabled="isLoadingVerify || isLoadingVerify" 
                         class="flex flex-row items-center text-blue-600 cursor-pointer hover:underline" 
                         id='test-resent-otp-code-btn'
                         >
