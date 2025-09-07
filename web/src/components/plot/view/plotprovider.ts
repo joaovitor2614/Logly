@@ -1,5 +1,5 @@
 import Plotly from 'plotly.js-dist';
-import { PlotType } from '../types';
+import { PlotType, PlotInfo } from '../types';
 
 
 
@@ -8,50 +8,48 @@ export const PLOT_DIV_ID_BY_PLOT_TYPE = {
     scatter: 'crossplotPlot'
 }
 
+
+
 export class PlotProvider {
-    plotType: string;
-    plotData: Record<string, Array<Number>>
-    xWellLogName: string
-    yWellLogName: string
-    constructor(plotType: `${PlotType}`, plotData: Record<string, Array<Number>>, xWellLogName: string = '', yWellLogName: string = '') {
-        this.plotType = plotType;
-        this.plotData = plotData;
-        this.xWellLogName = xWellLogName;
-        this.yWellLogName = yWellLogName
+    plotInfo: PlotInfo;
+
+    constructor(plotInfo: PlotInfo) {
+        this.plotInfo = plotInfo;
+
     }
 
     run() {
         let layout = {
             xaxis: {
                 title: {
-                    text: this.xWellLogName
+                    text: this.plotInfo.x.name
                 }
             }
         }
         let mainPlotTrace = {
-            x: this.plotData.x,
+            x: this.plotInfo.x.data,
         }
-        console.log('inicial mainPlotTrace type', mainPlotTrace, this.plotType)
+    
         if (this.plotType === 'histogram')  {
             mainPlotTrace.type = 'histogram'
 
         } else {
-            if (!this.plotData.y.length) {
+            if (!this.plotInfo.y.data.length) {
                 throw "No y data for crossplot"
             }
-            mainPlotTrace.y = this.plotData.y;
+            mainPlotTrace.y = this.plotInfo.y.data
             mainPlotTrace.mode = 'markers';
             mainPlotTrace.type = 'scatter';
             layout.yaxis = {
                 title: {
-                    text: this.yWellLogName
+                    text: this.plotInfo.y.name
                 }
             }
 
         }
         console.log('final mainPlotTrace', mainPlotTrace)
         const plotData = [mainPlotTrace]
-        Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotType], plotData, layout)
+        Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotInfo.type], plotData, layout)
 
     }
 }

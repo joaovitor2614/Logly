@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { usePlotStore, useWellStore } from '@/stores';
-import { PlotType } from '../types';
+import { PlotType, PlotInfo, Axis } from '../types';
 import { watch, ref } from 'vue';
 import { getWellLogDataByIDs } from '@/api/services/well';
 import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './plotprovider';
@@ -26,32 +26,7 @@ const convertStringfiedArrayToArray = (stringfiedData: string) => {
     
 }   
 
-const fetchWellLogData =  async () => {
-    const xWellLogData = await getAxisWellLogData(template.xWellLogID)
-    let yWellLogData = []
-    if (props.plotType === 'scatter') {
-         yWellLogData = await getAxisWellLogData(template.yWellLogID)
-    }
-    const plotData = prepareWellLogData(xWellLogData, yWellLogData)
-    plotWellLogData(plotData)
-}
 
-const prepareWellLogData = (xWellLogData: Array<Number>, yWellLogData: Array<Number>) => {
-    return {
-        x: xWellLogData,
-        y: yWellLogData
-    }
-}
-
-const plotWellLogData = (plotData: Record<string, Array<Number>>) => {
-    const wellInfo = wellStore.wells.find(well => well._id === template.wellID)
-    const xWellLogName = wellInfo?.welllogs.find(wellLog => wellLog._id === template.xWellLogID)?.name
-    const yWellLogName = props.plotType === 'scatter' ? wellInfo?.welllogs.find(wellLog => wellLog._id === template.yWellLogID)?.name : ''
-
-    const plotProvider = new PlotProvider(props.plotType, plotData, xWellLogName, yWellLogName)
-    plotProvider.run()
-;
-}
 const getAxisWellLogData = async (wellLogID: string) => {
     const response = await getWellLogDataByIDs(wellLogID, template.wellID)
     if (response) {
@@ -64,9 +39,43 @@ const getAxisWellLogData = async (wellLogID: string) => {
     
 }
 
-watch(() => template.wellID, () => {
-    console.log('WACH FIRED')
-    fetchWellLogData()
+const populatePlotData = async (plotInfo) => {
+    plotInfo.x.data = await getAxisWellLogData(template.xWellLogID)
+    plotInfo.y.data = await getAxisWellLogData(template.yWellLogID)
+}
+
+const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {
+    const wellInfo = wellStore.wells.find(well => well._id === template.wellID)
+    const wellLogInfo = wellInfo?.welllogs.find(wellLog => wellLog._id === axisWellLogID)
+    if (!wellLogInfo) return
+    plotInfoAxis.name = wellLogInfo.name;
+    plotInfoAxis.unit = wellLogInfo.unit;
+
+}
+
+const populateWellLogInfo = (plotInfo: PlotInfo) => {
+    populateAxisWellLogInfo(template.xWellLogID, plotInfo.x)
+    populateAxisWellLogInfo(template.yWellLogID, plotInfo.y)
+}
+
+const createPlotInfo = async () => {
+    let plotInfo = {type: props.plotType, x: {name: '', unit: '', data: []}, y: {name: '', unit: '', data: []}}
+    await populatePlotData(plotInfo);
+    populateWellLogInfo(plotInfo);
+    return plotInfo
+}
+
+const plot = (plotInfo: PlotInfo) => {
+
+    const plotProvider = new PlotProvider(plotInfo)
+    plotProvider.run()
+
+}
+
+watch(() => template.wellID, async () => {
+
+    const plotInfo = await createPlotInfo()
+    plot(plotInfo)
 })
 
 
