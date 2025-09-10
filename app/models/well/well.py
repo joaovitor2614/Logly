@@ -1,7 +1,7 @@
 from typing import Annotated, Optional, List
 from pydantic import BaseModel, Field
-from app.models import Base
-from datetime import datetime
+from app.models import Base, time_factory
+
 import uuid
 
 
@@ -27,7 +27,7 @@ class Well(Base):
     start: float = Field(default=0.0)
     stop: float = Field(default=0.0)
     create_time: Annotated[
-        Optional[datetime], Field(description="Well imported time", default_factory=datetime.utcnow)
+        Optional[str], Field(description="Well imported time", default_factory=time_factory)
     ] = None
 
 
