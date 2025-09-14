@@ -39,7 +39,7 @@ const getAxisWellLogData = async (wellLogID: string) => {
     
 }
 
-const populatePlotData = async (plotInfo) => {
+const populatePlotData = async (plotInfo: PlotInfo) => {
     plotInfo.x.data = await getAxisWellLogData(template.xWellLogID)
     if (props.plotType === 'histogram') return
     plotInfo.y.data = await getAxisWellLogData(template.yWellLogID)
@@ -73,7 +73,7 @@ const plot = (plotInfo: PlotInfo) => {
 
 }
 
-watch(() => template.wellID, async () => {
+watch(() => template.hasTemplateChanged, async () => {
 
     const plotInfo = await createPlotInfo()
     plot(plotInfo)

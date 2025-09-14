@@ -1,5 +1,5 @@
 import Plotly from 'plotly.js-dist';
-import { PlotType, PlotInfo } from '../types';
+import { PlotInfo } from '../types';
 
 
 
