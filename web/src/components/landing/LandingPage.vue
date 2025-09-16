@@ -13,6 +13,7 @@ import SecondaryFeatureSection from './element/SecondaryFeatureSection.vue';
     <Hero />
     <FeaturesSection />
     <SecondaryFeatureSection />
+    <Footer />
     
 
 </template>
