@@ -71,6 +71,9 @@ class WellController(BaseController):
             user_id=user_id,
             welllogs=well_logs_db_objs
         )
+    
+    def get_wells_amount_for_user(self, user_id: str):
+        return self.well_database.count_documents({"user_id": user_id})
         
 
     def get_well_by_name(self, well_name: str):
@@ -98,6 +101,8 @@ class WellController(BaseController):
             Well: The well object if found, None otherwise.
         """
         return self.well_database.find_one({"_id": well_id})
+    
+    
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
 

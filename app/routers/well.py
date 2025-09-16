@@ -1,5 +1,5 @@
 import jwt
-from fastapi import APIRouter, Request, UploadFile, status, Depends, File, Form
+from fastapi import APIRouter, Request, UploadFile, status, Depends, File, HTTPException
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
@@ -7,6 +7,9 @@ from ..controllers.well import WellController
 from ..controllers.welldata import WellDataController
 import io
 router = APIRouter()
+
+MAX_WELLS_PER_USER = 3
+
 
 
 @router.post("/", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
@@ -17,6 +20,10 @@ def import_well_file(
     ):
 
     well_controller = WellController(request)
+    
+    user_wells_amount = well_controller.get_wells_amount_for_user(user_id)
+    if user_wells_amount >= MAX_WELLS_PER_USER:
+        raise HTTPException(status_code=400, detail="You have reached the maximum number of wells per user.")
 
   
     well_controller.import_well(
