@@ -12,7 +12,7 @@ declare namespace App {
             name: string
             has_confirmed_email: boolean,
             email: string
-            image: string
+            image: string,
             password?: string
         }
     }
@@ -31,6 +31,9 @@ declare namespace App {
         interface Well {
              _id: string
             name: string
+            company: string
+            start: number
+            stop: number
             create_time: string
             welllogs: WellLog[]
         }
