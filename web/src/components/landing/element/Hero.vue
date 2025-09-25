@@ -6,7 +6,7 @@
         Geophysical Data
       </h1>
       <p class="hero-subtitle">
-        Professional well log visualization platform for the oil &amp; gas industry. 
+        Well log visualization platform geocientists. 
         Analyze subsurface formations with precision and clarity.
       </p>
 
