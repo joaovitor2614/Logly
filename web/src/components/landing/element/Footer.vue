@@ -20,6 +20,7 @@
         <span class="text-caption">© 2024 Logly. All rights reserved.</span>
    
       </v-row>
+       </v-row>
     </v-container>
   </v-footer>
 </template>

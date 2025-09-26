@@ -6,6 +6,7 @@ import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators'
 import { PlotType } from '../types';
+import AxisWellLogSelection from './AxisWellLogSelection.vue';
 
 interface Props {
     plotType: `${PlotType}`,
@@ -77,30 +78,20 @@ const createPlotView= () => {
             outlined
             dense
             />
-            <p class="mb-5 mt-5 text-center">X-Axis</p>
-            <v-divider></v-divider>
-            <v-select
-                class="mt-4"
-                :items="wellLogItems"
-                label="Well log name"
-                v-model="form.xWellLogID"
-                hide-details
-                outlined
-                dense
-            ></v-select>
-            <p v-if="props.plotType === 'scatter'" class="mb-5 mt-5 text-center">Y-Axis</p>
-            <v-divider></v-divider>
-            <v-select
-                v-if="props.plotType === 'scatter'"
+            <AxisWellLogSelection 
             
-                class="mt-4"
-                :items="wellLogItems"
-                label="Well log name"
-                v-model="form.yWellLogID"
-                hide-details
-                outlined
-                dense
-            ></v-select>
+                :axis-name="'X'" 
+                :wellLogItems="wellLogItems" 
+                v-model:wellLogID="form.xWellLogID" 
+            />
+            <AxisWellLogSelection 
+                v-if="props.plotType === 'scatter'"
+                :axis-name="'Y'" 
+                :wellLogItems="wellLogItems" 
+                v-model:wellLogID="form.yWellLogID" 
+            />
+
+
         </v-container>
 
         <v-card-actions>
