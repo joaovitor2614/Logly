@@ -7,6 +7,7 @@ import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators'
 import { PlotType } from '../types';
 import AxisWellLogSelection from './AxisWellLogSelection.vue';
+import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 
 interface Props {
     plotType: `${PlotType}`,
@@ -17,11 +18,7 @@ const props = defineProps<Props>();
 const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 const plotStore = usePlotStore()
-const form = reactive({
-    wellID: '',
-    xWellLogID: '',
-    yWellLogID: '',
-})
+const form = reactive(getNewPlotTemplate())
 
 
 const rules = {

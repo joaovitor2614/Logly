@@ -1,4 +1,5 @@
 import { PlotType } from '@/components/plot/types'
+import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 
@@ -7,15 +8,6 @@ interface PlotTemplate {
     xWellLogID: string,
     yWellLogID: string,
     hasTemplateChanged: boolean
-}
-
-function getNewPlotTemplate() {
-    return {
-        wellID: '',
-        xWellLogID: '',
-        yWellLogID: '',
-        hasTemplateChanged: false
-    }
 }
 
 
