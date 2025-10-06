@@ -12,6 +12,8 @@ interface PlotTemplate {
 
 
 
+
+
 export const usePlotStore = defineStore('plotStore', () => {
     const crossPlotTemplate: Ref<PlotTemplate> = ref(getNewPlotTemplate())
     const histogramTemplate: Ref<PlotTemplate> = ref(getNewPlotTemplate())

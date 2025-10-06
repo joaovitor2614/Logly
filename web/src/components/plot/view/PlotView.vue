@@ -3,7 +3,7 @@
 import { usePlotStore, useWellStore } from '@/stores';
 import { PlotType, PlotInfo, Axis } from '../types';
 import { watch, ref } from 'vue';
-import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './plotprovider';
+import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './provider/plotprovider';
 import { getParsedWellLogByID } from '@/utils/well';
 
 interface Props {
