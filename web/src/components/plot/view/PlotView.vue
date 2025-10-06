@@ -3,8 +3,8 @@
 import { usePlotStore, useWellStore } from '@/stores';
 import { PlotType, PlotInfo, Axis } from '../types';
 import { watch, ref } from 'vue';
-import { getWellLogDataByIDs } from '@/api/services/well';
 import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './plotprovider';
+import { getParsedWellLogByID } from '@/utils/well';
 
 interface Props {
     plotType: `${PlotType}`,
@@ -18,31 +18,13 @@ const wellStore = useWellStore()
 
 const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
 
-const convertStringfiedArrayToArray = (stringfiedData: string) => {
-    return stringfiedData
-    .split(",")                
-    .map(s => s.trim())       
-    .map(s => s === "NaN" ? NaN : parseFloat(s)); 
-    
-}   
 
 
-const getAxisWellLogData = async (wellLogID: string) => {
-    const response = await getWellLogDataByIDs(wellLogID, template.wellID)
-    if (response) {
-        const wellLogData = convertStringfiedArrayToArray(response.data.data)
-        return wellLogData
-    } else {
-        return []
-    }
-        
-    
-}
 
 const populatePlotData = async (plotInfo: PlotInfo) => {
-    plotInfo.x.data = await getAxisWellLogData(template.xWellLogID)
+    plotInfo.x.data = await getParsedWellLogByID(template.xWellLogID, template.wellID)
     if (props.plotType === 'histogram') return
-    plotInfo.y.data = await getAxisWellLogData(template.yWellLogID)
+    plotInfo.y.data = await getParsedWellLogByID(template.yWellLogID, template.wellID)
 }
 
 const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {

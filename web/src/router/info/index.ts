@@ -34,5 +34,9 @@ export const routesInfo: Record<string, RouteInfo> = {
   billing: {
     path: '/billing',
     name: 'Billing',
+  },
+  wellLogDataDisplay: {
+    path: '/data/:well_id/:well_log_id',
+    name: 'WellLogDataDisplay',
   }
 }
