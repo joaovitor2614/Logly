@@ -15,7 +15,7 @@ describe('<WellTable />', () => {
 
       cy.get('#test-well-table tbody tr').should('have.length', expectedRowsAmount);
 
-      wellStore.wells.pop()
+      cy.then(() => wellStore.wells.pop())
 
       cy.get('#test-well-table tbody tr').should('have.length', expectedRowsAmount-1);
    
