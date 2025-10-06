@@ -1,6 +1,7 @@
 import { useWellStore } from '@/stores'
 import WellTable from '../WellTable.vue'
-import { wellsDummyInfo } from './data'
+import { wellsDummyInfo } from '@/test/utils/redirect'
+
 
 
 
