@@ -6,11 +6,12 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute()
 const currentWellLogData: Ref<Number[]> = ref([])
-const setWellLogDataToDisplay = await () => {
-    const params = route.params
-    console.log('params', params)
-    //const wellID, wellLogID = dataFetchIDS.split("/");
-    //currentWellLogData.value = await getParsedWellLogByID(wellLogID, wellID)
+const setWellLogDataToDisplay = async () => {
+    const {well_id, well_log_id } = route.params
+
+ 
+    currentWellLogData.value = await getParsedWellLogByID(well_log_id, well_id)
+    console.log('currentWellLogData.value', currentWellLogData.value)
 }
 
 onBeforeMount(() => {

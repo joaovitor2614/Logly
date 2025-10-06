@@ -3,6 +3,7 @@ import Button from '@/components/common/Button.vue';
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router';
 
 interface Props {
     wellID: string
@@ -12,6 +13,7 @@ const props = defineProps<Props>()
 
 const wellStore = useWellStore()
 const dialogStore = useDialogStore();
+const router = useRouter()
 
 const wellLogsFilterTableHeader = [
         {
@@ -40,6 +42,11 @@ const deleteWellLog = (welllogID: string) => {
     wellStore.deleteWellLog(props.wellID, welllogID)
 }
 
+const openWellLogDataDisplayPage = (welllogID: string) => {
+    router.push(`data/${props.wellID}/${welllogID}`)
+    dialogStore.closeDialogWindow()
+}
+
 
 </script>
 
@@ -55,14 +62,22 @@ const deleteWellLog = (welllogID: string) => {
                     hide-default-footer
                 >
                 <template v-slot:item.id="{ item }">
-                    <v-btn
+                <v-btn
                     icon
                     @click="deleteWellLog(item.id)"
                     variant="text"
                     style="color: black"
                 >
                     <v-icon >mdi-delete</v-icon>
-                    </v-btn>
+                </v-btn>
+                <v-btn
+                    icon
+                    @click="openWellLogDataDisplayPage(item.id)"
+                    variant="text"
+                    style="color: black"
+                >
+                    <v-icon >mdi-eye</v-icon>
+                </v-btn>
                 </template>
 
         

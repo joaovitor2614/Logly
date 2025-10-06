@@ -11,6 +11,7 @@ import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
 import { routesInfo } from './info'
 import ResetPassword from "@/components/verify/ResetPassword.vue";
+import WellLogDataDisplay from "@/components/welllog/WellLogDataDisplay.vue";
 
 
 
@@ -50,6 +51,11 @@ const routes = [
     path: routesInfo.verifyAccount.path,
     name: routesInfo.verifyAccount.name,
     component: VerifyAccountByCode
+  },
+  {
+    path: routesInfo.wellLogDataDisplay.path,
+    name: routesInfo.wellLogDataDisplay.name,
+    component: WellLogDataDisplay
   },
 ]
 
