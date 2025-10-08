@@ -8,7 +8,6 @@ from .base import BaseController
 from .welldata import WellDataController
 from bson.objectid import ObjectId
 from typing import List
-import io
 import json
 
 
@@ -118,10 +117,10 @@ class WellController(BaseController):
             None
         """
 
-        las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
+        
         try:
 
-            well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
+            well_info = well_handler.get_well_info_from_las_file(las_file_object)
         except Exception as e:  
             raise HTTPException(status_code=400, detail=f"Error importing well: {e}")
             
