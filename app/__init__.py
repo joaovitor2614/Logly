@@ -20,13 +20,11 @@ def create_app() -> FastAPI:
      
     register_middlewares(app)
     register_routers(app)
-    #if APP_SETTINGS.APP_MODE == "PROD":
-    dist_dir = os.path.join(Path(os.path.dirname(__file__)).parent, "web", "dist")
+    if APP_SETTINGS.APP_MODE == "PROD":
+        dist_dir = os.path.join(Path(os.path.dirname(__file__)).parent, "web", "dist")
 
-    app.mount("/app", StaticFiles(directory=dist_dir, html=True), name="spa")
-    #@app.get("/{full_path:path}")
-    #async def serve_spa(full_path: str):
-    #        return FileResponse(os.path.join(dist_dir, "index.html"))
+        app.mount("/app", StaticFiles(directory=dist_dir, html=True), name="spa")
+  
 
 
 
