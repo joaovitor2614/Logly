@@ -21,7 +21,13 @@ const wellLogDataTableHeaders = computed(() => {
 const route = useRoute()
 const currentWellLogData: Ref<Number[]> = ref([])
 const wellLogDataTableItems = computed(() => {
-    return []
+    const tableData = []
+    console.log('currentWellLogData.value', currentWellLogData.value, typeof currentWellLogData.value[4])
+    currentWellLogData.value.forEach((data) => {
+        tableData.push({data})
+    })
+    return tableData
+   
 })
 const setWellLogDataToDisplay = async () => {
     const {well_id, well_log_id } = route.params
