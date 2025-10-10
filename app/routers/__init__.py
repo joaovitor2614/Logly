@@ -3,9 +3,9 @@ from fastapi import FastAPI
 
 
 class ENDPOINTS:
-    USERS = "/users"
-    AUTH = "/auth"
-    WELL = "/well"
+    USERS = "/api/users"
+    AUTH = "/api/auth"
+    WELL = "/api/well"
 
 routers_info = [
         {"router": auth.router, "prefix": ENDPOINTS.AUTH},
