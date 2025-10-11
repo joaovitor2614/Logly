@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onBeforeMount, ref, Ref} from 'vue'
 import { getParsedWellLogByID } from '@/utils/well';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useWellStore } from '@/stores';
 
 const wellStore = useWellStore()
@@ -19,6 +19,7 @@ const wellLogDataTableHeaders = computed(() => {
 
 
 const route = useRoute()
+const router = useRouter()
 const currentWellLogData: Ref<Number[]> = ref([])
 const wellLogDataTableItems = computed(() => {
     const tableData = []
@@ -43,6 +44,10 @@ const setWellLogInfo = () => {
     
 }
 
+const returnToDashboard = () => {
+    router.push("/dashboard")
+}
+
 onBeforeMount(async () => {
     setWellLogInfo()
     await setWellLogDataToDisplay()
@@ -50,6 +55,18 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+    <v-container class="d-flex flex-column justify-center">
+        <div class="d-flex justify-start">
+             <v-btn
+                    icon
+                    @click="returnToDashboard()"
+                    variant="text"
+                    style="color: black"
+                >
+                    <v-icon >mdi-arrow-left</v-icon>
+            </v-btn>
+        </div>
+    </v-container>
     <v-container class="d-flex flex-column justify-center">
                 <v-data-table
                     class="mt-2 mb-10"
