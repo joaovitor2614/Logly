@@ -4,12 +4,17 @@ import { sendResetPasswordLink } from '@/api/services/user';
 import Button from '@/components/common/Button.vue'
 
 import { Ref, ref, computed } from 'vue';
+import { useToast } from 'vue-toastification';
 
 const emailAddress: Ref<string> = ref('')
-const isLoading: Ref<boolean> = ref(false)
+const isLoading: Ref<boolean> = ref(false);
+const toast = useToast()
 const executeResetPasswordLink = async () => {
     isLoading.value = true
-    await sendResetPasswordLink(emailAddress.value)
+    const response = await  sendResetPasswordLink(emailAddress.value)
+    if (response) {
+        toast.success('Password reset link sent successfully!')
+    }
     isLoading.value = false
 }
 const isDisabled = computed(() => emailAddress.value ? false : true);
@@ -24,8 +29,9 @@ const isDisabled = computed(() => emailAddress.value ? false : true);
                 type="email"
                 v-model="emailAddress"
                 placeholder="email"
-                class="mb-5"
+                class="mt-5 mb-6"
             />
+             <div class="d-flex justify-center align-center">
             <Button 
                 :buttonAction="executeResetPasswordLink" 
                 :isDisabled="isDisabled"
@@ -33,8 +39,10 @@ const isDisabled = computed(() => emailAddress.value ? false : true);
 
 
                 >
-                Send Reset Password Link
+                Send
             </Button>
+             </div>
+    
         </form>
 
     </AuthBase>
