@@ -74,7 +74,7 @@ onBeforeMount(async () => {
                     :items="wellLogDataTableItems"
                     :id="'test-well-table'"
                  
-                    hide-default-footer
+                  
                 >
             
                 </v-data-table>
