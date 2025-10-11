@@ -13,21 +13,21 @@ class UserEndPointWrapper:
 
     def get_users(self):
         response = self.client.get(
-            "/users",
+            "api/users",
             headers=self.request_headers
         )
         return response
     
     def delete_user(self):
         response = self.client.delete(
-            "/users",
+            "api/users",
             headers=self.request_headers
         )
         return response
 
     def send_verification_code(self):
         response = self.client.post(
-            "/users/send-verification-code",
+            "api/users/send-verification-code",
             headers=self.request_headers
         )
         return response

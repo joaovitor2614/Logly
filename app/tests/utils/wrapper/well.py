@@ -18,7 +18,7 @@ class WellEndPointWrapper:
             files = {"las_file": ("test.las", f, "application/octet-stream")}
             data = {"well_name": "Test Well"}  
             response = self.client.post(
-                "/well/",  
+                "api/well/",  
                 headers=self.request_headers,
                 files=files,
                 data=data
@@ -27,7 +27,7 @@ class WellEndPointWrapper:
 
     def get_wells(self):
         response = self.client.get(
-            "/well",
+            "api/well",
             headers=self.request_headers,
         )
         return response
@@ -36,7 +36,7 @@ class WellEndPointWrapper:
         if isinstance(well_id, ObjectId):
             well_id = str(well_id)
         response = self.client.delete(
-            f"/well/{well_id}",
+            f"api/well/{well_id}",
             headers=self.request_headers,
         )
         return response
@@ -45,14 +45,14 @@ class WellEndPointWrapper:
         well_id = str(well_id)
         well_log_id = str(well_log_id)
         response = self.client.delete(
-            f"/well/data/{well_id}/{well_log_id}",
+            f"api/well/data/{well_id}/{well_log_id}",
             headers=self.request_headers,
         )
         return response
     
     def get_well_log_data(self, well_log_id: str, well_id: str):
         response = self.client.get(
-            f"/well/data/{well_id}/{well_log_id}",
+            f"api/well/data/{well_id}/{well_log_id}",
             headers=self.request_headers,
         )
         return response

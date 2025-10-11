@@ -41,7 +41,7 @@ export const initializePlotTrace = (): PlotTrace => {
         mode: '',
         type: '',
         x: [],
-        y: []
+    
     }
 }
 

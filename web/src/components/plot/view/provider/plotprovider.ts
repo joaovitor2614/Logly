@@ -47,6 +47,7 @@ export class PlotProvider {
         }
         console.log('final mainPlotTrace', plotTrace)
         const plotData = [plotTrace]
+        console.log('plotData', plotData, 'layout', layout)
         Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotInfo.type], plotData, layout)
 
     }
