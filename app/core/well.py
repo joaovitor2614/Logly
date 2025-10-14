@@ -94,7 +94,7 @@ class WellHandler:
         ref_depth_info = {"mnemonic": "", "min": 0.00, "max": 0.00}
         for i in range(len(curves_section)):
             curve_info = curves_section[i]
-            if curve_info.strip().upper() in REF_DEPTH_MNEMONICS:
+            if curve_info.mnemonic.strip().upper() in REF_DEPTH_MNEMONICS:
                 ref_depth_info["mnemonic"] = curve_info.mnemonic
                 ref_depth_info["min"] = self.lasio_object.data[:, i].min()
                 ref_depth_info["max"] = self.lasio_object.data[:, i].max()

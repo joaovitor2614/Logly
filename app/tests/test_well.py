@@ -75,6 +75,10 @@ class TestWell:
 
 
 
+    def test_get_basic_well_info_from_las_file(self):
+        response = self.well_endpoint_wrapper.get_basic_well_info_from_las_file(TEST_WELL_FILE_PATH)
+        assert response.status_code == 201
+
         
 
 

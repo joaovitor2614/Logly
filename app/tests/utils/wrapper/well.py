@@ -24,7 +24,16 @@ class WellEndPointWrapper:
                 data=data
             )
         return response
-
+    def get_basic_well_info_from_las_file(self, las_file_path: str):
+        with open(las_file_path, "rb") as f:
+            files = {"las_file": ("test.las", f, "application/octet-stream")}
+  
+            response = self.client.post(
+                "api/well/basic_info",  
+                headers=self.request_headers,
+                files=files,
+            )
+        return response
     def get_wells(self):
         response = self.client.get(
             "api/well",
