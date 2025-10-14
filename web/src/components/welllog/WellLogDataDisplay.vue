@@ -62,6 +62,7 @@ onBeforeMount(async () => {
                     @click="returnToDashboard()"
                     variant="text"
                     style="color: black"
+                    
                 >
                     <v-icon >mdi-arrow-left</v-icon>
             </v-btn>
@@ -73,6 +74,9 @@ onBeforeMount(async () => {
                     :headers="wellLogDataTableHeaders"
                     :items="wellLogDataTableItems"
                     :id="'test-well-table'"
+                    disable-pagination
+                    :items-per-page="-1"
+                    hide-default-footer
                  
                   
                 >
