@@ -1,6 +1,7 @@
 from fastapi import Request
 from bson.objectid import ObjectId
 from fastapi import Request, HTTPException, status
+from app.database import get_database
 from app.models.well.well import WellLog, WellLogData, Well
 from app.core.well import well_handler
 from app.settings import APP_SETTINGS
@@ -23,8 +24,9 @@ class WellController(BaseController):
             self.well_database: The database collection for wells.
             self.well_data_database: An instance of WellDataController for managing well log data.
         """
-       
-        self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
+
+        db = get_database()
+        self.well_database =  db[APP_SETTINGS.WELLS_DB_NAME]
         self.well_data_database = WellDataController(request)
         super().__init__(self.well_database)
 
