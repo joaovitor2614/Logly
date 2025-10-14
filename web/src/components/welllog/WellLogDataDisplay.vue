@@ -33,7 +33,7 @@ const wellLogDataTableItems = computed(() => {
 const setWellLogDataToDisplay = async () => {
     const {well_id, well_log_id } = route.params
 
- 
+    
     currentWellLogData.value = await getParsedWellLogByID(well_log_id as string, well_id as string)
     
 }
@@ -49,7 +49,7 @@ const returnToDashboard = () => {
 }
 
 onBeforeMount(async () => {
-    setWellLogInfo()
+    setWellLogInfo();
     await setWellLogDataToDisplay()
 })
 </script>

@@ -26,6 +26,7 @@ const router = useRouter()
         <div class="flex items-center gap-4">
           <div class="sm:flex sm:gap-4">
             <a
+              v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-header-login-btn"
@@ -35,6 +36,7 @@ const router = useRouter()
             </a>
   
             <a
+              v-if="!authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-header-register-btn"
@@ -43,6 +45,7 @@ const router = useRouter()
               Register
             </a>
              <a
+              v-if="authStore.isAuthenticated"
               class="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-black transition sm:block"
               href="#"
               id="test-logout-btn"
