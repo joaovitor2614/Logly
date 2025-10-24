@@ -34,6 +34,10 @@ export async function getAllWellsData() {
 interface GetWellLogResponse {
     data: string
 }
+
+export async function  getRefDepthWellLogData(wellID: string)  {
+    return await api.get<GetWellLogResponse>(`/well/data/ref_depth_data/${wellID}`);
+}
 export async function getWellLogDataByIDs(wellLogID: string, wellID: string) {
     return await api.get<GetWellLogResponse>(`/well/data/${wellID}/${wellLogID}`);
 }

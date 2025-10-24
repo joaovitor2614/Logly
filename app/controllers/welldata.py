@@ -7,6 +7,7 @@ import uuid
 from app.database import mongo_db
 
 
+
 class WellDataController(BaseController):
     def __init__(self, request: Request):
   
@@ -46,6 +47,9 @@ class WellDataController(BaseController):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Well log data not found!")
 
         return well_log_data_db_obj["data"]
+    
+
+
         
   
 

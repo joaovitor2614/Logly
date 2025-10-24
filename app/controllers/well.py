@@ -11,6 +11,7 @@ from bson.objectid import ObjectId
 from typing import List
 import json
 
+DEPTH_WELL_LOG_MNEMONICS = ["depth", "md"]
 
 class WellController(BaseController):
     def __init__(self, request: Request):
@@ -103,6 +104,17 @@ class WellController(BaseController):
         """
         return self.well_database.find_one({"_id": well_id})
     
+    def get_depth_well_log_id(self, well_id: str):
+        well_db_obj = self.get_well_by_id(well_id)
+        depth_well_log_id = None
+        for well_log_db_obj in well_db_obj["welllogs"]:
+            if well_log_db_obj["mnemonic"] in DEPTH_WELL_LOG_MNEMONICS:
+                depth_well_log_id = well_log_db_obj["_id"]
+                break
+
+        if depth_well_log_id is None:
+            raise HTTPException(status_code=404, detail="Depth well log not found")
+        return depth_well_log_id
     
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
