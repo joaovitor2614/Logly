@@ -6,6 +6,7 @@ import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '../../common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
+import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 
 
 const isLoading: Ref<boolean> = ref(false)
@@ -13,10 +14,14 @@ const dialogStore = useDialogStore()
 const wellStore = useWellStore();
 
 interface Form {
-    lasFile: undefined | File
+    lasFile: undefined | File,
+    top: Number,
+    bottom: Number
 }
 const form: Form = reactive({
     lasFile: undefined,
+    bottom: 2000,
+    top: 1000,
 })
 
 const rules = {
@@ -42,7 +47,7 @@ const importWell = async () => {
 
 <template>
     <DialogWrapper cardTitle="Import Well">
-                  <v-row>
+                <v-row class="d-flex justify-center mt-7">
                     <v-col cols="10">
                         <v-file-input
                
@@ -52,6 +57,7 @@ const importWell = async () => {
                
                     </v-col>
                 </v-row>
+                <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom"/>
 
             
                 <v-card-actions>
