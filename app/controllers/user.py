@@ -6,14 +6,14 @@ from datetime import datetime, UTC, timedelta
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from libgravatar import Gravatar
-from app.database import get_database
+from app.database import mongo_db
 
 
 class UserController(BaseController):
     def __init__(self, request: Request):
-         db = get_database()
+         
          self.well_controller = WellController(request)
-         self.user_database =  db[APP_SETTINGS.USERS_DB_NAME]
+         self.user_database =  mongo_db[APP_SETTINGS.USERS_DB_NAME]
          super().__init__(self.user_database)
 
     def delete_user_account(self, id: str):

@@ -14,3 +14,6 @@ def get_database():
         )
         _db = _client[APP_SETTINGS.DB_NAME]
     return _db
+
+
+mongo_db = get_database()

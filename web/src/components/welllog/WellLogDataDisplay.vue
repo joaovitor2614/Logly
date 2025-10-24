@@ -6,6 +6,7 @@ import { useWellStore } from '@/stores';
 
 const wellStore = useWellStore()
 
+const isLoading: Ref<boolean> = ref(false)
 const currentWellLogInfo: Ref<App.Well.WellLog | undefined> = ref(undefined)
 
 const wellLogDataTableHeaders = computed(() => {
@@ -49,8 +50,10 @@ const returnToDashboard = () => {
 }
 
 onBeforeMount(async () => {
+    isLoading.value = true
     setWellLogInfo();
     await setWellLogDataToDisplay()
+    isLoading.value = false;
 })
 </script>
 
@@ -73,6 +76,7 @@ onBeforeMount(async () => {
                     class="mt-2 mb-10"
                     :headers="wellLogDataTableHeaders"
                     :items="wellLogDataTableItems"
+                    :loading="isLoading"
                     :id="'test-well-table'"
                     disable-pagination
                     :items-per-page="-1"
