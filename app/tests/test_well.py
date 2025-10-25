@@ -73,11 +73,20 @@ class TestWell:
         response = self.well_endpoint_wrapper.get_well_log_data(well_log_db_objs[0]["_id"], well_db_obj["_id"])
         assert response.status_code == 201
 
+    def test_get_depth_well_log_data(self, import_well_file):
+        well_db_obj = self.well_controller.get_all_wells_data(self.user_id)[0]
+     
+        response = self.well_endpoint_wrapper.get_depth_well_log_data(well_db_obj["_id"])
+        assert response.status_code == 201
+
+
 
 
     def test_get_basic_well_info_from_las_file(self):
         response = self.well_endpoint_wrapper.get_basic_well_info_from_las_file(TEST_WELL_FILE_PATH)
         assert response.status_code == 201
+
+
 
         
 

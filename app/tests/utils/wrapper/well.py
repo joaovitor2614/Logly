@@ -65,5 +65,12 @@ class WellEndPointWrapper:
             headers=self.request_headers,
         )
         return response
+    
+    def get_depth_well_log_data(self, well_id: str):
+        response = self.client.get(
+            f"api/well/ref_depth_data/{well_id}",
+            headers=self.request_headers,
+        )
+        return response
         
         
