@@ -12,10 +12,16 @@ const currentWellLogInfo: Ref<App.Well.WellLog | undefined> = ref(undefined)
 const wellLogDataTableHeaders = computed(() => {
     return [
         {
+            title: `DEPTH`,
+            key: 'depth',
+            align: 'center'
+        },
+        {
             title: `${currentWellLogInfo.value?.name} ${currentWellLogInfo.value?.unit}`,
             key: 'data',
             align: 'center'
-    }]
+        }
+]
 })
 
 
@@ -25,9 +31,12 @@ const currentWellLogData: Ref<Number[]> = ref([])
 const depthWellLogData: Ref<Number[]> = ref([])
 const wellLogDataTableItems = computed(() => {
     const tableData = []
-    console.log('currentWellLogData.value', currentWellLogData.value, typeof currentWellLogData.value[4])
-    currentWellLogData.value.forEach((data) => {
-        tableData.push({data})
+    const hasFetchedDepthData = Boolean(depthWellLogData.value.length) 
+    
+    
+    currentWellLogData.value.forEach((data, index) => {
+        const depthData = hasFetchedDepthData ? depthWellLogData.value[index] : '?'
+        tableData.push({data, depth: depthData })
     })
     return tableData
    
@@ -37,7 +46,7 @@ const setWellLogDataToDisplay = async () => {
 
     
     currentWellLogData.value = await getWellLogDataByID(well_log_id as string, well_id as string)
-    //depthWellLogData.value = await getDepthWellLogData(well_id as string)
+    depthWellLogData.value = await getDepthWellLogData(well_id as string)
     
 }
 
