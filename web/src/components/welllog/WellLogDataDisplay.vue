@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onBeforeMount, ref, Ref} from 'vue'
-import { getParsedWellLogByID } from '@/utils/well';
+import { getDepthWellLogData, getWellLogDataByID } from '@/utils/well';
 import { useRoute, useRouter } from 'vue-router';
 import { useWellStore } from '@/stores';
 
@@ -22,6 +22,7 @@ const wellLogDataTableHeaders = computed(() => {
 const route = useRoute()
 const router = useRouter()
 const currentWellLogData: Ref<Number[]> = ref([])
+const depthWellLogData: Ref<Number[]> = ref([])
 const wellLogDataTableItems = computed(() => {
     const tableData = []
     console.log('currentWellLogData.value', currentWellLogData.value, typeof currentWellLogData.value[4])
@@ -35,7 +36,8 @@ const setWellLogDataToDisplay = async () => {
     const {well_id, well_log_id } = route.params
 
     
-    currentWellLogData.value = await getParsedWellLogByID(well_log_id as string, well_id as string)
+    currentWellLogData.value = await getWellLogDataByID(well_log_id as string, well_id as string)
+    //depthWellLogData.value = await getDepthWellLogData(well_id as string)
     
 }
 

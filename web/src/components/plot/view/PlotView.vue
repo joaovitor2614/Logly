@@ -4,7 +4,7 @@ import { usePlotStore, useWellStore } from '@/stores';
 import { PlotType, PlotInfo, Axis } from '../types';
 import { watch, ref } from 'vue';
 import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './provider/plotprovider';
-import { getParsedWellLogByID } from '@/utils/well';
+import { getWellLogDataByID } from '@/utils/well';
 
 interface Props {
     plotType: `${PlotType}`,
@@ -22,9 +22,9 @@ const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : 
 
 
 const populatePlotData = async (plotInfo: PlotInfo) => {
-    plotInfo.x.data = await getParsedWellLogByID(template.xWellLogID, template.wellID)
+    plotInfo.x.data = await getWellLogDataByID(template.xWellLogID, template.wellID)
     if (props.plotType === 'histogram') return
-    plotInfo.y.data = await getParsedWellLogByID(template.yWellLogID, template.wellID)
+    plotInfo.y.data = await getWellLogDataByID(template.yWellLogID, template.wellID)
 }
 
 const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {
