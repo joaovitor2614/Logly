@@ -25,6 +25,7 @@ class UserCreate(Base, UserCrendentials):
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
     reset_password_token: Annotated[str | None, Field(title="User Password Reset Token")] = None
     otp_code: Annotated[OTPCode, Field(title="User Account Verification OTP Code")] = OTPCode()
+    reset_password_otp_code: Annotated[OTPCode, Field(title="User Password Reset OTP Code")] = OTPCode()
      
     ConfigDict.populate_by_name = True
 

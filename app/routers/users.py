@@ -46,7 +46,7 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
         )
         return user
     otp_code = generate_otp_code()
-    user_controller.set_user_verification_code(user, otp_code)
+    user_controller.set_user_verification_code(user, otp_code, "account_verification")
     
     email_sender = EmailSender()
     email_sender.send_verification_email(user["email"], otp_code)
@@ -61,11 +61,15 @@ def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     user_controller = UserController(request)
 
     user = user_controller.get_user_by_email(payload.email)
-    jwt_handler = JWTHandler()
-    reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
-    user_controller.update_user_field(user["_id"], "reset_password_token", reset_password_jwt)
+    otp_code = generate_otp_code()
+    user_controller.set_user_verification_code(user, otp_code, "reset_password")
     email_sender = EmailSender()
-    email_sender.send_reset_password_email(user["email"], reset_password_jwt)
+    email_sender.send_reset_password_email(user["email"], otp_code)
+    #jwt_handler = JWTHandler()
+    #reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
+    #user_controller.update_user_field(user["_id"], "reset_password_token", reset_password_jwt)
+    #email_sender = EmailSender()
+    #email_sender.send_reset_password_email(user["email"], reset_password_jwt)
 
     return {"message": "Reset password link sent successfully"}
 

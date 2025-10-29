@@ -71,12 +71,12 @@ class UserController(BaseController):
             {"_id": user_id}, {"$set": {field_name: new_field_value}}
         )
 
-    def set_user_verification_code(self, user_obj: dict, otp_code: str):
+    def set_user_verification_code(self, user_obj: dict, otp_code: str, otp_code_type):
         exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
-        
-        self.update_user_field(user_obj["_id"], "otp_code.exp", exp_time)
-        self.update_user_field(user_obj["_id"], "otp_code.code", otp_code)
-        self.update_user_field(user_obj["_id"], "otp_code.user_id", user_obj["_id"])
+        user_db_otp_code_attr = "otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.exp", exp_time)
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.code", otp_code)
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.user_id", user_obj["_id"])
 
 
     def verify_verification_code(self, user_obj: dict, otp_code: str):
