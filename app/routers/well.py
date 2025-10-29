@@ -30,6 +30,7 @@ def get_las_file_basic_info(
     """
     print('get_las_file_basic_info')
     basic_well_info = well_handler.get_basic_info_from_las_file_object(las_file)
+    return basic_well_info
 
 
 @router.post("/", response_description="Import Well Las Info", status_code=status.HTTP_201_CREATED)

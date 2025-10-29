@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, Ref, ref } from 'vue';
+import { reactive, Ref, ref, watch } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { computed } from 'vue';
@@ -7,6 +7,7 @@ import Button from '@/components/common/Button.vue'
 import DialogWrapper from '../../common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
+import { getWellBasicInfoFromFile } from '@/api/services/well';
 
 
 const isLoading: Ref<boolean> = ref(false)
@@ -42,6 +43,18 @@ const importWell = async () => {
     }
 }
 
+watch(() => form.lasFile, async (value) => {
+    if (value) {
+        const response = await getWellBasicInfoFromFile(form.lasFile)
+        if (response) {
+            form.top = response.data.min
+            form.bottom = response.data.max
+        }
+        console.log('response.data', response.data)
+    }   
+    
+
+})
 
 </script>
 
