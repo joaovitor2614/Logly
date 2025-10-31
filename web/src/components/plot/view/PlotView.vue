@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import PlotEdit from './PlotEdit.vue';
 import { usePlotStore, useWellStore } from '@/stores';
 import { PlotType, PlotInfo, Axis } from '../types';
 import { watch, ref } from 'vue';
@@ -66,9 +66,13 @@ watch(() => template.hasTemplateChanged, async () => {
 </script>
 
 <template>
-    <div :id="plotDivID">
+  
+         <div :id="plotDivID">
+        </div>
+
+       
+  
     
-    </div>
 </template>
 
 <style scoped>
