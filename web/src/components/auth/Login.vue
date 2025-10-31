@@ -29,7 +29,7 @@ const redirectToRegister = () => {
     router.push("register")
 }
 const redirectToSendResetPasswordLink = () => {
-    router.push("send-reset-password-link")
+    router.push("send-reset-password-code")
 }
 </script>
 

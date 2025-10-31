@@ -56,7 +56,7 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
 _RESET_PASSWORD_JWT_EXP_TIME_MINUTES = 5
 
 
-@router.post("/send-reset-password-link", response_description="Send reset password link to user email")
+@router.post("/send-reset-password-code", response_description="Send reset password link to user email")
 def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     user_controller = UserController(request)
 
@@ -72,6 +72,13 @@ def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     #email_sender.send_reset_password_email(user["email"], reset_password_jwt)
 
     return {"message": "Reset password link sent successfully"}
+@router.post("/verify-reset-password-code")
+def verify_reset_password_code(request: Request, otp_code: str, user_id: ObjectId = Depends(get_current_user)):
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_id(user_id)
+
+    otp_code_type = "reset_password"
+    user_controller.verify_verification_code(user, otp_code, otp_code_type)
 
 @router.post("/reset-password-link/{token}", response_description="Reset passwordl")
 def reset_password_link(request: Request, token: str, payload: UserResetPassword):
@@ -104,3 +111,4 @@ def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_cur
         return user
    
     user_controller.verify_verification_code(user, code)
+    user_controller.set_user_acccount_verified_status(user)

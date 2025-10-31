@@ -79,8 +79,9 @@ class UserController(BaseController):
         self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.user_id", user_obj["_id"])
 
 
-    def verify_verification_code(self, user_obj: dict, otp_code: str):
-        otp_code_obj = user_obj["otp_code"]
+    def verify_verification_code(self, user_obj: dict, otp_code: str, otp_code_type: str = "account_verification"):
+        user_db_otp_code_attr = "otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
+        otp_code_obj = user_obj[user_db_otp_code_attr]
         if datetime.now() > otp_code_obj["exp"]:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -92,7 +93,7 @@ class UserController(BaseController):
                 detail=f"Verification code is not valid!"
             )
 
-        self.set_user_acccount_verified_status(user_obj)
+        
         
 
     def set_user_acccount_verified_status(self, user_obj: dict):
