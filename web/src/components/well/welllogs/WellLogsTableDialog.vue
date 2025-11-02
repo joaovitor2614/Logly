@@ -28,11 +28,11 @@ const wellLogsFilterTableHeader = [
 ]
 
 const tableWellLogsInfo = computed(() => {
-    const wellLogsInfo = []
+    const wellLogsInfo: Pick<App.Well.WellLog, "name" | "unit" | "description" | "_id">[] = []
     const wellInfo = wellStore.wells.find(well => well._id == props.wellID)
     if (wellInfo) {
         wellInfo.welllogs.forEach(wellLog => {
-            wellLogsInfo.push({ name: wellLog.name, unit: wellLog.unit, description: wellLog.description, id: wellLog._id })
+            wellLogsInfo.push({ name: wellLog.name, unit: wellLog.unit, description: wellLog.description, _id: wellLog._id })
         })
     }
     return wellLogsInfo
@@ -64,7 +64,7 @@ const openWellLogDataDisplayPage = (welllogID: string) => {
                 <template v-slot:item.id="{ item }">
                 <v-btn
                     icon
-                    @click="deleteWellLog(item.id)"
+                    @click="deleteWellLog(item._id)"
                     variant="text"
                     style="color: black"
                 >
@@ -72,7 +72,7 @@ const openWellLogDataDisplayPage = (welllogID: string) => {
                 </v-btn>
                 <v-btn
                     icon
-                    @click="openWellLogDataDisplayPage(item.id)"
+                    @click="openWellLogDataDisplayPage(item._id)"
                     variant="text"
                     style="color: black"
                 >
