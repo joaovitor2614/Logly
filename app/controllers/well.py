@@ -46,6 +46,8 @@ class WellController(BaseController):
             WellLog(
                 name=well_log_info["mnemonic"],
                 unit=well_log_info["unit"],
+                min_value=well_log_info["min"],
+                max_value=well_log_info["max"],
                 description=well_log_info["descr"],
             ) 
             for well_log_info in well_logs_info

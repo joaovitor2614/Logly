@@ -22,9 +22,9 @@ const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : 
 
 
 const populatePlotData = async (plotInfo: PlotInfo) => {
-    plotInfo.x.data = await getWellLogDataByID(template.xWellLogID, template.wellID)
+    plotInfo.x.data = await getWellLogDataByID(template.axes.x.id, template.wellID)
     if (props.plotType === 'histogram') return
-    plotInfo.y.data = await getWellLogDataByID(template.yWellLogID, template.wellID)
+    plotInfo.y.data = await getWellLogDataByID(template.axes.y.id, template.wellID)
 }
 
 const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {
@@ -37,8 +37,8 @@ const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {
 }
 
 const populateWellLogInfo = (plotInfo: PlotInfo) => {
-    populateAxisWellLogInfo(template.xWellLogID, plotInfo.x)
-    populateAxisWellLogInfo(template.yWellLogID, plotInfo.y)
+    populateAxisWellLogInfo(template.x.id, plotInfo.x)
+    populateAxisWellLogInfo(template.y.id, plotInfo.y)
 }
 
 const createPlotInfo = async () => {

@@ -1,6 +1,7 @@
 import lasio
 from typing import List
 import io
+import numpy as np
 
 LASIO_WELL_SECTION_INFO_MNEMONICS_BY_MODEL_ATTR = {
     "name": "WELL",
@@ -73,21 +74,28 @@ class WellHandler:
             if isinstance(arg, dict):
                 well_info.update(arg)
         return well_info
+    def _create_well_info_dict(self, curve_info, curve_data, exclude_data: bool):
+        clean_curve_data = curve_data[~np.isnan(curve_data)]
+        return {
+            "mnemonic": curve_info.mnemonic,
+            "unit": curve_info.unit,
+            "descr": curve_info.descr,
+            "min": min(clean_curve_data),
+            "max": max(clean_curve_data),
+            "data": [] if exclude_data else curve_data
+        }
+        
 
 
     def _extract_well_logs_info_from_lasio_obj(self, exclude_data: bool = False):
         curves_section = self.lasio_object.sections["Curves"]
-    
-        return [
-            {
-       
-                "mnemonic": curves_section[i].mnemonic,
-                "unit": curves_section[i].unit,
-                "descr": curves_section[i].descr,
-                "data": [] if exclude_data else self.lasio_object.data[:, i]
-            }
-            for i in range(len(curves_section)) 
-        ]
+        well_logs_info = []
+        for i in range(len(curves_section)):
+            curve_info = curves_section[i]
+            curve_data = self.lasio_object.data[:, i]
+            well_logs_info.append(self._create_well_info_dict(curve_info, curve_data, exclude_data))
+
+        return well_logs_info
     
     def _extract_ref_depth_info(self):
         curves_section = self.lasio_object.sections["Curves"]

@@ -3,8 +3,16 @@
 export function getNewPlotTemplate() {
     return {
         wellID: '',
-        xWellLogID: '',
-        yWellLogID: '',
+        axes: {
+            x: {
+                id: '',
+                range: []
+            },
+            y: {
+                id: '',
+                range: []
+            }
+        },
         hasTemplateChanged: false
     }
 }

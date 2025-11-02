@@ -42,6 +42,8 @@ declare namespace App {
             _id: string
             name: string
             unit: string
+            min_value: Number,
+            max_value: Number,
             description: string
             data: number[]
         }

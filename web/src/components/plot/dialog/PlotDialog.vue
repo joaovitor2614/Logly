@@ -23,34 +23,58 @@ const form = reactive(getNewPlotTemplate())
 
 const rules = {
     wellID: { required, $autoDirty: true },
-    xWellLogID: { required,  $autoDirty: true },
-    yWellLogID: { required,  $autoDirty: true },
+    axes: {
+        x: {
+            id: { required, $autoDirty: true },
+        },
+        y: {
+            id: { required, $autoDirty: true },
+        },
+    }
+
 }
 
 const v$ = useVuelidate(rules, form);
 
 const isDisabled = computed(() => {
-    const isDisabledHistogram = v$.value.xWellLogID.$invalid || v$.value.wellID.$invalid;
-    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.yWellLogID.$invalid : false;
+    const isDisabledHistogram = v$.value.axes.x.id.$invalid || v$.value.wellID.$invalid;
+    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.axes.y.id.$invalid : false;
 
     return isDisabledHistogram || isDisabledCrossPlot
 })
 
+const selectedWellInfo = computed(() => wellStore.wells.find((well) => well._id === form.wellID))
 
 const wellItems = computed(() => wellStore.wells.map((well) => {
     return { title: well.name, value: well._id }}))
 
 const wellLogItems = computed(() => {
-    const well = wellStore.wells.find((well) => well._id === form.wellID)
-    if (well) {
-        return well.welllogs.map((wellLog) => {
+
+    if (selectedWellInfo.value) {
+        return selectedWellInfo.value.welllogs.map((wellLog) => {
             return { title: wellLog.name, value: wellLog._id }
         })
     }
 })
 
+const setAxisWellLogRange = (axisKey: string) => {
+    const wellLogID = form[axisKey].id;
+    const wellLogsInfo = selectedWellInfo.value?.welllogs;
+    const wellLogInfo = wellLogsInfo?.find((wellLog) => wellLog._id === wellLogID);
+    form[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
+}
+
+const parsePlot = () => {
+    setAxisWellLogRange('x')
+    if (props.plotType === 'scatter') {
+        setAxisWellLogRange('y')
+    }
+}
+
 
 const createPlotView= () => {
+    parsePlot()
+    console.log('form.x', form.x)
     plotStore.registerPlot(form, props.plotType)
     dialogStore.closeDialogWindow()
    
@@ -79,13 +103,13 @@ const createPlotView= () => {
             
                 :axis-name="'X'" 
                 :wellLogItems="wellLogItems" 
-                v-model:wellLogID="form.xWellLogID" 
+                v-model:wellLogID="form.axes.x.id" 
             />
             <AxisWellLogSelection 
                 v-if="props.plotType === 'scatter'"
                 :axis-name="'Y'" 
                 :wellLogItems="wellLogItems" 
-                v-model:wellLogID="form.yWellLogID" 
+                v-model:wellLogID="form.axes.y.id" 
             />
 
 

@@ -12,6 +12,8 @@ class ImportWell(BaseModel):
 class WellLog(Base):
     name: Annotated[str, Field(title="WellLog mnemonic", default="")]
     unit: Annotated[str, Field(title="WellLog unit", default="")]
+    min_value: Annotated[float, Field(title="WellLog min", default=0.0)]
+    max_value: Annotated[float, Field(title="WellLog max", default=0.0)]
     description: Annotated[str, Field(title="WellLog description", default="")]
 
 
