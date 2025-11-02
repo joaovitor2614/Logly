@@ -35,4 +35,6 @@ class UserSendResetPassword(Base):
 
 
 class UserResetPassword(Base):
-    password: Annotated[str, Field(title="User Password")] 
+    password: Annotated[str, Field(title="User Password")] = ''
+    otp_code: Annotated[str, Field(title="User Password Reset OTP Code")]
+    email: Annotated[str, Field(title="User Email Address")] 

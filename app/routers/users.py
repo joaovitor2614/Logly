@@ -73,29 +73,26 @@ def send_reset_password_link(request: Request, payload: UserSendResetPassword):
 
     return {"message": "Reset password link sent successfully"}
 @router.post("/verify-reset-password-code")
-def verify_reset_password_code(request: Request, otp_code: str, user_id: ObjectId = Depends(get_current_user)):
+def verify_reset_password_code(request: Request, payload: UserResetPassword):
     user_controller = UserController(request)
-    user = user_controller.get_user_by_id(user_id)
+    user = user_controller.get_user_by_email(payload.email)
 
     otp_code_type = "reset_password"
-    user_controller.verify_verification_code(user, otp_code, otp_code_type)
+    user_controller.verify_verification_code(user, payload.otp_code, otp_code_type)
 
-@router.post("/reset-password-link/{token}", response_description="Reset passwordl")
-def reset_password_link(request: Request, token: str, payload: UserResetPassword):
-    jwt_handler = JWTHandler()
-    try:
-        jwt_payload = jwt_handler.decode_jwt_token(token)
- 
-        user_id = jwt_payload["data"].get("id", None)
-        user_controller = UserController(request)
-        hashed_password = get_hashed_password(payload.password)
-        user_controller.update_user_field(user_id, "password", hashed_password)
-        return {"message": "Password reset successfully"}
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e),
-        )
+@router.post("/reset-password", response_description="Reset password")
+def reset_password_link(request: Request, payload: UserResetPassword):
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_email(payload.email)
+    otp_code_type = "reset_password"
+    user_controller.verify_verification_code(user, payload.otp_code, otp_code_type)
+
+
+
+    hashed_password = get_hashed_password(payload.password)
+    user_controller.update_user_field(user["_id"], "password", hashed_password)
+    return {"message": "Password reset successfully"}
+
 
    
  

@@ -21,7 +21,7 @@ class EmailSender:
         pass
     def get_password_reset_link(self, reset_password_jwt: str):
         app_base_url = APP_SETTINGS.APP_BASE_URL
-        return f"{app_base_url}/app/reset-password-link/{reset_password_jwt}"
+        return f"{app_base_url}/app/reset-password/{reset_password_jwt}"
     def send_reset_password_email(self, user_email: str, reset_password_jwt: str):
         reset_password_link = self.get_password_reset_link(reset_password_jwt)
 
