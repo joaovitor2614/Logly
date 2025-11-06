@@ -13,7 +13,7 @@ const userStore = useUserStore();
 const maskedUserEmail: Ref<string> = ref(getMaskedEmail(userStore.userInfo.email));
 const otpCode: Ref<string> = ref('')
 const isLoadingSendCode: Ref<boolean> = ref(false);
-
+const isLoadingVerify: Ref<boolean> = ref(false);
 
 
 
@@ -34,6 +34,13 @@ const sendOTPCodeToUserEmail = async () => {
     }
     isLoadingSendCode.value = false
 }
+
+const verifyOTPCode = async ()  => {
+    isLoadingVerify.value = true
+    userStore.verifyPassedOTPCode(otpCode.value)
+    isLoadingVerify.value = false
+}
+
 
 onMounted(() => {
     sendOTPCodeToUserEmail()
@@ -59,6 +66,8 @@ onMounted(() => {
                 v-model:otpCode="otpCode" 
                 :isVerifyAccountDisabled="isVerifyAccountDisabled" 
                 :sendOTPCode="sendOTPCodeToUserEmail"
+                :isLoadingVerify="isLoadingVerify"
+                :verifyFunction="verifyOTPCode"
             />
             
      

@@ -37,11 +37,11 @@ export const resetPassword = (newPassword: string, userEmail: string, otpCode: s
 
 export const verifyEmailVerificationCode = (code: string, verificationType: string) => {
     
-    return api.put(`users/verify-account-verification-code/${code}`);
+    return api.post(`users/verify-account-verification-code/${code}`);
 }
 
 export const verifyResetPasswordCode = (userEmail: string, otpCode: string) => {
     
-    return api.put(`users/verify-reset-password-code/`, {"otp_code": otpCode, "email": userEmail});
+    return api.post(`users/verify-reset-password-code/`, {"otp_code": otpCode, "email": userEmail});
 }
 

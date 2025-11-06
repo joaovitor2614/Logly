@@ -1,21 +1,31 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import { useUserStore } from '@/stores';
+import Button from '@/components/common/Button.vue'
 interface Props {
     isDisabled: boolean,
-    sendOTPCode: () => void
+    isLoadingVerify: boolean,
+    sendOTPCode: () => void,
+    verifyFunction: () => void,
 }
 
 const props = defineProps<Props>();
 const otpCode = defineModel('otpCode')
 const isLoadingVerify: Ref<boolean> = ref(false);
 const userStore = useUserStore();
-const verifyOTPCode = async ()  => {
-    isLoadingVerify.value = true
-    userStore.verifyPassedOTPCode(otpCode.value)
-    isLoadingVerify.value = false
-}
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Execute the verify function provided in the props
+ * @returns {void}
+ */
+
+/*******  c8e84a27-2d1e-409b-8ec7-e88e17da258d  *******/
+const executeVerifyFunction = () => {
+    console.log('executeVerifyFunction')
+    props.verifyFunction();
+  
+}
 
 </script>
 
@@ -33,9 +43,9 @@ const verifyOTPCode = async ()  => {
                         <div>
                             <div class="flex flex-col items-center justify-center mb-4">
                                 <Button 
-                                :buttonAction="verifyOTPCode" 
-                                :is-disabled="props.isDisabled"
-                                :is-button-loading="isLoadingVerify"
+                                :buttonAction="executeVerifyFunction" 
+                             
+                                :is-button-loading="props.isLoadingVerify"
                                 :id="'test-verify-otp-btn'"
                                 >
                                 Verify 
