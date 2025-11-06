@@ -5,11 +5,15 @@ import { useDialogStore, useWellStore } from '@/stores'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router';
 
+type TableWellLogsInfo = Pick<App.Well.WellLog, "name" | "unit" | "description" | "_id">[]
 interface Props {
-    wellID: string
+    wellID: string,
+    localWellLogsInfo: TableWellLogsInfo
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(),{
+    localWellLogsInfo: [] as unknown as TableWellLogsInfo,
+})
 
 const wellStore = useWellStore()
 const dialogStore = useDialogStore();
@@ -27,8 +31,9 @@ const wellLogsFilterTableHeader = [
         { title: 'Actions', key: 'id', removable: false },
 ]
 
-const tableWellLogsInfo = computed(() => {
-    const wellLogsInfo: Pick<App.Well.WellLog, "name" | "unit" | "description" | "_id">[] = []
+const getTableWellLogsInfoFromStore = () => {
+    const wellLogsInfo: TableWellLogsInfo = []
+
     const wellInfo = wellStore.wells.find(well => well._id == props.wellID)
     if (wellInfo) {
         wellInfo.welllogs.forEach(wellLog => {
@@ -36,6 +41,15 @@ const tableWellLogsInfo = computed(() => {
         })
     }
     return wellLogsInfo
+}
+
+const tableWellLogsInfo = computed(() => {
+
+    if (!props.localWellLogsInfo.length) {
+        return getTableWellLogsInfoFromStore()
+    }
+    return props.localWellLogsInfo
+    
 })
 
 const deleteWellLog = (welllogID: string) => {
