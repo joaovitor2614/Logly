@@ -15,9 +15,9 @@ export const routesInfo: Record<string, RouteInfo> = {
     path: '/',
     name: 'Landing',
   },
-  sendResetPasswordLink: {
+  sendResetPasswordCode: {
     path: '/send-reset-password-code',
-    name: 'SendResetPasswordLink',
+    name: 'SendResetPasswordCode',
   },
   resetPasswordLink: {
     path: '/reset-password/:token',

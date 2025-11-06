@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AuthBase from '../auth/AuthBase.vue';
-import { sendResetPasswordLink } from '@/api/services/user';
+import { sendResetPasswordCode } from '@/api/services/user';
 import Button from '@/components/common/Button.vue'
 import { Ref, ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
@@ -13,7 +13,7 @@ const hasSentResetPasswordCode: Ref<boolean> = ref(false);
 const toast = useToast()
 const executeSendResetPasswordCode = async () => {
     isLoading.value = true
-    const response = await  sendResetPasswordLink(emailAddress.value)
+    const response = await  sendResetPasswordCode(emailAddress.value)
     if (response) {
         toast.success('Password reset code sent successfully!')
         hasSentResetPasswordCode.value = true

@@ -28,7 +28,7 @@ const handleLogin = async () => {
 const redirectToRegister = () => {
     router.push("register")
 }
-const redirectToSendResetPasswordLink = () => {
+const redirectToSendResetPasswordCode = () => {
     router.push("send-reset-password-code")
 }
 </script>
@@ -44,7 +44,7 @@ const redirectToSendResetPasswordLink = () => {
                             <v-btn
                             variant="text"
                             color="black"
-                            @click="redirectToSendResetPasswordLink"
+                            @click="redirectToSendResetPasswordCode"
                             id='test-forgot-password-btn'
                             >
                             I forgot my password

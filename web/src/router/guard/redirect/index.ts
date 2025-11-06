@@ -1,6 +1,6 @@
 import { routesInfo } from '../../info/index'
 
-const PUBLIC_COMPS_ROUTE_INFO_KEYS = ['register', 'landing', 'login', 'sendResetPasswordLink', 'resetPasswordLink']
+const PUBLIC_COMPS_ROUTE_INFO_KEYS = ['register', 'landing', 'login', 'sendResetPasswordCode', 'resetPasswordLink']
 
 const PUBLIC_COMPS_NAMES = PUBLIC_COMPS_ROUTE_INFO_KEYS.map(key => routesInfo[key].name)
 const accountVerificationRequired = import.meta.env.VITE_ACCOUNT_VERIFICATION_REQUIRED === 'true';
