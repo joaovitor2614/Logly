@@ -8,6 +8,7 @@ import DialogWrapper from '../../common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
+import { TableWellLogsInfo } from '../welllogs/types';
 
 
 const isLoading: Ref<boolean> = ref(false)
@@ -24,7 +25,7 @@ const form: Form = reactive({
     bottom: 2000,
     top: 1000,
 })
-
+//const wellLogsInfo: Ref<TableWellLogsInfo[]> = ref([])
 const rules = {
     lasFile: { required, $autoDirty: true },
 }
@@ -43,10 +44,16 @@ const importWell = async () => {
     }
 }
 
+const setWellBasicInfo = (data: any) => {
+    form.top = response.data.min
+    form.bottom = response.data.max
+}
+
 watch(() => form.lasFile, async (value) => {
     if (value) {
         const response = await getWellBasicInfoFromFile(form.lasFile)
         if (response) {
+            setWellBasicInfo(response.data)
             form.top = response.data.min
             form.bottom = response.data.max
         }

@@ -4,32 +4,20 @@ import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router';
+import { TableWellLogsInfo } from './types';
+import WellLogsTable from './WellLogsTable.vue';
 
-type TableWellLogsInfo = Pick<App.Well.WellLog, "name" | "unit" | "description" | "_id">[]
 interface Props {
     wellID: string,
-    localWellLogsInfo: TableWellLogsInfo
 }
 
-const props = withDefaults(defineProps<Props>(),{
-    localWellLogsInfo: [] as unknown as TableWellLogsInfo,
-})
+const props = defineProps<Props>();
 
 const wellStore = useWellStore()
 const dialogStore = useDialogStore();
 const router = useRouter()
 
-const wellLogsFilterTableHeader = [
-        {
-          title: 'Name',
-          key: 'name',
-          sortable: false,
-          removable: false,
-        },
-        { title: 'Unit', key: 'unit', removable: false },
-        { title: 'Description', key: 'description', removable: false },
-        { title: 'Actions', key: 'id', removable: false },
-]
+
 
 const getTableWellLogsInfoFromStore = () => {
     const wellLogsInfo: TableWellLogsInfo = []
@@ -44,11 +32,7 @@ const getTableWellLogsInfoFromStore = () => {
 }
 
 const tableWellLogsInfo = computed(() => {
-
-    if (!props.localWellLogsInfo.length) {
         return getTableWellLogsInfoFromStore()
-    }
-    return props.localWellLogsInfo
     
 })
 
@@ -67,36 +51,11 @@ const openWellLogDataDisplayPage = (welllogID: string) => {
 <template>
     <DialogWrapper :cardTitle="'Well Logs Table'">
         <v-container class="d-flex flex-column justify-center pa-12">
-            <v-data-table
-                    class="mt-2 mb-10"
-                    :headers="wellLogsFilterTableHeader"
-                    :items="tableWellLogsInfo"
-                    :id="'test-well-table'"
-                 
-                    hide-default-footer
-                >
-                <template v-slot:item.id="{ item }">
-                <v-btn
-                    icon
-                    @click="deleteWellLog(item._id)"
-                    variant="text"
-                    style="color: black"
-                >
-                    <v-icon >mdi-delete</v-icon>
-                </v-btn>
-                <v-btn
-                    icon
-                    @click="openWellLogDataDisplayPage(item._id)"
-                    variant="text"
-                    style="color: black"
-                >
-                    <v-icon >mdi-eye</v-icon>
-                </v-btn>
-                </template>
-
-        
-                
-            </v-data-table>
+            <WellLogsTable 
+                :wellLogsInfo="tableWellLogsInfo" 
+                :deleteWellLog="deleteWellLog" 
+                :openWellLogDataDisplayPage="openWellLogDataDisplayPage"
+            />
             <v-card-actions>
                 <Button 
                 :id="'test-well-logs-table-ancel-btn'"
