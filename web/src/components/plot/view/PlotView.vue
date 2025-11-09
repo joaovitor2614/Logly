@@ -37,8 +37,8 @@ const populateAxisWellLogInfo = (axisWellLogID: string, plotInfoAxis: Axis) => {
 }
 
 const populateWellLogInfo = (plotInfo: PlotInfo) => {
-    populateAxisWellLogInfo(template.x.id, plotInfo.x)
-    populateAxisWellLogInfo(template.y.id, plotInfo.y)
+    populateAxisWellLogInfo(template.axes.x.id, plotInfo.x)
+    populateAxisWellLogInfo(template.axes.y.id, plotInfo.y)
 }
 
 const createPlotInfo = async () => {

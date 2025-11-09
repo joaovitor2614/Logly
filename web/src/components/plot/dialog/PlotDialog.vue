@@ -57,11 +57,11 @@ const wellLogItems = computed(() => {
     }
 })
 
-const setAxisWellLogRange = (axisKey: string) => {
-    const wellLogID = form[axisKey].id;
+const setAxisWellLogRange = (axisKey: 'x' | 'y') => {
+    const wellLogID = form.axes[axisKey].id;
     const wellLogsInfo = selectedWellInfo.value?.welllogs;
     const wellLogInfo = wellLogsInfo?.find((wellLog) => wellLog._id === wellLogID);
-    form[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
+    form.axes[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
 }
 
 const parsePlot = () => {
