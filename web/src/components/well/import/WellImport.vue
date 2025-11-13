@@ -9,9 +9,11 @@ import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
 import { TableWellLogsInfo } from '../welllogs/types';
+import WellLogsTable from '../welllogs/WellLogsTable.vue';
 
 
-const isLoading: Ref<boolean> = ref(false)
+const isLoading: Ref<boolean> = ref(false);
+const tableWellLogsInfo: Ref<TableWellLogsInfo> = ref([])
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
 
@@ -44,9 +46,20 @@ const importWell = async () => {
     }
 }
 
-const setWellBasicInfo = (data: any) => {
-    form.top = response.data.min
-    form.bottom = response.data.max
+const setWellBasicInfo = (wellBasicInfo: any) => {
+    form.top = wellBasicInfo.min
+    form.bottom = wellBasicInfo.max
+    setWellLogTableItems(wellBasicInfo.well_logs)
+}
+
+const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
+    tableWellLogsInfo.value = []
+    wellLogsInfo.forEach((wellLog) => {
+        tableWellLogsInfo.value.push(
+            { name: wellLog.mnemonic, unit: wellLog.unit, description: wellLog.description} 
+        )
+    })
+    
 }
 
 watch(() => form.lasFile, async (value) => {
@@ -54,12 +67,10 @@ watch(() => form.lasFile, async (value) => {
         const response = await getWellBasicInfoFromFile(form.lasFile)
         if (response) {
             setWellBasicInfo(response.data)
-            form.top = response.data.min
-            form.bottom = response.data.max
+
         }
         console.log('response.data', response.data)
     }   
-    
 
 })
 
@@ -78,6 +89,9 @@ watch(() => form.lasFile, async (value) => {
                     </v-col>
                 </v-row>
                 <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom"/>
+                <WellLogsTable
+                    :wellLogsInfo="tableWellLogsInfo" 
+                />
 
             
                 <v-card-actions>
