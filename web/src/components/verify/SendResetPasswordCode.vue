@@ -5,9 +5,11 @@ import Button from '@/components/common/Button.vue'
 import { Ref, ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import OTPCode from './OTPCode.vue';
+import ResetPassword from './ResetPassword.vue';
 
 const emailAddress: Ref<string> = ref('');
 const otpCode: Ref<string> = ref('')
+const helperTitle: Ref<string> = ref('Send reset password link')
 const isLoadingSendResetPasswordCode: Ref<boolean> = ref(false);
 const isLoadingVerifyResetPasswordCode: Ref<boolean> = ref(false);
 const hasSentResetPasswordCode: Ref<boolean> = ref(false);
@@ -17,8 +19,10 @@ const executeSendResetPasswordCode = async () => {
     isLoadingSendResetPasswordCode.value = true
     const response = await  sendResetPasswordCode(emailAddress.value)
     if (response) {
+        helperTitle.value = "Enter sent OTP code"
         toast.success('Password reset code sent successfully!')
         hasSentResetPasswordCode.value = true
+
     }
     isLoadingSendResetPasswordCode.value = false
 }
@@ -26,6 +30,7 @@ const executeVerifyResetPasswordCode = async () => {
     console.log('executeVerifyResetPasswordCode')
     const response = await verifyResetPasswordCode(emailAddress.value, otpCode.value)
     if (response) {
+        helperTitle.value = "Enter new password"
         hasVerifiedResetPasswordCode.value = true
     }
 }
@@ -34,10 +39,12 @@ const isResetPasswordDisabled = computed(() => {
     const hasNotEnteredCode = otpCode.value.replace(/\s/g, '').length === 6 ? false : true;
     return hasNotEnteredCode || !otpCode.value
 })
+
+
 </script>
 
 <template>
-    <AuthBase :helperTitle="'Send password reset link'">
+    <AuthBase :helperTitle="helperTitle">
         <form v-if="!hasSentResetPasswordCode">
             <v-text-field
                 name="email"
@@ -61,7 +68,7 @@ const isResetPasswordDisabled = computed(() => {
     
         </form>
 
-        <div v-if="hasSentResetPasswordCode">
+        <div v-if="hasSentResetPasswordCode && !hasVerifiedResetPasswordCode">
             <OTPCode
                 v-model:otpCode="otpCode" 
                 :verifyFunction="executeVerifyResetPasswordCode"
@@ -69,6 +76,9 @@ const isResetPasswordDisabled = computed(() => {
                 :isDisabled="isResetPasswordDisabled" 
                 :sendOTPCode="executeSendResetPasswordCode"
             />
+        </div>
+        <div v-if ="hasVerifiedResetPasswordCode">
+            <ResetPassword :otpCode="otpCode" :userEmail="emailAddress"/>
         </div>
 
     </AuthBase>

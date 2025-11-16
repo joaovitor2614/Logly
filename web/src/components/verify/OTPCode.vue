@@ -11,16 +11,13 @@ interface Props {
 
 const props = defineProps<Props>();
 const otpCode = defineModel('otpCode')
-const isLoadingVerify: Ref<boolean> = ref(false);
-const userStore = useUserStore();
 
-/*************  ✨ Windsurf Command ⭐  *************/
+
 /**
  * Execute the verify function provided in the props
  * @returns {void}
  */
 
-/*******  c8e84a27-2d1e-409b-8ec7-e88e17da258d  *******/
 const executeVerifyFunction = () => {
     console.log('executeVerifyFunction')
     props.verifyFunction();

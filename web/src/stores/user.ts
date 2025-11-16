@@ -49,8 +49,8 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
 
-    async function tryResetPassword(newPassword: string, resetPasswordToken: string) {
-        const response = await resetPassword(newPassword, resetPasswordToken)
+    async function tryResetPassword(newPassword: string, userEmail: string, otpCode: string) {
+        const response = await resetPassword(newPassword, userEmail, otpCode)
         if (response) {
             toast.success('Password reset successfully, login to access your account!')
             router.push('/login')
