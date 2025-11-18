@@ -60,6 +60,7 @@ declare namespace App {
             y: AxisTemplate
         }
         interface Template {
+            type: 'histogram' | 'scatter',
             wellID: string,
             axes: Axes,
             hasTemplateChanged: boolean

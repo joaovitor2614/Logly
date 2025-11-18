@@ -6,8 +6,8 @@ import { ref, type Ref } from 'vue'
 
 
 export const usePlotStore = defineStore('plotStore', () => {
-    const crossPlotTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate())
-    const histogramTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate())
+    const crossPlotTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate('histogram'))
+    const histogramTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate('scatter'))
     
 
 

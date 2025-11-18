@@ -1,7 +1,8 @@
 
 
-export function getNewPlotTemplate(): App.Plot.Template {
+export function getNewPlotTemplate(type: 'histogram' | 'scatter'): App.Plot.Template {
     return {
+        type,
         wellID: '',
         axes: {
             x: {
