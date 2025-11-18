@@ -1,5 +1,5 @@
 import Plotly from 'plotly.js-dist';
-import { PlotInfo } from '../../types';
+
 import { initializePlotLayout, initializePlotTrace } from './utils';
 
 
@@ -14,9 +14,9 @@ export const PLOT_DIV_ID_BY_PLOT_TYPE = {
 
 
 export class PlotProvider {
-    plotInfo: PlotInfo;
+    plotInfo: App.Plot.Template;
 
-    constructor(plotInfo: PlotInfo) {
+    constructor(plotInfo: App.Plot.Template) {
         this.plotInfo = plotInfo;
 
     }
@@ -24,23 +24,23 @@ export class PlotProvider {
     run() {
         let layout = initializePlotLayout()
         let plotTrace = initializePlotTrace()
-        layout.xaxis.title.text = this.plotInfo.x.name
-        plotTrace.x = this.plotInfo.x.data
-
+        layout.xaxis.title.text = this.plotInfo.axes.x.name
+        plotTrace.x = this.plotInfo.axes.x.data
+        console.log('this.plotInfo', this.plotInfo)
     
         if (this.plotInfo.type === 'histogram')  {
             plotTrace.type = 'histogram'
 
         } else {
-            if (!this.plotInfo.y.data.length) {
+            if (!this.plotInfo.axes.y.data.length) {
                 throw "No y data for crossplot"
             }
-            plotTrace.y = this.plotInfo.y.data
+            plotTrace.y = this.plotInfo.axes.y.data
             plotTrace.mode = 'markers';
             plotTrace.type = 'scatter';
             layout.yaxis = {
                 title: {
-                    text: this.plotInfo.y.name
+                    text: this.plotInfo.axes.y.name
                 }
             }
 

@@ -1,13 +1,13 @@
 import { PlotType } from '@/components/plot/types'
-import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 
 
 
 export const usePlotStore = defineStore('plotStore', () => {
-    const crossPlotTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate('histogram'))
-    const histogramTemplate: Ref<App.Plot.Template> = ref(getNewPlotTemplate('scatter'))
+    const histogramTemplate: Ref<App.Plot.Template | undefined> = ref(undefined)
+    const crossPlotTemplate: Ref<App.Plot.Template | undefined> = ref(undefined)
+
     
 
 
@@ -16,15 +16,11 @@ export const usePlotStore = defineStore('plotStore', () => {
         'scatter': crossPlotTemplate
     }
 
-    const registerPlot = (plotTeplate: App.Plot.Template, plotType: `${PlotType}`) => {
-        const template = plotTemplateByType[plotType]
-        template.value.wellID = plotTeplate.wellID
-        template.value.axes.x.id = plotTeplate.axes.x.id
-        if (plotType === 'scatter') {
-            template.value.axes.y.id = plotTeplate.axes.y.id
-        }
-        template.value.hasTemplateChanged = !template.value.hasTemplateChanged
+    const registerPlot = (plotTemplate: App.Plot.Template, plotType: `${PlotType}`) => {
+        plotTemplateByType[plotType].value = plotTemplate
 
+        plotTemplateByType[plotType].value.hasTemplateChanged = !plotTemplateByType[plotType].value.hasTemplateChanged
+        console.log('plotTemplateByType[plotType]', plotTemplateByType[plotType].value)
         
     }
 

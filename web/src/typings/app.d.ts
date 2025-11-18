@@ -53,7 +53,9 @@ declare namespace App {
         interface AxisTemplate {
             id: string,
             range: [Number, Number] | [],
-            data: []
+            data: number[] | [],
+            unit: string,
+            name: string,
         }
         interface Axes {
             x: AxisTemplate,

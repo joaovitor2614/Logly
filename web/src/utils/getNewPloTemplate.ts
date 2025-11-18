@@ -7,13 +7,17 @@ export function getNewPlotTemplate(type: 'histogram' | 'scatter'): App.Plot.Temp
         axes: {
             x: {
                 id: '',
+                name: '',
                 range: [],
-                data: []
+                data: [],
+                unit: ''
             },
             y: {
                 id: '',
+                name: '',
                 range: [],
-                data: []
+                data: [],
+                unit: ''
             }
         },
         hasTemplateChanged: false
