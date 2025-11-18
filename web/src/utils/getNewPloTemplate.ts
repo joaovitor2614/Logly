@@ -1,16 +1,18 @@
 
 
-export function getNewPlotTemplate() {
+export function getNewPlotTemplate(): App.Plot.Template {
     return {
         wellID: '',
         axes: {
             x: {
                 id: '',
-                range: []
+                range: [],
+                data: []
             },
             y: {
                 id: '',
-                range: []
+                range: [],
+                data: []
             }
         },
         hasTemplateChanged: false

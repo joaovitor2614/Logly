@@ -49,6 +49,25 @@ declare namespace App {
         }
     }
 
+    namespace Plot {
+        interface AxisTemplate {
+            id: string,
+            range: [Number, Number] | [],
+            data: []
+        }
+        interface Axes {
+            x: AxisTemplate,
+            y: AxisTemplate
+        }
+        interface Template {
+            wellID: string,
+            axes: Axes,
+            hasTemplateChanged: boolean
+        }
+
+    }
+
+
 
 
 
