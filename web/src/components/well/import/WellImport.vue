@@ -10,6 +10,7 @@ import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vu
 import { getWellBasicInfoFromFile } from '@/api/services/well';
 import { TableWellLogsInfo } from '../welllogs/types';
 import WellLogsTable from '../welllogs/WellLogsTable.vue';
+import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
 
 
 const isLoading: Ref<boolean> = ref(false);
@@ -19,22 +20,30 @@ const wellStore = useWellStore();
 
 interface Form {
     lasFile: undefined | File,
-    top: Number,
-    bottom: Number
+    top: Number | null,
+    bottom: Number | null,
 }
 const form: Form = reactive({
     lasFile: undefined,
-    bottom: 2000,
-    top: 1000,
+    bottom: null,
+    top: null,
 })
 //const wellLogsInfo: Ref<TableWellLogsInfo[]> = ref([])
 const rules = {
     lasFile: { required, $autoDirty: true },
+    top: { required, topLessThanOrEqualBottom, $autoDirty: true },
+    bottom: { required, bottomGreaterThanOrEqualTop, $autoDirty: true }
 }
+
+
+
+
 const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => {
-    return v$.value.lasFile.$invalid || isLoading.value
+    return v$.value.lasFile.$invalid || v$.value.top.$invalid || v$.value.bottom.$invalid ||isLoading.value
 });
+const topErrors = computed(() => createFormAttributeErrors(v$, 'top'))
+const bottomErrors = computed(() => createFormAttributeErrors(v$, 'bottom'))
 const importWell = async () => {
     isLoading.value = true
 
@@ -88,7 +97,7 @@ watch(() => form.lasFile, async (value) => {
                
                     </v-col>
                 </v-row>
-                <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom"/>
+                <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom" :topErrors="topErrors" :bottomErrors="bottomErrors"/>
                 <WellLogsTable
                     :wellLogsInfo="tableWellLogsInfo" 
                 />
