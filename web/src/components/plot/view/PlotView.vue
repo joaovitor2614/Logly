@@ -1,40 +1,34 @@
 <script setup lang="ts">
-import PlotEdit from './PlotEdit.vue';
-import { usePlotStore, useWellStore } from '@/stores';
-import { PlotType, PlotInfo, Axis } from '../types';
+
+import { PlotType  } from '../types';
 import { watch, ref } from 'vue';
 import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './provider/plotprovider';
 import { getWellLogDataByID } from '@/utils/well';
 
 interface Props {
     plotType: `${PlotType}`,
+    template: App.Plot.Template
 }
 
 const props = defineProps<Props>();
 const plotDivID = ref(PLOT_DIV_ID_BY_PLOT_TYPE[props.plotType])
 
-const plotStore = usePlotStore()
-const wellStore = useWellStore()
-
-const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
-
-
 
 
 const populatePlotData = async () => {
-    template.axes.x.data = await getWellLogDataByID(template.axes.x.id, template.wellID)
-    if (props.plotType === 'histogram') return
-    template.axes.y.data = await getWellLogDataByID(template.axes.y.id, template.wellID)
+    props.template.axes.x.data = await getWellLogDataByID(props.template.axes.x.id, props.template.wellID)
+    if (props.template.type === 'histogram') return
+    props.template.axes.y.data = await getWellLogDataByID(props.template.axes.y.id, props.template.wellID)
 }
 
 const plot = () => {
 
-    const plotProvider = new PlotProvider(template)
+    const plotProvider = new PlotProvider(props.template)
     plotProvider.run()
 
 }
 
-watch(() => template.hasTemplateChanged, async () => {
+watch(() => props.template.hasTemplateChanged, async () => {
 
     await populatePlotData()
     plot()
