@@ -22,7 +22,7 @@ const dialogStore = useDialogStore()
     <v-dialog :model-value="dialogStore.shouldOpenDialog" max-width="650px" persistent>
         <v-container class="d-flex flex-column align-center justify-center">
             <v-card class="auth-card">
-                <v-card-title class="grey lighten-2">{{  props.cardTitle }}</v-card-title>
+                <v-card-title class="bg-grey-darken-4">{{  props.cardTitle }}</v-card-title>
                 <v-card-text class="card-content">
                     <slot></slot>
                 </v-card-text>
@@ -39,7 +39,7 @@ const dialogStore = useDialogStore()
   max-width: 900px;
   width: 100%;
   border-radius: 12px;
-  
+
   max-height: 80vh; /* limite de altura */
   overflow-y: auto; /* habilita o scroll */
   flex: 1; /* ocupa espaço restante do card */

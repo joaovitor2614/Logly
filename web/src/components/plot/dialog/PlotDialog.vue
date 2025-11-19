@@ -55,6 +55,7 @@ const wellLogItems = computed(() => {
             return { title: wellLog.name, value: wellLog._id }
         })
     }
+    return []
 })
 
 const setAxisWellLogRange = (axisKey: 'x' | 'y') => {
