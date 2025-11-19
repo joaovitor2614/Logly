@@ -9,7 +9,7 @@ interface Props {
     wellLogItems: WellLogItem[]
 }
 
-const props = withDefaultsdefineProps<Props>();
+const props = defineProps<Props>();
 const wellLogID = defineModel('wellLogID', { required: true, type: String })
 </script>
 

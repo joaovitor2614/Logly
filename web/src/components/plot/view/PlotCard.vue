@@ -2,6 +2,7 @@
 import { usePlotStore } from '@/stores';
 import { PlotType } from '../types';
 import PlotView from './PlotView.vue';
+import { computed } from 'vue';
 
 interface Props {
     plotType: `${PlotType}`,
@@ -10,7 +11,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const plotStore = usePlotStore()
-const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
+const template = computed(() => {
+   return props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
+})
+
 
 </script>
 

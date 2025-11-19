@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { PlotType  } from '../types';
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './provider/plotprovider';
 import { getWellLogDataByID } from '@/utils/well';
 
@@ -28,8 +28,9 @@ const plot = () => {
 
 }
 
-watch(() => props.template.hasTemplateChanged, async () => {
 
+onMounted(async () => {
+    console.log('plotviewonmounted')
     await populatePlotData()
     plot()
 })
