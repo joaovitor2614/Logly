@@ -2,15 +2,11 @@
 import { TableWellLogsInfo } from './types'
 interface Props {
     wellLogsInfo: TableWellLogsInfo,
-    deleteWellLog: (welllogID: string) => void | undefined,
-    openWellLogDataDisplayPage: (welllogID: string) => void | undefined
+    deleteWellLog?: (welllogID: string) => void ,
+    openWellLogDataDisplayPage?: (welllogID: string) => void
 }
 
-const props = withDefaults(defineProps<Props>(),{
-    wellLogsInfo: [] as unknown as TableWellLogsInfo,
-    deleteWellLog: undefined,
-    openWellLogDataDisplayPage: undefined
-})
+const props = defineProps<Props>()
 
 const wellLogsFilterTableHeader = [
         {

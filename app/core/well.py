@@ -27,9 +27,6 @@ class WellHandler:
         well_info = self._create_well_info(well_logs_info, well_info, ref_depth_info)
         return well_info
 
-    def get_depth_info_from_lasio_obj(self):
-        las_depth_info = {"min": 0, "max": 0}
-
     def get_lasio_object_from_las_file_object(self, las_file_object):
         las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
         return lasio.read(las_file_text_stream)
@@ -99,15 +96,14 @@ class WellHandler:
     
     def _extract_ref_depth_info(self):
         curves_section = self.lasio_object.sections["Curves"]
-        ref_depth_info = {"mnemonic": "", "min": 0.00, "max": 0.00}
+        ref_depth_info = {"name": "", "min_value": 0.00, "max_value": 0.00}
         for i in range(len(curves_section)):
             curve_info = curves_section[i]
-            print('curve_info.mnemonic.strip().upper()', curve_info.mnemonic.strip().upper())
-            print('REF_DEPTH_MNEMONICS', REF_DEPTH_MNEMONICS)
+     
             if curve_info.mnemonic.strip().upper() in REF_DEPTH_MNEMONICS:
-                ref_depth_info["mnemonic"] = curve_info.mnemonic
-                ref_depth_info["min"] = self.lasio_object.data[:, i].min()
-                ref_depth_info["max"] = self.lasio_object.data[:, i].max()
+                ref_depth_info["name"] = curve_info.mnemonic
+                ref_depth_info["min_value"] = self.lasio_object.data[:, i].min()
+                ref_depth_info["max_value"] = self.lasio_object.data[:, i].max()
                 break
 
         return ref_depth_info
