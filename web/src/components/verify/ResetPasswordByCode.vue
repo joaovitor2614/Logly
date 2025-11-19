@@ -5,7 +5,7 @@ import Button from '@/components/common/Button.vue'
 import { Ref, ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import OTPCode from './OTPCode.vue';
-import ResetPassword from './ResetPassword.vue';
+import ResetPasswordForm from './ResetPasswordForm.vue';
 
 const emailAddress: Ref<string> = ref('');
 const otpCode: Ref<string> = ref('')
@@ -78,7 +78,7 @@ const isResetPasswordDisabled = computed(() => {
             />
         </div>
         <div v-if ="hasVerifiedResetPasswordCode">
-            <ResetPassword :otpCode="otpCode" :userEmail="emailAddress"/>
+            <ResetPasswordForm :otpCode="otpCode" :userEmail="emailAddress"/>
         </div>
 
     </AuthBase>

@@ -6,11 +6,11 @@ import Login from '../components/auth/Login.vue'
 import LandingPage from '../components/landing/LandingPage.vue'
 
 import VerifyAccountByCode from "@/components/verify/VerifyAccountByCode.vue";
-import SendResetPasswordCode from "../components/verify/SendResetPasswordCode.vue";
+import ResetPasswordByCode from "../components/verify/ResetPasswordByCode.vue";
 import { registerRouteGuard } from './guard/index'
 import type { App } from 'vue';
 import { routesInfo } from './info'
-import ResetPassword from "@/components/verify/ResetPassword.vue";
+import ResetPassword from "@/components/verify/ResetPasswordForm.vue";
 import WellLogDataDisplay from "@/components/welllog/WellLogDataDisplay.vue";
 
 
@@ -25,7 +25,7 @@ const routes = [
   {
     path: routesInfo.sendResetPasswordCode.path,
     name: routesInfo.sendResetPasswordCode.name,
-    component: SendResetPasswordCode
+    component: ResetPasswordByCode
   },
   {
     path: routesInfo.resetPasswordLink.path,

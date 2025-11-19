@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
-import { useUserStore } from '@/stores';
+
 import Button from '@/components/common/Button.vue'
 interface Props {
     isDisabled: boolean,
@@ -10,7 +9,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const otpCode = defineModel('otpCode')
+const otpCode = defineModel<string>('otpCode')
 
 
 /**
@@ -41,7 +40,7 @@ const executeVerifyFunction = () => {
                             <div class="flex flex-col items-center justify-center mb-4">
                                 <Button 
                                 :buttonAction="executeVerifyFunction" 
-                             
+                                :is-disabled="isVerifyDisabled"
                                 :is-button-loading="props.isLoadingVerify"
                                 :id="'test-verify-otp-btn'"
                                 >

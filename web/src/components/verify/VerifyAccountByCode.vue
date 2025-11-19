@@ -64,7 +64,8 @@ onMounted(() => {
             </div>
             <OTPCode
                 v-model:otpCode="otpCode" 
-                :isVerifyAccountDisabled="isVerifyAccountDisabled" 
+                :isDisabled="isVerifyAccountDisabled" 
+                
                 :sendOTPCode="sendOTPCodeToUserEmail"
                 :isLoadingVerify="isLoadingVerify"
                 :verifyFunction="verifyOTPCode"
