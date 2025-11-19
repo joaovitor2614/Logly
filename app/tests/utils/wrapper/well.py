@@ -29,7 +29,7 @@ class WellEndPointWrapper:
             files = {"las_file": ("test.las", f, "application/octet-stream")}
   
             response = self.client.post(
-                "api/well/basic_info",  
+                "api/well/pre-import-info",  
                 headers=self.request_headers,
                 files=files,
             )

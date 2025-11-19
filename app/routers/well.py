@@ -11,8 +11,8 @@ router = APIRouter()
 
 MAX_WELLS_PER_USER = 3
 
-@router.post("/basic_info", response_description="Get Las File Basic Info", status_code=status.HTTP_201_CREATED)
-def get_las_file_basic_info(
+@router.post("/pre-import-info", response_description="Get Las File Basic Info", status_code=status.HTTP_201_CREATED)
+def get_las_file_pre_import_info(
     request: Request,  
     las_file: UploadFile = File(...), 
     user_id: ObjectId = Depends(get_current_user) 
@@ -29,8 +29,8 @@ def get_las_file_basic_info(
         None
     """
     print('get_las_file_basic_info')
-    basic_well_info = well_handler.get_basic_info_from_las_file_object(las_file)
-    return basic_well_info
+    pre_import_well_info = well_handler.get_pre_import_well_info_from_las_file_object(las_file)
+    return pre_import_well_info
 
 
 @router.post("/", response_description="Import Well Las Info", status_code=status.HTTP_201_CREATED)

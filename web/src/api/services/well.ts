@@ -20,7 +20,7 @@ export async function getWellBasicInfoFromFile(lasFile: File) {
     const formData = new FormData();
     formData.append("las_file", lasFile); 
 
-    return await api.post(`/well/basic_info`, formData, {
+    return await api.post(`/well/pre-import-info`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     }});

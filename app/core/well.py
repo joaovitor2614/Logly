@@ -15,33 +15,37 @@ REF_DEPTH_MNEMONICS = ["DEPTH", "MD"]
 class WellHandler:
     def __init__(self):
         self.lasio_object: lasio.LASFile = None
-
-    def get_basic_info_from_las_file_object(self, las_file_object: str):
-        self.lasio_object = self.get_lasio_object_from_las_file_object(las_file_object)
+    def _extract_well_info_from_las_file(self, las_file, is_pre_import: bool = False):  
+        self.lasio_object = self.get_lasio_object_from_las_file_object(las_file)
         well_info = self._extract_well_info_lasio_obj()
 
-        well_logs_info = self._extract_well_logs_info_from_lasio_obj(exclude_data=True)
+        exclude_data = True if is_pre_import else False
 
-        ref_depth_info = self._extract_ref_depth_info()
-
+        well_logs_info = self._extract_well_logs_info_from_lasio_obj(exclude_data)
+        ref_depth_info = self._extract_ref_depth_info() if is_pre_import else None
         well_info = self._create_well_info(well_logs_info, well_info, ref_depth_info)
         return well_info
+
+
+
 
     def get_lasio_object_from_las_file_object(self, las_file_object):
         las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
         return lasio.read(las_file_text_stream)
     def get_well_info_from_las_file(self, las_file_object) -> dict:
- 
-        self.lasio_object = self.get_lasio_object_from_las_file_object(las_file_object)
-        well_info = self._extract_well_info_lasio_obj()
-
-        well_logs_info = self._extract_well_logs_info_from_lasio_obj()
-        
-
-        well_info = self._create_well_info(well_logs_info, well_info)
+        well_info = well_info = self._extract_well_info_from_las_file(las_file_object, is_pre_import=False)
   
         return well_info
+    def get_pre_import_well_info_from_las_file_object(self, las_file_object):
+
+        well_info = self._extract_well_info_from_las_file(las_file_object, is_pre_import=True)
+        return well_info
     def _extract_well_info_lasio_obj(self) -> dict:
+        """
+        Extract well information from the LAS file object.
+
+        Returns a dictionary containing well information.
+        """
         well_info = {}
         for well_model_attr, lasio_well_attr_mnemonic in LASIO_WELL_SECTION_INFO_MNEMONICS_BY_MODEL_ATTR.items():
             well_attr_lasio_header_item = self.lasio_object.sections["Well"].get(lasio_well_attr_mnemonic, None)
