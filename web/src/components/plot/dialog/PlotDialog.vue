@@ -18,7 +18,7 @@ const props = defineProps<Props>();
 const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 const plotStore = usePlotStore()
-const form = reactive(getNewPlotTemplate())
+const form = reactive(getNewPlotTemplate(props.plotType))
 
 
 const rules = {
@@ -62,6 +62,8 @@ const setAxisWellLogRange = (axisKey: 'x' | 'y') => {
     const wellLogsInfo = selectedWellInfo.value?.welllogs;
     const wellLogInfo = wellLogsInfo?.find((wellLog) => wellLog._id === wellLogID);
     form.axes[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
+    form.axes[axisKey].unit = wellLogInfo.unit
+    form.axes[axisKey].name = wellLogInfo.name
 }
 
 const parsePlot = () => {

@@ -11,6 +11,7 @@ import PlotCard from './PlotCard.vue';
 import PlotView from './PlotView.vue';
 
 
+
 </script>
 
 <style scoped>

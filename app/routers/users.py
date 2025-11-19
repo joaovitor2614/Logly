@@ -96,7 +96,7 @@ def reset_password_link(request: Request, payload: UserResetPassword):
 
    
  
-@router.put("/verify-account-verification-code/{code}", response_description="Attempt to verify user account")
+@router.post("/verify-account-verification-code/{code}", response_description="Attempt to verify user account")
 def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(user_id)

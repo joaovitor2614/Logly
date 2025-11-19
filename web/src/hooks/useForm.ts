@@ -12,7 +12,7 @@ const useForm = () => {
       const form = reactive(createBaseForm())
   
       const rules = baseRules(form)
-
+0
       const v$ = useVuelidate(rules, form);
 
       function createFormFieldsByAttribute<T>(

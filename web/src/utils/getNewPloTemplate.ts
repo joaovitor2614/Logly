@@ -1,16 +1,23 @@
 
 
-export function getNewPlotTemplate() {
+export function getNewPlotTemplate(type: 'histogram' | 'scatter'): App.Plot.Template {
     return {
+        type,
         wellID: '',
         axes: {
             x: {
                 id: '',
-                range: []
+                name: '',
+                range: [],
+                data: [],
+                unit: ''
             },
             y: {
                 id: '',
-                range: []
+                name: '',
+                range: [],
+                data: [],
+                unit: ''
             }
         },
         hasTemplateChanged: false

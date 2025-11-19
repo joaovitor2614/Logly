@@ -2,10 +2,10 @@ FROM node:22-slim
 
 WORKDIR /web
 
-COPY package*.json ./
+COPY ../../web/package*.json ./
 RUN npm install
 
-COPY . .
+COPY ../../web/. .
 
 ## EXPOSE [Port you mentioned in the vite.config file]
 

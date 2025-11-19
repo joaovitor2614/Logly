@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import { usePlotStore } from '@/stores';
 import { PlotType } from '../types';
 import PlotView from './PlotView.vue';
+
 interface Props {
     plotType: `${PlotType}`,
     title: string
 }
 const props = defineProps<Props>()
+
+const plotStore = usePlotStore()
+const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
+
 </script>
 
 <template>
@@ -20,8 +26,9 @@ const props = defineProps<Props>()
           <v-card-text class="d-flex justify-start align-center">
           
             <div
+            v-if="template"
             >
-              <PlotView :plotType="props.plotType" />
+              <PlotView :plotType="props.plotType" :template="template"/>
             </div>
           </v-card-text>
         </v-card>
