@@ -6,6 +6,10 @@ import { Ref, ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import OTPCode from './OTPCode.vue';
 import ResetPasswordForm from './ResetPasswordForm.vue';
+import useForm from '@/hooks/useForm';
+
+
+const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
 const emailAddress: Ref<string> = ref('');
 const otpCode: Ref<string> = ref('')
@@ -17,7 +21,7 @@ const hasVerifiedResetPasswordCode: Ref<boolean> = ref(false);
 const toast = useToast()
 const executeSendResetPasswordCode = async () => {
     isLoadingSendResetPasswordCode.value = true
-    const response = await  sendResetPasswordCode(emailAddress.value)
+    const response = await  sendResetPasswordCode(form.email)
     if (response) {
         helperTitle.value = "Enter sent OTP code"
         toast.success('Password reset code sent successfully!')
@@ -34,7 +38,7 @@ const executeVerifyResetPasswordCode = async () => {
         hasVerifiedResetPasswordCode.value = true
     }
 }
-const isDisabled = computed(() => emailAddress.value ? false : true);
+const isDisabled = computed(() => formFieldsInvalidState.value['email']);
 const isResetPasswordDisabled = computed(() => {
     const hasNotEnteredCode = otpCode.value.replace(/\s/g, '').length === 6 ? false : true;
     return hasNotEnteredCode || !otpCode.value
@@ -50,7 +54,8 @@ const isResetPasswordDisabled = computed(() => {
                 name="email"
                 label="Email Address"
                 type="email"
-                v-model="emailAddress"
+                :error-messages="errorsMessages.email"
+                v-model="form.email"
                 placeholder="email"
                 class="mt-5 mb-6"
             />
