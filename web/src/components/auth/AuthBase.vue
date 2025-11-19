@@ -10,10 +10,10 @@ const props = defineProps({
 
 <template>
 
-        <v-container fluid class="justify-center fill-height bg-grey-lighten-3" >
+        <v-container fluid class="d-flex justify-center fill-height bg-grey-lighten-3 text-center" >
             <v-card elevation="4" class="auth-card pa-10" min-width="50vh">
                 
-                <v-card-title class="grey lighten-2">{{  props.helperTitle }}</v-card-title>
+                <v-card-title class="grey lighten-2 mb-10">{{  props.helperTitle }}</v-card-title>
                 <v-card-text class="mt-8">
                      <slot></slot>
                 </v-card-text>
