@@ -1,7 +1,7 @@
 from fastapi import  status
 from app.tests.utils.wrapper.user import UserEndPointWrapper
 from ..controllers.user import UserController
-
+import json
 def test_get_user_info(client, register_user):
     """
     Test the user info retrieval endpoint.
@@ -28,6 +28,16 @@ def test_delete_user(mocker, client, register_user):
     http_exception_mocker.assert_called_once_with(status_code=status.HTTP_404_NOT_FOUND)
     assert response.status_code == 200
 '''
+def test_send_reset_password_code_not_existing_user(client):
+
+    #user_endpoint_wrapper = UserEndPointWrapper(client, request_headers)
+    user_endpoint_wrapper = UserEndPointWrapper(client)
+    not_existing_user_email = "joaoasdaspdksapk@gmail.com"
+    response = user_endpoint_wrapper.send_reset_password_code(not_existing_user_email)
+
+    response_text = json.loads(response.text)["detail"]
+    assert response.status_code == 404
+    assert response_text == "User not found!"
 
 
 def test_delete_user_account(client, register_user):

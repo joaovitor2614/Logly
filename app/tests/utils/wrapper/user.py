@@ -31,4 +31,11 @@ class UserEndPointWrapper:
             headers=self.request_headers
         )
         return response
+    
+    def send_reset_password_code(self, email):
+        response = self.client.post(
+            "api/users/send-reset-password-code",
+            json={"email": email}
+        )
+        return response
 

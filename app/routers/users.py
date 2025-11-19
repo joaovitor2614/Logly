@@ -61,6 +61,12 @@ def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     user_controller = UserController(request)
 
     user = user_controller.get_user_by_email(payload.email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found!"
+        )
+
     otp_code = generate_otp_code()
     user_controller.set_user_verification_code(user, otp_code, "reset_password")
     email_sender = EmailSender()
@@ -74,6 +80,7 @@ def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     return {"message": "Reset password link sent successfully"}
 @router.post("/verify-reset-password-code")
 def verify_reset_password_code(request: Request, payload: UserResetPassword):
+    
     user_controller = UserController(request)
     user = user_controller.get_user_by_email(payload.email)
 
