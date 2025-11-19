@@ -15,6 +15,9 @@ class UserController(BaseController):
          self.well_controller = WellController(request)
          self.user_database =  mongo_db[APP_SETTINGS.USERS_DB_NAME]
          super().__init__(self.user_database)
+    @staticmethod
+    def _get_user_otp_code_key_by_type(otp_code_type: str):
+        return "verify_account_otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
 
     def delete_user_account(self, id: str):
         self.get_user_by_id(id)
@@ -73,14 +76,15 @@ class UserController(BaseController):
 
     def set_user_verification_code(self, user_obj: dict, otp_code: str, otp_code_type):
         exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
-        user_db_otp_code_attr = "otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
+        user_db_otp_code_attr = self._get_user_otp_code_key_by_type(otp_code_type)
         self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.exp", exp_time)
         self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.code", otp_code)
         self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.user_id", user_obj["_id"])
 
 
     def verify_verification_code(self, user_obj: dict, otp_code: str, otp_code_type: str = "account_verification"):
-        user_db_otp_code_attr = "otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
+
+        user_db_otp_code_attr = self._get_user_otp_code_key_by_type(otp_code_type)
         otp_code_obj = user_obj[user_db_otp_code_attr]
         if datetime.now() > otp_code_obj["exp"]:
             raise HTTPException(
