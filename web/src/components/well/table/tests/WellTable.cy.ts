@@ -7,7 +7,7 @@ import { wellsDummyInfo } from '@/test/utils/redirect'
 
 describe('<WellTable />', () => {
     it('renders', () => {
-    cy.mountWithPiniaVuetify(WellTable)
+      cy.mountWithPiniaVuetify(WellTable)
       const wellStore = useWellStore()
       wellStore.wells = wellsDummyInfo
 

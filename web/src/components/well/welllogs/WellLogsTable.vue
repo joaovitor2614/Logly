@@ -27,7 +27,7 @@ console.log('props.wellLogsInfo', props.wellLogsInfo)
         class="mt-2 mb-10"
         :headers="wellLogsFilterTableHeader"
         :items="props.wellLogsInfo"
-        :id="'test-well-table'"
+        :id="'test-well-logs-table'"
         
         hide-default-footer
     >
