@@ -6,7 +6,7 @@ import registerResponseInterceptors from './interceptors';
 const isDev = import.meta.env.DEV;
 
 const api = axios.create({
-    baseURL: isDev ? `${import.meta.env.VITE_API_BASE_URL}/api` : '/api',
+    baseURL: '/api',
     timeout: 10000,
 });
 
