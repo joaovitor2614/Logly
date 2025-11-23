@@ -18,6 +18,7 @@ const wellLogID = defineModel('wellLogID', { required: true, type: String })
     <v-divider></v-divider>
     <v-select
         class="mt-4"
+        :id="`test-welllog-to-plot-selector`"
         :items="props.wellLogItems"
         label="Well log name"
         v-model="wellLogID"
