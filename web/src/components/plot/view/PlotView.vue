@@ -28,6 +28,12 @@ const plot = () => {
 
 }
 
+watch(() => props.template.hasTemplateChanged, async () => {
+    console.log('haschanged', props.template)
+    await populatePlotData()
+    plot()
+})
+
 
 onMounted(async () => {
     console.log('plotviewonmounted')

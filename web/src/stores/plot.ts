@@ -11,7 +11,7 @@ export const usePlotStore = defineStore('plotStore', () => {
     
 
 
-    const plotTemplateByType: Record<PlotType, Ref<App.Plot.Template>> = {
+    const plotTemplateByType: Record<PlotType, Ref<App.Plot.Template | undefined>> = {
         'histogram': histogramTemplate,
         'scatter': crossPlotTemplate
     }
