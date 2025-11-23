@@ -76,16 +76,16 @@ class WellHandler:
                 well_info.update(arg)
         return well_info
     def _create_well_info_dict(self, curve_info, curve_data, exclude_data: bool):
-        clean_curve_data = curve_data[~np.isnan(curve_data)]
+
         return {
             "mnemonic": curve_info.mnemonic,
             "unit": curve_info.unit,
             "descr": curve_info.descr,
-            "min": min(clean_curve_data),
-            "max": max(clean_curve_data),
+            "min": np.nanmin(curve_data),
+            "max": np.nanmax(curve_data),
             "data": [] if exclude_data else curve_data
         }
-        
+       
 
 
     def _extract_well_logs_info_from_lasio_obj(self, exclude_data: bool = False):
