@@ -37,26 +37,20 @@
 <script setup>
 const features = [
   {
-    title: "Advanced Data Visualization",
+    title: "Data Visualization",
     description:
-      "Interactive charts and graphs for comprehensive well log analysis with real-time data processing.",
+      "Charts and graphs for comprehensive well log analysis.",
     icon: "mdi-chart-line",
     color: "primary",
   },
   {
-    title: "Multi-Format Support",
+    title: "LAS 2.0 Support",
     description:
-      "Import and export data in LAS, DLIS, and other industry-standard formats seamlessly.",
+      "Import well data in LAS 2.0 seamlessly.",
     icon: "mdi-folder",
     color: "amber-darken-2",
   },
-  {
-    title: "Collaborative Platform",
-    description:
-      "Share insights and collaborate with your team in real-time across multiple projects.",
-    icon: "mdi-account-group",
-    color: "deep-purple-accent-4",
-  },
+ 
   {
     title: "Cloud Integration",
     description:
