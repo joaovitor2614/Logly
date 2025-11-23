@@ -21,7 +21,7 @@ const template = computed(() => {
 <template>
      
       <v-col xs="12" md="12">
-        <v-card outlined shaped elevation="2" class="pa-4">
+        <v-card outlined shaped elevation="2" class="pa-4 plot-card">
           <v-card-title class="font-weight-medium text-title-1">
             {{ props.title }}
           </v-card-title>
@@ -41,5 +41,8 @@ const template = computed(() => {
 </template>
 
 <style scoped>
+.plot-card {
 
+  min-height: 60vh;
+}
 </style>
