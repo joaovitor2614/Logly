@@ -42,7 +42,6 @@ const template = computed(() => {
 
 <style scoped>
 .plot-card {
-
   min-height: 60vh;
 }
 </style>
