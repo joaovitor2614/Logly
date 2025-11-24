@@ -35,6 +35,7 @@ console.log('props.wellLogsInfo', props.wellLogsInfo)
                 <v-btn
                     icon
                     :disabled="!Boolean(item._id)"
+                    :data-test="`delete-btn-${item._id}`"
                     @click="props.deleteWellLog(item._id)"
                     variant="text"
                     style="color: black"
