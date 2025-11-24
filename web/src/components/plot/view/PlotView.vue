@@ -28,7 +28,7 @@ const plot = () => {
 
 }
 
-watch(() => props.template.hasTemplateChanged, async () => {
+watch(() => props.template.wellID, async () => {
     console.log('haschanged', props.template)
     await populatePlotData()
     plot()

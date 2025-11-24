@@ -95,7 +95,7 @@ class WellHandler:
             curve_info = curves_section[i]
             curve_data = self.lasio_object.data[:, i]
             well_logs_info.append(self._create_well_info_dict(curve_info, curve_data, exclude_data))
-
+        print('well_logs_info', well_logs_info)
         return well_logs_info
     
     def _extract_ref_depth_info(self):

@@ -19,8 +19,9 @@ export const usePlotStore = defineStore('plotStore', () => {
     const registerPlot = (plotTemplate: App.Plot.Template, plotType: `${PlotType}`) => {
         plotTemplateByType[plotType].value = plotTemplate
 
-        plotTemplateByType[plotType].value.hasTemplateChanged = !plotTemplateByType[plotType].value.hasTemplateChanged
-        console.log('plotTemplateByType[plotType]', plotTemplateByType[plotType].value)
+        plotTemplateByType[plotType].value.hasTemplateChanged = !!plotTemplateByType[plotType].value.hasTemplateChanged
+        
+        console.log('plotTemplateByType[plotType]', plotTemplateByType[plotType].value.hasTemplateChanged)
         
     }
 

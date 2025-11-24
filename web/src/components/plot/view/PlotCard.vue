@@ -12,6 +12,7 @@ const props = defineProps<Props>()
 
 const plotStore = usePlotStore()
 const template = computed(() => {
+  console.log('jasjojasjsjoiasjosal')
    return props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
 })
 

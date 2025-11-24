@@ -56,8 +56,8 @@ const importWell = async () => {
 }
 
 const setWellBasicInfo = (wellBasicInfo: any) => {
-    form.top = wellBasicInfo.min
-    form.bottom = wellBasicInfo.max
+    form.top = wellBasicInfo.min_value
+    form.bottom = wellBasicInfo.max_value
     setWellLogTableItems(wellBasicInfo.well_logs)
 }
 
