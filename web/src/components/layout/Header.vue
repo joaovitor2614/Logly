@@ -10,16 +10,13 @@ const router = useRouter()
 <template>
   <header class="bg-white">
     <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-      <a class="block text-teal-600" href="#" @click="router.push('/')">
-        <v-img
-            className="rounded-full bg-gray-900"
-            :src="logo_trans"
-            :width="110"
-            :height="110"
-            alt="Logo"
-        >
-        </v-img>
-      </a>
+      <a class="block" href="#" @click="router.push('/')">
+  <span
+    class="text-3xl font-extrabold bg-clip-text text-transparent
+           bg-gradient-to-r from-black to-gray-700">
+    Logly
+  </span>
+</a>
   
       <div class="flex flex-1 items-center justify-end md:justify-between">
    

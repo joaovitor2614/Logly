@@ -4,19 +4,17 @@
       <!-- Left Content -->
       <v-col cols="12" md="6">
         <h2 class="text-h4 text-md-h3 font-weight-bold mb-4">
-          Industry-Leading Visualization Tools
+          Well Log Visualization Tools
         </h2>
         <p class="text-body-1 text-medium-emphasis mb-6">
-          Our platform provides cutting-edge visualization capabilities designed specifically
-          for geophysical data interpretation. From basic well logs to complex formation analysis,
-          Logly delivers the tools professionals trust.
+          Our platform provides  visualization capabilities designed specifically
+          for geophysical data interpretation. Logly delivers the tools geoscientists need.
         </p>
 
         <ul class="feature-list">
-          <li>Real-time data processing and visualization</li>
-          <li>Customizable chart types and layouts</li>
-          <li>Advanced filtering and correlation tools</li>
-          <li>Export-ready professional reports</li>
+          <li>LAS 2.0 Well file import</li>
+          <li>Well Log Visualization</li>
+          <li>Well Data Visualization </li>
         </ul>
       </v-col>
 
