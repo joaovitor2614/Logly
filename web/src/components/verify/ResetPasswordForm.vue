@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Form from '../auth/Form.vue';
-
+import Button from '@/components/common/Button.vue'
 import useForm from '@/hooks/useForm';
 import { useUserStore } from '@/stores';
 import { useRoute } from 'vue-router';

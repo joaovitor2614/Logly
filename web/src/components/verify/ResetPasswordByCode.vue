@@ -11,7 +11,7 @@ import useForm from '@/hooks/useForm';
 
 const { form, errorsMessages, formFieldsInvalidState } = useForm()
 
-const emailAddress: Ref<string> = ref('');
+
 const otpCode: Ref<string> = ref('')
 const helperTitle: Ref<string> = ref('Send reset password link')
 const isLoadingSendResetPasswordCode: Ref<boolean> = ref(false);
@@ -32,7 +32,7 @@ const executeSendResetPasswordCode = async () => {
 }
 const executeVerifyResetPasswordCode = async () => {
     console.log('executeVerifyResetPasswordCode')
-    const response = await verifyResetPasswordCode(emailAddress.value, otpCode.value)
+    const response = await verifyResetPasswordCode(form.email, otpCode.value)
     if (response) {
         helperTitle.value = "Enter new password"
         hasVerifiedResetPasswordCode.value = true
@@ -83,7 +83,7 @@ const isResetPasswordDisabled = computed(() => {
             />
         </div>
         <div v-if ="hasVerifiedResetPasswordCode">
-            <ResetPasswordForm :otpCode="otpCode" :userEmail="emailAddress"/>
+            <ResetPasswordForm :otpCode="otpCode" :userEmail="form.email"/>
         </div>
 
     </AuthBase>
