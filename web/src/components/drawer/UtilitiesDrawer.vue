@@ -37,10 +37,12 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
           >
          
             <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="openDialogComponent('WellImport')">Import Well</v-list-item>
- 
+            <v-list-item append-icon="mdi-export" class="mt-10 mb-10" @click="openDialogComponent('WellExport')">Export Well</v-list-item>
+            <v-list-item append-icon="mdi-calculator" class="mt-10 mb-10" @click="openDialogComponent('WellCalculator')">Well Calculator</v-list-item>
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10" @click="openPlotDialog('scatter')">CrossPlot</v-list-item>
 
             <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openPlotDialog('histogram')">Histogram</v-list-item>
+            <v-list-item append-icon="mdi-chart-line" class="mt-10 mb-10" @click="openPlotDialog('logplot')">LogPlot</v-list-item>
 
    
       
