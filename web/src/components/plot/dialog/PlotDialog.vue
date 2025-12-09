@@ -104,15 +104,17 @@ const createPlotView= () => {
             />
             <AxisWellLogSelection 
             
-                :axis-name="'X'" 
+                :axis-name="'X'"
+                :wellID="form.wellID" 
                 :wellLogItems="wellLogItems" 
-                v-model:wellLogID="form.axes.x.id" 
+                v-model:wellLogAxis="form.axes.x" 
             />
             <AxisWellLogSelection 
                 v-if="props.plotType === 'scatter'"
-                :axis-name="'Y'" 
+                :axis-name="'Y'"
+                :wellID="form.wellID" 
                 :wellLogItems="wellLogItems" 
-                v-model:wellLogID="form.axes.y.id" 
+                v-model:wellLogAxis="form.axes.y" 
             />
 
 
