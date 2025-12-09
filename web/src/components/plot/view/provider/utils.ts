@@ -3,6 +3,7 @@
 interface PlotTrace {
     mode: string,
     type: string,
+    range: [number, number],
     x: Number[],
     y?: Number[]
 }

@@ -25,6 +25,7 @@ export class PlotProvider {
         let layout = initializePlotLayout()
         let plotTrace = initializePlotTrace()
         layout.xaxis.title.text = this.plotInfo.axes.x.name
+        layout.xaxis.range = this.plotInfo.axes.x.range      
         plotTrace.x = this.plotInfo.axes.x.data
         console.log('this.plotInfo', this.plotInfo)
     
@@ -41,7 +42,8 @@ export class PlotProvider {
             layout.yaxis = {
                 title: {
                     text: this.plotInfo.axes.y.name
-                }
+                },
+                range:  this.plotInfo.axes.y.range
             }
 
         }
