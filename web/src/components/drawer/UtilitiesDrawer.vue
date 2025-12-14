@@ -42,7 +42,7 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10" @click="openPlotDialog('scatter')">CrossPlot</v-list-item>
 
             <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openPlotDialog('histogram')">Histogram</v-list-item>
-            <v-list-item append-icon="mdi-chart-line" class="mt-10 mb-10" @click="openPlotDialog('logplot')">LogPlot</v-list-item>
+            <v-list-item append-icon="mdi-chart-line" class="mt-10 mb-10" @click="openDialogComponent('LogPlotDialog')">LogPlot</v-list-item>
 
    
       

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
+import WellSelector from './WellSelector.vue';
 import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
 import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
@@ -45,8 +46,7 @@ const isDisabled = computed(() => {
 
 const selectedWellInfo = computed(() => wellStore.wells.find((well) => well._id === form.wellID))
 
-const wellItems = computed(() => wellStore.wells.map((well) => {
-    return { title: well.name, value: well._id }}))
+
 
 const wellLogItems = computed(() => {
 
@@ -78,7 +78,7 @@ const parsePlot = () => {
 
 const createPlotView= () => {
     parsePlot()
-    console.log('form.x', form.x)
+
     plotStore.registerPlot(form, props.plotType)
     dialogStore.closeDialogWindow()
    
@@ -91,18 +91,9 @@ const createPlotView= () => {
     <DialogWrapper :cardTitle="'Plot Dialog'">
         <v-container class="d-flex flex-column justify-center pa-12">
 
-   
-            <v-select
-                        
-            class="mt-4 mb-3"
-            :items="wellItems"
-            label="Well name"
-            id="test-selected-wells-to-plot-selector"
-            v-model="form.wellID"
-            hide-details
-            outlined
-            dense
-            />
+            <WellSelector v-model:wellID="form.wellID" />
+            
+          
             <AxisWellLogSelection 
             
                 :axis-name="'X'"
