@@ -8,7 +8,7 @@ import * as directives from 'vuetify/directives'
 import "vue-toastification/dist/index.css";
 import '@mdi/font/css/materialdesignicons.css'
 import "./assets/main.css";
-import WellImport from '@/components/well/import/WellImport.vue';
+import WellImport from '@/components/well/io/WellImport.vue';
 import ConfirmDeleteAccountDialog from "@/components/account/ConfirmDeleteAccountDialog.vue";
 import PlotDialog from "@/components/plot/dialog/PlotDialog.vue";
 import WellLogsTableDialog from "@/components/well/welllogs/WellLogsTableDialog.vue";
