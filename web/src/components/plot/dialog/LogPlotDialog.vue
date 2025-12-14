@@ -1,5 +1,5 @@
 <script setup>
-import WellSelector from './WellSelector.vue';
+import WellSelector from '@/components/well/helpers/WellSelector.vue';
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 import {  reactive } from 'vue';

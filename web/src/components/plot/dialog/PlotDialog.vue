@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
-import WellSelector from './WellSelector.vue';
+import WellSelector from '../../well/helpers/WellSelector.vue';
 import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
 import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';

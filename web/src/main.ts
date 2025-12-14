@@ -12,6 +12,7 @@ import WellImport from '@/components/well/import/WellImport.vue'
 import ConfirmDeleteAccountDialog from "@/components/account/ConfirmDeleteAccountDialog.vue";
 import PlotDialog from "@/components/plot/dialog/PlotDialog.vue";
 import LogPlotDialog from "@/components/plot/dialog/LogPlotDialog.vue";
+import WellCalculatorDialog from "@/components/well/calculator/WellCalculatorDialog.vue"; 
 import WellLogsTableDialog from "@/components/well/welllogs/WellLogsTableDialog.vue";
 
 const vuetify = createVuetify({
@@ -46,6 +47,7 @@ setupRouter(app)
 
 app.component('PlotDialog', PlotDialog)
 app.component('LogPlotDialog', LogPlotDialog)
+app.component('WellCalculatorDialog', WellCalculatorDialog)
 app.component('WellImport', WellImport)
 app.component('ConfirmDeleteAccountDialog', ConfirmDeleteAccountDialog)
 app.component('WellLogsTableDialog', WellLogsTableDialog)
