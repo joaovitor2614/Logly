@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request, UploadFile, status, Depends, File, Form
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
+from app.models.well.well import WellCalculator
 from ..controllers.well import WellController
 from ..controllers.welldata import WellDataController
 import io
@@ -60,3 +61,14 @@ def get_well_log_data_by_id(request: Request, well_log_id: str, well_id: str,use
     well_log_data = well_log_data_controller.get_well_log_data_by_id(well_id, well_log_id)
    
     return {"data": well_log_data}
+@router.post("/well_calculator", response_description="Computations with well log data", status_code=status.HTT_200_OK)
+def import_well_file(
+    request: Request,  
+    payload: WellCalculator,
+    user_id: ObjectId = Depends(get_current_user) 
+    ):
+
+    well_controller = WellController(request)
+
+  
+    
