@@ -5,7 +5,7 @@ from ..utils.security import get_current_user
 from ..utils.database.update import update_document_object_instance
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
-from app.core.token import JWTHandler
+from app.core.handler.token import JWTHandler
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS

@@ -1,5 +1,5 @@
 
-from app.core.token import jwt_handler
+from app.core.handler.token import jwt_handler
 from fastapi import Response
 
 def get_user_id_from_register_response(response: Response) -> str:

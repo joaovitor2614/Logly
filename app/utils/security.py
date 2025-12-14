@@ -3,7 +3,7 @@ import jwt
 from app.settings import APP_SETTINGS
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from ..core.token import jwt_handler
+from ..core.handler.token import jwt_handler
 from ..models.auth.auth import JWTPayload
 
 
