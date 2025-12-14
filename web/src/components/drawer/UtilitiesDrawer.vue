@@ -23,6 +23,8 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
         <v-navigation-drawer
           theme="dark"
           permanent
+          class="d-flex"
+   
          
         >
 
@@ -35,10 +37,12 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
           >
          
             <v-list-item append-icon="mdi-file" class="mt-10 mb-10" @click="openDialogComponent('WellImport')">Import Well</v-list-item>
- 
+            <v-list-item append-icon="mdi-export" class="mt-10 mb-10" @click="openDialogComponent('WellExport')">Export Well</v-list-item>
+            <v-list-item append-icon="mdi-calculator" class="mt-10 mb-10" @click="openDialogComponent('WellCalculatorDialog')">Well Calculator</v-list-item>
             <v-list-item append-icon="mdi-chart-scatter-plot" class="mt-10 mb-10" @click="openPlotDialog('scatter')">CrossPlot</v-list-item>
 
             <v-list-item append-icon="mdi-poll" class="mt-10 mb-10" @click="openPlotDialog('histogram')">Histogram</v-list-item>
+            <v-list-item append-icon="mdi-chart-line" class="mt-10 mb-10" @click="openDialogComponent('LogPlotDialog')">LogPlot</v-list-item>
 
    
       
@@ -46,17 +50,20 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
         
             
           </v-list>
-          <div class="d-flex flex-column  drawer-btns-box">
-            <v-btn 
-              @click="openDialogComponent('ConfirmDeleteAccountDialog')" 
-              elevation="0" 
-              append-icon="mdi-delete" 
-              class="mb-5 delete-account"
-            >
-              Delete account
-            </v-btn>
-            <v-btn elevation="0" append-icon="mdi-logout" @click="authStore.logout">Logout</v-btn>
-          </div>
+        
+            <v-container class="position-absolute bottom-0 d-flex flex-column justify-center">
+                <v-btn
+                  @click="openDialogComponent('ConfirmDeleteAccountDialog')" 
+                  elevation="0" 
+                  append-icon="mdi-delete" 
+                  class="mb-5 delete-account text-center"
+                >
+                  Delete Account
+                </v-btn>
+                <v-btn elevation="0" append-icon="mdi-logout" @click="authStore.logout">Logout</v-btn>
+            </v-container>
+        
+
 
         </v-navigation-drawer>
   
@@ -64,9 +71,7 @@ const openPlotDialog = (plotType: `${PlotType}`) => {
 </template>
 
 <style scoped>
-.drawer-btns-box {
-  margin-top: 18vh;
-}
+
 
 .delete-account {
    color: red

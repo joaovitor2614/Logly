@@ -21,7 +21,7 @@ class EmailSender:
         pass
     def get_password_reset_link(self, reset_password_jwt: str):
         app_base_url = APP_SETTINGS.APP_BASE_URL
-        return f"{app_base_url}/reset-password-link/{reset_password_jwt}"
+        return f"{app_base_url}/app/reset-password/{reset_password_jwt}"
     def send_reset_password_email(self, user_email: str, reset_password_jwt: str):
         reset_password_link = self.get_password_reset_link(reset_password_jwt)
 
@@ -35,15 +35,24 @@ class EmailSender:
 
 
     def send_verification_email(self, user_email: str, otp_code: str):
+        otp_code_goal_msg = "verify your Logly account."
+        self.send_otp_code_email(user_email, otp_code, otp_code_goal_msg)
+
+    def send_reset_password_email(self, user_email: str, otp_code: str):
+        otp_code_goal_msg = "reset your password."
+        self.send_otp_code_email(user_email, otp_code, otp_code_goal_msg)
+
+
+    def send_otp_code_email(self, user_email: str, otp_code: str, otp_code_goal_msg: str):
 
         # HTML content for the email
         email_html_content = get_html_content(
-            message="Bellow is your OTP code to verify your Logly account",
+            message=f"Bellow is your OTP code to {otp_code_goal_msg}",
             code=otp_code
         )
         msg = self.generate_setted_multipart_mime_obj(email_html_content)
 
-        self.try_send_email_message(msg, user_email, response_message="Verification email sent successfully")
+        self.try_send_email_message(msg, user_email, response_message="OTP code email sent successfully")
 
     def try_send_email_message(self, msg, user_email, response_message: str):
         try:

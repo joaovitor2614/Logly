@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
+import WellSelector from '../../well/helpers/WellSelector.vue';
 import { useDialogStore, useWellStore, usePlotStore } from '@/stores';
 import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators'
 import { PlotType } from '../types';
+import AxisWellLogSelection from './AxisWellLogSelection.vue';
+import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 
 interface Props {
     plotType: `${PlotType}`,
@@ -16,44 +19,68 @@ const props = defineProps<Props>();
 const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 const plotStore = usePlotStore()
-const form = reactive({
-    wellID: '',
-    xWellLogID: '',
-    yWellLogID: '',
-})
+const form = reactive(getNewPlotTemplate(props.plotType))
 
 
 const rules = {
     wellID: { required, $autoDirty: true },
-    xWellLogID: { required,  $autoDirty: true },
-    yWellLogID: { required,  $autoDirty: true },
+    axes: {
+        x: {
+            id: { required, $autoDirty: true },
+        },
+        y: {
+            id: { required, $autoDirty: true },
+        },
+    }
+
 }
 
 const v$ = useVuelidate(rules, form);
 
 const isDisabled = computed(() => {
-    const isDisabledHistogram = v$.value.xWellLogID.$invalid || v$.value.wellID.$invalid;
-    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.yWellLogID.$invalid : false;
+    const isDisabledHistogram = v$.value.axes.x.id.$invalid || v$.value.wellID.$invalid;
+    const isDisabledCrossPlot = props.plotType == 'scatter' ? v$.value.axes.y.id.$invalid : false;
 
     return isDisabledHistogram || isDisabledCrossPlot
 })
 
+const selectedWellInfo = computed(() => wellStore.wells.find((well) => well._id === form.wellID))
 
-const wellItems = computed(() => wellStore.wells.map((well) => {
-    return { title: well.name, value: well._id }}))
+
 
 const wellLogItems = computed(() => {
-    const well = wellStore.wells.find((well) => well._id === form.wellID)
-    if (well) {
-        return well.welllogs.map((wellLog) => {
+
+    if (selectedWellInfo.value) {
+        return selectedWellInfo.value.welllogs.map((wellLog) => {
             return { title: wellLog.name, value: wellLog._id }
         })
     }
+    return []
 })
+
+const setAxisWellLogRange = (axisKey: 'x' | 'y') => {
+    const wellLogID = form.axes[axisKey].id;
+    const wellLogsInfo = selectedWellInfo.value?.welllogs;
+    const wellLogInfo = wellLogsInfo?.find((wellLog) => wellLog._id === wellLogID);
+    if (!wellLogInfo) return
+    form.axes[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
+    form.axes[axisKey].unit = wellLogInfo.unit
+    form.axes[axisKey].name = wellLogInfo.name
+}
+
+const parsePlot = () => {
+    setAxisWellLogRange('x')
+    if (props.plotType === 'scatter') {
+        setAxisWellLogRange('y')
+    }
+}
 
 
 const createPlotView= () => {
+    parsePlot()
+
     plotStore.registerPlot(form, props.plotType)
+    dialogStore.closeDialogWindow()
    
 }
 
@@ -64,42 +91,25 @@ const createPlotView= () => {
     <DialogWrapper :cardTitle="'Plot Dialog'">
         <v-container class="d-flex flex-column justify-center pa-12">
 
-   
-            <v-select
-                        
-            class="mt-4 mb-3"
-            :items="wellItems"
-            label="Well name"
-            id="test-selected-wells-to-plot-selector"
-            v-model="form.wellID"
-            hide-details
-            outlined
-            dense
-            />
-            <p class="mb-5 mt-5 text-center">X-Axis</p>
-            <v-divider></v-divider>
-            <v-select
-                class="mt-4"
-                :items="wellLogItems"
-                label="Well log name"
-                v-model="form.xWellLogID"
-                hide-details
-                outlined
-                dense
-            ></v-select>
-            <p v-if="props.plotType === 'scatter'" class="mb-5 mt-5 text-center">Y-Axis</p>
-            <v-divider></v-divider>
-            <v-select
-                v-if="props.plotType === 'scatter'"
+            <WellSelector v-model:wellID="form.wellID" />
             
-                class="mt-4"
-                :items="wellLogItems"
-                label="Well log name"
-                v-model="form.yWellLogID"
-                hide-details
-                outlined
-                dense
-            ></v-select>
+          
+            <AxisWellLogSelection 
+            
+                :axis-name="'X'"
+                :wellID="form.wellID" 
+                :wellLogItems="wellLogItems" 
+                v-model:wellLogAxis="form.axes.x" 
+            />
+            <AxisWellLogSelection 
+                v-if="props.plotType === 'scatter'"
+                :axis-name="'Y'"
+                :wellID="form.wellID" 
+                :wellLogItems="wellLogItems" 
+                v-model:wellLogAxis="form.axes.y" 
+            />
+
+
         </v-container>
 
         <v-card-actions>

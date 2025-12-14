@@ -9,6 +9,7 @@ import { getFinalNavigationTarget } from './redirect'
 
 
 
+
 export const registerRouteGuard = (router: Router) => {
 
 
@@ -21,28 +22,28 @@ export const registerRouteGuard = (router: Router) => {
 
     router.beforeEach(async (to, from) => {
 
-        const userStore = useUserStore()
         const hasConfirmedEmail = userStore.userInfo.has_confirmed_email;
        
         const targetRouteName = to.name as string;
         const isLoggedIn = authStore.isAuthenticated;   
 
         const navigationTarget = getFinalNavigationTarget(isLoggedIn, hasConfirmedEmail, targetRouteName)
-        console.log('router.beforeEach navigationTarget', navigationTarget)
+      
         if (navigationTarget && navigationTarget !== targetRouteName) {
             return { name: navigationTarget }
         }
     })
-    watch(() => [authStore.isAuthenticated, userStore.userInfo.has_confirmed_email], ([isAuthenticated, hasConfirmedEmail]) => {
-
+    router.isReady().then(() => {
+        watch(() => [authStore.isAuthenticated, userStore.userInfo.has_confirmed_email], ([isAuthenticated, hasConfirmedEmail]) => {
         const targetRouteName = router.currentRoute.value.name as string;
         const navigationTarget = getFinalNavigationTarget(isAuthenticated, hasConfirmedEmail, targetRouteName)
-        console.log('watch', navigationTarget)
         if (navigationTarget && navigationTarget !== targetRouteName) {
             router.push({ name: navigationTarget });
         }
 
-    }, { immediate: true })
+        }, { immediate: true, deep: true })
+
+    })
 
 
 

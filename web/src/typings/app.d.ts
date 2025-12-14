@@ -12,7 +12,7 @@ declare namespace App {
             name: string
             has_confirmed_email: boolean,
             email: string
-            image: string
+            image: string,
             password?: string
         }
     }
@@ -31,6 +31,9 @@ declare namespace App {
         interface Well {
              _id: string
             name: string
+            company: string
+            start: number
+            stop: number
             create_time: string
             welllogs: WellLog[]
         }
@@ -39,10 +42,34 @@ declare namespace App {
             _id: string
             name: string
             unit: string
+            min_value: Number,
+            max_value: Number,
             description: string
             data: number[]
         }
     }
+
+    namespace Plot {
+        interface AxisTemplate {
+            id: string,
+            range: [Number, Number] | [],
+            data: number[] | [],
+            unit: string,
+            name: string,
+        }
+        interface Axes {
+            x: AxisTemplate,
+            y: AxisTemplate
+        }
+        interface Template {
+            type: 'histogram' | 'scatter',
+            wellID: string,
+            axes: Axes,
+            hasTemplateChanged: boolean
+        }
+
+    }
+
 
 
 

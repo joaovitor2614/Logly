@@ -28,8 +28,8 @@ const handleLogin = async () => {
 const redirectToRegister = () => {
     router.push("register")
 }
-const redirectToSendResetPasswordLink = () => {
-    router.push("send-reset-password-link")
+const redirectToSendResetPasswordCode = () => {
+    router.push("send-reset-password-code")
 }
 </script>
 
@@ -40,11 +40,11 @@ const redirectToSendResetPasswordLink = () => {
             <form @submit.prevent="handleLogin">
                         <Form :form="form" :errorsMessages="errorsMessages" :authType="'login'"/>
                         
-                        <div class="d-flex">
+                        <div>
                             <v-btn
                             variant="text"
                             color="black"
-                            @click="redirectToSendResetPasswordLink"
+                            @click="redirectToSendResetPasswordCode"
                             id='test-forgot-password-btn'
                             >
                             I forgot my password
@@ -54,7 +54,7 @@ const redirectToSendResetPasswordLink = () => {
                         <Button :isDisabled="isDisabled" :buttonAction="handleLogin" :id="'test-login-btn'">Login</Button>
                         
                             
-                        <div style="  text-align: center; padding: 60px 0;">
+                        <div>
                                 <v-card-text class="white--text" >
                                     <h3 class="text-center ">Don't Have an Account Yet?</h3>
                                     <h6

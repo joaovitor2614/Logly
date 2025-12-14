@@ -1,60 +1,39 @@
 <template>
-  <v-footer dark padless>
-    <v-card flat tile class="secondary white--text text-center">
-      <v-card-text>
-        <v-btn
-          v-for="(icon, i) in icons"
-          :key="i"
-          class="mx-4 white--text"
-          :href="icon.link"
-          target="_blank"
-          icon
-        >
-          <v-icon size="24px">{{ icon.text }}</v-icon>
-        </v-btn>
-      </v-card-text>
+  <v-footer class="bg-grey-darken-4 text-white pa-8">
+    <v-container>
+      <v-row>
+        <!-- Logo + Description -->
+        <v-col cols="12" md="3">
+          <div class="d-flex align-center mb-2">
+            <v-avatar size="32" class="bg-white text-black font-weight-bold mr-2">L</v-avatar>
+            <span class="text-h6 font-weight-bold">Logly</span>
+          </div>
+          <p class="text-body-2">
+            Professional geophysical well log visualization platform for the oil & gas industry.
+          </p>
+        </v-col>
 
-      <v-card-text class="white--text pt-0">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-        Mauris cursus commodo interdum.
-      </v-card-text>
 
-      <v-divider></v-divider>
-
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Calango WEB</strong>
-      </v-card-text>
-    </v-card>
+      <!-- Bottom section -->
+      <v-divider class="my-6" color="grey-lighten-2"></v-divider>
+      <v-row align="center" justify="space-between">
+        <span class="text-caption">© 2024 Logly. All rights reserved.</span>
+   
+      </v-row>
+       </v-row>
+    </v-container>
   </v-footer>
 </template>
 
+<script setup>
+
+</script>
+
 <style scoped>
-.v-card {
-  width: 100%;
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 </style>
-
-<script>
-export default {
-  data: () => ({
-    icons: [
-      {
-        text: "mdi-facebook",
-        link: "",
-      },
-      {
-        text: "mdi-twitter",
-        link: "",
-      },
-      {
-        text: "mdi-linkedin",
-        link: "",
-      },
-      {
-        text: "mdi-instagram",
-        link: "",
-      },
-    ],
-  }),
-};
-</script>

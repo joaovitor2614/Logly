@@ -1,7 +1,12 @@
 
 
 from pydantic import BaseModel, Field
+from datetime import datetime
 import uuid
+
+
+def time_factory():
+    return datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
 class Base(BaseModel):

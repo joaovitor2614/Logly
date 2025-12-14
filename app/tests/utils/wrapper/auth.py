@@ -12,14 +12,14 @@ class AuthEndPointWrapper:
 
     def register(self, user_data: dict):
         response = self.client.post(
-            "/auth/register",
+            "api/auth/register",
             json=user_data,
         )
         return response
 
     def login(self, email: str, password: str):
         response = self.client.post(
-            "/auth/login",
+            "api/auth/login",
             json={"email": email, "password": password},
         )
         return response

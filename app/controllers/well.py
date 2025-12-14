@@ -1,5 +1,7 @@
 from fastapi import Request
 from bson.objectid import ObjectId
+from fastapi import Request, HTTPException, status
+from app.database import mongo_db
 from app.models.well.well import WellLog, WellLogData, Well
 from app.core.well import well_handler
 from app.settings import APP_SETTINGS
@@ -7,9 +9,9 @@ from .base import BaseController
 from .welldata import WellDataController
 from bson.objectid import ObjectId
 from typing import List
-import io
 import json
 
+DEPTH_WELL_LOG_MNEMONICS = ["DEPTH", "MD"]
 
 class WellController(BaseController):
     def __init__(self, request: Request):
@@ -23,10 +25,11 @@ class WellController(BaseController):
             self.well_database: The database collection for wells.
             self.well_data_database: An instance of WellDataController for managing well log data.
         """
-       
-         self.well_database =  request.app.database[APP_SETTINGS.WELLS_DB_NAME]
-         self.well_data_database = WellDataController(request)
-         super().__init__(self.well_database)
+
+        
+        self.well_database =  mongo_db[APP_SETTINGS.WELLS_DB_NAME]
+        self.well_data_database = WellDataController(request)
+        super().__init__(self.well_database)
 
     def _create_well_logs_db_objs(self, well_logs_info: List[dict]) -> List[WellLog]:
      
@@ -43,6 +46,8 @@ class WellController(BaseController):
             WellLog(
                 name=well_log_info["mnemonic"],
                 unit=well_log_info["unit"],
+                min_value=well_log_info["min"],
+                max_value=well_log_info["max"],
                 description=well_log_info["descr"],
             ) 
             for well_log_info in well_logs_info
@@ -64,9 +69,15 @@ class WellController(BaseController):
         """
         return Well(
             name=well_info["name"],
+            start=well_info["start"],
+            stop=well_info["stop"],
+            company=well_info["company"],
             user_id=user_id,
             welllogs=well_logs_db_objs
         )
+    
+    def get_wells_amount_for_user(self, user_id: str):
+        return self.well_database.count_documents({"user_id": user_id})
         
 
     def get_well_by_name(self, well_name: str):
@@ -94,6 +105,19 @@ class WellController(BaseController):
             Well: The well object if found, None otherwise.
         """
         return self.well_database.find_one({"_id": well_id})
+    
+    def get_depth_well_log_id(self, well_id: str):
+        well_db_obj = self.get_well_by_id(well_id)
+        depth_well_log_id = None
+        for well_log_db_obj in well_db_obj["welllogs"]:
+            if well_log_db_obj["name"].strip().upper() in DEPTH_WELL_LOG_MNEMONICS:
+                depth_well_log_id = well_log_db_obj["_id"]
+                break
+
+        if depth_well_log_id is None:
+            raise HTTPException(status_code=404, detail="Depth well log not found")
+        return depth_well_log_id
+    
 
     def import_well(self, *,las_file_object,user_id: ObjectId):
 
@@ -109,8 +133,13 @@ class WellController(BaseController):
             None
         """
 
-        las_file_text_stream = io.TextIOWrapper(las_file_object.file, encoding="utf-8", errors="ignore")
-        well_info = well_handler.get_well_info_from_las_file(las_file_text_stream)
+        
+        try:
+
+            well_info = well_handler.get_well_info_from_las_file(las_file_object)
+        except Exception as e:  
+            raise HTTPException(status_code=400, detail=f"Error importing well: {e}")
+            
         well_log_db_objs = self._create_well_logs_db_objs(well_info["well_logs"])
         well_db_obj = self._create_well_db_obj(well_info, user_id, well_log_db_objs)
         

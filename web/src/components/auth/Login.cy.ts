@@ -9,7 +9,7 @@ const redirectTestCasesInfo = [
     redirectionBtnIDName: '#test-redirect-to-register-btn',
   },
   {
-    expectedRoutePath: routesInfo.sendResetPasswordLink.path,
+    expectedRoutePath: routesInfo.sendResetPasswordCode.path,
     redirectionBtnIDName: '#test-forgot-password-btn',
   },
 

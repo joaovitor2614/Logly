@@ -4,15 +4,15 @@ from app.settings import APP_SETTINGS
 from .base import BaseController
 from typing import List
 import uuid
-import json
+from app.database import mongo_db
+
 
 
 class WellDataController(BaseController):
     def __init__(self, request: Request):
-         self.well_database =  request.app.database[APP_SETTINGS.WELLS_DATA_DB_NAME]
+  
+         self.well_database =  mongo_db[APP_SETTINGS.WELLS_DATA_DB_NAME]
          super().__init__(self.well_database)
-    def _serialize_well_log_data_numpy_array(self, well_log_data: list):         
-        return json.dumps(well_log_data)
     def delete_all_well_data_by_well_id(self, well_id: str | uuid.UUID):
         if isinstance(well_id, uuid.UUID):
             well_id = str(well_id)
@@ -40,13 +40,16 @@ class WellDataController(BaseController):
     
         well_log_data_db_objs = list(self.well_database.find({"well_id": well_id}))
         return well_log_data_db_objs
-    def get_well_log_data_by_id(self, well_id: str, well_log_id: str):
+    def get_well_log_data_by_id(self, well_id: str, well_log_id: str) -> str | None:
         well_log_data_db_obj = self.well_database.find_one({"well_id": well_id, "well_log_id": well_log_id})
+
         if well_log_data_db_obj is None:
-            HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Well log data not found!")
-            return
-        well_log_data_serialized = self._serialize_well_log_data_numpy_array(well_log_data_db_obj["data"])
-        return well_log_data_serialized
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Well log data not found!")
+
+        return well_log_data_db_obj["data"]
+    
+
+
         
   
 

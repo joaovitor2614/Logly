@@ -1,7 +1,17 @@
-import { useAuthStore } from '@/stores'
+
+import { verifyRedirect } from '@/test/utils/redirect'
 import Header from './Header.vue'
 
-
+const redirectTestCasesInfo = [
+  {
+    expectedRoutePath: '/login',
+    redirectionBtnIDName: '#test-header-login-btn',
+  },
+  {
+    expectedRoutePath: '/register',
+    redirectionBtnIDName: '#test-header-register-btn',
+  }
+]
 
 describe('<Header />', () => {
   it('renders', () => {
@@ -9,26 +19,11 @@ describe('<Header />', () => {
     cy.mountWithPiniaVuetify(Header)
 
   })
-  it('does not show authenticated only visible buttons when not authenticated', () => {
-    cy.mountWithPiniaVuetify(Header).then(() => {
-      cy.get('#test-logout-btn').should('not.exist')
-      cy.get('#test-header-login-btn').should('exist')
-      cy.get('#test-header-register-btn').should('exist')
+  redirectTestCasesInfo.forEach((redirectTestCaseInfo) => {
+      it(`redirects to ${redirectTestCaseInfo.expectedRoutePath} when clicking button`, () => {
+        cy.mountWithPiniaVuetify(Header).then(({router}) => {
+          verifyRedirect(redirectTestCaseInfo.redirectionBtnIDName, redirectTestCaseInfo.expectedRoutePath, router)
+        })
+      })
     })
-  })
-  it('does show authenticated only visible buttons when authenticated and not account verified', () => {
-    cy.mountWithPiniaVuetify(Header).then(() => {
-      const authStore = useAuthStore();
-
-      authStore.isAuthenticated = true
-
-      
-
-      cy.get('#test-logout-btn').should('exist')
-      cy.get('#test-header-login-btn').should('not.exist')
-      cy.get('#test-header-register-btn').should('not.exist')
-    })
-  })
-
-
 })

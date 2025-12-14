@@ -1,16 +1,40 @@
 import jwt
-from fastapi import APIRouter, Request, UploadFile, status, Depends, File, Form
+from fastapi import APIRouter, Request, UploadFile, status, Depends, File, HTTPException
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from app.models.well.well import WellCalculator
+from app.core.well import well_handler
 from ..controllers.well import WellController
 from ..controllers.welldata import WellDataController
 import io
 router = APIRouter()
 
+MAX_WELLS_PER_USER = 3
 
-@router.post("/", response_description="Register user in Database", status_code=status.HTTP_201_CREATED)
+@router.post("/pre-import-info", response_description="Get Las File Basic Info", status_code=status.HTTP_201_CREATED)
+def get_las_file_pre_import_info(
+    request: Request,  
+    las_file: UploadFile = File(...), 
+    user_id: ObjectId = Depends(get_current_user) 
+    ):
+    """
+    Get the basic information of the LAS file.
+
+    Args:
+        request (Request): FastAPI request.
+        las_file (UploadFile): The LAS file to get the basic information from.
+        user_id (ObjectId): The ID of the user who is importing the well.
+
+    Returns:
+        None
+    """
+    print('get_las_file_basic_info')
+    pre_import_well_info = well_handler.get_pre_import_well_info_from_las_file_object(las_file)
+    return pre_import_well_info
+
+
+@router.post("/", response_description="Import Well Las Info", status_code=status.HTTP_201_CREATED)
 def import_well_file(
     request: Request,  
     las_file: UploadFile = File(...), 
@@ -18,6 +42,10 @@ def import_well_file(
     ):
 
     well_controller = WellController(request)
+    
+    user_wells_amount = well_controller.get_wells_amount_for_user(user_id)
+    if user_wells_amount >= MAX_WELLS_PER_USER:
+        raise HTTPException(status_code=400, detail="You have reached the maximum number of wells per user.")
 
   
     well_controller.import_well(
@@ -72,3 +100,13 @@ def import_well_file(
 
   
     
+
+@router.get("/ref_depth_data/{well_id}", response_description="Get depth well log data by ID", status_code=status.HTTP_201_CREATED)
+def get_well_log_data_by_id(request: Request, well_id: str,user_id: ObjectId = Depends(get_current_user)):
+    well_log_data_controller = WellDataController(request)
+    well_controller = WellController(request)
+    depth_well_log_id = well_controller.get_depth_well_log_id(well_id)
+  
+    well_log_data = well_log_data_controller.get_well_log_data_by_id(well_id, depth_well_log_id)
+   
+    return {"data": well_log_data}

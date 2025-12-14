@@ -1,25 +1,15 @@
 
-from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
-from ..models.user.user import UserCreate, UserUpdate, UserResetPassword
-from ..utils.security import get_current_user
-from ..utils.database.update import update_document_object_instance
+from fastapi import APIRouter, Request, HTTPException, status, Depends
+from ..models.user.user import UserSendResetPassword, UserResetPassword
+from ..utils.security import get_current_user, get_hashed_password
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
 from app.core.handler.token import JWTHandler
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
-from app.settings import APP_SETTINGS
 
 
 router = APIRouter()
-
-@router.put("/{id}", response_description="Update a user", response_model=UserCreate)
-def update_user(id: str, request: Request, user: UserUpdate = Body(...), user_id: ObjectId = Depends(get_current_user)):
-    database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
-    user_data = user.dict(exclude_unset=True)
-    updated_user = update_document_object_instance(database, id, user_data)
-
-    return updated_user
 
 
 @router.get("/{id}", response_description="Get user info by id in Database", status_code=status.HTTP_200_OK)
@@ -56,7 +46,7 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
         )
         return user
     otp_code = generate_otp_code()
-    user_controller.set_user_verification_code(user, otp_code)
+    user_controller.set_user_verification_code(user, otp_code, "account_verification")
     
     email_sender = EmailSender()
     email_sender.send_verification_email(user["email"], otp_code)
@@ -66,26 +56,50 @@ def send_verification_code(request: Request, user_id: ObjectId = Depends(get_cur
 _RESET_PASSWORD_JWT_EXP_TIME_MINUTES = 5
 
 
-@router.post("/send-reset-password-link", response_description="Send reset password link to user email")
-def send_reset_password_link(request: Request, payload: UserResetPassword):
+@router.post("/send-reset-password-code", response_description="Send reset password link to user email")
+def send_reset_password_link(request: Request, payload: UserSendResetPassword):
     user_controller = UserController(request)
 
     user = user_controller.get_user_by_email(payload.email)
-    jwt_handler = JWTHandler()
-    reset_password_jwt = jwt_handler.get_jwt_token_from_user_db_obj(user, _RESET_PASSWORD_JWT_EXP_TIME_MINUTES)
-    user_controller.update_user_field(user["_id"], "reset_password_token", reset_password_jwt)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found!"
+        )
+
+    otp_code = generate_otp_code()
+    user_controller.set_user_verification_code(user, otp_code, "reset_password")
     email_sender = EmailSender()
-    email_sender.send_reset_password_email(user["email"], reset_password_jwt)
+    email_sender.send_reset_password_email(user["email"], otp_code)
+
 
     return {"message": "Reset password link sent successfully"}
-    #otp_code = generate_otp_code()
-    #user_controller.set_user_verification_code(user, otp_code)
+@router.post("/verify-reset-password-code")
+def verify_reset_password_code(request: Request, payload: UserResetPassword):
     
-    #email_sender = EmailSender()
-    #email_sender.send_verification_email(user["email"], otp_code)
-    #return {"message": "Verification code sent successfully"}
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_email(payload.email)
+
+    otp_code_type = "reset_password"
+    user_controller.verify_verification_code(user, payload.otp_code, otp_code_type)
+
+@router.post("/reset-password", response_description="Reset password")
+def reset_password_link(request: Request, payload: UserResetPassword):
+    user_controller = UserController(request)
+    user = user_controller.get_user_by_email(payload.email)
+    otp_code_type = "reset_password"
+    user_controller.verify_verification_code(user, payload.otp_code, otp_code_type)
+
+
+
+    hashed_password = get_hashed_password(payload.password)
+    user_controller.update_user_field(user["_id"], "password", hashed_password)
+    return {"message": "Password reset successfully"}
+
+
+   
  
-@router.put("/verify-verification-code/{code}", response_description="Attempt to verify user account")
+@router.post("/verify-account-verification-code/{code}", response_description="Attempt to verify user account")
 def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_current_user)):
     user_controller = UserController(request)
     user = user_controller.get_user_by_id(user_id)
@@ -97,3 +111,4 @@ def verify_user(request: Request, code: str, user_id: ObjectId = Depends(get_cur
         return user
    
     user_controller.verify_verification_code(user, code)
+    user_controller.set_user_acccount_verified_status(user)

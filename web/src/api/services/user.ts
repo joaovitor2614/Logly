@@ -25,12 +25,23 @@ export const sendEmailVerificationCode = () => {
     return api.post(`users/send-verification-code/`);
 }
 
-export const sendResetPasswordLink = (email: string) => {
-    return api.post(`users/send-reset-password-link/`, {"email": email});
+export const sendResetPasswordCode = (email: string) => {
+    return api.post(`users/send-reset-password-code/`, {"email": email});
+}
+
+export const resetPassword = (newPassword: string, userEmail: string, otpCode: string) => {
+    return api.post(`users/reset-password`, {"password": newPassword, "otp_code": otpCode, "email": userEmail});
 }
 
 
 
 export const verifyEmailVerificationCode = (code: string) => {
-    return api.put(`users/verify-verification-code/${code}`);
+    
+    return api.post(`users/verify-account-verification-code/${code}`);
 }
+
+export const verifyResetPasswordCode = (userEmail: string, otpCode: string) => {
+    
+    return api.post(`users/verify-reset-password-code/`, {"otp_code": otpCode, "email": userEmail});
+}
+

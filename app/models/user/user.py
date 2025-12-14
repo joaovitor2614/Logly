@@ -1,6 +1,13 @@
 from typing import Annotated, Optional
 from pydantic import BaseModel, Field, ConfigDict
+from datetime import datetime
 from app.models import Base
+import uuid
+
+class OTPCode(BaseModel):
+    exp: datetime | None = None
+    code: str = ''
+    user_id: str = ''
 
 
 class UserCrendentials(BaseModel):
@@ -8,9 +15,6 @@ class UserCrendentials(BaseModel):
     email: Annotated[str, Field(title="User Email Address")] 
 
 
-
-     
-    ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
 
     
@@ -19,17 +23,17 @@ class UserCreate(Base, UserCrendentials):
     verification_code: Annotated[str, Field(title="User Email Verification Code")] = ""
     image: Annotated[str | None, Field(title="User Profile Picture")] = ''
     has_confirmed_email: Annotated[bool, Field(title="Has user confirmed email address")] = False
-    reset_password_token: Annotated[str | None, Field(title="User Password Reset Token")] = None
-
+    verify_account_otp_code: Annotated[OTPCode, Field(title="User Account Verification OTP Code")] = OTPCode()
+    reset_password_otp_code: Annotated[OTPCode, Field(title="User Password Reset OTP Code")] = OTPCode()
      
-    ConfigDict.extra = "allow"
     ConfigDict.populate_by_name = True
-class UserResetPassword(Base):
+
+
+class UserSendResetPassword(Base):
     email: Annotated[str, Field(title="User Email Address")] 
 
-class UserUpdate(BaseModel):
-    name: Optional[str] = Field(None)
-    email: Optional[str] = Field(None)
-    password: Optional[str] = Field(None)
-    image: Annotated[Optional[str], Field(title="User Profile Picture")] = None
-    
+
+class UserResetPassword(Base):
+    password: Annotated[str, Field(title="User Password")] = ''
+    otp_code: Annotated[str, Field(title="User Password Reset OTP Code")]
+    email: Annotated[str, Field(title="User Email Address")] 

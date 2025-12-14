@@ -10,26 +10,24 @@ const props = defineProps({
 
 <template>
 
-        <v-container fluid class="d-flex align-center justify-center fill-height bg-grey-lighten-3" >
-           
-           <v-card elevation="4" class="auth-card">
-        
-               <v-container class="d-flex flex-column align-center justify-center">
-                   <v-container class="d-flex flex-column align-center justify-center mt-6 mb-6">
-                       
-                       <p class="text-medium-emphasis">{{ props.helperTitle }}</p>
-                   </v-container>
-                   <slot></slot>
-               </v-container>
-           </v-card>
+        <v-container fluid class="d-flex justify-center fill-height bg-grey-lighten-3 text-center" >
+            <v-card elevation="4" class="auth-card pa-10" min-width="50vh">
+                
+                <v-card-title class="grey lighten-2 mb-10">{{  props.helperTitle }}</v-card-title>
+                <v-card-text class="mt-8">
+                     <slot></slot>
+                </v-card-text>
+               
+            </v-card>
+          
 
        </v-container>
 </template>
 
 <style scoped>
 .auth-card {
-  max-width: 800px;
-  width: 100%;
+
+
   border-radius: 12px;
   overflow: hidden;
 }

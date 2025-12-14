@@ -1,0 +1,12 @@
+*.lasso binary
+*.lasso export-ignore
+*.las binary
+*.las export-ignore
+
+* linguist-vendored
+*.py linguist-vendored=false
+*.py linguist-detectable=true
+*.ts linguist-vendored=false
+*.ts linguist-detectable=true
+*.vue linguist-vendored=false
+*.vue linguist-detectable=true

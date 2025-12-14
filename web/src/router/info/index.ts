@@ -15,12 +15,12 @@ export const routesInfo: Record<string, RouteInfo> = {
     path: '/',
     name: 'Landing',
   },
-  sendResetPasswordLink: {
-    path: '/send-reset-password-link',
-    name: 'SendResetPasswordLink',
+  sendResetPasswordCode: {
+    path: '/send-reset-password-code',
+    name: 'ResetPasswordByCode',
   },
   resetPasswordLink: {
-    path: '/reset-password-link/:token',
+    path: '/reset-password/:token',
     name: 'ResetPasswordLink',
   },
   dashboard: {
@@ -34,5 +34,9 @@ export const routesInfo: Record<string, RouteInfo> = {
   billing: {
     path: '/billing',
     name: 'Billing',
+  },
+  wellLogDataDisplay: {
+    path: '/data/:well_id/:well_log_id',
+    name: 'WellLogDataDisplay',
   }
 }

@@ -3,10 +3,29 @@ import { useDialogStore, useWellStore } from '@/stores';
 
 import { computed } from 'vue';
 
+
 const wellLogsFilterTableHeader = [
         {
           title: 'Name',
           key: 'name',
+          sortable: false,
+          removable: false,
+        },
+        {
+          title: 'Company',
+          key: 'company',
+          sortable: false,
+          removable: false,
+        },
+        {
+          title: 'Start',
+          key: 'start',
+          sortable: false,
+          removable: false,
+        },
+        {
+          title: 'Stop',
+          key: 'stop',
           sortable: false,
           removable: false,
         },
@@ -20,7 +39,15 @@ const wellStore = useWellStore()
 const dialogStore = useDialogStore()
 
 const tableWellInfo = computed(() => wellStore.wells.map((wellInfo) => {
-    return { name: wellInfo.name, create_time: wellInfo.create_time, id: wellInfo._id }
+    
+    return { 
+        name: wellInfo.name, 
+        company: wellInfo.company,
+        start: wellInfo.start,
+        stop: wellInfo.stop,
+        create_time: wellInfo.create_time, 
+        id: wellInfo._id 
+    }
 }))
 
 

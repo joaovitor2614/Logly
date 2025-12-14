@@ -15,9 +15,11 @@ class Settings(BaseSettings):
     VERIFY_ACCOUNT_SENDER_EMAIL_ADDRESS: str = "WxG9i@example.com"
     VERIFY_ACCOUNT_SENDER_EMAIL_PASSWORD: str = "12345654"
     DB_NAME: str = "MyDB"
+    APP_MODE: str = "DEV"
     APP_BASE_URL: str = "http://localhost:5173"
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   # 12 hours
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60   
+    ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES: int = 1
 
-    model_config = SettingsConfigDict(env_file="../.env")  
-    
+
+    model_config = SettingsConfigDict(env_file="../../.env")  
 

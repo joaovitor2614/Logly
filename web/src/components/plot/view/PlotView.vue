@@ -1,51 +1,44 @@
 <script setup lang="ts">
 
-import { usePlotStore } from '@/stores';
-import { PlotType } from '../types';
-import { watch } from 'vue';
-import { getWellLogDataByIDs } from '@/api/services/well';
-//import Plotly from 'plotly.js-dist';
+import { PlotType  } from '../types';
+import { watch, ref, onMounted } from 'vue';
+import { PlotProvider, PLOT_DIV_ID_BY_PLOT_TYPE } from './provider/plotprovider';
+import { getWellLogDataByID } from '@/utils/well';
+
 interface Props {
     plotType: `${PlotType}`,
+    template: App.Plot.Template
 }
 
 const props = defineProps<Props>();
+const plotDivID = ref(PLOT_DIV_ID_BY_PLOT_TYPE[props.plotType])
 
-const plotStore = usePlotStore()
 
-const template = props.plotType === 'histogram' ? plotStore.histogramTemplate : plotStore.crossPlotTemplate;
 
-const parseWellLogDataIntoValidJsArray = (stringfiedData: string) => {
-    console.log('stringfiedData', stringfiedData)
-    const cleaned = stringfiedData.replace(/^"|"$/g, "");
-    const dataArray = JSON.parse(cleaned);
-    console.log('dataArray', dataArray)
-    return dataArray
+const populatePlotData = async () => {
+    props.template.axes.x.data = await getWellLogDataByID(props.template.axes.x.id, props.template.wellID)
+    if (props.template.type === 'histogram') return
+    props.template.axes.y.data = await getWellLogDataByID(props.template.axes.y.id, props.template.wellID)
 }
 
-const fetchWellLogData =  async () => {
-    const xWellLogData = await getAxisWellLogData(template.xWellLogID)
-    if (props.plotType === 'scatter') {
-        const yWellLogData = await getAxisWellLogData(template.yWellLogID)
-    }
-    
+const plot = () => {
+
+    const plotProvider = new PlotProvider(props.template)
+    plotProvider.run()
 
 }
 
-const getAxisWellLogData = async (wellLogID: string) => {
-    const response = await getWellLogDataByIDs(wellLogID, template.wellID)
-    if (response) {
-        const wellLogData = parseWellLogDataIntoValidJsArray(response.data.data)
-        return wellLogData
-    } else {
-        return []
-    }
-        
-    
-}
+watch(() => props.template.wellID, async () => {
+    console.log('haschanged', props.template)
+    await populatePlotData()
+    plot()
+})
 
-watch(() => template.wellID, () => {
-    fetchWellLogData()
+
+onMounted(async () => {
+    console.log('plotviewonmounted')
+    await populatePlotData()
+    plot()
 })
 
 
@@ -53,9 +46,13 @@ watch(() => template.wellID, () => {
 </script>
 
 <template>
-    <div id="plotDiv">
+  
+         <div :id="plotDivID">
+        </div>
+
+       
+  
     
-    </div>
 </template>
 
 <style scoped>

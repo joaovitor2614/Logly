@@ -1,18 +1,23 @@
 import { useWellStore } from '@/stores'
 import WellTable from '../WellTable.vue'
-import { wellsDummyInfo } from './data'
+import { wellsDummyInfo } from '@/test/utils/redirect'
+
 
 
 
 describe('<WellTable />', () => {
     it('renders', () => {
-    cy.mountWithPiniaVuetify(WellTable)
+      cy.mountWithPiniaVuetify(WellTable)
       const wellStore = useWellStore()
       wellStore.wells = wellsDummyInfo
 
       const expectedRowsAmount = wellsDummyInfo.length
 
       cy.get('#test-well-table tbody tr').should('have.length', expectedRowsAmount);
+
+      cy.then(() => wellStore.wells.pop())
+
+      cy.get('#test-well-table tbody tr').should('have.length', expectedRowsAmount-1);
    
     })
   

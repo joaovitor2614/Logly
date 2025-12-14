@@ -28,6 +28,13 @@ def login_user(request: Request, userInfo: UserCrendentials):
 
     user = user_controller.get_user_by_email(userInfo.email)
 
+    if not user:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User not found!"
+        )
+
+
     user_controller.verify_password(userInfo.password, user["password"])
 
     jwt_token = jwt_handler.get_jwt_token_from_user_db_obj(user)

@@ -1,19 +1,23 @@
 from fastapi import Request, HTTPException, status
-from app.models.user.user import UserCreate
+from app.models.user.user import UserCreate, OTPCode
 from ..utils.security import get_hashed_password, verify_password
 from app.controllers.well import WellController
-
+from datetime import datetime, UTC, timedelta
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from libgravatar import Gravatar
-
+from app.database import mongo_db
 
 
 class UserController(BaseController):
     def __init__(self, request: Request):
+         
          self.well_controller = WellController(request)
-         self.user_database =  request.app.database[APP_SETTINGS.USERS_DB_NAME]
+         self.user_database =  mongo_db[APP_SETTINGS.USERS_DB_NAME]
          super().__init__(self.user_database)
+    @staticmethod
+    def _get_user_otp_code_key_by_type(otp_code_type: str):
+        return "verify_account_otp_code" if otp_code_type == "account_verification" else "reset_password_otp_code"
 
     def delete_user_account(self, id: str):
         self.get_user_by_id(id)
@@ -54,6 +58,7 @@ class UserController(BaseController):
         self.set_user_info_hashed_password(user_data)
         user_id = self.add_new_user_to_database(user_data)
         user_db_obj = self.get_user_by_id(user_id)
+  
         return user_db_obj
 
     def add_new_user_to_database(self, user_data: UserCreate):
@@ -69,18 +74,30 @@ class UserController(BaseController):
             {"_id": user_id}, {"$set": {field_name: new_field_value}}
         )
 
-    def set_user_verification_code(self, user_obj: dict, otp_code: str):
-        self.update_user_field(user_obj["_id"], "verification_code", otp_code)
+    def set_user_verification_code(self, user_obj: dict, otp_code: str, otp_code_type):
+        exp_time = datetime.now(UTC) + timedelta(minutes=APP_SETTINGS.ACCOUNT_VERIFICATION_OTP_CODE_EXPIRE_MINUTES)
+        user_db_otp_code_attr = self._get_user_otp_code_key_by_type(otp_code_type)
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.exp", exp_time)
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.code", otp_code)
+        self.update_user_field(user_obj["_id"], f"{user_db_otp_code_attr}.user_id", user_obj["_id"])
 
 
-    def verify_verification_code(self, user_obj: dict, otp_code: str):
-        if user_obj["verification_code"] != otp_code:
+    def verify_verification_code(self, user_obj: dict, otp_code: str, otp_code_type: str = "account_verification"):
+
+        user_db_otp_code_attr = self._get_user_otp_code_key_by_type(otp_code_type)
+        otp_code_obj = user_obj[user_db_otp_code_attr]
+        if datetime.now() > otp_code_obj["exp"]:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=f"Verification code is expired!"
+            )
+        if otp_code_obj["code"] != otp_code:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail=f"Verification code is not valid!"
             )
-            return
-        self.set_user_acccount_verified_status(user_obj)
+
+        
         
 
     def set_user_acccount_verified_status(self, user_obj: dict):

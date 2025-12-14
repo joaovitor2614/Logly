@@ -3,19 +3,22 @@ import { useAuthStore, useDialogStore, useUserStore } from '@/stores';
 import DialogWrapper from '../common/DialogWrapper.vue';
 import Button from '@/components/common/Button.vue'
 import { useToast } from 'vue-toastification';
+import { Ref, ref } from 'vue';
 
 const dialogStore = useDialogStore()
 const authStore = useAuthStore()
 const userStore = useUserStore()
 const toast = useToast()
-
+const isLoading: Ref<boolean> = ref(false)
 const deleteUserAccount = async () => {
+    isLoading.value = true
     const response = await userStore.deleteUserAccount();
     if (response) {
         authStore.logout()
         toast.success('Account deleted successfully')
         dialogStore.closeDialogWindow()
     }
+    isLoading.value = false
 }
 </script>
 
@@ -37,6 +40,8 @@ const deleteUserAccount = async () => {
                     <Button 
   
                     :buttonAction="deleteUserAccount"
+                 
+                    :isButtonLoading="isLoading"
                     >
                         Delete
                     </Button>  
