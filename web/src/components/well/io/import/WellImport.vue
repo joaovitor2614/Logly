@@ -4,7 +4,7 @@ import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
-import DialogWrapper from '../../common/DialogWrapper.vue';
+import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
