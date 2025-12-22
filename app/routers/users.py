@@ -4,7 +4,7 @@ from ..models.user.user import UserSendResetPassword, UserResetPassword
 from ..utils.security import get_current_user, get_hashed_password
 from ..utils.otp import generate_otp_code
 from ..utils.email_service import EmailSender
-from app.core.token import JWTHandler
+from app.core.handlers.token import JWTHandler
 from ..controllers.user import UserController
 from bson.objectid import ObjectId
 

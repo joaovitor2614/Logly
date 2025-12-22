@@ -3,7 +3,7 @@ from fastapi import APIRouter, Request, UploadFile, status, Depends, File, HTTPE
 from ..utils.security import get_current_user
 from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
-from app.core.well import well_handler
+from app.core.handlers.well import well_handler
 from ..controllers.well import WellController
 from ..controllers.welldata import WellDataController
 import io

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Request, HTTPException, status
 from ..models.user.user import UserCreate, UserCrendentials
 from app.settings import APP_SETTINGS
 from ..controllers.user import UserController
-from ..core.token import jwt_handler
+from ..core.handlers.token import jwt_handler
 
 
 

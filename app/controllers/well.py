@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 from fastapi import Request, HTTPException, status
 from app.database import mongo_db
 from app.models.well.well import WellLog, WellLogData, Well
-from app.core.well import well_handler
+from app.core.handlers.well import well_handler
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from .welldata import WellDataController

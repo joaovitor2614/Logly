@@ -1,4 +1,4 @@
-from ..models.auth.auth import JWTPayload
+from ...models.auth.auth import JWTPayload
 from datetime import datetime, UTC, timedelta
 from app.settings import APP_SETTINGS
 import jwt
