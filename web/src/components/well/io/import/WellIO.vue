@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
-import { computed, reactive, Ref, ref } from 'vue';
+import { computed, reactive, Ref, ref, watch } from 'vue';
 import { WellIOType } from './types';
 import WellSelector from '../../helpers/WellSelector.vue';
 import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
 import { useDialogStore, useWellStore } from '@/stores';
+import { TableWellLogsInfo } from '../../welllogs/types';
+import { getWellBasicInfoFromFile } from '@/api/services/well';
+import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
 
 
 interface Props {
@@ -18,6 +21,8 @@ const props = defineProps<Props>();
 const isLoading: Ref<boolean> = ref(false);
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
+
+const tableWellLogsInfo: Ref<TableWellLogsInfo[]> = ref([])
 
 interface Form {
     wellID: string,
@@ -51,6 +56,50 @@ const bottomErrors = computed(() => createFormAttributeErrors(v$, 'bottom'));
 const importWell = () => {
     console.log('importWell')
 }
+
+const setWellBasicInfo = (wellBasicInfo: any) => {
+    form.top = wellBasicInfo.min_value
+    form.bottom = wellBasicInfo.max_value
+    setWellLogTableItems(wellBasicInfo.well_logs)
+}
+
+const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
+    tableWellLogsInfo.value = []
+    wellLogsInfo.forEach((wellLog) => {
+        tableWellLogsInfo.value.push(
+            { name: wellLog.mnemonic, unit: wellLog.unit, description: wellLog.description} 
+        )
+    })
+    
+}
+
+
+watch(() => form.lasFile, async (value) => {
+    if (value) {
+        const response = await getWellBasicInfoFromFile(form.lasFile)
+        if (response) {
+            setWellBasicInfo(response.data)
+
+        }
+        console.log('response.data', response.data)
+    }   
+
+})
+
+watch(() => form.wellID, async (value) => {
+    if (value) {
+        const wellInfo = wellStore.wells.find(well => well._id == value)
+
+        if (wellInfo) {
+            setWellBasicInfo(wellInfo.welllogs)
+        }
+  
+    }   
+
+})
+
+
+
 </script>
 
 <template>
@@ -70,6 +119,10 @@ const importWell = () => {
             
         </v-row>
         <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom" :topErrors="topErrors" :bottomErrors="bottomErrors"/>
+         <WellLogsTable
+                    :wellLogsInfo="tableWellLogsInfo" 
+        />
+
         
     
         <v-card-actions>

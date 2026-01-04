@@ -9,7 +9,7 @@ import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
 import { TableWellLogsInfo } from '../welllogs/types';
-import WellLogsTable from '../welllogs/WellLogsTable.vue';
+import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
 import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
 
 

@@ -5,8 +5,8 @@ import { useDialogStore, useWellStore } from '@/stores'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router';
 import { TableWellLogsInfo } from './types';
-import WellLogsTable from './WellLogsTable.vue';
 
+import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
 interface Props {
     wellID: string,
 }
