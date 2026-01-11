@@ -5,7 +5,7 @@
 .env
 .venv
 
-
+*/.pyc
 .pyc
 
 # Development automation scripts

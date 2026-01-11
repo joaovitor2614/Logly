@@ -11,22 +11,23 @@ const form = reactive(getNewPlotTemplate('logplot'))
     <DialogWrapper :cardTitle="'Plot LogPlot'">
         <v-container class="d-flex flex-column justify-center pa-12">
             <WellSelector v-model:wellID="form.wellID" />
+            <v-row class="mt-7">
+                <v-cols cols="6" class="mr-3">
+                    <v-btn dark icon small color="transparent">
+                        <v-icon dark>mdi-layers-plus</v-icon>
+                    </v-btn>
+                    <span >Add Track</span>
+                </v-cols>
+                <v-cols cols="6" class="ml-3">
+                    <v-btn dark icon small color="transparent" background-color="transparent">
+                        <v-icon dark>mdi-layers-minus</v-icon>
+                    </v-btn>
+                    <span >Remove Track</span>
+                </v-cols>
+            </v-row>
+    
         </v-container>
-        <v-row>
-            <v-cols cols="4">
-                <v-btn dark icon small color="indigo">
-                    <v-icon dark>mdi-layers-plus</v-icon>
-                </v-btn>
-                <span >Add Track</span>
-            </v-cols>
-              <v-cols cols="">
-                <v-btn dark icon small color="red" background-color="transparent">
-                    <v-icon dark>mdi-layers-minus</v-icon>
-                </v-btn>
-                <span >Remove Track</span>
-            </v-cols>
-        </v-row>
-   
+        
           
      
     </DialogWrapper>
