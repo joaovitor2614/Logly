@@ -85,6 +85,7 @@ def delete_well_log(request: Request, well_id: str, well_log_id: str, user_id: O
 
 @router.get("/data/{well_id}/{well_log_id}", response_description="Get well log data by ID", status_code=status.HTTP_201_CREATED)
 def get_well_log_data_by_id(request: Request, well_log_id: str, well_id: str,user_id: ObjectId = Depends(get_current_user)):
+    print('type well_id', type(well_id))
     well_log_data_controller = WellDataController(request)
   
     well_log_data = well_log_data_controller.get_well_log_data_by_id(well_id, well_log_id)
@@ -92,7 +93,8 @@ def get_well_log_data_by_id(request: Request, well_log_id: str, well_id: str,use
     return {"data": well_log_data}
 
 @router.get("/ref_depth_data/{well_id}", response_description="Get depth well log data by ID", status_code=status.HTTP_201_CREATED)
-def get_well_log_data_by_id(request: Request, well_id: str,user_id: ObjectId = Depends(get_current_user)):
+def get_ref_depth_well_log_data_by_well_id(request: Request, well_id: str,user_id: ObjectId = Depends(get_current_user)):
+
     well_log_data_controller = WellDataController(request)
     well_controller = WellController(request)
     depth_well_log_id = well_controller.get_depth_well_log_id(well_id)

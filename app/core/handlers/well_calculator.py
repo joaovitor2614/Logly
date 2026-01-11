@@ -18,7 +18,7 @@ class NameExtractor(ast.NodeVisitor):
 
 
 class WellCalculatorHandler:
-    def __init__(self, well_id: uuid.UUID, formula: str):
+    def __init__(self, well_id: str, formula: str):
         self.well_id = well_id
         self.formula = formula
         self.well_log_data_name_mapping: Dict[str, np.array]

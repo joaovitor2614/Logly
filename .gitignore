@@ -8,6 +8,7 @@
 */.pyc
 .pyc
 
+__pycache__/
 # Development automation scripts
 .bat
 /.vscode
