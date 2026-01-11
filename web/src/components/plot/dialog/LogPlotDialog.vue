@@ -1,6 +1,7 @@
 <script setup>
 import WellSelector from '@/components/well/helpers/WellSelector.vue';
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
+import TrackCard from '@/components/plot/TrackCard.vue';
 import { getNewPlotTemplate } from '@/utils/getNewPloTemplate'
 import {  reactive } from 'vue';
 
