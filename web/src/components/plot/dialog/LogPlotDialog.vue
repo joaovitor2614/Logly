@@ -20,7 +20,7 @@ const form = reactive(getNewPlotTemplate('logplot'))
                 <span >Add Track</span>
             </v-cols>
               <v-cols cols="">
-                <v-btn dark icon small color="red">
+                <v-btn dark icon small color="red" background-color="transparent">
                     <v-icon dark>mdi-layers-minus</v-icon>
                 </v-btn>
                 <span >Remove Track</span>

@@ -1,7 +1,7 @@
 import uuid
 import ast
-from ..controllers.well import WellController
-from ..controllers.welldata import WellDataController
+from app.controllers.well import WellController
+from app.controllers.welldata import WellDataController
 import numpy as np
 from typing import Dict
 class NameExtractor(ast.NodeVisitor):
