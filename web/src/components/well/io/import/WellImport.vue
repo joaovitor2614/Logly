@@ -8,7 +8,7 @@ import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
 import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
-import { TableWellLogsInfo } from '../welllogs/types';
+import { TableWellLogsInfo } from '@/components/well/welllogs/types';
 import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
 import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
 
@@ -46,7 +46,9 @@ const topErrors = computed(() => createFormAttributeErrors(v$, 'top'))
 const bottomErrors = computed(() => createFormAttributeErrors(v$, 'bottom'))
 const importWell = async () => {
     isLoading.value = true
-
+    if (!form.lasFile) {
+        return
+    }
     const response = await wellStore.importNewFile(form.lasFile)
     console.log('response comp')
     isLoading.value = false
@@ -65,22 +67,23 @@ const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
     tableWellLogsInfo.value = []
     wellLogsInfo.forEach((wellLog) => {
         tableWellLogsInfo.value.push(
-            { name: wellLog.mnemonic, unit: wellLog.unit, description: wellLog.description} 
+            { name: wellLog.name, unit: wellLog.unit, description: wellLog.description} 
         )
     })
     
 }
 
-watch(() => form.lasFile, async (value) => {
-    if (value) {
+watch(() => form.lasFile, async () => {
+ 
+        if (!form.lasFile) {
+            return
+        }
         const response = await getWellBasicInfoFromFile(form.lasFile)
         if (response) {
             setWellBasicInfo(response.data)
 
         }
         console.log('response.data', response.data)
-    }   
-
 })
 
 </script>

@@ -78,7 +78,7 @@ class WellHandler:
     def _create_well_info_dict(self, curve_info, curve_data, exclude_data: bool):
 
         return {
-            "mnemonic": curve_info.mnemonic,
+            "name": curve_info.mnemonic,
             "unit": curve_info.unit,
             "descr": curve_info.descr,
             "min": np.nanmin(curve_data),

@@ -67,7 +67,7 @@ const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
     tableWellLogsInfo.value = []
     wellLogsInfo.forEach((wellLog) => {
         tableWellLogsInfo.value.push(
-            { name: wellLog.mnemonic, unit: wellLog.unit, description: wellLog.description} 
+            { name: wellLog.name, unit: wellLog.unit, description: wellLog.description} 
         )
     })
     
