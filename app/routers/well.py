@@ -5,7 +5,9 @@ from bson.objectid import ObjectId
 from app.settings import APP_SETTINGS
 from app.core.handlers.well import well_handler
 from ..controllers.well import WellController
+from ..core.handlers.well_calculator import WellCalculatorHandler
 from ..controllers.welldata import WellDataController
+from app.models.well.well import WellCalculation
 import io
 router = APIRouter()
 
@@ -98,3 +100,7 @@ def get_well_log_data_by_id(request: Request, well_id: str,user_id: ObjectId = D
     well_log_data = well_log_data_controller.get_well_log_data_by_id(well_id, depth_well_log_id)
    
     return {"data": well_log_data}
+
+@router.post("/well-calculator", response_description="Execute well calculator formula", status_code=status.HTTP_201_CREATED)
+def execute_well_calculation(request: Request, well_id: str, payload: WellCalculation, user_id: ObjectId = Depends(get_current_user), ):
+    well_calculator = WellCalculatorHandler(well_id, payload.formula)

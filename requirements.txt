@@ -59,4 +59,5 @@ watchfiles==1.0.5
 websockets==15.0.1
 pandas
 pytest-mock==3.14.1
+numexpr
 lasio[all]

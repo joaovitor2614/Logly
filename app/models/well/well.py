@@ -34,3 +34,6 @@ class Well(Base):
 
 
     welllogs: Annotated[List[WellLog], Field(default_factory=list)] = []  # Ensuring a list
+
+class WellCalculation(BaseModel):
+    formula: Annotated[str, Field(title="Well calculation formula", default="")]
