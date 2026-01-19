@@ -1,9 +1,11 @@
+import json
 from fastapi import Request, status, HTTPException
 from app.models.well.well import WellLogData
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from typing import List
 import uuid
+import numpy as np
 from app.database import mongo_db
 
 
@@ -40,13 +42,23 @@ class WellDataController(BaseController):
     
         well_log_data_db_objs = list(self.well_database.find({"well_id": well_id}))
         return well_log_data_db_objs
-    def get_well_log_data_by_id(self, well_id: str, well_log_id: str) -> str | None:
+    
+    def get_well_log_data_by_id(self, well_id: str, well_log_id: str, destringyfy: bool = False) -> str | None:
         well_log_data_db_obj = self.well_database.find_one({"well_id": well_id, "well_log_id": well_log_id})
-
+        well_log_data = None
         if well_log_data_db_obj is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Well log data not found!")
+        if destringyfy:
+            try:
+                well_log_data_parsed = json.loads(well_log_data_db_obj["data"])
+                well_log_data = np.array(well_log_data_parsed, dtype=float)
+            except Exception:
+                well_log_data = np.array([], dtype=float)
+    
+        else:
+            well_log_data = well_log_data_db_obj["data"]
 
-        return well_log_data_db_obj["data"]
+        return well_log_data
     
 
 

@@ -103,6 +103,8 @@ def get_ref_depth_well_log_data_by_well_id(request: Request, well_id: str,user_i
    
     return {"data": well_log_data}
 
-@router.post("/well-calculator", response_description="Execute well calculator formula", status_code=status.HTTP_201_CREATED)
+@router.post("/well-calculator/{well_id}", response_description="Execute well calculator formula", status_code=status.HTTP_201_CREATED)
 def execute_well_calculation(request: Request, well_id: str, payload: WellCalculation, user_id: ObjectId = Depends(get_current_user), ):
-    well_calculator = WellCalculatorHandler(well_id, payload.formula)
+    
+    well_calculator = WellCalculatorHandler(request, well_id, payload.formula)
+    calculated_well_log_data = well_calculator.run()
