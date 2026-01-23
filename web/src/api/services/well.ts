@@ -12,6 +12,16 @@ export async function importWellFile(lasFile: File) {
     }});
 }
 
+export async function calculateWellLog(wellID: string, formula: string, outputWellLogName: string, outputWellLogUnit: string) {
+    return api.post(`/well/well-calculator/${wellID}`, {
+        formula,
+        output_well_log_name: outputWellLogName,
+        output_well_log_unit: outputWellLogUnit
+    });
+}
+
+
+
 
 
 
@@ -51,3 +61,5 @@ export async function deleteWellByID(wellID: string) {
 export async function deleteWellLogByIDS(wellLogID: string,wellID: string) {
     return await api.delete(`/well/data/${wellID}/${wellLogID}`);
 }
+
+

@@ -1,9 +1,11 @@
 import math
 import random
 
-def generate_otp_code():
+def generate_otp_code(d: int):
     string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     OTP = ""
+  
+
     length = len(string)
     for i in range(6) :
         OTP += string[math.floor(random.random() * length)]
