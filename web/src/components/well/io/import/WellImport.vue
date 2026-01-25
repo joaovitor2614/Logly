@@ -6,11 +6,9 @@ import { computed } from 'vue';
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { useDialogStore, useWellStore } from '@/stores';
-import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
-import { getWellBasicInfoFromFile } from '@/api/services/well';
 import { TableWellLogsInfo } from '@/components/well/welllogs/types';
-import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
-import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
+import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, } from '@/utils/validations';
+import WellIO from './WellIO.vue';
 
 
 const isLoading: Ref<boolean> = ref(false);
@@ -42,8 +40,7 @@ const v$ = useVuelidate(rules, form);
 const isDisabled = computed(() => {
     return v$.value.lasFile.$invalid || v$.value.top.$invalid || v$.value.bottom.$invalid ||isLoading.value
 });
-const topErrors = computed(() => createFormAttributeErrors(v$, 'top'))
-const bottomErrors = computed(() => createFormAttributeErrors(v$, 'bottom'))
+
 const importWell = async () => {
     isLoading.value = true
     if (!form.lasFile) {
@@ -57,55 +54,18 @@ const importWell = async () => {
     }
 }
 
-const setWellBasicInfo = (wellBasicInfo: any) => {
-    form.top = wellBasicInfo.min_value
-    form.bottom = wellBasicInfo.max_value
-    setWellLogTableItems(wellBasicInfo.well_logs)
-}
 
-const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
-    tableWellLogsInfo.value = []
-    wellLogsInfo.forEach((wellLog) => {
-        tableWellLogsInfo.value.push(
-            { name: wellLog.name, unit: wellLog.unit, description: wellLog.description} 
-        )
-    })
-    
-}
 
-watch(() => form.lasFile, async () => {
- 
-        if (!form.lasFile) {
-            return
-        }
-        const response = await getWellBasicInfoFromFile(form.lasFile)
-        if (response) {
-            setWellBasicInfo(response.data)
 
-        }
-        console.log('response.data', response.data)
-})
 
 </script>
 
 <template>
     <DialogWrapper cardTitle="Import Well">
-                <v-row class="d-flex justify-center mt-7">
-                    <v-col cols="10">
-                        <v-file-input
-               
-                            v-model="form.lasFile"
-                            label="LAS File"
-                        ></v-file-input>
-               
-                    </v-col>
-                </v-row>
-                <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom" :topErrors="topErrors" :bottomErrors="bottomErrors"/>
-                <WellLogsTable
-                    :wellLogsInfo="tableWellLogsInfo" 
-                />
+                <WellIO :wellIOType="'import'"/>
 
-            
+
+
                 <v-card-actions>
         
                     <Button 

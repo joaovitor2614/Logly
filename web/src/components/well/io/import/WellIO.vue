@@ -11,10 +11,12 @@ import { useDialogStore, useWellStore } from '@/stores';
 import { TableWellLogsInfo } from '../../welllogs/types';
 import { getWellBasicInfoFromFile } from '@/api/services/well';
 import WellLogsTable from  '@/components/well/welllogs/WellLogsTable.vue';
+import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vue';
+
 
 
 interface Props {
-    WellIOType: `${WellIOType}`
+    wellIOType: `${WellIOType}`
 }
 
 const props = defineProps<Props>();
@@ -22,7 +24,7 @@ const isLoading: Ref<boolean> = ref(false);
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
 
-const tableWellLogsInfo: Ref<TableWellLogsInfo[]> = ref([])
+const tableWellLogsInfo: Ref<TableWellLogsInfo> = ref([])
 
 interface Form {
     wellID: string,
@@ -74,8 +76,8 @@ const setWellLogTableItems = (wellLogsInfo: App.Well.WellLog[]) => {
 }
 
 
-watch(() => form.lasFile, async (value) => {
-    if (value) {
+watch(() => form.lasFile, async () => {
+    if (form.lasFile) {
         const response = await getWellBasicInfoFromFile(form.lasFile)
         if (response) {
             setWellBasicInfo(response.data)
@@ -103,23 +105,28 @@ watch(() => form.wellID, async (value) => {
 </script>
 
 <template>
-    <DialogWrapper :cardTitle="`${props.WellIOType === 'import' ? 'Import' : 'Export'} Well`">
+    <DialogWrapper :cardTitle="`${props.wellIOType === 'import' ? 'Import' : 'Export'} Well`">
         <v-row class="d-flex justify-center mt-7">
             <v-col cols="10">
                 <v-file-input
-                    v-if="props.WellIOType == 'import'"
+                    v-if="props.wellIOType == 'import'"
                     v-model="form.lasFile"
                     label="LAS File"
                 ></v-file-input>
-                <WellSelector v-else-if="props.WellIOType == 'export'" v-model:wellID="form.wellID" />
+                <WellSelector v-else-if="props.wellIOType == 'export'" v-model:wellID="form.wellID" />
 
                 
         
             </v-col>
             
         </v-row>
-        <DepthIntervalSelector v-model:top="form.top" v-model:bottom="form.bottom" :topErrors="topErrors" :bottomErrors="bottomErrors"/>
-         <WellLogsTable
+        <DepthIntervalSelector 
+            v-model:top="form.top" 
+            v-model:bottom="form.bottom" 
+            :topErrors="topErrors" 
+            :bottomErrors="bottomErrors"
+        />
+        <WellLogsTable
                     :wellLogsInfo="tableWellLogsInfo" 
         />
 
