@@ -8,7 +8,9 @@ from ..controllers.well import WellController
 from ..core.handlers.well_calculator import WellCalculatorHandler
 from ..controllers.welldata import WellDataController
 from app.models.well.well import WellCalculation
+import numpy as np
 import io
+
 router = APIRouter()
 
 MAX_WELLS_PER_USER = 3
@@ -105,6 +107,19 @@ def get_ref_depth_well_log_data_by_well_id(request: Request, well_id: str,user_i
 
 @router.post("/well-calculator/{well_id}", response_description="Execute well calculator formula", status_code=status.HTTP_201_CREATED)
 def execute_well_calculation(request: Request, well_id: str, payload: WellCalculation, user_id: ObjectId = Depends(get_current_user), ):
-    
+    well_controller = WellController(request)
     well_calculator = WellCalculatorHandler(request, well_id, payload.formula)
     calculated_well_log_data = well_calculator.run()
+
+
+    new_well_logs_info = [
+        {
+            "data": calculated_well_log_data,
+            "min": np.nanmin(calculated_well_log_data),
+            "max": np.nanmax(calculated_well_log_data),
+            "name": payload.output_well_log_name,
+            "unit": payload.output_well_log_unit,
+            "descr": "",
+        }
+    ]
+    well_controller.save_new_well_logs_for_well(new_well_logs_info, well_id)

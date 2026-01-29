@@ -37,3 +37,5 @@ class Well(Base):
 
 class WellCalculation(BaseModel):
     formula: Annotated[str, Field(title="Well calculation formula", default="")]
+    output_well_log_name: Annotated[str, Field(title="Well log name", default="")]
+    output_well_log_unit: Annotated[str, Field(title="Well log unit", default="")]

@@ -7,7 +7,10 @@ from app.core.handlers.well import well_handler
 from app.settings import APP_SETTINGS
 from .base import BaseController
 from .welldata import WellDataController
+from fastapi.encoders import jsonable_encoder
 from bson.objectid import ObjectId
+import numpy.typing as npt
+import numpy as np
 from typing import List
 import json
 
@@ -151,9 +154,26 @@ class WellController(BaseController):
 
     def save_well_related_db_objs(self, well_db_obj: Well, well_log_data_db_objs: List[WellLogData]):
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)
+        self.save_well_logs_data_db_objs(well_log_data_db_objs)
+
+    def save_well_logs_data_db_objs(self, well_log_data_db_objs: List[WellLogData]):
         for well_log_data_db_obj in well_log_data_db_objs:
             well_log_data_db_obj.data = json.dumps(well_log_data_db_obj.data)
             self.well_data_database.add_new_db_obj(well_log_data_db_obj)
+    def save_new_well_logs_for_well(self, new_well_logs_info: List[dict] | dict, well_id: str):
+        new_well_logs_info = [new_well_logs_info] if isinstance(new_well_logs_info, dict) else new_well_logs_info
+        new_well_logs = self._create_well_logs_db_objs(new_well_logs_info)
+        well_log_db_objs_ids = [well_log_db_obj.id for well_log_db_obj in new_well_logs]
+        well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(
+            new_well_logs_info, 
+            str(well_id),well_log_db_objs_ids
+        )
+        well_db_obj = self.get_well_by_id(well_id)
+
+        new_well_logs = [jsonable_encoder(new_well_log) for new_well_log in new_well_logs]
+        well_db_obj["welllogs"].extend(new_well_logs)
+        self.update_well_field(well_id, "welllogs", well_db_obj["welllogs"])
+        self.save_well_logs_data_db_objs(well_log_data_db_objs)
         
 
     def get_all_wells_data(self, user_id: str):
