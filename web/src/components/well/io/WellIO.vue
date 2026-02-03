@@ -2,8 +2,8 @@
 import Button from '@/components/common/Button.vue'
 import DialogWrapper from '@/components/common/DialogWrapper.vue';
 import { computed, reactive, Ref, ref, watch } from 'vue';
-import { WellIOType } from './types';
-import WellSelector from '../../helpers/WellSelector.vue';
+import { WellIOType } from '../types';
+import WellSelector from '../helpers/WellSelector.vue'
 import useVuelidate from '@vuelidate/core';
 import { required} from '@vuelidate/validators'
 import { bottomGreaterThanOrEqualTop, topLessThanOrEqualBottom, createFormAttributeErrors } from '@/utils/validations';
@@ -16,13 +16,16 @@ import DepthIntervalSelector from '@/components/welllog/DepthIntervalSelector.vu
 
 
 interface Props {
-    wellIOType: `${WellIOType}`
+    wellIOType: `${WellIOType}`,
+
 }
 
 const props = defineProps<Props>();
 const isLoading: Ref<boolean> = ref(false);
 const dialogStore = useDialogStore()
 const wellStore = useWellStore();
+
+
 
 const tableWellLogsInfo: Ref<TableWellLogsInfo> = ref([])
 
@@ -32,11 +35,12 @@ interface Form {
     top: Number | null,
     bottom: Number | null,
 }
+
 const form: Form = reactive({
-    wellID: '',
     lasFile: undefined,
     bottom: null,
     top: null,
+    wellID: '',
 })
 
 const rules = {
@@ -55,8 +59,17 @@ const topErrors = computed(() => createFormAttributeErrors(v$, 'top'))
 const bottomErrors = computed(() => createFormAttributeErrors(v$, 'bottom'));
 
 
-const importWell = () => {
-    console.log('importWell')
+const importWell = async () => {
+    isLoading.value = true
+    if (!form.lasFile) {
+        return
+    }
+    const response = await wellStore.importNewFile(form.lasFile)
+    console.log('response comp')
+    isLoading.value = false
+    if (response) {
+        dialogStore.closeDialogWindow()
+    }
 }
 
 const setWellBasicInfo = (wellBasicInfo: any) => {
