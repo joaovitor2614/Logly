@@ -49,12 +49,14 @@ const populateAxesDefaultLimits = () => {
             <v-text-field
                 v-model="wellLogAxis.range[0]"
                 label="Min Value"
+                type="number"
             />
         </v-col>
           <v-col cols="6">
             <v-text-field
                 v-model="wellLogAxis.range[1]"
                 label="Min Value"
+                type="number"
             />
         </v-col>
     </v-row>

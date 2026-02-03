@@ -63,7 +63,7 @@ const setAxisWellLogRange = (axisKey: 'x' | 'y') => {
     const wellLogsInfo = selectedWellInfo.value?.welllogs;
     const wellLogInfo = wellLogsInfo?.find((wellLog) => wellLog._id === wellLogID);
     if (!wellLogInfo) return
-    form.axes[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
+    //form.axes[axisKey].range = [wellLogInfo.min_value, wellLogInfo.max_value]
     form.axes[axisKey].unit = wellLogInfo.unit
     form.axes[axisKey].name = wellLogInfo.name
 }
