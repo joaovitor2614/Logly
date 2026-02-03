@@ -46,15 +46,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  
-         <div :id="plotDivID">
-        </div>
-
-       
-  
-    
+  <div :id="plotDivID" class="plot-canvas"></div>
 </template>
 
 <style scoped>
-
+.plot-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 50vh;
+}
 </style>
