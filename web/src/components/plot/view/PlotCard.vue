@@ -39,7 +39,7 @@ const template = computed(() => {
              
             </div>
             <div class="plot-edit-wrapper" v-if="template"> 
-              <PlotEdit />
+              <PlotEdit :template="template" />
             </div>
             </v-container>
           
