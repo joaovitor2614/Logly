@@ -4,6 +4,7 @@ export function getNewPlotTemplate(type: 'histogram' | 'scatter'): App.Plot.Temp
     return {
         type,
         wellID: '',
+        color: '#0000FF',
         axes: {
             x: {
                 id: '',

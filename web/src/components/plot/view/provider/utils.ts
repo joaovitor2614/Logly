@@ -3,6 +3,7 @@
 interface PlotTrace {
     mode: string,
     type: string,
+    color: string,
     range: [number, number],
     x: Number[],
     y?: Number[]
@@ -41,6 +42,7 @@ export const initializePlotTrace = (): PlotTrace => {
     return {
         mode: '',
         type: '',
+        color: '#0000FF',
         x: [],
     
     }

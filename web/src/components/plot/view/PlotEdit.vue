@@ -32,7 +32,7 @@ const props = defineProps<Props>();
      <v-row>
       <v-col cols="12" sm="6">
       <v-color-picker
-  
+        v-model="template.color"
         elevation="0"
       ></v-color-picker>
       </v-col>

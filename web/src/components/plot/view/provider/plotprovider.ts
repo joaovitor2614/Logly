@@ -24,6 +24,9 @@ export class PlotProvider {
     run() {
         let layout = initializePlotLayout()
         let plotTrace = initializePlotTrace()
+        plotTrace.marker = {
+            color: this.plotInfo.color
+        }
         console.log('this.plotInfo.axes', this.plotInfo.axes)
         layout.xaxis.title.text = this.plotInfo.axes.x.name
         layout.xaxis.range = this.plotInfo.axes.x.range      

@@ -64,6 +64,7 @@ declare namespace App {
         interface Template {
             type: 'histogram' | 'scatter',
             wellID: string,
+            color: string,
             axes: Axes,
             hasTemplateChanged: boolean
         }
