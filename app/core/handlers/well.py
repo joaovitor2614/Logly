@@ -39,7 +39,37 @@ class WellHandler:
     def get_pre_import_well_info_from_las_file_object(self, las_file_object):
 
         well_info = self._extract_well_info_from_las_file(las_file_object, is_pre_import=True)
+
+    
         return well_info
+    
+
+    
+    def create_las_file_from_well_and_well_logs_data_db_objs(self, well_db_obj, well_logs_data_db_objs: List):
+         lasio_file_obj = lasio.LASFile()
+         self.populate_lasio_object_well_info(lasio_file_obj, well_db_obj)
+         self.populate_lasio_object_well_log_info(lasio_file_obj, well_db_obj["welllogs"], well_logs_data_db_objs)
+
+    def populate_lasio_object_well_info(self, lasio_file_obj: lasio.LASFile, well_db_obj):
+ 
+        self.populate_lasio_object_well_name(well_db_obj, lasio_file_obj)
+ 
+    def populate_lasio_object_well_name(
+        self, well_db_obj: Well, lasio_file_obj: lasio.LASFile
+    ):
+        lasio_file_obj.well.WELL.value = well_db_obj["name"]
+    def populate_lasio_object_well_log_info(self, lasio_file_obj: lasio.LASFile, well_logs_info: dict, well_logs_data_db_objs: List):
+
+        for index, well_log_info in enumerate(well_logs_info):
+ 
+            new_curve_item = lasio.las_items.CurveItem(
+                mnemonic=well_log_info["name"],
+                unit=well_logs_info["unit"],
+                data=well_logs_data_db_objs[index],
+            )
+            lasio_file_obj.sections["Curves"].append(new_curve_item)
+
+
     def _extract_well_info_lasio_obj(self) -> dict:
         """
         Extract well information from the LAS file object.

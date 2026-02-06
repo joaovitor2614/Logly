@@ -1,7 +1,7 @@
 import math
 import random
 
-def generate_otp_code(d: int):
+def generate_otp_code():
     string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     OTP = ""
   

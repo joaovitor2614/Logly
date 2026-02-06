@@ -151,6 +151,14 @@ class WellController(BaseController):
         well_log_data_db_objs = self.well_data_database._create_well_logs_data_db_objs(well_info["well_logs"], str(well_db_obj.id),well_log_db_objs_ids)
         
         self.save_well_related_db_objs(well_db_obj, well_log_data_db_objs)
+    def create_las_file_from_well_info(self, well_id: str):
+        well_db_obj = self.get_well_by_id(well_id)
+        well_logs_data_db_objs = self.well_data_database.get_well_logs_data_by_well_id(well_id)
+        las_file = well_handler.create_las_file_from_well_and_well_logs_data_db_objs(
+            well_db_obj,
+            well_logs_data_db_objs
+        )
+        return las_file
 
     def save_well_related_db_objs(self, well_db_obj: Well, well_log_data_db_objs: List[WellLogData]):
         well_db_inserted_id = self.add_new_db_obj(well_db_obj)

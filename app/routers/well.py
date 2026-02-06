@@ -58,7 +58,17 @@ def import_well_file(
 
     return {"message": "Well imported successfully"}
     
+@router.get("/get-las-file/{well_id}", response_description="Send las file to be downloaded", status_code=status.HTTP_201_CREATED)
+def import_well_file(
+    request: Request,  
+    payload: WellExport, 
+    user_id: ObjectId = Depends(get_current_user) 
+    ):
 
+    well_controller = WellController(request)
+    
+    
+    
 @router.get("/", response_description="Get all imported wells data", status_code=status.HTTP_201_CREATED)
 def get_all_wells_data(request: Request, user_id: ObjectId = Depends(get_current_user)):
     well_controller = WellController(request)
