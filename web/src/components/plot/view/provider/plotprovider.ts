@@ -15,35 +15,47 @@ export const PLOT_DIV_ID_BY_PLOT_TYPE = {
 
 export class PlotProvider {
     plotInfo: App.Plot.Template;
+    layout: Partial<Plotly.Layout>;
+    plotTrace: Partial<Plotly.PlotData>;
 
     constructor(plotInfo: App.Plot.Template) {
         this.plotInfo = plotInfo;
+        this.layout = initializePlotLayout()
+        this.plotTrace
 
     }
-
-    run() {
-        let layout = initializePlotLayout()
-        let plotTrace = initializePlotTrace()
-        plotTrace.marker = {
+    initializePlotlyElements() {
+        this.layout = initializePlotLayout()
+        this.plotTrace = initializePlotTrace()
+    }
+    setPopulatePlotTraceConfig() {
+        this.plotTrace.marker = {
             color: this.plotInfo.color
         }
-        console.log('this.plotInfo.axes', this.plotInfo.axes)
-        layout.xaxis.title.text = this.plotInfo.axes.x.name
-        layout.xaxis.range = this.plotInfo.axes.x.range      
-        plotTrace.x = this.plotInfo.axes.x.data
-        console.log('this.plotInfo', this.plotInfo)
-    
+        this.layout.xaxis.title.text = this.plotInfo.axes.x.name
+        this.layout.xaxis.range = this.plotInfo.axes.x.range      
+        this.plotTrace.x = this.plotInfo.axes.x.data
+    }
+
+    renderPlot() {
+        
+        const plotData = [this.plotTrace]
+        console.log('plotData', plotData, 'layout', this.layout)
+        Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotInfo.type], plotData, this.layout)
+    }
+
+    setSpecificPlotTypeConfig() {
         if (this.plotInfo.type === 'histogram')  {
-            plotTrace.type = 'histogram'
+            this.plotTrace.type = 'histogram'
 
         } else {
             if (!this.plotInfo.axes.y.data.length) {
                 throw "No y data for crossplot"
             }
-            plotTrace.y = this.plotInfo.axes.y.data
-            plotTrace.mode = 'markers';
-            plotTrace.type = 'scatter';
-            layout.yaxis = {
+            this.plotTrace.y = this.plotInfo.axes.y.data
+            this.plotTrace.mode = 'markers';
+            this.plotTrace.type = 'scatter';
+            this.layout.yaxis = {
                 title: {
                     text: this.plotInfo.axes.y.name
                 },
@@ -51,10 +63,18 @@ export class PlotProvider {
             }
 
         }
-        console.log('final mainPlotTrace', plotTrace)
-        const plotData = [plotTrace]
-        console.log('plotData', plotData, 'layout', layout)
-        Plotly.newPlot(PLOT_DIV_ID_BY_PLOT_TYPE[this.plotInfo.type], plotData, layout)
+    }
+    run() {
+        this.initializePlotlyElements();
+        this.setPopulatePlotTraceConfig()
+        this.setSpecificPlotTypeConfig()
+ 
+        
+     
+    
+
+        this.renderPlot()
+
 
     }
 }
